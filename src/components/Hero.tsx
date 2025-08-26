@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Sparkles } from "lucide-react";
-import heroImage from "@/assets/runway-1.jpg";
+import heroImage from "@/assets/hero-runway-new.jpg";
 
 export const Hero = () => {
   return (
