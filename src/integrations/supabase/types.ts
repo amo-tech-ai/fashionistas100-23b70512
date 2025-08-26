@@ -14,6 +14,288 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_forms: {
+        Row: {
+          assigned_to: string | null
+          created_at: string | null
+          email: string
+          event_id: string | null
+          id: string
+          inquiry_type: Database["public"]["Enums"]["inquiry_type"]
+          message: string
+          name: string
+          phone: string | null
+          resolved_at: string | null
+          status: string | null
+          subject: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string | null
+          email: string
+          event_id?: string | null
+          id?: string
+          inquiry_type?: Database["public"]["Enums"]["inquiry_type"]
+          message: string
+          name: string
+          phone?: string | null
+          resolved_at?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string | null
+          email?: string
+          event_id?: string | null
+          id?: string
+          inquiry_type?: Database["public"]["Enums"]["inquiry_type"]
+          message?: string
+          name?: string
+          phone?: string | null
+          resolved_at?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_forms_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_forms_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_forms_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_images: {
+        Row: {
+          alt_text: string | null
+          caption: string | null
+          created_at: string | null
+          display_order: number | null
+          event_id: string
+          id: string
+          image_type: string | null
+          image_url: string
+          is_active: boolean | null
+          photographer_credit: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          event_id: string
+          id?: string
+          image_type?: string | null
+          image_url: string
+          is_active?: boolean | null
+          photographer_credit?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          event_id?: string
+          id?: string
+          image_type?: string | null
+          image_url?: string
+          is_active?: boolean | null
+          photographer_credit?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_images_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_registrations: {
+        Row: {
+          checked_in: boolean | null
+          checked_in_at: string | null
+          created_at: string | null
+          email_notifications: boolean | null
+          event_id: string
+          id: string
+          registration_type: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          checked_in?: boolean | null
+          checked_in_at?: string | null
+          created_at?: string | null
+          email_notifications?: boolean | null
+          event_id: string
+          id?: string
+          registration_type?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          checked_in?: boolean | null
+          checked_in_at?: string | null
+          created_at?: string | null
+          email_notifications?: boolean | null
+          event_id?: string
+          id?: string
+          registration_type?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_registrations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          end_datetime: string
+          event_name: string
+          id: string
+          organizer_id: string
+          start_datetime: string
+          status: string | null
+          updated_at: string | null
+          venue_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          end_datetime: string
+          event_name: string
+          id?: string
+          organizer_id: string
+          start_datetime: string
+          status?: string | null
+          updated_at?: string | null
+          venue_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          end_datetime?: string
+          event_name?: string
+          id?: string
+          organizer_id?: string
+          start_datetime?: string
+          status?: string | null
+          updated_at?: string | null
+          venue_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_organizer_id_fkey"
+            columns: ["organizer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string | null
+          event_id: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          read_at: string | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_id?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          read_at?: string | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          read_at?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -49,6 +331,57 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reviews: {
+        Row: {
+          created_at: string | null
+          event_id: string
+          id: string
+          is_published: boolean | null
+          rating: number
+          review_text: string | null
+          title: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_id: string
+          id?: string
+          is_published?: boolean | null
+          rating: number
+          review_text?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string
+          id?: string
+          is_published?: boolean | null
+          rating?: number
+          review_text?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_preferences: {
         Row: {
@@ -179,6 +512,21 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "organizer" | "attendee" | "sponsor" | "vendor"
+      inquiry_type:
+        | "general"
+        | "event_inquiry"
+        | "partnership"
+        | "media"
+        | "technical_support"
+        | "billing"
+        | "feedback"
+      notification_type:
+        | "event_reminder"
+        | "registration_confirmed"
+        | "event_cancelled"
+        | "application_status"
+        | "new_message"
+        | "system_update"
       profile_visibility: "public" | "private"
     }
     CompositeTypes: {
@@ -308,6 +656,23 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "organizer", "attendee", "sponsor", "vendor"],
+      inquiry_type: [
+        "general",
+        "event_inquiry",
+        "partnership",
+        "media",
+        "technical_support",
+        "billing",
+        "feedback",
+      ],
+      notification_type: [
+        "event_reminder",
+        "registration_confirmed",
+        "event_cancelled",
+        "application_status",
+        "new_message",
+        "system_update",
+      ],
       profile_visibility: ["public", "private"],
     },
   },
