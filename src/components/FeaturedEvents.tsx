@@ -1,11 +1,39 @@
 import { EventCard } from "@/components/EventCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { sampleEvents } from "@/data/sampleEvents";
 import { Calendar, ArrowRight } from "lucide-react";
+import { listPublishedEvents } from "@/services/eventService";
+import { useState, useEffect } from "react";
+import type { EventSummary } from "@/services/eventService";
 
 export const FeaturedEvents = () => {
-  const featuredEvents = sampleEvents.filter(event => event.featured);
+  const [events, setEvents] = useState<EventSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await listPublishedEvents({ 
+          limit: 6,
+          fromDateISO: new Date().toISOString()
+        });
+        
+        if (error) {
+          setError(error);
+        } else {
+          setEvents(data);
+        }
+      } catch (e) {
+        setError('Failed to load events');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   return (
     <section className="py-16 px-4">
@@ -47,9 +75,23 @@ export const FeaturedEvents = () => {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-          {featuredEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+          {loading ? (
+            <div className="col-span-full text-center py-12">
+              <p className="font-inter text-muted-foreground">Loading events...</p>
+            </div>
+          ) : error ? (
+            <div className="col-span-full text-center py-12">
+              <p className="font-inter text-destructive">Error: {error}</p>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <p className="font-inter text-muted-foreground">No upcoming events found.</p>
+            </div>
+          ) : (
+            events.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))
+          )}
         </div>
 
         {/* View All Button */}
