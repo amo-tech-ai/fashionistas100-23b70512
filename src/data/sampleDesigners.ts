@@ -24,7 +24,7 @@ export const sampleDesigners: Designer[] = [
     experience: 'Luxury',
     city: 'Milan',
     bio: 'Alessandro Rossi is a master of Italian haute couture with over 15 years of experience creating timeless pieces for the global elite.',
-    image: '/src/assets/designer-studio.jpg',
+    image: '/src/assets/runway-3.jpg',
     portfolio: ['/src/assets/hero-runway.jpg', '/src/assets/event-poster.jpg'],
     contact: {
       email: 'alessandro@rossicouture.com',
@@ -40,7 +40,7 @@ export const sampleDesigners: Designer[] = [
     experience: 'Emerging',
     city: 'New York',
     bio: 'Sofia Chen is revolutionizing fashion with her innovative approach to sustainable design and ethical production methods.',
-    image: '/src/assets/event-poster.jpg',
+    image: '/src/assets/runway-4.jpg',
     portfolio: ['/src/assets/designer-studio.jpg', '/src/assets/hero-runway.jpg'],
     contact: {
       email: 'sofia@chenstudios.com',
@@ -56,7 +56,7 @@ export const sampleDesigners: Designer[] = [
     experience: 'Established',
     city: 'Paris',
     bio: 'Maya Laurent brings Parisian elegance to modern ready-to-wear, creating sophisticated pieces for the contemporary woman.',
-    image: '/src/assets/hero-runway.jpg',
+    image: '/src/assets/runway-5.jpg',
     portfolio: ['/src/assets/event-poster.jpg', '/src/assets/designer-studio.jpg'],
     contact: {
       email: 'maya@laurentparis.com',

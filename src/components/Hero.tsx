@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Sparkles } from "lucide-react";
-import heroImage from "@/assets/hero-runway.jpg";
+import heroImage from "@/assets/runway-1.jpg";
 
 export const Hero = () => {
   return (
@@ -13,7 +13,7 @@ export const Hero = () => {
           alt="Fashion runway show"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-background/30" />
+        
       </div>
 
       {/* Content */}

@@ -30,7 +30,7 @@ export const sampleEvents: Event[] = [
       vip: 350,
       platinum: 750
     },
-    image: '/src/assets/event-poster.jpg',
+    image: '/src/assets/runway-2.jpg',
     description: 'Experience the grandeur of Milan Couture Week with an exclusive runway show featuring the latest haute couture collection.',
     category: 'Haute Couture',
     city: 'Milan',
@@ -48,7 +48,7 @@ export const sampleEvents: Event[] = [
       vip: 180,
       platinum: 350
     },
-    image: '/src/assets/hero-runway.jpg',
+    image: '/src/assets/runway-3.jpg',
     description: 'Discover the next generation of fashion innovators in this exclusive showcase of emerging talent.',
     category: 'Emerging Designers',
     city: 'New York',
@@ -66,7 +66,7 @@ export const sampleEvents: Event[] = [
       vip: 250,
       platinum: 500
     },
-    image: '/src/assets/designer-studio.jpg',
+    image: '/src/assets/runway-4.jpg',
     description: 'A revolutionary showcase of sustainable fashion, blending eco-consciousness with high-end design.',
     category: 'Runway',
     city: 'Paris',
@@ -84,7 +84,7 @@ export const sampleEvents: Event[] = [
       vip: 450,
       platinum: 800
     },
-    image: '/src/assets/hero-runway.jpg',
+    image: '/src/assets/runway-5.jpg',
     description: 'An evening of avant-garde fashion pushing the boundaries of traditional design.',
     category: 'VIP',
     city: 'London',
@@ -102,7 +102,7 @@ export const sampleEvents: Event[] = [
       vip: 280,
       platinum: 550
     },
-    image: '/src/assets/event-poster.jpg',
+    image: '/src/assets/runway-6.jpg',
     description: 'Exclusive preview of the resort collection in a stunning beachside setting.',
     category: 'Runway',
     city: 'Monaco',
@@ -120,7 +120,7 @@ export const sampleEvents: Event[] = [
       vip: 200,
       platinum: 400
     },
-    image: '/src/assets/designer-studio.jpg',
+    image: '/src/assets/runway-1.jpg',
     description: 'Where technology meets fashion in this immersive digital fashion experience.',
     category: 'Emerging Designers',
     city: 'Tokyo',
