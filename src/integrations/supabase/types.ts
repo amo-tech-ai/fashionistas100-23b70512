@@ -92,6 +92,78 @@ export type Database = {
         }
         Relationships: []
       }
+      venues: {
+        Row: {
+          accessibility_features: string[] | null
+          address: string
+          amenities: string[] | null
+          city: string
+          country: string | null
+          created_at: string | null
+          description: string | null
+          email: string | null
+          gallery_images: string[] | null
+          hero_image_url: string | null
+          id: string
+          is_featured: boolean | null
+          max_capacity: number
+          phone: string | null
+          postal_code: string | null
+          slug: string
+          status: string | null
+          updated_at: string | null
+          venue_name: string
+          venue_type: string | null
+          website: string | null
+        }
+        Insert: {
+          accessibility_features?: string[] | null
+          address: string
+          amenities?: string[] | null
+          city: string
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          gallery_images?: string[] | null
+          hero_image_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          max_capacity: number
+          phone?: string | null
+          postal_code?: string | null
+          slug: string
+          status?: string | null
+          updated_at?: string | null
+          venue_name: string
+          venue_type?: string | null
+          website?: string | null
+        }
+        Update: {
+          accessibility_features?: string[] | null
+          address?: string
+          amenities?: string[] | null
+          city?: string
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          gallery_images?: string[] | null
+          hero_image_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          max_capacity?: number
+          phone?: string | null
+          postal_code?: string | null
+          slug?: string
+          status?: string | null
+          updated_at?: string | null
+          venue_name?: string
+          venue_type?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
