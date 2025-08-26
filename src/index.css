@@ -8,89 +8,103 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Fashion Website Design System - Light Mode (Linen theme) */
+    --background: 37 36% 95%; /* Linen #FAF0E6 */
+    --foreground: 21 22% 22%; /* Charcoal Brown #3B2C28 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 37 36% 97%; 
+    --card-foreground: 21 22% 22%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 37 36% 95%;
+    --popover-foreground: 21 22% 22%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 21 22% 22%; /* Charcoal Brown */
+    --primary-foreground: 37 36% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 37 28% 88%; /* Lighter linen */
+    --secondary-foreground: 21 22% 22%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 37 28% 88%;
+    --muted-foreground: 21 16% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 14 52% 57%; /* Terracotta #D97757 */
+    --accent-foreground: 37 36% 95%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --olive: 66 25% 41%; /* Olive #7A8450 */
+    --olive-foreground: 37 36% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --sand: 38 40% 78%; /* Sand #E5C9A8 */
+    --sand-foreground: 21 22% 22%;
 
-    --radius: 0.5rem;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 37 36% 95%;
 
-    --sidebar-background: 0 0% 98%;
+    --border: 37 20% 85%;
+    --input: 37 20% 90%;
+    --ring: 14 52% 57%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 0.75rem;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--sand)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--olive)));
+    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Shadows */
+    --shadow-elegant: 0 10px 40px -10px hsl(var(--accent) / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(var(--foreground) / 0.1);
+    --shadow-hover: 0 8px 30px -8px hsl(var(--accent) / 0.25);
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Fashion Website Design System - Dark Mode (Deep Plum theme) */
+    --background: 340 25% 15%; /* Deep Plum #2C1A1D */
+    --foreground: 38 40% 78%; /* Sand #E5C9A8 */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 340 25% 18%;
+    --card-foreground: 38 40% 78%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 340 25% 15%;
+    --popover-foreground: 38 40% 78%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 38 40% 78%; /* Sand */
+    --primary-foreground: 340 25% 15%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 340 20% 25%;
+    --secondary-foreground: 38 40% 78%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 340 20% 25%;
+    --muted-foreground: 38 25% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 14 52% 57%; /* Terracotta */
+    --accent-foreground: 340 25% 15%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --olive: 66 25% 41%; /* Olive */
+    --olive-foreground: 38 40% 78%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sand: 38 40% 78%; /* Sand */
+    --sand-foreground: 340 25% 15%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 38 40% 78%;
+
+    --border: 340 15% 30%;
+    --input: 340 15% 25%;
+    --ring: 14 52% 57%;
+
+    /* Dark mode gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(340 20% 20%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--olive)));
+    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
+
+    /* Dark mode shadows */
+    --shadow-elegant: 0 10px 40px -10px hsl(var(--accent) / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-hover: 0 8px 30px -8px hsl(var(--accent) / 0.4);
   }
 }
 
@@ -100,6 +114,17 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
