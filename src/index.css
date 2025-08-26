@@ -8,33 +8,33 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Fashion Website Design System - Light Mode (Linen theme) */
-    --background: 37 36% 95%; /* Linen #FAF0E6 */
-    --foreground: 21 22% 22%; /* Charcoal Brown #3B2C28 */
+    /* Fashion Website Design System - Light Mode (Modern Grayscale) */
+    --background: 0 0% 100%; /* Pure White */
+    --foreground: 0 0% 9%; /* Near Black #171717 */
 
-    --card: 37 36% 97%; 
-    --card-foreground: 21 22% 22%;
+    --card: 0 0% 98%; 
+    --card-foreground: 0 0% 9%;
 
-    --popover: 37 36% 95%;
-    --popover-foreground: 21 22% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 21 22% 22%; /* Charcoal Brown */
-    --primary-foreground: 37 36% 95%;
+    --primary: 0 0% 9%; /* Near Black */
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 37 28% 88%; /* Lighter linen */
-    --secondary-foreground: 21 22% 22%;
+    --secondary: 0 0% 96%; /* Light Grey */
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 37 28% 88%;
-    --muted-foreground: 21 16% 45%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 14 52% 57%; /* Terracotta #D97757 */
-    --accent-foreground: 37 36% 95%;
+    --accent: 0 0% 15%; /* Dark Grey */
+    --accent-foreground: 0 0% 98%;
 
-    --olive: 66 25% 41%; /* Olive #7A8450 */
-    --olive-foreground: 37 36% 95%;
+    --silver: 0 0% 75%; /* Silver */
+    --silver-foreground: 0 0% 9%;
 
-    --sand: 38 40% 78%; /* Sand #E5C9A8 */
-    --sand-foreground: 21 22% 22%;
+    --charcoal: 0 0% 20%; /* Charcoal */
+    --charcoal-foreground: 0 0% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 37 36% 95%;
@@ -46,14 +46,14 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--sand)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--olive)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--charcoal)));
     --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
 
     /* Shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(var(--accent) / 0.15);
-    --shadow-card: 0 4px 20px -4px hsl(var(--foreground) / 0.1);
-    --shadow-hover: 0 8px 30px -8px hsl(var(--accent) / 0.25);
+    --shadow-elegant: 0 10px 40px -10px hsl(var(--foreground) / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(var(--foreground) / 0.08);
+    --shadow-hover: 0 8px 30px -8px hsl(var(--foreground) / 0.15);
 
     /* Animations */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -61,33 +61,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Fashion Website Design System - Dark Mode (Deep Plum theme) */
-    --background: 340 25% 15%; /* Deep Plum #2C1A1D */
-    --foreground: 38 40% 78%; /* Sand #E5C9A8 */
+    /* Fashion Website Design System - Dark Mode (Modern Dark) */
+    --background: 0 0% 9%; /* Near Black #171717 */
+    --foreground: 0 0% 98%; /* Off White */
 
-    --card: 340 25% 18%;
-    --card-foreground: 38 40% 78%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 340 25% 15%;
-    --popover-foreground: 38 40% 78%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 38 40% 78%; /* Sand */
-    --primary-foreground: 340 25% 15%;
+    --primary: 0 0% 98%; /* Off White */
+    --primary-foreground: 0 0% 9%;
 
-    --secondary: 340 20% 25%;
-    --secondary-foreground: 38 40% 78%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 340 20% 25%;
-    --muted-foreground: 38 25% 60%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 14 52% 57%; /* Terracotta */
-    --accent-foreground: 340 25% 15%;
+    --accent: 0 0% 85%; /* Light Grey */
+    --accent-foreground: 0 0% 9%;
 
-    --olive: 66 25% 41%; /* Olive */
-    --olive-foreground: 38 40% 78%;
+    --silver: 0 0% 75%; /* Silver */
+    --silver-foreground: 0 0% 9%;
 
-    --sand: 38 40% 78%; /* Sand */
-    --sand-foreground: 340 25% 15%;
+    --charcoal: 0 0% 20%; /* Charcoal */
+    --charcoal-foreground: 0 0% 98%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 38 40% 78%;
@@ -97,14 +97,14 @@ All colors MUST be HSL.
     --ring: 14 52% 57%;
 
     /* Dark mode gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(340 20% 20%));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--olive)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--charcoal)));
     --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
 
     /* Dark mode shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(var(--accent) / 0.3);
-    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
-    --shadow-hover: 0 8px 30px -8px hsl(var(--accent) / 0.4);
+    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.5);
+    --shadow-hover: 0 8px 30px -8px hsl(0 0% 0% / 0.6);
   }
 }
 

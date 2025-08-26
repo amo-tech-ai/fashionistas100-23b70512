@@ -20,8 +20,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         hero: "bg-gradient-accent text-white hover:opacity-90 shadow-elegant hover:shadow-hover transform hover:scale-105 transition-bounce",
         accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-card hover:shadow-hover",
-        olive: "bg-olive text-olive-foreground hover:bg-olive/90 shadow-card hover:shadow-hover",
-        sand: "bg-sand text-sand-foreground hover:bg-sand/90 shadow-card hover:shadow-hover",
+        silver: "bg-silver text-silver-foreground hover:bg-silver/90 shadow-card hover:shadow-hover",
+        charcoal: "bg-charcoal text-charcoal-foreground hover:bg-charcoal/90 shadow-card hover:shadow-hover",
       },
       size: {
         default: "h-12 px-6 py-3 text-sm",

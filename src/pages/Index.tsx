@@ -1,6 +1,8 @@
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { FeaturedEvents } from "@/components/FeaturedEvents";
+import { TicketTiers } from "@/components/TicketTiers";
+import { Newsletter } from "@/components/Newsletter";
 
 const Index = () => {
   return (
@@ -9,6 +11,8 @@ const Index = () => {
       <main>
         <Hero />
         <FeaturedEvents />
+        <TicketTiers />
+        <Newsletter />
       </main>
     </div>
   );
