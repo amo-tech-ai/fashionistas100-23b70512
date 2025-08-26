@@ -22,6 +22,7 @@ export type Database = {
           entity_type: string | null
           id: string
           metadata: Json
+          page_url: string | null
           user_id: string | null
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           entity_type?: string | null
           id?: string
           metadata?: Json
+          page_url?: string | null
           user_id?: string | null
         }
         Update: {
@@ -40,6 +42,7 @@ export type Database = {
           entity_type?: string | null
           id?: string
           metadata?: Json
+          page_url?: string | null
           user_id?: string | null
         }
         Relationships: []
@@ -112,6 +115,120 @@ export type Database = {
             foreignKeyName: "contact_forms_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      designer_applications: {
+        Row: {
+          cover_note: string | null
+          created_at: string | null
+          designer_id: string
+          event_id: string
+          id: string
+          lookbook_url: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["application_status"] | null
+          submitted_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          cover_note?: string | null
+          created_at?: string | null
+          designer_id: string
+          event_id: string
+          id?: string
+          lookbook_url?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+          submitted_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          cover_note?: string | null
+          created_at?: string | null
+          designer_id?: string
+          event_id?: string
+          id?: string
+          lookbook_url?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+          submitted_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "designer_applications_designer_id_fkey"
+            columns: ["designer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "designer_applications_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "designer_applications_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      designer_profiles: {
+        Row: {
+          bio: string | null
+          brand_name: string
+          brand_slug: string
+          created_at: string | null
+          id: string
+          is_verified: boolean | null
+          portfolio_urls: string[] | null
+          social_links: Json | null
+          updated_at: string | null
+          user_id: string
+          website_url: string | null
+        }
+        Insert: {
+          bio?: string | null
+          brand_name: string
+          brand_slug: string
+          created_at?: string | null
+          id?: string
+          is_verified?: boolean | null
+          portfolio_urls?: string[] | null
+          social_links?: Json | null
+          updated_at?: string | null
+          user_id: string
+          website_url?: string | null
+        }
+        Update: {
+          bio?: string | null
+          brand_name?: string
+          brand_slug?: string
+          created_at?: string | null
+          id?: string
+          is_verified?: boolean | null
+          portfolio_urls?: string[] | null
+          social_links?: Json | null
+          updated_at?: string | null
+          user_id?: string
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "designer_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -217,6 +334,62 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_tickets: {
+        Row: {
+          available_quantity: number | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          event_id: string
+          id: string
+          price: number
+          sold_quantity: number | null
+          status: string | null
+          ticket_name: string
+          ticket_type: string
+          total_quantity: number
+          updated_at: string | null
+        }
+        Insert: {
+          available_quantity?: number | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          event_id: string
+          id?: string
+          price: number
+          sold_quantity?: number | null
+          status?: string | null
+          ticket_name: string
+          ticket_type: string
+          total_quantity: number
+          updated_at?: string | null
+        }
+        Update: {
+          available_quantity?: number | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          event_id?: string
+          id?: string
+          price?: number
+          sold_quantity?: number | null
+          status?: string | null
+          ticket_name?: string
+          ticket_type?: string
+          total_quantity?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_tickets_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
             referencedColumns: ["id"]
           },
         ]
@@ -330,6 +503,9 @@ export type Database = {
         Row: {
           created_at: string
           currency: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
           event_id: string
           id: string
           order_status: string
@@ -340,6 +516,9 @@ export type Database = {
         Insert: {
           created_at?: string
           currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
           event_id: string
           id?: string
           order_status?: string
@@ -350,6 +529,9 @@ export type Database = {
         Update: {
           created_at?: string
           currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
           event_id?: string
           id?: string
           order_status?: string
@@ -362,6 +544,9 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
+          city: string | null
+          country: string | null
           created_at: string
           email: string | null
           full_name: string | null
@@ -373,6 +558,9 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
@@ -384,6 +572,9 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
@@ -446,6 +637,127 @@ export type Database = {
           },
         ]
       }
+      saved_events: {
+        Row: {
+          created_at: string | null
+          event_id: string
+          id: string
+          notes: string | null
+          reminder_datetime: string | null
+          reminder_set: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_id: string
+          id?: string
+          notes?: string | null
+          reminder_datetime?: string | null
+          reminder_set?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string
+          id?: string
+          notes?: string | null
+          reminder_datetime?: string | null
+          reminder_set?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_events_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      search_queries: {
+        Row: {
+          clicked_result_id: string | null
+          created_at: string | null
+          id: string
+          results_count: number | null
+          search_term: string
+          search_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          clicked_result_id?: string | null
+          created_at?: string | null
+          id?: string
+          results_count?: number | null
+          search_term: string
+          search_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          clicked_result_id?: string | null
+          created_at?: string | null
+          id?: string
+          results_count?: number | null
+          search_term?: string
+          search_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "search_queries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_preference_details: {
+        Row: {
+          created_at: string | null
+          preferred_event_types: string[] | null
+          preferred_language: string | null
+          preferred_locations: string[] | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          preferred_event_types?: string[] | null
+          preferred_language?: string | null
+          preferred_locations?: string[] | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          preferred_event_types?: string[] | null
+          preferred_language?: string | null
+          preferred_locations?: string[] | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_preference_details_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_preferences: {
         Row: {
           created_at: string
@@ -492,10 +804,13 @@ export type Database = {
         Row: {
           created_at: string
           device: string | null
+          device_type: string | null
           expires_at: string
           id: string
           ip_address: string | null
+          is_active: boolean | null
           last_activity: string
+          token_hash: string | null
           updated_at: string
           user_agent: string | null
           user_id: string
@@ -503,10 +818,13 @@ export type Database = {
         Insert: {
           created_at?: string
           device?: string | null
+          device_type?: string | null
           expires_at: string
           id?: string
           ip_address?: string | null
+          is_active?: boolean | null
           last_activity?: string
+          token_hash?: string | null
           updated_at?: string
           user_agent?: string | null
           user_id: string
@@ -514,10 +832,13 @@ export type Database = {
         Update: {
           created_at?: string
           device?: string | null
+          device_type?: string | null
           expires_at?: string
           id?: string
           ip_address?: string | null
+          is_active?: boolean | null
           last_activity?: string
+          token_hash?: string | null
           updated_at?: string
           user_agent?: string | null
           user_id?: string
@@ -623,6 +944,13 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "organizer" | "attendee" | "sponsor" | "vendor"
+      application_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "accepted"
+        | "rejected"
+        | "withdrawn"
       inquiry_type:
         | "general"
         | "event_inquiry"
@@ -767,6 +1095,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "organizer", "attendee", "sponsor", "vendor"],
+      application_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "accepted",
+        "rejected",
+        "withdrawn",
+      ],
       inquiry_type: [
         "general",
         "event_inquiry",
