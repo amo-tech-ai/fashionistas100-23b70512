@@ -1,6 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-runway-new.jpg";
 
 export const Hero = () => {
@@ -13,7 +15,8 @@ export const Hero = () => {
           alt="Fashion runway show"
           className="w-full h-full object-cover"
         />
-        
+        {/* Dark overlay for better text contrast */}
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
       {/* Content */}
@@ -21,59 +24,70 @@ export const Hero = () => {
         <div className="max-w-4xl mx-auto lg:mx-0 space-y-8">
           {/* Badge */}
           <div className="flex justify-center lg:justify-start">
-            <Badge variant="hero" className="text-sm font-inter px-4 py-2">
+            <Badge variant="hero" className="text-sm font-inter px-4 py-2 bg-white/20 backdrop-blur-sm text-white border-white/30">
               <Sparkles className="w-4 h-4 mr-2" />
               Experience Fashion Live
             </Badge>
           </div>
 
-          {/* Main Heading */}
-          <div className="space-y-4">
-            <h1 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+          {/* Main Heading - Increased size and improved contrast */}
+          <div className="space-y-6">
+            <h1 className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight drop-shadow-lg">
               Where Style
-              <span className="block text-accent">Meets Excellence</span>
+              <span className="block text-white drop-shadow-lg">Meets Excellence</span>
             </h1>
-            <p className="font-inter text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
+            <p className="font-inter text-xl md:text-2xl text-white/90 max-w-2xl mx-auto lg:mx-0 drop-shadow-md">
               Discover exclusive fashion events, connect with world-class designers, 
               and experience the future of haute couture.
             </p>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Button variant="hero" size="xl" className="font-inter">
-              <Calendar className="w-5 h-5 mr-2" />
-              Explore Events
-            </Button>
-            <Button variant="outline" size="xl" className="font-inter">
-              <MapPin className="w-5 h-5 mr-2" />
-              Find Designers
-            </Button>
+          {/* CTA Buttons - Fixed links and improved styling */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start pt-4">
+            <Link to="/events">
+              <Button 
+                size="xl" 
+                className="font-inter h-16 px-10 text-lg bg-gradient-to-r from-[#ff6b6b] to-[#ee5a24] hover:from-[#ff5252] hover:to-[#d84315] text-white shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+              >
+                <Calendar className="w-5 h-5 mr-2" />
+                Explore Events
+              </Button>
+            </Link>
+            <Link to="/designers">
+              <Button 
+                variant="outline" 
+                size="xl" 
+                className="font-inter h-16 px-10 text-lg border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:border-white/50 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+              >
+                <MapPin className="w-5 h-5 mr-2" />
+                Find Designers
+              </Button>
+            </Link>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border/20">
-            <div className="text-center lg:text-left">
-              <div className="font-playfair text-2xl md:text-3xl font-bold text-accent">
+          {/* Stats - Improved spacing and contrast */}
+          <div className="grid grid-cols-3 gap-8 pt-12 mt-12 border-t border-white/20">
+            <div className="text-center lg:text-left space-y-2">
+              <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
                 500+
               </div>
-              <div className="font-inter text-sm text-muted-foreground">
+              <div className="font-inter text-base md:text-lg text-white/80 drop-shadow-md">
                 Fashion Events
               </div>
             </div>
-            <div className="text-center lg:text-left">
-              <div className="font-playfair text-2xl md:text-3xl font-bold text-accent">
+            <div className="text-center lg:text-left space-y-2">
+              <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
                 200+
               </div>
-              <div className="font-inter text-sm text-muted-foreground">
+              <div className="font-inter text-base md:text-lg text-white/80 drop-shadow-md">
                 World-Class Designers
               </div>
             </div>
-            <div className="text-center lg:text-left">
-              <div className="font-playfair text-2xl md:text-3xl font-bold text-accent">
+            <div className="text-center lg:text-left space-y-2">
+              <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
                 50+
               </div>
-              <div className="font-inter text-sm text-muted-foreground">
+              <div className="font-inter text-base md:text-lg text-white/80 drop-shadow-md">
                 Global Cities
               </div>
             </div>
