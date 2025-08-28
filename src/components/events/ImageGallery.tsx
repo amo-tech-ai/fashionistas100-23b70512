@@ -2,6 +2,7 @@ import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useImageResolver } from "@/hooks/useImageResolver";
 
 interface ImageGalleryProps {
   images: string[];
@@ -10,6 +11,7 @@ interface ImageGalleryProps {
 }
 
 export const ImageGallery = ({ images, onImageClick, allImages }: ImageGalleryProps) => {
+  const { resolveImage } = useImageResolver();
   return (
     <div className="container mx-auto px-4">
       <h3 className="text-2xl font-playfair font-bold mb-6">Event Gallery</h3>
@@ -21,7 +23,7 @@ export const ImageGallery = ({ images, onImageClick, allImages }: ImageGalleryPr
             onClick={() => onImageClick(image, allImages)}
           >
             <img
-              src={image}
+              src={resolveImage(image)}
               alt={`Event gallery ${index + 1}`}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
               loading="lazy"

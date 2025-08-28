@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { EventSummary } from "@/services/eventService";
 import { ImageGallery } from "./ImageGallery";
 import { useToast } from "@/hooks/use-toast";
+import { useImageResolver } from "@/hooks/useImageResolver";
 
 interface EventHeroProps {
   event: EventSummary;
@@ -15,6 +16,7 @@ interface EventHeroProps {
 export const EventHero = ({ event, onImageClick }: EventHeroProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { resolveImage } = useImageResolver();
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
@@ -99,7 +101,7 @@ export const EventHero = ({ event, onImageClick }: EventHeroProps) => {
       {/* Hero Image */}
       <div className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
         <img
-          src={event.heroImage || "/placeholder.svg"}
+          src={resolveImage(event.heroImage)}
           alt={event.title}
           className="w-full h-full object-cover cursor-pointer"
           onClick={() => onImageClick(event.heroImage || "", allImages)}
