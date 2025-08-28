@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, User, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { EventSummary } from "@/services/eventService";
+import { useImageResolver } from "@/hooks/useImageResolver";
 
 interface EventCardProps {
   event: EventSummary;
@@ -39,7 +40,7 @@ export const EventCard = ({ event }: EventCardProps) => {
       <Card className="group overflow-hidden bg-gradient-card hover:shadow-hover transition-smooth cursor-pointer h-full">
         <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
           <img 
-            src={event.heroImage || "/placeholder.svg"} 
+            src={resolveImage(event.heroImage)} 
             alt={event.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
             loading="lazy"

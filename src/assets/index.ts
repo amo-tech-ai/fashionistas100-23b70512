@@ -42,6 +42,17 @@ export const imageUrlMap: Record<string, string> = {
   '/src/assets/runway-4.jpg': runway4,
   '/src/assets/runway-5.jpg': runway5,
   '/src/assets/runway-6.jpg': runway6,
+  // Updated production paths
+  '/hero-runway-new.jpg': heroRunwayNew,
+  '/event-poster.jpg': eventPoster,
+  '/designer-studio.jpg': designerStudio,
+  '/designer-studio-production.jpg': designerStudioProduction,
+  '/runway-1.jpg': runway1,
+  '/runway-2.jpg': runway2,
+  '/runway-3.jpg': runway3,
+  '/runway-4.jpg': runway4,
+  '/runway-5.jpg': runway5,
+  '/runway-6.jpg': runway6,
 };
 
 // Function to resolve image URL from database path

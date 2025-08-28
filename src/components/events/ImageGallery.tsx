@@ -45,6 +45,7 @@ interface ImageLightboxProps {
 }
 
 export const ImageLightbox = ({ isOpen, onClose, images, currentIndex, onIndexChange }: ImageLightboxProps) => {
+  const { resolveImage } = useImageResolver();
   const nextImage = () => {
     onIndexChange((currentIndex + 1) % images.length);
   };
@@ -97,7 +98,7 @@ export const ImageLightbox = ({ isOpen, onClose, images, currentIndex, onIndexCh
 
           {/* Current Image */}
           <img
-            src={images[currentIndex]}
+            src={resolveImage(images[currentIndex])}
             alt={`Gallery image ${currentIndex + 1}`}
             className="max-w-full max-h-full object-contain"
           />
