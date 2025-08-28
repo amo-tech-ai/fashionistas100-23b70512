@@ -30,9 +30,9 @@ export const Hero = () => {
             </Badge>
           </div>
 
-          {/* Main Heading - Increased size and improved contrast */}
+          {/* Main Heading - Thin and elegant styling */}
           <div className="space-y-6">
-            <h1 className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight drop-shadow-lg">
+            <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-thin text-white leading-tight drop-shadow-lg">
               Where Style
               <span className="block text-white drop-shadow-lg">Meets Excellence</span>
             </h1>
@@ -42,12 +42,12 @@ export const Hero = () => {
             </p>
           </div>
 
-          {/* CTA Buttons - Fixed links and improved styling */}
+          {/* CTA Buttons - Minimalist styling */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start pt-4">
             <Link to="/events">
               <Button 
                 size="xl" 
-                className="font-inter h-16 px-10 text-lg bg-gradient-to-r from-[#ff6b6b] to-[#ee5a24] hover:from-[#ff5252] hover:to-[#d84315] text-white shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+                className="font-inter h-16 px-10 text-lg bg-white text-black hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <Calendar className="w-5 h-5 mr-2" />
                 Explore Events
@@ -57,7 +57,7 @@ export const Hero = () => {
               <Button 
                 variant="outline" 
                 size="xl" 
-                className="font-inter h-16 px-10 text-lg border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:border-white/50 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                className="font-inter h-16 px-10 text-lg border-2 border-black bg-black text-white hover:bg-gray-900 hover:border-gray-800 shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <MapPin className="w-5 h-5 mr-2" />
                 Find Designers
