@@ -48,9 +48,27 @@ export async function listDesigners(filters: DesignerFilters = {}): Promise<List
       query = query.ilike("brand_name", `%${filters.search}%`);
     }
 
-    // Apply verified filter
+    // Apply verified filter (override default verified=true if explicitly set)
     if (filters.verified !== undefined) {
       query = query.eq("is_verified", filters.verified);
+    }
+
+    // Apply specialty filter (search in bio for now)
+    if (filters.specialty) {
+      query = query.ilike("bio", `%${filters.specialty}%`);
+    }
+
+    // Apply location filter (search in bio for city names)
+    if (filters.location) {
+      const locationMap: Record<string, string> = {
+        'bogota': 'Bogotá',
+        'medellin': 'Medellín', 
+        'cali': 'Cali',
+        'cartagena': 'Cartagena',
+        'barranquilla': 'Barranquilla'
+      };
+      const cityName = locationMap[filters.location] || filters.location;
+      query = query.ilike("bio", `%${cityName}%`);
     }
 
     // Apply sorting
