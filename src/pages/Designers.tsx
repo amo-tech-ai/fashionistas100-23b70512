@@ -90,7 +90,7 @@ const Designers = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold font-playfair mb-4">Fashion Designers</h1>
@@ -216,28 +216,28 @@ const Designers = () => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
                 {designers.map((designer) => (
                   <Card key={designer.id} className="group hover:shadow-lg transition-all duration-300">
-                    <CardHeader>
+                    <CardHeader className="pb-3">
                       <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="group-hover:text-primary transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <CardTitle className="group-hover:text-primary transition-colors text-lg sm:text-xl truncate">
                             <Link to={`/designers/${designer.brandSlug}`}>
                               {designer.brandName}
                             </Link>
                           </CardTitle>
                           {designer.isVerified && (
-                            <Badge variant="default" className="mt-2">
+                            <Badge variant="default" className="mt-2 text-xs">
                               Verified Designer
                             </Badge>
                           )}
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 pt-0">
                       {designer.bio && (
-                        <CardDescription className="line-clamp-3">
+                        <CardDescription className="line-clamp-3 text-sm leading-relaxed">
                           {designer.bio}
                         </CardDescription>
                       )}
@@ -250,7 +250,8 @@ const Designers = () => {
                               <img
                                 src={url}
                                 alt={`${designer.brandName} portfolio ${index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                loading="lazy"
                               />
                             </div>
                           ))}
@@ -258,25 +259,28 @@ const Designers = () => {
                       )}
 
                       {/* Social Links */}
-                      <div className="flex items-center gap-2">
-                        {designer.websiteUrl && (
-                          <Button variant="outline" size="sm" asChild>
-                            <a href={designer.websiteUrl} target="_blank" rel="noopener noreferrer">
-                              <Globe className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
-                        {designer.socialLinks.instagram && (
-                          <Button variant="outline" size="sm" asChild>
-                            <a href={designer.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                              <Instagram className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
-                        <Button variant="outline" size="sm" asChild className="ml-auto">
+                      <div className="flex items-center justify-between gap-2 pt-2">
+                        <div className="flex items-center gap-2">
+                          {designer.websiteUrl && (
+                            <Button variant="outline" size="sm" asChild>
+                              <a href={designer.websiteUrl} target="_blank" rel="noopener noreferrer" aria-label="Visit website">
+                                <Globe className="h-4 w-4" />
+                              </a>
+                            </Button>
+                          )}
+                          {designer.socialLinks.instagram && (
+                            <Button variant="outline" size="sm" asChild>
+                              <a href={designer.socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Visit Instagram">
+                                <Instagram className="h-4 w-4" />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                        <Button variant="outline" size="sm" asChild className="shrink-0">
                           <Link to={`/designers/${designer.brandSlug}`}>
-                            View Profile
-                            <ExternalLink className="h-4 w-4 ml-2" />
+                            <span className="hidden sm:inline">View Profile</span>
+                            <span className="sm:hidden">View</span>
+                            <ExternalLink className="h-4 w-4 ml-1 sm:ml-2" />
                           </Link>
                         </Button>
                       </div>
