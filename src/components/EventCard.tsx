@@ -35,59 +35,62 @@ export const EventCard = ({ event }: EventCardProps) => {
 
   return (
     <Link to={`/events/${event.id}`}>
-      <Card className="group overflow-hidden bg-gradient-card hover:shadow-hover transition-smooth cursor-pointer">
-        <div className="relative h-64 overflow-hidden">
-        <img 
-          src={event.heroImage || "/placeholder.svg"} 
-          alt={event.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
-        />
-        <div className="absolute top-4 left-4">
-          <Badge variant={getCategoryVariant() as any} className="font-inter">
-            Event
-          </Badge>
+      <Card className="group overflow-hidden bg-gradient-card hover:shadow-hover transition-smooth cursor-pointer h-full">
+        <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
+          <img 
+            src={event.heroImage || "/placeholder.svg"} 
+            alt={event.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+            <Badge variant={getCategoryVariant() as any} className="font-inter text-xs">
+              Event
+            </Badge>
+          </div>
+          <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+            <Badge variant="destructive" className="font-inter text-xs">
+              Featured
+            </Badge>
+          </div>
         </div>
-        <div className="absolute top-4 right-4">
-          <Badge variant="destructive" className="font-inter">
-            Featured
-          </Badge>
-        </div>
-      </div>
       
-      <CardContent className="p-6 space-y-4">
-        <div className="space-y-2">
-          <h3 className="font-playfair text-xl font-bold text-foreground group-hover:text-accent transition-smooth">
+      <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4 flex-1 flex flex-col">
+        <div className="space-y-2 flex-1">
+          <h3 className="font-playfair text-lg sm:text-xl font-bold text-foreground group-hover:text-accent transition-smooth line-clamp-2">
             {event.title}
           </h3>
           <div className="flex items-center gap-2 text-muted-foreground">
-            <User className="w-4 h-4" />
-            <span className="font-inter text-sm">Designer TBD</span>
+            <User className="w-4 h-4 flex-shrink-0" />
+            <span className="font-inter text-sm truncate">Designer TBD</span>
           </div>
         </div>
 
         <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-4 h-4 flex-shrink-0" />
             <span className="font-inter">{formatDate(event.startISO)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
+            <Clock className="w-4 h-4 flex-shrink-0" />
             <span className="font-inter">{formatTime(event.startISO)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
-            <span className="font-inter">{event.venue.name}, {event.venue.city}</span>
+            <MapPin className="w-4 h-4 flex-shrink-0" />
+            <span className="font-inter truncate">{event.venue.name}, {event.venue.city}</span>
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-border">
+        <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-border mt-auto">
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground font-inter">From</p>
-            <p className="text-lg font-bold text-accent font-playfair">
+            <p className="text-base sm:text-lg font-bold text-accent font-playfair">
               {event.priceMin ? `${event.currency || '$'}${event.priceMin}` : 'TBD'}
             </p>
           </div>
-          <Button variant="hero" size="sm" className="font-inter">
+          <Button variant="hero" size="sm" className="font-inter text-sm">
             Get Tickets
           </Button>
         </div>
