@@ -244,7 +244,14 @@ export async function getEventById(eventId: string): Promise<{ data: EventSummar
       .eq("id", eventId)
       .maybeSingle();
     if (evErr) return { data: null, error: evErr.message };
-    if (!e) return { data: null, error: null };
+    
+    // 🚨 FALLBACK: If event not found in database, check mock data
+    if (!e) {
+      console.warn(`Event ${eventId} not found in database, checking mock data`);
+      const mockEvents = getMockEvents();
+      const mockEvent = mockEvents.find(event => event.id === eventId);
+      return { data: mockEvent || null, error: null };
+    }
 
     const [ticketsRes, imagesRes, venueRes] = await Promise.all([
       supabase
