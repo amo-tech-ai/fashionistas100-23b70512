@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Calendar, MapPin, Users, Clock, ArrowLeft, ExternalLink, Share2 } from "lucide-react";
+import { Calendar, MapPin, Users, Clock, ArrowLeft, ExternalLink, Share2, Copy, Check, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,11 +11,51 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { getEventById, EventSummary } from "@/services/eventService";
 import { format } from "date-fns";
 
+// Ticket selection types
+interface TicketTier {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  available: number;
+}
+
+interface TicketSelection {
+  [tierID: string]: number;
+}
+
 const EventDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [event, setEvent] = useState<EventSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedTickets, setSelectedTickets] = useState<TicketSelection>({});
+  const [shareSuccess, setShareSuccess] = useState(false);
+
+  // Mock ticket tiers (in real app, this would come from the event data)
+  const ticketTiers: TicketTier[] = [
+    {
+      id: 'general',
+      name: 'General Admission',
+      price: event?.priceMin || 150,
+      description: 'Standard access to the event',
+      available: Math.floor((event?.available || 100) * 0.6)
+    },
+    {
+      id: 'vip',
+      name: 'VIP Experience',
+      price: event?.priceMax || 350,
+      description: 'Premium seating with exclusive perks',
+      available: Math.floor((event?.available || 100) * 0.3)
+    },
+    {
+      id: 'platinum',
+      name: 'Platinum Access',
+      price: (event?.priceMax || 350) * 2,
+      description: 'Ultimate luxury experience with backstage access',
+      available: Math.floor((event?.available || 100) * 0.1)
+    }
+  ];
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -60,16 +100,45 @@ const EventDetail = () => {
     return format(new Date(dateString), "h:mm a");
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
+    const url = window.location.href;
+    
     if (navigator.share) {
-      navigator.share({
-        title: event?.title,
-        text: event?.description || "",
-        url: window.location.href,
-      });
+      try {
+        await navigator.share({
+          title: event?.title,
+          text: event?.description || "",
+          url: url,
+        });
+      } catch (err) {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(url);
+        setShareSuccess(true);
+        setTimeout(() => setShareSuccess(false), 2000);
+      }
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(url);
+      setShareSuccess(true);
+      setTimeout(() => setShareSuccess(false), 2000);
     }
+  };
+
+  const updateTicketQuantity = (tierId: string, quantity: number) => {
+    setSelectedTickets(prev => ({
+      ...prev,
+      [tierId]: Math.max(0, Math.min(10, quantity))
+    }));
+  };
+
+  const getTotalPrice = () => {
+    return ticketTiers.reduce((total, tier) => {
+      const quantity = selectedTickets[tier.id] || 0;
+      return total + (tier.price * quantity);
+    }, 0);
+  };
+
+  const getTotalTickets = () => {
+    return Object.values(selectedTickets).reduce((total, quantity) => total + quantity, 0);
   };
 
   if (loading) {
@@ -248,41 +317,140 @@ const EventDetail = () => {
               {/* Ticket Selection */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Get Tickets</CardTitle>
+                  <CardTitle>Select Tickets</CardTitle>
                   <CardDescription>
-                    Reserve your spot at this exclusive event
+                    Choose your preferred ticket tier and quantity
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  {event.priceMin !== null && (
-                    <div className="text-center">
-                      <div className="text-2xl font-bold">
-                        {event.currency || 'USD'} {event.priceMin}
-                        {event.priceMax && event.priceMax !== event.priceMin && (
-                          <span className="text-lg text-muted-foreground"> - {event.priceMax}</span>
+                <CardContent className="space-y-6">
+                  {ticketTiers.map((tier) => (
+                    <div key={tier.id} className="space-y-3 p-4 border border-border rounded-lg">
+                      <div className="flex justify-between items-start">
+                        <div className="space-y-1">
+                          <h4 className="font-semibold">{tier.name}</h4>
+                          <p className="text-sm text-muted-foreground">{tier.description}</p>
+                          <p className="text-lg font-bold text-accent">
+                            {event?.currency || 'USD'} {tier.price}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {tier.available} available
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateTicketQuantity(tier.id, (selectedTickets[tier.id] || 0) - 1)}
+                            disabled={!selectedTickets[tier.id] || selectedTickets[tier.id] === 0}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <span className="w-8 text-center font-medium">
+                            {selectedTickets[tier.id] || 0}
+                          </span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateTicketQuantity(tier.id, (selectedTickets[tier.id] || 0) + 1)}
+                            disabled={(selectedTickets[tier.id] || 0) >= 10 || (selectedTickets[tier.id] || 0) >= tier.available}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        
+                        {selectedTickets[tier.id] && selectedTickets[tier.id] > 0 && (
+                          <div className="text-sm font-medium">
+                            {event?.currency || 'USD'} {tier.price * selectedTickets[tier.id]}
+                          </div>
                         )}
                       </div>
-                      <p className="text-sm text-muted-foreground">Starting price</p>
                     </div>
+                  ))}
+
+                  {getTotalTickets() > 0 && (
+                    <>
+                      <Separator />
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center text-lg font-bold">
+                          <span>Total ({getTotalTickets()} tickets)</span>
+                          <span>{event?.currency || 'USD'} {getTotalPrice()}</span>
+                        </div>
+                        <Button className="w-full" size="lg">
+                          Proceed to Checkout
+                        </Button>
+                      </div>
+                    </>
                   )}
 
                   <Separator />
 
                   <div className="space-y-3">
-                    <Button className="w-full" size="lg">
-                      Select Tickets
-                    </Button>
                     <Button variant="outline" className="w-full" onClick={handleShare}>
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Share Event
+                      {shareSuccess ? (
+                        <>
+                          <Check className="h-4 w-4 mr-2" />
+                          Link Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Share2 className="h-4 w-4 mr-2" />
+                          Share Event
+                        </>
+                      )}
                     </Button>
                   </div>
 
-                  {event.available !== null && event.available < 10 && (
+                  {event?.available !== null && event?.available < 20 && (
                     <Badge variant="destructive" className="w-full justify-center">
                       Only {event.available} tickets left!
                     </Badge>
                   )}
+                </CardContent>
+              </Card>
+
+              {/* Designer Lineup */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Featured Designers</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">AR</span>
+                      </div>
+                      <div>
+                        <h4 className="font-medium">Alessandro Rossi</h4>
+                        <p className="text-sm text-muted-foreground">Haute Couture</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">SC</span>
+                      </div>
+                      <div>
+                        <h4 className="font-medium">Sofia Chen</h4>
+                        <p className="text-sm text-muted-foreground">Emerging Talent</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">ML</span>
+                      </div>
+                      <div>
+                        <h4 className="font-medium">Maya Laurent</h4>
+                        <p className="text-sm text-muted-foreground">Sustainable Fashion</p>
+                      </div>
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full">
+                    View All Designers
+                  </Button>
                 </CardContent>
               </Card>
 
