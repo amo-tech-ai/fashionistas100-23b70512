@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, Calendar, Users, Ticket, Building2, Mail, Info } from "lucide-react";
+import { Menu, X, Calendar, Users, Ticket, Building2, Mail, Info, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { LoginDialog } from "@/components/auth/LoginDialog";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const navigationItems = [
     { name: "Events", href: "/events", icon: Calendar },
@@ -42,8 +45,29 @@ export const Navigation = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* Auth Section */}
+          <div className="hidden md:flex items-center space-x-3">
+            {user ? (
+              <>
+                <span className="text-sm text-muted-foreground">
+                  {user.email}
+                </span>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={signOut}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <LoginDialog>
+                <Button variant="outline">
+                  Sign In
+                </Button>
+              </LoginDialog>
+            )}
             <Button variant="hero" className="font-inter">
               Get Tickets
             </Button>

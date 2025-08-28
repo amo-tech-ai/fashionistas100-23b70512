@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { withErrorHandling } from "@/utils/errorHandling";
+import { useToast } from "@/hooks/use-toast";
 import { EmptyState } from "@/components/EmptyState";
 import { EventHero } from "@/components/events/EventHero";
 import { BookingWidget } from "@/components/events/BookingWidget";
@@ -36,39 +38,51 @@ const EventDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchEventData = async () => {
       if (!id) return;
 
-      try {
-        setLoading(true);
-        setError(null);
+      const eventData = await withErrorHandling(
+        async () => {
+          const result = await getEventById(id);
+          if (result.error) throw new Error(result.error);
+          if (!result.data) throw new Error("Event not found");
+          return result.data;
+        },
+        toast,
+        "Failed to load event details"
+      );
 
-        // Fetch event details
-        const { data: eventData, error: eventError } = await getEventById(id);
-        if (eventError) throw new Error(eventError);
-        if (!eventData) throw new Error("Event not found");
-
+      if (eventData) {
         setEvent(eventData);
 
         // Fetch tickets for this event
-        const { data: ticketsData, error: ticketsError } = await supabase
-          .from('event_tickets')
-          .select('*')
-          .eq('event_id', id)
-          .eq('status', 'active')
-          .order('price', { ascending: true });
+        const ticketsData = await withErrorHandling(
+          async () => {
+            const { data, error } = await supabase
+              .from('event_tickets')
+              .select('*')
+              .eq('event_id', id)
+              .eq('status', 'active')
+              .order('price', { ascending: true });
+            
+            if (error) throw error;
+            return data || [];
+          },
+          toast,
+          "Failed to load ticket information"
+        );
 
-        if (ticketsError) throw ticketsError;
-        setTickets(ticketsData || []);
-
-      } catch (err: any) {
-        console.error('Error fetching event data:', err);
-        setError(err.message || 'Failed to load event details');
-      } finally {
-        setLoading(false);
+        if (ticketsData) {
+          setTickets(ticketsData);
+        }
+      } else {
+        setError("Event not found");
       }
+      
+      setLoading(false);
     };
 
     fetchEventData();
