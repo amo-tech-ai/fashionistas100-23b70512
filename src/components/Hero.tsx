@@ -20,10 +20,10 @@ export const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center lg:text-left">
+      <div className="relative z-10 container mx-auto px-4 text-left">
         <div className="max-w-4xl mx-auto lg:mx-0 space-y-8">
           {/* Badge */}
-          <div className="flex justify-center lg:justify-start">
+          <div className="flex justify-start">
             <Badge variant="hero" className="text-sm font-inter px-4 py-2 bg-white/20 backdrop-blur-sm text-white border-white/30">
               <Sparkles className="w-4 h-4 mr-2" />
               Experience Fashion Live
@@ -32,22 +32,22 @@ export const Hero = () => {
 
           {/* Main Heading - Thin and elegant styling */}
           <div className="space-y-6">
-            <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-thin text-white leading-tight drop-shadow-lg">
+            <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-thin text-white leading-tight drop-shadow-lg text-left">
               Where Style
               <span className="block text-white drop-shadow-lg">Meets Excellence</span>
             </h1>
-            <p className="font-inter text-xl md:text-2xl text-white/90 max-w-2xl mx-auto lg:mx-0 drop-shadow-md">
+            <p className="font-inter text-xl md:text-2xl text-white/90 max-w-2xl drop-shadow-md text-left">
               Discover exclusive fashion events, connect with world-class designers, 
               and experience the future of haute couture.
             </p>
           </div>
 
           {/* CTA Buttons - Minimalist styling */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start pt-4">
+          <div className="flex flex-col sm:flex-row gap-6 justify-start pt-4">
             <Link to="/events">
               <Button 
                 size="xl" 
-                className="font-inter h-16 px-10 text-lg bg-white text-black hover:bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="font-inter h-16 px-10 text-lg bg-white text-black hover:bg-gray-100 transition-all duration-300"
               >
                 <Calendar className="w-5 h-5 mr-2" />
                 Explore Events
@@ -57,7 +57,7 @@ export const Hero = () => {
               <Button 
                 variant="outline" 
                 size="xl" 
-                className="font-inter h-16 px-10 text-lg border-2 border-black bg-black text-white hover:bg-gray-900 hover:border-gray-800 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="font-inter h-16 px-10 text-lg border-2 border-black bg-black text-white hover:bg-gray-900 hover:border-gray-800 transition-all duration-300"
               >
                 <MapPin className="w-5 h-5 mr-2" />
                 Find Designers
