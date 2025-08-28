@@ -16,6 +16,7 @@ import Sponsors from "./pages/Sponsors";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Assessment from "./pages/Assessment";
+import AdminDashboard from "./pages/admin/Dashboard";
 import NotFound from "./pages/NotFound";
 
 // Create QueryClient with proper configuration
@@ -53,6 +54,7 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/assessment" element={<Assessment />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

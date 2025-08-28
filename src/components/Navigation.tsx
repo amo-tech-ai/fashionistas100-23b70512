@@ -52,6 +52,9 @@ export const Navigation = () => {
                 <span className="text-sm text-muted-foreground">
                   {user.email}
                 </span>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/admin">Admin</Link>
+                </Button>
                 <Button 
                   variant="outline" 
                   size="sm"
