@@ -8,6 +8,7 @@ import { EventCard } from "@/components/EventCard";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Navigation } from "@/components/Navigation";
 import { listPublishedEvents, EventSummary } from "@/services/eventService";
 
 const EVENTS_PER_PAGE = 12;
@@ -155,6 +156,7 @@ const Events = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
+        <Navigation />
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">

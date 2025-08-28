@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Navigation } from "@/components/Navigation";
 import { getEventById, EventSummary } from "@/services/eventService";
 import { format } from "date-fns";
 
@@ -188,6 +189,7 @@ const EventDetail = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
+        <Navigation />
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-primary">
           {event.heroImage && (

@@ -1,11 +1,13 @@
 import { ProgressAssessment } from "@/components/ProgressAssessment";
 import { ComprehensiveAnalysis } from "@/components/ComprehensiveAnalysis";
 import { ProductionReadiness } from "@/components/ProductionReadiness";
+import { Navigation } from "@/components/Navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Assessment = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       <Tabs defaultValue="readiness" className="w-full">
         <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b">
           <div className="container mx-auto px-4 py-4">

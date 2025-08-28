@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Navigation } from "@/components/Navigation";
 import { getDesignerBySlug, Designer } from "@/services/designerService";
 
 const DesignerProfile = () => {
@@ -98,6 +99,7 @@ const DesignerProfile = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
+        <Navigation />
         {/* Hero Section */}
         <div className="relative h-64 bg-gradient-primary">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/80" />
