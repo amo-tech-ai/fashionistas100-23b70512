@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { sampleEvents } from "@/data/sampleEvents";
 
 // Normalized Event model for the app (computed fields included)
 export interface EventSummary {
@@ -51,6 +52,50 @@ const dominantCurrency = (currencies: string[]): string | null => {
   return best;
 };
 
+// Mock data converter for development fallback
+const getMockEvents = (options?: { limit?: number; city?: string; fromDateISO?: string }): EventSummary[] => {
+  let events = sampleEvents.map(event => ({
+    id: event.id,
+    title: event.title,
+    description: event.description,
+    status: "published",
+    startISO: `${event.date}T${event.time}:00.000Z`,
+    endISO: null,
+    slug: toSlug(event.title, event.id),
+    venue: {
+      id: `venue-${event.id}`,
+      name: event.venue,
+      address: null,
+      city: event.city,
+      country: null,
+      slug: null,
+    },
+    heroImage: event.image.replace('/src/assets/', '/src/assets/'),
+    galleryImages: [],
+    capacity: 500,
+    ticketsSold: Math.floor(Math.random() * 200),
+    available: 300,
+    priceMin: event.price.general,
+    priceMax: event.price.platinum,
+    currency: "USD",
+  }));
+
+  // Apply filters
+  if (options?.city) {
+    events = events.filter(e => e.venue.city?.toLowerCase() === options.city!.toLowerCase());
+  }
+  
+  if (options?.fromDateISO) {
+    events = events.filter(e => e.startISO >= options.fromDateISO!);
+  }
+  
+  if (options?.limit) {
+    events = events.slice(0, options.limit);
+  }
+
+  return events;
+};
+
 // Core fetcher: list published events with related data and computed fields
 export async function listPublishedEvents(options?: {
   limit?: number;
@@ -75,7 +120,12 @@ export async function listPublishedEvents(options?: {
 
     const { data: events, error: eventsErr } = await query;
     if (eventsErr) return { data: [], error: eventsErr.message };
-    if (!events || events.length === 0) return { data: [], error: null };
+    
+    // 🚨 FALLBACK: If no events in database, return mock data for development
+    if (!events || events.length === 0) {
+      console.warn("No events found in database, using mock data for development");
+      return { data: getMockEvents(options), error: null };
+    }
 
     const eventIds = events.map((e) => e.id);
     const venueIds = events.map((e) => e.venue_id).filter(Boolean) as string[];
