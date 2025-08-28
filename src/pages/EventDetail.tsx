@@ -1,493 +1,310 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Calendar, MapPin, Users, Clock, ArrowLeft, ExternalLink, Share2, Copy, Check, Plus, Minus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { useParams } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { Navigation } from "@/components/Navigation";
-import { getEventById, EventSummary } from "@/services/eventService";
-import { format } from "date-fns";
+import { EventHero } from "@/components/events/EventHero";
+import { BookingWidget } from "@/components/events/BookingWidget";
+import { RelatedEvents } from "@/components/events/RelatedEvents";
+import { ImageLightbox } from "@/components/events/ImageGallery";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { CalendarDays, Clock, MapPin, Users, Star, MessageCircle, Sparkles } from "lucide-react";
+import { EventSummary, getEventById } from "@/services/eventService";
+import { supabase } from "@/integrations/supabase/client";
 
-// Ticket selection types
 interface TicketTier {
   id: string;
-  name: string;
+  ticket_name: string;
+  ticket_type: string;
+  description: string | null;
   price: number;
-  description: string;
-  available: number;
-}
-
-interface TicketSelection {
-  [tierID: string]: number;
+  currency: string;
+  total_quantity: number;
+  sold_quantity: number;
+  available_quantity: number;
+  status: string;
 }
 
 const EventDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [event, setEvent] = useState<EventSummary | null>(null);
+  const [tickets, setTickets] = useState<TicketTier[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedTickets, setSelectedTickets] = useState<TicketSelection>({});
-  const [shareSuccess, setShareSuccess] = useState(false);
-
-  // Mock ticket tiers (in real app, this would come from the event data)
-  const ticketTiers: TicketTier[] = [
-    {
-      id: 'general',
-      name: 'General Admission',
-      price: event?.priceMin || 150,
-      description: 'Standard access to the event',
-      available: Math.floor((event?.available || 100) * 0.6)
-    },
-    {
-      id: 'vip',
-      name: 'VIP Experience',
-      price: event?.priceMax || 350,
-      description: 'Premium seating with exclusive perks',
-      available: Math.floor((event?.available || 100) * 0.3)
-    },
-    {
-      id: 'platinum',
-      name: 'Platinum Access',
-      price: (event?.priceMax || 350) * 2,
-      description: 'Ultimate luxury experience with backstage access',
-      available: Math.floor((event?.available || 100) * 0.1)
-    }
-  ];
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      if (!id) {
-        setError("Invalid event ID");
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-      setError(null);
+    const fetchEventData = async () => {
+      if (!id) return;
 
       try {
-        const { data, error: fetchError } = await getEventById(id);
+        setLoading(true);
+        setError(null);
 
-        if (fetchError) {
-          setError(fetchError);
-          return;
-        }
+        // Fetch event details
+        const { data: eventData, error: eventError } = await getEventById(id);
+        if (eventError) throw new Error(eventError);
+        if (!eventData) throw new Error("Event not found");
 
-        if (!data) {
-          setError("Event not found");
-          return;
-        }
+        setEvent(eventData);
 
-        setEvent(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load event");
+        // Fetch tickets for this event
+        const { data: ticketsData, error: ticketsError } = await supabase
+          .from('event_tickets')
+          .select('*')
+          .eq('event_id', id)
+          .eq('status', 'active')
+          .order('price', { ascending: true });
+
+        if (ticketsError) throw ticketsError;
+        setTickets(ticketsData || []);
+
+      } catch (err: any) {
+        console.error('Error fetching event data:', err);
+        setError(err.message || 'Failed to load event details');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEvent();
+    fetchEventData();
   }, [id]);
 
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), "EEEE, MMMM d, yyyy");
+  const handleImageClick = (imageUrl: string, allImages: string[]) => {
+    const index = allImages.findIndex(img => img === imageUrl);
+    setCurrentImageIndex(index >= 0 ? index : 0);
+    setLightboxImages(allImages);
+    setLightboxOpen(true);
   };
 
-  const formatTime = (dateString: string) => {
-    return format(new Date(dateString), "h:mm a");
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
   };
 
-  const handleShare = async () => {
-    const url = window.location.href;
+  const formatTime = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  const getCountdownDisplay = () => {
+    if (!event) return null;
     
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: event?.title,
-          text: event?.description || "",
-          url: url,
-        });
-      } catch (err) {
-        // Fallback to clipboard
-        await navigator.clipboard.writeText(url);
-        setShareSuccess(true);
-        setTimeout(() => setShareSuccess(false), 2000);
-      }
-    } else {
-      await navigator.clipboard.writeText(url);
-      setShareSuccess(true);
-      setTimeout(() => setShareSuccess(false), 2000);
+    const eventDate = new Date(event.startISO);
+    const now = new Date();
+    const diffTime = eventDate.getTime() - now.getTime();
+    
+    if (diffTime <= 0) {
+      return <Badge variant="secondary">Event has passed</Badge>;
     }
-  };
-
-  const updateTicketQuantity = (tierId: string, quantity: number) => {
-    setSelectedTickets(prev => ({
-      ...prev,
-      [tierId]: Math.max(0, Math.min(10, quantity))
-    }));
-  };
-
-  const getTotalPrice = () => {
-    return ticketTiers.reduce((total, tier) => {
-      const quantity = selectedTickets[tier.id] || 0;
-      return total + (tier.price * quantity);
-    }, 0);
-  };
-
-  const getTotalTickets = () => {
-    return Object.values(selectedTickets).reduce((total, quantity) => total + quantity, 0);
+    
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    if (diffDays > 0) {
+      return <Badge variant="destructive">{diffDays} days remaining</Badge>;
+    } else if (diffHours > 0) {
+      return <Badge variant="destructive">{diffHours} hours remaining</Badge>;
+    } else {
+      return <Badge variant="destructive">Starting soon!</Badge>;
+    }
   };
 
   if (loading) {
     return (
-      <ErrorBoundary>
-        <div className="min-h-screen bg-background">
-          <div className="container mx-auto px-4 py-8">
-            <Button variant="ghost" asChild className="mb-6">
-              <Link to="/events">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Events
-              </Link>
-            </Button>
-            <LoadingSkeleton variant="detail" />
-          </div>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <LoadingSkeleton />
         </div>
-      </ErrorBoundary>
+      </div>
     );
   }
 
   if (error || !event) {
     return (
-      <ErrorBoundary>
-        <div className="min-h-screen bg-background">
-          <div className="container mx-auto px-4 py-8">
-            <Button variant="ghost" asChild className="mb-6">
-              <Link to="/events">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Events
-              </Link>
-            </Button>
-            <EmptyState
-              icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
-              title="Event not found"
-              description={error || "The event you're looking for doesn't exist or has been removed."}
-              action={{
-                label: "Browse Events",
-                onClick: () => window.location.href = "/events"
-              }}
-            />
-          </div>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <EmptyState
+            icon={<CalendarDays className="w-8 h-8" />}
+            title="Event not found"
+            description={error || "The event you're looking for doesn't exist or has been removed."}
+          />
         </div>
-      </ErrorBoundary>
+      </div>
     );
   }
 
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        {/* Hero Section */}
-        <div className="relative h-96 bg-gradient-primary">
-          {event.heroImage && (
-            <img
-              src={event.heroImage}
-              alt={event.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          )}
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="relative container mx-auto px-4 h-full flex items-end pb-8">
-            <div className="text-white">
-              <Button variant="ghost" asChild className="mb-4 text-white hover:bg-white/20">
-                <Link to="/events">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Events
-                </Link>
-              </Button>
-              <h1 className="text-4xl md:text-5xl font-bold font-playfair mb-4">
-                {event.title}
-              </h1>
-              <div className="flex flex-wrap items-center gap-4 text-lg">
-                <div className="flex items-center">
-                  <Calendar className="h-5 w-5 mr-2" />
-                  {formatDate(event.startISO)}
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <EventHero event={event} onImageClick={handleImageClick} />
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Event Details */}
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* Event Description */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5" />
+                    About This Event
+                  </CardTitle>
+                  {getCountdownDisplay()}
                 </div>
-                {event.venue.city && (
-                  <div className="flex items-center">
-                    <MapPin className="h-5 w-5 mr-2" />
-                    {event.venue.city}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+              </CardHeader>
+              <CardContent>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-muted-foreground leading-relaxed">
+                    {event.description || 'Join us for an unforgettable fashion experience featuring the latest trends and designs from talented creators.'}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Event Details */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Event Details</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {event.description && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Description</h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {event.description}
-                      </p>
+            {/* Event Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Event Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <CalendarDays className="w-5 h-5 text-accent mt-0.5" />
+                      <div>
+                        <p className="font-semibold">Date</p>
+                        <p className="text-muted-foreground">{formatDate(event.startISO)}</p>
+                      </div>
                     </div>
-                  )}
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="font-semibold mb-3">Date & Time</h3>
-                      <div className="space-y-2">
-                        <div className="flex items-center text-sm">
-                          <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
-                          {formatDate(event.startISO)}
-                        </div>
-                        <div className="flex items-center text-sm">
-                          <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
+                    
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-5 h-5 text-accent mt-0.5" />
+                      <div>
+                        <p className="font-semibold">Time</p>
+                        <p className="text-muted-foreground">
                           {formatTime(event.startISO)}
                           {event.endISO && ` - ${formatTime(event.endISO)}`}
-                        </div>
+                        </p>
                       </div>
                     </div>
-
-                    {event.venue.name && (
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-5 h-5 text-accent mt-0.5" />
                       <div>
-                        <h3 className="font-semibold mb-3">Venue</h3>
-                        <div className="space-y-2">
-                          <div className="flex items-center text-sm">
-                            <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
-                            {event.venue.name}
-                          </div>
+                        <p className="font-semibold">Venue</p>
+                        <p className="text-muted-foreground">
+                          {event.venue.name}
                           {event.venue.address && (
-                            <p className="text-sm text-muted-foreground pl-6">
-                              {event.venue.address}
-                            </p>
+                            <>
+                              <br />
+                              <span className="text-sm">{event.venue.address}</span>
+                            </>
                           )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {event.capacity && (
-                    <div>
-                      <h3 className="font-semibold mb-3">Capacity</h3>
-                      <div className="flex items-center text-sm">
-                        <Users className="h-4 w-4 mr-2 text-muted-foreground" />
-                        {event.available} / {event.capacity} tickets available
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Gallery */}
-              {event.galleryImages.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Gallery</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {event.galleryImages.slice(0, 6).map((image, index) => (
-                        <img
-                          key={index}
-                          src={image}
-                          alt={`${event.title} gallery ${index + 1}`}
-                          className="aspect-square object-cover rounded-lg"
-                        />
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Ticket Selection */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Select Tickets</CardTitle>
-                  <CardDescription>
-                    Choose your preferred ticket tier and quantity
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {ticketTiers.map((tier) => (
-                    <div key={tier.id} className="space-y-3 p-4 border border-border rounded-lg">
-                      <div className="flex justify-between items-start">
-                        <div className="space-y-1">
-                          <h4 className="font-semibold">{tier.name}</h4>
-                          <p className="text-sm text-muted-foreground">{tier.description}</p>
-                          <p className="text-lg font-bold text-accent">
-                            {event?.currency || 'USD'} {tier.price}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {tier.available} available
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => updateTicketQuantity(tier.id, (selectedTickets[tier.id] || 0) - 1)}
-                            disabled={!selectedTickets[tier.id] || selectedTickets[tier.id] === 0}
-                            className="h-8 w-8 p-0"
-                          >
-                            <Minus className="h-4 w-4" />
-                          </Button>
-                          <span className="w-8 text-center font-medium">
-                            {selectedTickets[tier.id] || 0}
-                          </span>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => updateTicketQuantity(tier.id, (selectedTickets[tier.id] || 0) + 1)}
-                            disabled={(selectedTickets[tier.id] || 0) >= 10 || (selectedTickets[tier.id] || 0) >= tier.available}
-                            className="h-8 w-8 p-0"
-                          >
-                            <Plus className="h-4 w-4" />
-                          </Button>
-                        </div>
-                        
-                        {selectedTickets[tier.id] && selectedTickets[tier.id] > 0 && (
-                          <div className="text-sm font-medium">
-                            {event?.currency || 'USD'} {tier.price * selectedTickets[tier.id]}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-
-                  {getTotalTickets() > 0 && (
-                    <>
-                      <Separator />
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center text-lg font-bold">
-                          <span>Total ({getTotalTickets()} tickets)</span>
-                          <span>{event?.currency || 'USD'} {getTotalPrice()}</span>
-                        </div>
-                        <Button className="w-full" size="lg">
-                          Proceed to Checkout
-                        </Button>
-                      </div>
-                    </>
-                  )}
-
-                  <Separator />
-
-                  <div className="space-y-3">
-                    <Button variant="outline" className="w-full" onClick={handleShare}>
-                      {shareSuccess ? (
-                        <>
-                          <Check className="h-4 w-4 mr-2" />
-                          Link Copied!
-                        </>
-                      ) : (
-                        <>
-                          <Share2 className="h-4 w-4 mr-2" />
-                          Share Event
-                        </>
-                      )}
-                    </Button>
-                  </div>
-
-                  {event?.available !== null && event?.available < 20 && (
-                    <Badge variant="destructive" className="w-full justify-center">
-                      Only {event.available} tickets left!
-                    </Badge>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Designer Lineup */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Featured Designers</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold">AR</span>
-                      </div>
-                      <div>
-                        <h4 className="font-medium">Alessandro Rossi</h4>
-                        <p className="text-sm text-muted-foreground">Haute Couture</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold">SC</span>
-                      </div>
-                      <div>
-                        <h4 className="font-medium">Sofia Chen</h4>
-                        <p className="text-sm text-muted-foreground">Emerging Talent</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold">ML</span>
-                      </div>
-                      <div>
-                        <h4 className="font-medium">Maya Laurent</h4>
-                        <p className="text-sm text-muted-foreground">Sustainable Fashion</p>
-                      </div>
-                    </div>
-                  </div>
-                  <Button variant="outline" className="w-full">
-                    View All Designers
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Venue Info */}
-              {event.venue.name && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Venue Information</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div>
-                      <h4 className="font-medium">{event.venue.name}</h4>
-                      {event.venue.address && (
-                        <p className="text-sm text-muted-foreground">
-                          {event.venue.address}
                         </p>
-                      )}
-                      {event.venue.city && (
-                        <p className="text-sm text-muted-foreground">
-                          {event.venue.city}, {event.venue.country}
-                        </p>
-                      )}
+                      </div>
                     </div>
-                    <Button variant="outline" className="w-full">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      View on Map
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
+                    
+                    <div className="flex items-start gap-3">
+                      <Users className="w-5 h-5 text-accent mt-0.5" />
+                      <div>
+                        <p className="font-semibold">Capacity</p>
+                        <p className="text-muted-foreground">
+                          {event.capacity ? `${event.capacity} attendees` : 'Limited capacity'}
+                          {event.ticketsSold > 0 && (
+                            <span className="block text-sm">
+                              {event.ticketsSold} tickets sold
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Designer Lineup Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Featured Designers</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Users className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">
+                    Designer lineup will be announced soon. Stay tuned for updates!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Reviews Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  Reviews & Ratings
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Star className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">
+                    No reviews yet. Be the first to share your experience!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Column - Booking Widget */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-8">
+              <BookingWidget event={event} tickets={tickets} />
             </div>
           </div>
         </div>
       </div>
-    </ErrorBoundary>
+
+      {/* Related Events */}
+      <Separator className="my-12" />
+      <RelatedEvents 
+        currentEventId={event.id} 
+        currentEventCity={event.venue.city || undefined} 
+      />
+
+      {/* Image Lightbox */}
+      <ImageLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={lightboxImages}
+        currentIndex={currentImageIndex}
+        onIndexChange={setCurrentImageIndex}
+      />
+    </div>
   );
 };
 
