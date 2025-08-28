@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, User, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
 import { EventSummary } from "@/services/eventService";
 
 interface EventCardProps {
@@ -33,8 +34,9 @@ export const EventCard = ({ event }: EventCardProps) => {
   };
 
   return (
-    <Card className="group overflow-hidden bg-gradient-card hover:shadow-hover transition-smooth cursor-pointer">
-      <div className="relative h-64 overflow-hidden">
+    <Link to={`/events/${event.id}`}>
+      <Card className="group overflow-hidden bg-gradient-card hover:shadow-hover transition-smooth cursor-pointer">
+        <div className="relative h-64 overflow-hidden">
         <img 
           src={event.heroImage || "/placeholder.svg"} 
           alt={event.title}
@@ -91,5 +93,6 @@ export const EventCard = ({ event }: EventCardProps) => {
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 };

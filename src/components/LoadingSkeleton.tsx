@@ -87,13 +87,29 @@ export const LoadingSkeleton = ({ variant = 'card', count = 3 }: LoadingSkeleton
 
   if (variant === 'grid') {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array.from({ length: count }, (_, i) => (
-          <div key={i} className="space-y-2">
-            <Skeleton className="aspect-square w-full rounded-lg" />
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-          </div>
+          <Card key={i} className="overflow-hidden">
+            <Skeleton className="h-48 w-full" />
+            <CardHeader>
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-4 w-4" />
+                <Skeleton className="h-4 w-1/3" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Skeleton className="h-4 w-4" />
+                <Skeleton className="h-4 w-1/4" />
+              </div>
+              <div className="flex justify-between items-center pt-4">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-9 w-24" />
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     );

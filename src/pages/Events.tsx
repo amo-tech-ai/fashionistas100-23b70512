@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, Filter, Calendar, MapPin, Users } from "lucide-react";
+import { Search, Filter, Calendar, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -10,17 +10,22 @@ import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { listPublishedEvents, EventSummary } from "@/services/eventService";
 
+const EVENTS_PER_PAGE = 12;
+
 const Events = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [events, setEvents] = useState<EventSummary[]>([]);
+  const [allEvents, setAllEvents] = useState<EventSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
   
   // URL-controlled filters
   const search = searchParams.get("search") || "";
   const city = searchParams.get("city") || "";
   const sortBy = searchParams.get("sort") || "date";
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
+  // Fetch all events (runs only when city changes)
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
@@ -30,61 +35,120 @@ const Events = () => {
         const { data, error: fetchError } = await listPublishedEvents({
           city: city || undefined,
           fromDateISO: new Date().toISOString(),
-          limit: 50
+          limit: 100
         });
 
         if (fetchError) {
           setError(fetchError);
-          setEvents([]);
+          setAllEvents([]);
           return;
         }
 
-        let filteredEvents = data;
-
-        // Client-side search filter
-        if (search) {
-          const searchLower = search.toLowerCase();
-          filteredEvents = filteredEvents.filter(event =>
-            event.title.toLowerCase().includes(searchLower) ||
-            event.description?.toLowerCase().includes(searchLower) ||
-            event.venue.city?.toLowerCase().includes(searchLower)
-          );
-        }
-
-        // Client-side sorting
-        if (sortBy === "date") {
-          filteredEvents.sort((a, b) => new Date(a.startISO).getTime() - new Date(b.startISO).getTime());
-        } else if (sortBy === "price") {
-          filteredEvents.sort((a, b) => (a.priceMin || 0) - (b.priceMin || 0));
-        } else if (sortBy === "name") {
-          filteredEvents.sort((a, b) => a.title.localeCompare(b.title));
-        }
-
-        setEvents(filteredEvents);
+        setAllEvents(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load events");
-        setEvents([]);
+        setAllEvents([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, [search, city, sortBy]);
+  }, [city]);
 
-  const updateFilter = (key: string, value: string) => {
+  // Cleanup search timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+    };
+  }, [searchTimeout]);
+
+  // Memoized filtered and sorted events
+  const filteredEvents = useMemo(() => {
+    let events = [...allEvents];
+
+    // Search filter
+    if (search) {
+      const searchLower = search.toLowerCase();
+      events = events.filter(event =>
+        event.title.toLowerCase().includes(searchLower) ||
+        event.description?.toLowerCase().includes(searchLower) ||
+        event.venue.city?.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Sorting
+    if (sortBy === "date") {
+      events.sort((a, b) => new Date(a.startISO).getTime() - new Date(b.startISO).getTime());
+    } else if (sortBy === "price") {
+      events.sort((a, b) => (a.priceMin || 0) - (b.priceMin || 0));
+    } else if (sortBy === "name") {
+      events.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === "relevance" && search) {
+      // Simple relevance scoring based on title match
+      events.sort((a, b) => {
+        const aScore = a.title.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+        const bScore = b.title.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+        return bScore - aScore;
+      });
+    }
+
+    return events;
+  }, [allEvents, search, sortBy]);
+
+  // Memoized pagination
+  const { paginatedEvents, totalPages, hasNextPage, hasPrevPage } = useMemo(() => {
+    const total = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+    const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
+    const endIndex = startIndex + EVENTS_PER_PAGE;
+    
+    return {
+      paginatedEvents: filteredEvents.slice(startIndex, endIndex),
+      totalPages: total,
+      hasNextPage: currentPage < total,
+      hasPrevPage: currentPage > 1
+    };
+  }, [filteredEvents, currentPage]);
+
+  const updateFilter = useCallback((key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
     if (value) {
       newParams.set(key, value);
     } else {
       newParams.delete(key);
     }
+    
+    // Reset to page 1 when filters change (except page changes)
+    if (key !== "page") {
+      newParams.delete("page");
+    }
+    
     setSearchParams(newParams);
-  };
+  }, [searchParams, setSearchParams]);
 
-  const clearFilters = () => {
+  // Debounced search to improve performance
+  const handleSearchChange = useCallback((value: string) => {
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    
+    const timeout = setTimeout(() => {
+      updateFilter("search", value);
+    }, 300);
+    
+    setSearchTimeout(timeout);
+  }, [searchTimeout, updateFilter]);
+
+  const navigateToPage = useCallback((page: number) => {
+    updateFilter("page", page.toString());
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [updateFilter]);
+
+  const clearFilters = useCallback(() => {
     setSearchParams({});
-  };
+  }, [setSearchParams]);
 
   return (
     <ErrorBoundary>
@@ -106,8 +170,8 @@ const Events = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
                     placeholder="Search events..."
-                    value={search}
-                    onChange={(e) => updateFilter("search", e.target.value)}
+                    defaultValue={search}
+                    onChange={(e) => handleSearchChange(e.target.value)}
                     className="pl-10"
                   />
                 </div>
@@ -137,6 +201,7 @@ const Events = () => {
                   <SelectItem value="date">Date</SelectItem>
                   <SelectItem value="price">Price</SelectItem>
                   <SelectItem value="name">Name</SelectItem>
+                  <SelectItem value="relevance">Relevance</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -150,7 +215,7 @@ const Events = () => {
 
           {/* Results */}
           {loading ? (
-            <LoadingSkeleton variant="card" count={6} />
+            <LoadingSkeleton variant="grid" count={12} />
           ) : error ? (
             <EmptyState
               icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
@@ -161,7 +226,7 @@ const Events = () => {
                 onClick: () => window.location.reload()
               }}
             />
-          ) : events.length === 0 ? (
+          ) : filteredEvents.length === 0 ? (
             <EmptyState
               icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
               title="No events found"
@@ -181,17 +246,97 @@ const Events = () => {
             />
           ) : (
             <>
-              <div className="mb-6 flex items-center justify-between">
+              <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <p className="text-muted-foreground">
-                  {events.length} event{events.length !== 1 ? 's' : ''} found
+                  Showing {((currentPage - 1) * EVENTS_PER_PAGE) + 1}-{Math.min(currentPage * EVENTS_PER_PAGE, filteredEvents.length)} of {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}
                 </p>
+                
+                {totalPages > 1 && (
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigateToPage(currentPage - 1)}
+                      disabled={!hasPrevPage}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </Button>
+                    
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+                        
+                        return (
+                          <Button
+                            key={pageNum}
+                            variant={pageNum === currentPage ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => navigateToPage(pageNum)}
+                            className="w-8 h-8 p-0"
+                          >
+                            {pageNum}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigateToPage(currentPage + 1)}
+                      disabled={!hasNextPage}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events.map((event) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {paginatedEvents.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>
+              
+              {/* Bottom Pagination */}
+              {totalPages > 1 && (
+                <div className="flex justify-center">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => navigateToPage(currentPage - 1)}
+                      disabled={!hasPrevPage}
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-2" />
+                      Previous
+                    </Button>
+                    
+                    <span className="text-sm text-muted-foreground px-4">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    
+                    <Button
+                      variant="outline"
+                      onClick={() => navigateToPage(currentPage + 1)}
+                      disabled={!hasNextPage}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </div>
+                </div>
+              )}
             </>
           )}
         </div>
