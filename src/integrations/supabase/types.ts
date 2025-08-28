@@ -47,6 +47,110 @@ export type Database = {
         }
         Relationships: []
       }
+      booking_tickets: {
+        Row: {
+          booking_id: string
+          created_at: string
+          id: string
+          quantity: number
+          ticket_id: string
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          id?: string
+          quantity?: number
+          ticket_id: string
+          total_price: number
+          unit_price: number
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          id?: string
+          quantity?: number
+          ticket_id?: string
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_tickets_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_tickets_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "event_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          attendee_email: string
+          attendee_name: string
+          attendee_phone: string | null
+          booking_reference: string | null
+          booking_status: string
+          created_at: string
+          currency: string
+          event_id: string
+          id: string
+          qr_code: string | null
+          special_requests: string | null
+          total_amount: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          attendee_email: string
+          attendee_name: string
+          attendee_phone?: string | null
+          booking_reference?: string | null
+          booking_status?: string
+          created_at?: string
+          currency?: string
+          event_id: string
+          id?: string
+          qr_code?: string | null
+          special_requests?: string | null
+          total_amount?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          attendee_email?: string
+          attendee_name?: string
+          attendee_phone?: string | null
+          booking_reference?: string | null
+          booking_status?: string
+          created_at?: string
+          currency?: string
+          event_id?: string
+          id?: string
+          qr_code?: string | null
+          special_requests?: string | null
+          total_amount?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_forms: {
         Row: {
           assigned_to: string | null
