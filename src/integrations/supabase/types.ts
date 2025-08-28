@@ -401,7 +401,7 @@ export type Database = {
           end_datetime: string
           event_name: string
           id: string
-          organizer_id: string
+          organizer_id: string | null
           start_datetime: string
           status: string | null
           updated_at: string | null
@@ -413,7 +413,7 @@ export type Database = {
           end_datetime: string
           event_name: string
           id?: string
-          organizer_id: string
+          organizer_id?: string | null
           start_datetime: string
           status?: string | null
           updated_at?: string | null
@@ -425,7 +425,7 @@ export type Database = {
           end_datetime?: string
           event_name?: string
           id?: string
-          organizer_id?: string
+          organizer_id?: string | null
           start_datetime?: string
           status?: string | null
           updated_at?: string | null
