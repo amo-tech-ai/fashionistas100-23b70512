@@ -17,6 +17,9 @@ export interface Designer {
 export interface DesignerFilters {
   search?: string;
   verified?: boolean;
+  specialty?: string;
+  location?: string;
+  sortBy?: 'newest' | 'oldest' | 'alphabetical' | 'popularity';
   limit?: number;
   offset?: number;
 }
@@ -38,15 +41,34 @@ export async function listDesigners(filters: DesignerFilters = {}): Promise<List
     let query = supabase
       .from("designer_profiles")
       .select("*", { count: 'exact' })
-      .eq("is_verified", true)
-      .order("created_at", { ascending: false });
+      .eq("is_verified", true);
 
+    // Apply search filter
     if (filters.search) {
       query = query.ilike("brand_name", `%${filters.search}%`);
     }
 
+    // Apply verified filter
     if (filters.verified !== undefined) {
       query = query.eq("is_verified", filters.verified);
+    }
+
+    // Apply sorting
+    switch (filters.sortBy) {
+      case 'alphabetical':
+        query = query.order("brand_name", { ascending: true });
+        break;
+      case 'oldest':
+        query = query.order("created_at", { ascending: true });
+        break;
+      case 'popularity':
+        // For now, sort by created_at desc as a proxy for popularity
+        query = query.order("created_at", { ascending: false });
+        break;
+      case 'newest':
+      default:
+        query = query.order("created_at", { ascending: false });
+        break;
     }
 
     if (filters.limit) {

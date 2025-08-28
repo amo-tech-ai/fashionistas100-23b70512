@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, Filter, Users, ExternalLink, Instagram, Globe } from "lucide-react";
+import { Search, Filter, Users, ExternalLink, Instagram, Globe, SortAsc } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -22,6 +22,9 @@ const Designers = () => {
   // URL-controlled filters
   const search = searchParams.get("search") || "";
   const verified = searchParams.get("verified");
+  const specialty = searchParams.get("specialty");
+  const location = searchParams.get("location");
+  const sortBy = searchParams.get("sortBy") as 'newest' | 'oldest' | 'alphabetical' | 'popularity' || 'newest';
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = 12;
 
@@ -34,6 +37,9 @@ const Designers = () => {
         const { data, error: fetchError, total: totalCount } = await listDesigners({
           search: search || undefined,
           verified: verified === "true" ? true : undefined,
+          specialty: specialty || undefined,
+          location: location || undefined,
+          sortBy,
           limit,
           offset: (page - 1) * limit
         });
@@ -55,7 +61,7 @@ const Designers = () => {
     };
 
     fetchDesigners();
-  }, [search, verified, page]);
+  }, [search, verified, specialty, location, sortBy, page]);
 
   const updateFilter = (key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -95,7 +101,7 @@ const Designers = () => {
 
           {/* Filters */}
           <div className="mb-8 space-y-4">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -108,19 +114,63 @@ const Designers = () => {
                 </div>
               </div>
               
-              <Select value={verified || undefined} onValueChange={(value) => updateFilter("verified", value)}>
-                <SelectTrigger className="w-full md:w-48">
-                  <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="All Designers" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Designers</SelectItem>
-                  <SelectItem value="true">Verified Only</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Select value={verified || undefined} onValueChange={(value) => updateFilter("verified", value)}>
+                  <SelectTrigger className="w-full sm:w-40">
+                    <Filter className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="All Designers" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Designers</SelectItem>
+                    <SelectItem value="true">Verified Only</SelectItem>
+                  </SelectContent>
+                </Select>
 
-              {(search || verified) && (
-                <Button variant="outline" onClick={clearFilters}>
+                <Select value={specialty || undefined} onValueChange={(value) => updateFilter("specialty", value)}>
+                  <SelectTrigger className="w-full sm:w-40">
+                    <SelectValue placeholder="All Specialties" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Specialties</SelectItem>
+                    <SelectItem value="haute-couture">Haute Couture</SelectItem>
+                    <SelectItem value="ready-to-wear">Ready-to-Wear</SelectItem>
+                    <SelectItem value="sustainable">Sustainable Fashion</SelectItem>
+                    <SelectItem value="evening-wear">Evening Wear</SelectItem>
+                    <SelectItem value="streetwear">Streetwear</SelectItem>
+                    <SelectItem value="bridal">Bridal</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={location || undefined} onValueChange={(value) => updateFilter("location", value)}>
+                  <SelectTrigger className="w-full sm:w-40">
+                    <SelectValue placeholder="All Locations" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Locations</SelectItem>
+                    <SelectItem value="bogota">Bogotá</SelectItem>
+                    <SelectItem value="medellin">Medellín</SelectItem>
+                    <SelectItem value="cali">Cali</SelectItem>
+                    <SelectItem value="cartagena">Cartagena</SelectItem>
+                    <SelectItem value="barranquilla">Barranquilla</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={sortBy} onValueChange={(value) => updateFilter("sortBy", value)}>
+                  <SelectTrigger className="w-full sm:w-40">
+                    <SortAsc className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="oldest">Oldest First</SelectItem>
+                    <SelectItem value="alphabetical">Alphabetical</SelectItem>
+                    <SelectItem value="popularity">Most Popular</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {(search || verified || specialty || location || sortBy !== 'newest') && (
+                <Button variant="outline" onClick={clearFilters} className="w-full sm:w-auto">
                   Clear Filters
                 </Button>
               )}
@@ -145,12 +195,12 @@ const Designers = () => {
               icon={<Users className="h-8 w-8 text-muted-foreground" />}
               title="No designers found"
               description={
-                search || verified
+                search || verified || specialty || location || sortBy !== 'newest'
                   ? "Try adjusting your filters to see more designers"
                   : "No designers are available at the moment"
               }
               action={
-                search || verified
+                search || verified || specialty || location || sortBy !== 'newest'
                   ? {
                       label: "Clear Filters",
                       onClick: clearFilters
@@ -166,7 +216,7 @@ const Designers = () => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
                 {designers.map((designer) => (
                   <Card key={designer.id} className="group hover:shadow-lg transition-all duration-300">
                     <CardHeader>
