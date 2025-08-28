@@ -58,11 +58,14 @@ const Designers = () => {
 
   const updateFilter = (key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (value) {
-      newParams.set(key, value);
-    } else {
+    
+    // Handle special "all" values
+    if (value === "all" || !value) {
       newParams.delete(key);
+    } else {
+      newParams.set(key, value);
     }
+    
     // Reset to page 1 when filtering
     if (key !== "page") {
       newParams.set("page", "1");
@@ -103,13 +106,13 @@ const Designers = () => {
                 </div>
               </div>
               
-              <Select value={verified || ""} onValueChange={(value) => updateFilter("verified", value)}>
+              <Select value={verified || undefined} onValueChange={(value) => updateFilter("verified", value)}>
                 <SelectTrigger className="w-full md:w-48">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="All Designers" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Designers</SelectItem>
+                  <SelectItem value="all">All Designers</SelectItem>
                   <SelectItem value="true">Verified Only</SelectItem>
                 </SelectContent>
               </Select>

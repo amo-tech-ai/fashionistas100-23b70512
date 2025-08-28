@@ -114,10 +114,12 @@ const Events = () => {
 
   const updateFilter = useCallback((key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (value) {
-      newParams.set(key, value);
-    } else {
+    
+    // Handle special "all" values
+    if (value === "all" || !value) {
       newParams.delete(key);
+    } else {
+      newParams.set(key, value);
     }
     
     // Reset to page 1 when filters change (except page changes)
@@ -177,13 +179,13 @@ const Events = () => {
                 </div>
               </div>
               
-              <Select value={city} onValueChange={(value) => updateFilter("city", value)}>
+              <Select value={city || undefined} onValueChange={(value) => updateFilter("city", value)}>
                 <SelectTrigger className="w-full md:w-48">
                   <MapPin className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="All Cities" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Cities</SelectItem>
+                  <SelectItem value="all">All Cities</SelectItem>
                   <SelectItem value="Milan">Milan</SelectItem>
                   <SelectItem value="Paris">Paris</SelectItem>
                   <SelectItem value="New York">New York</SelectItem>
