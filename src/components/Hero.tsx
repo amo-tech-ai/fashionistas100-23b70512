@@ -32,7 +32,7 @@ export const Hero = () => {
 
           {/* Main Heading - Thin and elegant styling */}
           <div className="space-y-6">
-            <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-thin text-white leading-tight drop-shadow-lg text-left">
+            <h1 className="font-inter text-3xl md:text-4xl lg:text-5xl font-thin text-white leading-tight drop-shadow-lg text-left">
               Where Style
               <span className="block text-white drop-shadow-lg">Meets Excellence</span>
             </h1>
@@ -43,11 +43,11 @@ export const Hero = () => {
           </div>
 
           {/* CTA Buttons - Minimalist styling */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-start pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link to="/events">
               <Button 
-                size="xl" 
-                className="font-inter h-16 px-10 text-lg bg-white text-black hover:bg-gray-100 transition-all duration-300"
+                size="lg" 
+                className="font-inter h-12 px-8 text-base bg-white text-black hover:bg-gray-100 transition-all duration-300"
               >
                 <Calendar className="w-5 h-5 mr-2" />
                 Explore Events
@@ -56,8 +56,8 @@ export const Hero = () => {
             <Link to="/designers">
               <Button 
                 variant="outline" 
-                size="xl" 
-                className="font-inter h-16 px-10 text-lg border-2 border-black bg-black text-white hover:bg-gray-900 hover:border-gray-800 transition-all duration-300"
+                size="lg" 
+                className="font-inter h-12 px-8 text-base border-2 border-black bg-black text-white hover:bg-gray-900 hover:border-gray-800 transition-all duration-300"
               >
                 <MapPin className="w-5 h-5 mr-2" />
                 Find Designers
