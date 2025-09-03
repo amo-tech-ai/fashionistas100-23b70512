@@ -1,4 +1,4 @@
-import { useSession } from '@clerk/clerk-react'
+import { useAuth } from '@/components/auth/AuthProvider'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useMemo, useState } from 'react'
 import type { Database } from '@/integrations/supabase/types'

@@ -1,4 +1,4 @@
-import { useUser } from '@clerk/clerk-react'
+import { useAuth } from '@/components/auth/AuthProvider'
 import { Navigation } from '@/components/Navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -245,9 +245,9 @@ function AdminDashboard() {
 }
 
 export default function Dashboard() {
-  const { user, isLoaded } = useUser()
+  const { user, loading } = useAuth()
   
-  if (!isLoaded) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -258,8 +258,8 @@ export default function Dashboard() {
     )
   }
   
-  const role = user?.unsafeMetadata?.role as string || 'fashion_enthusiast'
-  const userName = user?.firstName || user?.emailAddresses[0]?.emailAddress || 'User'
+  const role = user?.user_metadata?.role || 'fashion_enthusiast'
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'
   
   const getRoleDisplay = (role: string) => {
     const roleMap: Record<string, string> = {

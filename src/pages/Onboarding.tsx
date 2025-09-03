@@ -12,7 +12,7 @@ import { Navigation } from '@/components/Navigation'
 import { Users, Palette, Calendar, Building2 } from 'lucide-react'
 
 export default function Onboarding() {
-  const { user } = useUser()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
