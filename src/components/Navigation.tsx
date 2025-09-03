@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, Calendar, Users, Ticket, Building2, Mail, Info, LogOut } from "lucide-react";
+import { Menu, X, Calendar, Users, Ticket, Building2, Mail, Info } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/components/auth/AuthProvider";
-import { LoginDialog } from "@/components/auth/LoginDialog";
+import { useAuth, UserButton, SignInButton } from "@clerk/clerk-react";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
 
   const navigationItems = [
     { name: "Events", href: "/events", icon: Calendar },
@@ -47,32 +46,33 @@ export const Navigation = () => {
 
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-3">
-            {user ? (
+            {isLoaded && (
               <>
-                <span className="text-sm text-muted-foreground">
-                  {user.email}
-                </span>
-                <Button variant="outline" size="sm" asChild>
-                  <Link to="/admin">Admin</Link>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={signOut}
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </Button>
+                {isSignedIn ? (
+                  <>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link to="/dashboard">Dashboard</Link>
+                    </Button>
+                    <UserButton 
+                      afterSignOutUrl="/"
+                      appearance={{
+                        elements: {
+                          avatarBox: "w-8 h-8"
+                        }
+                      }}
+                    />
+                  </>
+                ) : (
+                  <SignInButton mode="modal">
+                    <Button variant="outline">
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                )}
               </>
-            ) : (
-              <LoginDialog>
-                <Button variant="outline">
-                  Sign In
-                </Button>
-              </LoginDialog>
             )}
-            <Button variant="hero" className="font-inter">
-              Get Tickets
+            <Button variant="hero" className="font-inter" asChild>
+              <Link to="/tickets">Get Tickets</Link>
             </Button>
           </div>
 
