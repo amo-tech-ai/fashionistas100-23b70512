@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			spacing: {
+				'18': '4.5rem',
+				'22': '5.5rem',
+			},
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif'],
 				'playfair': ['Playfair Display', 'serif'],

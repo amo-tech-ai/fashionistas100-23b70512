@@ -7,6 +7,7 @@ import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Star, ExternalLink, Globe, Instagram } from "lucide-react";
 import { listDesigners, Designer } from "@/services/designerService";
+import { fashionImages } from "@/lib/cloudinary";
 import designerSpotlightImage from "@/assets/designer-spotlight.jpg";
 
 export const DesignerSpotlight = () => {
@@ -87,9 +88,13 @@ export const DesignerSpotlight = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
               <img
-                src={designerSpotlightImage}
+                src={featuredDesigner?.profileImage || fashionImages.designers[0] || designerSpotlightImage}
                 alt="Designer Spotlight"
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = designerSpotlightImage;
+                }}
               />
               <div className="absolute top-4 left-4">
                 <Badge className="bg-primary text-primary-foreground">
@@ -113,15 +118,35 @@ export const DesignerSpotlight = () => {
                 </p>
               </div>
 
-              {featuredDesigner.portfolioUrls.length > 0 && (
+              {featuredDesigner.portfolioUrls.length > 0 ? (
                 <div>
                   <h4 className="font-semibold mb-3">Recent Work</h4>
                   <div className="grid grid-cols-3 gap-3">
                     {featuredDesigner.portfolioUrls.slice(0, 3).map((url, index) => (
                       <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
                         <img
-                          src={url}
+                          src={url || fashionImages.gallery[index]}
                           alt={`${featuredDesigner.brandName} portfolio ${index + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = fashionImages.gallery[index] || designerSpotlightImage;
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h4 className="font-semibold mb-3">Gallery</h4>
+                  <div className="grid grid-cols-3 gap-3">
+                    {fashionImages.gallery.slice(0, 3).map((url, index) => (
+                      <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
+                        <img
+                          src={url}
+                          alt={`Fashion gallery ${index + 1}`}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                         />

@@ -5,6 +5,7 @@ import { Calendar, MapPin, User, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { EventSummary } from "@/services/eventService";
 import { useImageResolver } from "@/hooks/useImageResolver";
+import { fashionImages } from "@/lib/cloudinary";
 
 interface EventCardProps {
   event: EventSummary;
@@ -12,6 +13,13 @@ interface EventCardProps {
 
 export const EventCard = ({ event }: EventCardProps) => {
   const { resolveImage } = useImageResolver();
+  
+  // Get a random Cloudinary image as fallback
+  const getFallbackImage = () => {
+    const randomIndex = Math.floor(Math.random() * fashionImages.events.length);
+    return fashionImages.events[randomIndex];
+  };
+  
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
     return date.toLocaleDateString('en-US', { 
@@ -40,11 +48,15 @@ export const EventCard = ({ event }: EventCardProps) => {
       <Card className="group overflow-hidden bg-gradient-card hover:shadow-hover transition-smooth cursor-pointer h-full">
         <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
           <img 
-            src={resolveImage(event.heroImage)} 
+            src={event.heroImage ? resolveImage(event.heroImage) : getFallbackImage()} 
             alt={event.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = getFallbackImage();
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="absolute top-3 left-3 sm:top-4 sm:left-4">

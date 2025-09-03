@@ -3,17 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero-runway-new.jpg";
+import { fashionImages } from "@/lib/cloudinary";
+// Fallback to local image if Cloudinary fails
+import heroImageFallback from "@/assets/hero-runway-new.jpg";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero -mt-16 lg:-mt-20">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 
-          src={heroImage} 
+          src={fashionImages.hero.main || heroImageFallback} 
           alt="Fashion runway show"
           className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = heroImageFallback;
+          }}
         />
         {/* Dark overlay for better text contrast */}
         <div className="absolute inset-0 bg-black/50"></div>

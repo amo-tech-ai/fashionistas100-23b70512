@@ -5,7 +5,7 @@ const Tickets = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="container mx-auto px-4 py-8">
+      <main className="pt-16 lg:pt-20 container mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-playfair font-bold text-foreground mb-4">
             Fashion Show Tickets

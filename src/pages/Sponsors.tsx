@@ -30,10 +30,10 @@ const Sponsors = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main>
+      <main className="pt-16 lg:pt-20 pt-16 lg:pt-20">
         {/* Hero Section */}
         <section className="relative py-20 bg-gradient-to-r from-primary/10 to-accent/10">
-          <div className="container mx-auto px-4">
+          <div className="container mt-16 lg:mt-20 mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h1 className="text-4xl lg:text-5xl font-playfair font-bold mb-6">
@@ -69,7 +69,7 @@ const Sponsors = () => {
           </div>
         </section>
 
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mt-16 lg:mt-20 mx-auto px-4 py-12">
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {sponsorTiers.map((sponsor, index) => (

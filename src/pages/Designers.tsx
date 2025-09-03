@@ -90,7 +90,7 @@ const Designers = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 mt-16 lg:mt-20">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold font-playfair mb-4">Fashion Designers</h1>

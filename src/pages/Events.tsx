@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navigation } from "@/components/Navigation";
 import { listPublishedEvents, EventSummary } from "@/services/eventService";
+import { fashionImages } from "@/lib/cloudinary";
 
 const EVENTS_PER_PAGE = 12;
 
@@ -157,13 +158,47 @@ const Events = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
         <Navigation />
+        
+        {/* Hero Section with Cloudinary Images - Adjusted for fixed nav */}
+        <div className="relative h-[400px] overflow-hidden bg-black mt-16 lg:mt-20">
+          <div className="absolute inset-0 grid grid-cols-3 gap-1 opacity-60">
+            {fashionImages.events.slice(0, 3).map((image, index) => (
+              <div key={index} className="relative overflow-hidden">
+                <img 
+                  src={image} 
+                  alt={`Fashion event ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
+          <div className="relative z-10 h-full flex items-center justify-center text-center">
+            <div className="space-y-4">
+              <h1 className="text-5xl md:text-6xl font-playfair font-bold text-white">
+                Fashion Events
+              </h1>
+              <p className="text-xl text-white/90 max-w-2xl mx-auto px-4">
+                Discover upcoming fashion shows, exhibitions, and exclusive events worldwide
+              </p>
+              <div className="flex justify-center gap-4 pt-4">
+                <div className="text-white/80">
+                  <span className="text-3xl font-bold">{allEvents.length}</span>
+                  <span className="ml-2">Events Available</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className="container mx-auto px-4 py-8">
-          {/* Header */}
+          {/* Header - Updated */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold font-playfair mb-4">Fashion Events</h1>
-            <p className="text-lg text-muted-foreground">
-              Discover upcoming fashion shows, exhibitions, and exclusive events
-            </p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+              <Calendar className="h-4 w-4" />
+              <span>Showing {filteredEvents.length} upcoming events</span>
+            </div>
           </div>
 
           {/* Filters */}

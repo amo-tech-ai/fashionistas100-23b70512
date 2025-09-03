@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment
+.env.local
+.env.production.local
+
+# Build
+dist/
+dist-ssr/
+
+# Scripts
+*.sh
+check-*.mjs
+add-*.mjs
+add-*.js
+
+# Logs
+*.log

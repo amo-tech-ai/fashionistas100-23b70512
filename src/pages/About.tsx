@@ -14,7 +14,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="container mx-auto px-4 py-8">
+      <main className="pt-16 lg:pt-20 container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-playfair font-bold text-foreground mb-6">
