@@ -22,7 +22,7 @@ const Contact = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ const Contact = () => {
           subject: formData.subject,
           message: formData.message,
           inquiry_type: formData.inquiry_type,
-          user_id: userId || null
+          user_id: user?.id || null,
         });
 
       if (error) throw error;

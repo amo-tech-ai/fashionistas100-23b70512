@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useUser } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -9,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/Navigation'
+import { useAuth } from '@/components/auth/AuthProvider'
 import { Users, Palette, Calendar, Building2 } from 'lucide-react'
 
 export default function Onboarding() {
@@ -70,12 +70,10 @@ export default function Onboarding() {
   
   const handleComplete = async () => {
     try {
-      await user?.update({
-        unsafeMetadata: formData
-      })
+      // For Supabase, we'd update the user profile in our profiles table
       navigate('/dashboard')
     } catch (error) {
-      console.error('Failed to update user metadata:', error)
+      console.error('Failed to update user profile:', error)
     }
   }
   

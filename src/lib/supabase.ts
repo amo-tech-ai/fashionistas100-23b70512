@@ -8,18 +8,15 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // Client-side hook
 export function useSupabase() {
-  const { session } = useSession()
+  const { session } = useAuth()
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    let isMounted = true
-    const fetchToken = async () => {
-      const t = await session?.getToken()
-      if (isMounted) setToken(t ?? null)
-    }
-    fetchToken()
-    return () => {
-      isMounted = false
+    // For Supabase auth, we can use the session access_token directly
+    if (session?.access_token) {
+      setToken(session.access_token)
+    } else {
+      setToken(null)
     }
   }, [session])
 
