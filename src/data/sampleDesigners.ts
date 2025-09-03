@@ -63,5 +63,53 @@ export const sampleDesigners: Designer[] = [
       website: 'laurentparis.com',
       instagram: '@laurentparis'
     }
+  },
+  {
+    id: '4',
+    name: 'Marcus Thompson',
+    brand: 'Thompson Tailoring',
+    specialty: 'Menswear',
+    experience: 'Established',
+    city: 'London',
+    bio: 'Marcus Thompson crafts bespoke menswear that combines Savile Row tradition with contemporary innovation.',
+    image: '/src/assets/runway-1.jpg',
+    portfolio: ['/src/assets/runway-2.jpg', '/src/assets/runway-6.jpg'],
+    contact: {
+      email: 'marcus@thompsontailoring.com',
+      website: 'thompsontailoring.com',
+      instagram: '@thompsontailoring'
+    }
+  },
+  {
+    id: '5',
+    name: 'Yuki Tanaka',
+    brand: 'Tanaka Avant-Garde',
+    specialty: 'Avant-Garde',
+    experience: 'Emerging',
+    city: 'Tokyo',
+    bio: 'Yuki Tanaka pushes the boundaries of fashion with experimental designs that blur the line between art and clothing.',
+    image: '/src/assets/runway-2.jpg',
+    portfolio: ['/src/assets/runway-3.jpg', '/src/assets/runway-4.jpg'],
+    contact: {
+      email: 'yuki@tanaka-ag.com',
+      website: 'tanaka-ag.com',
+      instagram: '@tanaka_avantgarde'
+    }
+  },
+  {
+    id: '6',
+    name: 'Isabella Rodriguez',
+    brand: 'Rodriguez Bridal',
+    specialty: 'Bridal',
+    experience: 'Luxury',
+    city: 'Barcelona',
+    bio: 'Isabella Rodriguez creates dream wedding gowns that combine Spanish romance with modern sophistication.',
+    image: '/src/assets/runway-6.jpg',
+    portfolio: ['/src/assets/runway-1.jpg', '/src/assets/runway-5.jpg'],
+    contact: {
+      email: 'isabella@rodriguezbridal.com',
+      website: 'rodriguezbridal.com',
+      instagram: '@rodriguezbridal'
+    }
   }
 ];
