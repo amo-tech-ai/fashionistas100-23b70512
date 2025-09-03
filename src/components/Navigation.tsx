@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, Calendar, Users, Ticket, Building2, Mail, Info } from "lucide-react";
+import { Menu, X, Calendar, Users, Ticket, Building2, Mail, Info, LogOut, User } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuth, UserButton, SignInButton } from "@clerk/clerk-react";
+import { useAuth } from "@/components/auth/AuthProvider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isSignedIn, isLoaded } = useAuth();
+  const { user, loading, signOut } = useAuth();
 
   const navigationItems = [
     { name: "Events", href: "/events", icon: Calendar },
@@ -46,28 +53,41 @@ export const Navigation = () => {
 
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-3">
-            {isLoaded && (
+            {!loading && (
               <>
-                {isSignedIn ? (
+                {user ? (
                   <>
                     <Button variant="outline" size="sm" asChild>
                       <Link to="/dashboard">Dashboard</Link>
                     </Button>
-                    <UserButton 
-                      afterSignOutUrl="/"
-                      appearance={{
-                        elements: {
-                          avatarBox: "w-8 h-8"
-                        }
-                      }}
-                    />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                          <Avatar className="h-8 w-8">
+                            <AvatarFallback className="bg-gradient-primary text-white">
+                              {user.email?.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56" align="end" forceMount>
+                        <DropdownMenuItem asChild>
+                          <Link to="/dashboard" className="flex items-center">
+                            <User className="mr-2 h-4 w-4" />
+                            Dashboard
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={signOut}>
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Sign Out
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </>
                 ) : (
-                  <SignInButton mode="modal">
-                    <Button variant="outline">
-                      Sign In
-                    </Button>
-                  </SignInButton>
+                  <Button variant="outline" asChild>
+                    <Link to="/auth">Sign In</Link>
+                  </Button>
                 )}
               </>
             )}

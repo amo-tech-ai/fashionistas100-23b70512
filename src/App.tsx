@@ -20,6 +20,7 @@ import Dashboard from "./pages/Dashboard";
 import Onboarding from "./pages/Onboarding";
 import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
+import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/Dashboard";
 import NotFound from "./pages/NotFound";
 
@@ -59,6 +60,7 @@ const App = () => {
               <Route path="/assessment" element={<Assessment />} />
               
               {/* Auth Routes */}
+              <Route path="/auth" element={<Auth />} />
               <Route path="/sign-in" element={<SignInPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
               

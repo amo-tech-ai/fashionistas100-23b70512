@@ -1,27 +1,29 @@
-import { useUser } from '@clerk/clerk-react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Shield } from 'lucide-react'
+import { useAuth } from '@/components/auth/AuthProvider';
+import { Card, CardContent } from '@/components/ui/card';
+import { Shield } from 'lucide-react';
 
 interface RoleGuardProps {
-  allowedRoles: string[]
-  children: React.ReactNode
-  fallback?: React.ReactNode
+  allowedRoles: string[];
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
 }
 
 export function RoleGuard({ allowedRoles, children, fallback }: RoleGuardProps) {
-  const { user, isLoaded } = useUser()
+  const { user, loading } = useAuth();
   
-  if (!isLoaded) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[200px]">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
-    )
+    );
   }
   
-  const role = user?.unsafeMetadata?.role as string || 'fashion_enthusiast'
+  // For now, allow access to all authenticated users
+  // In a real app, you'd check user roles from user metadata
+  const userRole = user?.user_metadata?.role || 'fashion_enthusiast';
   
-  if (!allowedRoles.includes(role)) {
+  if (!allowedRoles.includes(userRole)) {
     return fallback || (
       <Card className="max-w-md mx-auto mt-8">
         <CardContent className="text-center p-8">
@@ -32,8 +34,8 @@ export function RoleGuard({ allowedRoles, children, fallback }: RoleGuardProps) 
           </p>
         </CardContent>
       </Card>
-    )
+    );
   }
   
-  return <>{children}</>
+  return <>{children}</>;
 }
