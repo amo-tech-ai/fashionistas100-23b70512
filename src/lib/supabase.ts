@@ -1,6 +1,6 @@
 import { useSession } from '@clerk/clerk-react'
 import { createClient } from '@supabase/supabase-js'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Database } from '@/integrations/supabase/types'
 
 const SUPABASE_URL = "https://vuvfqjhkppmbdeqsflbn.supabase.co"
@@ -9,29 +9,41 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // Client-side hook
 export function useSupabase() {
   const { session } = useSession()
-  
-  const client = useMemo(() => {
-    return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      global: {
-        headers: async () => {
-          const token = await session?.getToken()
-          return token ? { Authorization: `Bearer ${token}` } : {}
-        }
-      }
-    })
+  const [token, setToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+    const fetchToken = async () => {
+      const t = await session?.getToken()
+      if (isMounted) setToken(t ?? null)
+    }
+    fetchToken()
+    return () => {
+      isMounted = false
+    }
   }, [session])
-  
+
+  const client = useMemo(() => {
+    const headers: Record<string, string> = token
+      ? { Authorization: `Bearer ${token}` }
+      : {}
+    return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { headers },
+    })
+  }, [token])
+
   return client
 }
 
 // Server-side function for API routes
-export function createServerSupabaseClient(getToken: () => Promise<string | null>) {
+export async function createServerSupabaseClient(
+  getToken: () => Promise<string | null>
+) {
+  const token = await getToken()
+  const headers: Record<string, string> = token
+    ? { Authorization: `Bearer ${token}` }
+    : {}
   return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    global: {
-      headers: async () => {
-        const token = await getToken()
-        return token ? { Authorization: `Bearer ${token}` } : {}
-      }
-    }
+    global: { headers },
   })
 }
