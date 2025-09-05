@@ -106,6 +106,15 @@ export default function App() {
                   <OrganizerDashboard />
                 </ProtectedRoute>
               } />
+              <Route path="/organizer-dashboard" element={
+                <ProtectedRoute>
+                  <OrganizerDashboard />
+                </ProtectedRoute>
+              } />
+              {/* Public test routes for dashboard previews */}
+              <Route path="/organizer-preview" element={<OrganizerDashboard />} />
+              <Route path="/user-preview" element={<UserDashboard />} />
+              <Route path="/sponsor-preview" element={<SponsorDashboard />} />
               <Route path="/admin/user" element={
                 <ProtectedRoute>
                   <UserDashboard />
