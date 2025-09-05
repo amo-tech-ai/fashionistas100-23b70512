@@ -60,7 +60,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-            <Badge variant={getCategoryVariant() as any} className="font-inter text-xs">
+            <Badge variant={getCategoryVariant() as "default" | "secondary" | "destructive" | "outline"} className="font-inter text-xs">
               Event
             </Badge>
           </div>

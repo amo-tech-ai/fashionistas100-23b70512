@@ -158,7 +158,6 @@ export function subscribeToEventUpdates(eventId: number) {
   // Subscribe to Leap WebSocket for real-time event updates
   const unsubscribe = leapClient.realtime.subscribeToEventUpdates((update) => {
     if (update.eventId === eventId) {
-      console.log('Event update received:', update);
       
       // Update local state or trigger UI updates
       // You could also sync this with Supabase if needed

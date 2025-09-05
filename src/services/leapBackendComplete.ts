@@ -198,12 +198,10 @@ export const leapBackend = {
       const ws = new WebSocket(`ws://localhost:4000/realtime`);
       
       ws.onopen = () => {
-        console.log('Connected to Leap realtime service');
       };
       
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log('Realtime update:', data);
       };
       
       return ws;

@@ -50,7 +50,6 @@ export const ProductionPlanning = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Production plan:', { ...formData, tasks });
     navigate('/admin/leap');
   };
 

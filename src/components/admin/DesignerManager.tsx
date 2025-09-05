@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,7 @@ interface Designer {
   bio: string | null;
   website_url: string | null;
   portfolio_urls: string[];
-  social_links: any;
+  social_links: Record<string, unknown>;
   is_verified: boolean;
   created_at: string;
   updated_at: string;
@@ -48,7 +48,7 @@ export const DesignerManager = () => {
 
       if (error) throw error;
       setDesigners(data || []);
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error fetching designers',
         description: error.message,
@@ -86,7 +86,7 @@ export const DesignerManager = () => {
       });
 
       fetchDesigners();
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error updating designer',
         description: error.message,
@@ -116,7 +116,7 @@ export const DesignerManager = () => {
       });
 
       fetchDesigners();
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error deleting designer',
         description: error.message,

@@ -65,7 +65,6 @@ export const AddSponsor = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Sponsor data:', formData);
     navigate('/admin/sponsor');
   };
 

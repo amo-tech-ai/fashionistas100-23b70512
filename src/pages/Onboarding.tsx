@@ -8,11 +8,11 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Navigation } from '@/components/Navigation'
-import { useAuth } from '@/components/auth/AuthProvider'
+import { useUser } from '@clerk/clerk-react'
 import { Users, Palette, Calendar, Building2 } from 'lucide-react'
 
 export default function Onboarding() {
-  const { user } = useAuth()
+  const { user } = useUser()
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({

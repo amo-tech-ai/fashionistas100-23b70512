@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,11 +38,7 @@ export const ContactManager = () => {
   const { toast } = useToast();
   const { logAdminAction } = useAdmin();
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -52,21 +48,25 @@ export const ContactManager = () => {
 
       if (error) throw error;
       setContacts(data || []);
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error fetching contacts',
-        description: error.message,
+        description: error.message as string,
         variant: 'destructive'
       });
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    fetchContacts();
+  }, [fetchContacts]);
 
   const handleUpdateStatus = async (contactId: string, newStatus: string) => {
     try {
       const contact = contacts.find(c => c.id === contactId);
-      const updates: any = { status: newStatus };
+      const updates: Record<string, unknown> = { status: newStatus };
       
       if (newStatus === 'resolved') {
         updates.resolved_at = new Date().toISOString();
@@ -89,7 +89,7 @@ export const ContactManager = () => {
       });
 
       fetchContacts();
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error updating status',
         description: error.message,

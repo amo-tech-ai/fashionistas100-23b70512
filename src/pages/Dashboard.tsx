@@ -1,4 +1,4 @@
-import { useAuth } from '@/components/auth/AuthProvider'
+import { useUser } from '@clerk/clerk-react'
 import { Navigation } from '@/components/Navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -245,9 +245,9 @@ function AdminDashboard() {
 }
 
 export default function Dashboard() {
-  const { user, loading } = useAuth()
+  const { user, isLoaded } = useUser()
   
-  if (loading) {
+  if (!isLoaded) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />

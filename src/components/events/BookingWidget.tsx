@@ -167,7 +167,7 @@ export const BookingWidget = ({ event, tickets, className }: BookingWidgetProps)
         description: `Your booking reference is ${booking.booking_reference}`,
       });
 
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error('Booking error:', error);
       toast({
         title: "Booking failed",

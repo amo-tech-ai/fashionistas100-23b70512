@@ -31,7 +31,6 @@ export const GroupBooking = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Group booking data:', { ...formData, members });
     navigate('/admin/leap');
   };
 

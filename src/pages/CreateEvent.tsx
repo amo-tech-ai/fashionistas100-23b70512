@@ -80,7 +80,6 @@ export const CreateEvent = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Event data:', formData);
     // TODO: Submit to backend
     navigate('/admin/events');
   };

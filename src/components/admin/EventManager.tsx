@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -67,7 +67,7 @@ export const EventManager = () => {
 
       if (error) throw error;
       setEvents(data || []);
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error fetching events',
         description: error.message,
@@ -88,7 +88,7 @@ export const EventManager = () => {
 
       if (error) throw error;
       setVenues(data || []);
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       console.error('Error fetching venues:', error);
     }
   };
@@ -116,7 +116,7 @@ export const EventManager = () => {
       setShowEventDialog(false);
       resetForm();
       fetchEvents();
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error creating event',
         description: error.message,
@@ -149,7 +149,7 @@ export const EventManager = () => {
       setEditingEvent(null);
       resetForm();
       fetchEvents();
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error updating event',
         description: error.message,
@@ -179,7 +179,7 @@ export const EventManager = () => {
       });
 
       fetchEvents();
-    } catch (error: any) {
+    } catch (error: Record<string, unknown>) {
       toast({
         title: 'Error deleting event',
         description: error.message,

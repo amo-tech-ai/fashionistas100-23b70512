@@ -372,7 +372,7 @@ export const ProgressAssessment = () => {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-foreground">{item.item}</span>
-                            <Badge variant={getStatusVariant(item.status) as any} className="text-xs">
+                            <Badge variant={getStatusVariant(item.status) as "default" | "secondary" | "destructive" | "outline"} className="text-xs">
                               {item.status}
                             </Badge>
                             <Badge 

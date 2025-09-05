@@ -230,7 +230,7 @@ export async function listPublishedEvents(options?: {
     }
 
     return { data: result, error: null };
-  } catch (e: any) {
+  } catch (e: unknown) {
     return { data: [], error: e?.message || "Unknown error" };
   }
 }
@@ -326,7 +326,7 @@ export async function getEventById(eventId: string): Promise<{ data: EventSummar
     };
 
     return { data: eventSummary, error: null };
-  } catch (e: any) {
+  } catch (e: unknown) {
     return { data: null, error: e?.message || "Unknown error" };
   }
 }

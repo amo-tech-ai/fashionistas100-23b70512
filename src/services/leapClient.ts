@@ -109,7 +109,7 @@ export interface EventAnalytics {
   totalBookings: number;
   revenue: number;
   capacityUtilization: number;
-  demographics: any;
+  demographics: unknown;
 }
 
 export interface VenueAnalytics {
