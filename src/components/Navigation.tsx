@@ -33,6 +33,7 @@ export const Navigation = () => {
     { name: "Sponsors", href: "/sponsors" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
+    { name: "Dashboard", href: "/admin/leap" },
   ];
 
   const isActive = (href: string) => location.pathname === href;  return (

@@ -9,7 +9,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  base: '/fashionistas100-23b70512/', // GitHub repo name
+  // Remove base path for Vercel deployment
+  base: process.env.VERCEL ? '/' : '/fashionistas100-23b70512/',
   build: {
     outDir: 'dist',
     rollupOptions: {

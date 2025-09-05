@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashionOS Dashboard Viewer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a202c;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .status {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .status-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        .card h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+        }
+        .link-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+        .link-list li {
+            margin: 10px 0;
+        }
+        .link-list a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .link-list a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        .alert {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .iframe-container {
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 10px;
+        }
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 FashionOS Dashboard Viewer</h1>
+            <p style="color: #718096; font-size: 1.1rem; margin-top: 10px;">
+                Complete dashboard system for your Fashion platform
+            </p>
+            <div class="status">
+                <div class="status-item">✅ Frontend: Port 8083</div>
+                <div class="status-item">🔌 Backend: Leap Services</div>
+                <div class="status-item">💾 Database: Supabase</div>
+            </div>
+        </div>
+
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('dashboards')">Dashboards</button>
+            <button class="tab-button" onclick="showTab('admin')">Admin Pages</button>
+            <button class="tab-button" onclick="showTab('live')">Live Preview</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <h2>📊 Available Dashboards</h2>
+                    <ul class="link-list">
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/" target="_blank">🏠 Homepage</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/admin/leap" target="_blank">🎯 Leap Backend Dashboard</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/admin" target="_blank">👔 Admin Dashboard</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/dashboard" target="_blank">📈 User Dashboard</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/events" target="_blank">📅 Events Management</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/designers" target="_blank">👗 Designers Directory</a></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>🛠️ Backend Services</h2>
+                    <ul class="link-list">
+                        <li>✅ Event Management API</li>
+                        <li>✅ Booking System</li>
+                        <li>✅ Sponsor Management</li>
+                        <li>✅ Venue Analytics</li>
+                        <li>✅ ML Recommendations</li>
+                        <li>✅ Real-time WebSocket</li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <a href="http://localhost:4000" class="button" target="_blank">View API Docs</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>🎨 Frontend Features</h2>
+                    <ul class="link-list">
+                        <li>✅ Responsive Design</li>
+                        <li>✅ Modern Navigation</li>
+                        <li>✅ Authentication System</li>
+                        <li>✅ Dynamic Filters</li>
+                        <li>✅ Image Optimization</li>
+                        <li>✅ Form Validation</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Database</h2>
+                    <p style="color: #718096; margin-bottom: 15px;">Supabase PostgreSQL</p>
+                    <ul class="link-list">
+                        <li>3 Designers loaded</li>
+                        <li>Events table ready</li>
+                        <li>Users configured</li>
+                        <li>Real-time subscriptions</li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <a href="https://app.supabase.com/project/vuvfqjhkppmbdeqsflbn" class="button" target="_blank">Supabase Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboards Tab -->
+        <div id="dashboards" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h2>🎯 Leap Backend Dashboard</h2>
+                    <p style="color: #718096; margin-bottom: 15px;">Complete backend management system</p>
+                    <ul class="link-list">
+                        <li>Event creation and management</li>
+                        <li>Booking system with groups</li>
+                        <li>Sponsor tracking</li>
+                        <li>Venue analytics</li>
+                        <li>ML recommendations</li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <a href="http://localhost:8083/fashionistas100-23b70512/admin/leap" class="button" target="_blank">Open Dashboard</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>👔 Admin Dashboard</h2>
+                    <p style="color: #718096; margin-bottom: 15px;">Site administration panel</p>
+                    <ul class="link-list">
+                        <li>Content management</li>
+                        <li>User management</li>
+                        <li>Analytics overview</li>
+                        <li>Settings configuration</li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <a href="http://localhost:8083/fashionistas100-23b70512/admin" class="button" target="_blank">Open Admin</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📈 User Dashboard</h2>
+                    <p style="color: #718096; margin-bottom: 15px;">Personal user dashboard</p>
+                    <ul class="link-list">
+                        <li>Booking history</li>
+                        <li>Personal preferences</li>
+                        <li>Event recommendations</li>
+                        <li>Profile management</li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <a href="http://localhost:8083/fashionistas100-23b70512/dashboard" class="button" target="_blank">Open Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Pages Tab -->
+        <div id="admin" class="tab-content">
+            <div class="alert success">
+                <strong>Admin Features Active!</strong> All management pages are accessible.
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h2>📋 Content Management</h2>
+                    <ul class="link-list">
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/events" target="_blank">Events Manager</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/designers" target="_blank">Designers Manager</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/sponsors" target="_blank">Sponsors Manager</a></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>🔧 System Tools</h2>
+                    <ul class="link-list">
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/assessment" target="_blank">Progress Assessment</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/onboarding" target="_blank">User Onboarding</a></li>
+                        <li><a href="http://localhost:8083/fashionistas100-23b70512/auth" target="_blank">Authentication</a></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Analytics</h2>
+                    <ul class="link-list">
+                        <li>Event analytics</li>
+                        <li>Venue performance</li>
+                        <li>Sponsor ROI tracking</li>
+                        <li>User engagement metrics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Preview Tab -->
+        <div id="live" class="tab-content">
+            <div class="alert">
+                <strong>Live Preview:</strong> Your application running on port 8083
+            </div>
+            
+            <div class="iframe-container">
+                <iframe src="http://localhost:8083/fashionistas100-23b70512/" title="FashionOS Live"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        // Auto-refresh status check
+        setInterval(() => {
+            fetch('http://localhost:8083/fashionistas100-23b70512/')
+                .then(() => {
+                    document.querySelector('.status-item').textContent = '✅ Frontend: Port 8083';
+                })
+                .catch(() => {
+                    document.querySelector('.status-item').textContent = '❌ Frontend: Not running';
+                });
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashionOS Dashboard Links</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .link-grid {
+            display: grid;
+            gap: 15px;
+        }
+        a {
+            display: block;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .status {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f0f4f8;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .status.success {
+            background: #e6fffa;
+            color: #065f46;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 FashionOS Dashboard</h1>
+        
+        <div class="link-grid">
+            <a href="http://localhost:8081/fashionistas100-23b70512/" target="_blank">
+                🏠 Homepage
+            </a>
+            
+            <a href="http://localhost:8081/fashionistas100-23b70512/admin/leap" target="_blank">
+                🎯 Leap Backend Dashboard
+            </a>
+            
+            <a href="http://localhost:8081/fashionistas100-23b70512/events" target="_blank">
+                📅 Events Page
+            </a>
+            
+            <a href="http://localhost:8081/fashionistas100-23b70512/designers" target="_blank">
+                👗 Designers Page
+            </a>
+            
+            <a href="http://localhost:8081/fashionistas100-23b70512/tickets" target="_blank">
+                🎫 Tickets Page
+            </a>
+            
+            <a href="http://localhost:8081/fashionistas100-23b70512/sponsors" target="_blank">
+                💎 Sponsors Page
+            </a>
+        </div>
+        
+        <div class="status success">
+            ✅ Server running on port 8081<br>
+            Click any link above to access the pages
+        </div>
+    </div>
+</body>
+</html>
