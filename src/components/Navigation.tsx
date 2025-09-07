@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,8 @@ import { User, LogOut } from "lucide-react";
 import { 
   useAuth, 
   useUser, 
-  SignInButton, 
+  SignInButton,
+  SignUpButton,
   UserButton,
   SignedIn,
   SignedOut 
@@ -23,6 +24,7 @@ export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   
   // Use Clerk hooks
   const { isSignedIn } = useAuth();
@@ -43,8 +45,12 @@ export const Navigation = () => {
     { name: "Sponsors", href: "/sponsors" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Dashboard", href: "/admin/leap" },
   ];
+
+  // Add Dashboard link only if signed in
+  if (isSignedIn) {
+    navigationItems.push({ name: "Dashboard", href: "/dashboard" });
+  }
 
   const isActive = (href: string) => location.pathname === href;
 
@@ -60,6 +66,10 @@ export const Navigation = () => {
               src="/fashionistas-logo.png" 
               alt="Fashionistas" 
               className="h-10 lg:h-12 transition-transform duration-200 group-hover:scale-105"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = '<span class="text-2xl font-bold text-primary">Fashionistas</span>';
+              }}
             />
           </Link>
 
@@ -80,68 +90,94 @@ export const Navigation = () => {
             ))}
             
             {/* Auth Buttons */}
-            <div className="ml-4">
+            <div className="ml-4 flex items-center space-x-2">
               <SignedOut>
-                <div className="flex items-center space-x-2">
-                  <SignInButton mode="modal">
-                    <Button variant="outline" size="sm">
-                      Sign In
-                    </Button>
-                  </SignInButton>
+                <SignInButton mode="modal">
+                  <Button variant="outline" size="sm">
+                    Sign In
+                  </Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
                   <Button size="sm">
                     Sign Up
                   </Button>
-                </div>
+                </SignUpButton>
               </SignedOut>
               <SignedIn>
-                <UserButton afterSignOutUrl="/" />
+                <Link to="/dashboard">
+                  <Button variant="ghost" size="sm" className="mr-2">
+                    Dashboard
+                  </Button>
+                </Link>
+                <UserButton 
+                  afterSignOutUrl="/"
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8"
+                    }
+                  }}
+                />
               </SignedIn>
             </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          <div className="lg:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-700"
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-100">
-            <div className="space-y-1">
+          <div className="lg:hidden py-4 border-t">
+            <div className="flex flex-col space-y-2">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                  className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
                     isActive(item.href)
                       ? "text-primary bg-primary/10"
                       : "text-gray-700 hover:text-primary hover:bg-primary/5"
                   }`}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <SignedOut>
-                <div className="pt-4 space-y-2 border-t border-gray-100">
+              
+              {/* Mobile Auth Buttons */}
+              <div className="pt-4 border-t flex flex-col space-y-2">
+                <SignedOut>
                   <SignInButton mode="modal">
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button variant="outline" size="sm" className="w-full">
                       Sign In
                     </Button>
                   </SignInButton>
-                  <Button className="w-full" size="sm">
-                    Sign Up
-                  </Button>
-                </div>
-              </SignedOut>
+                  <SignUpButton mode="modal">
+                    <Button size="sm" className="w-full">
+                      Sign Up
+                    </Button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <div className="flex justify-center pt-2">
+                    <UserButton afterSignOutUrl="/" />
+                  </div>
+                </SignedIn>
+              </div>
             </div>
           </div>
         )}
