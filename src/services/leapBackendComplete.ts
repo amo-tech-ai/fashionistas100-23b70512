@@ -2,7 +2,17 @@
 // ======================================================
 
 // Define the API base URL based on environment
-const LEAP_BACKEND_URL = import.meta.env.VITE_LEAP_BACKEND_URL || 'http://localhost:4000';
+const getBackendUrl = () => {
+  if (import.meta.env.VITE_LEAP_BACKEND_URL) {
+    return import.meta.env.VITE_LEAP_BACKEND_URL;
+  }
+  if (import.meta.env.MODE === 'development') {
+    return 'http://localhost:4000';
+  }
+  return 'https://api.fashionos.com';
+};
+
+const LEAP_BACKEND_URL = getBackendUrl();
 
 // Initialize the Leap client with all your services
 export const leapBackend = {
@@ -195,7 +205,8 @@ export const leapBackend = {
   // REALTIME SERVICE - WebSocket connections
   realtime: {
     connect: () => {
-      const ws = new WebSocket(`ws://localhost:4000/realtime`);
+      const wsUrl = LEAP_BACKEND_URL.replace('http://', 'ws://').replace('https://', 'wss://');
+      const ws = new WebSocket(`${wsUrl}/realtime`);
       
       ws.onopen = () => {
       };

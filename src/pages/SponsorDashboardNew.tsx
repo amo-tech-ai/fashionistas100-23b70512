@@ -1,743 +1,660 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import DashboardLayout from '@/components/DashboardLayout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { 
+  Building2, 
+  DollarSign, 
+  Users, 
+  TrendingUp,
+  Plus,
+  FileText,
+  Calendar,
+  Mail,
+  Phone,
+  Globe,
+  MapPin,
+  BarChart3,
+  Target,
+  Award,
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  ArrowUpRight,
+  ArrowDownRight,
+  Eye,
+  Package,
+  Sparkles,
+  Briefcase,
+  Send,
+  MessageSquare,
+  Activity,
+  Filter,
+  Download,
+  Upload,
+  ChevronRight,
+  Star,
+  Zap,
+  Shield,
+  UserCheck,
+  Megaphone,
+  MoreVertical
+} from 'lucide-react';
+import { useSponsorDashboard } from '@/hooks/useSponsorDashboard';
+import { cn } from '@/lib/utils';
+import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import DashboardLayout from '@/components/DashboardLayout';
-import { 
-  Building2, Target, FileText, Package, Send, TrendingUp,
-  DollarSign, Users, Calendar, ChevronRight, Plus, Eye,
-  Mail, Phone, Star, ArrowUp, ArrowDown, MoreVertical,
-  Briefcase, Award, BarChart3, PieChart, CheckCircle,
-  Clock, AlertCircle, Megaphone, Handshake, Sparkles,
-  Filter, Search, Download, Upload, ExternalLink, Settings,
-  X, Check, Edit, Trash2
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 const SponsorDashboardNew = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const { 
+    sponsors, 
+    sponsorships,
+    packages,
+    activations,
+    metrics, 
+    recentActivity,
+    isLoading, 
+    error,
+    addSponsor,
+    createProposal
+  } = useSponsorDashboard();
+
   const [showAddSponsor, setShowAddSponsor] = useState(false);
   const [showCreateProposal, setShowCreateProposal] = useState(false);
 
-  // Mock data
-  const metrics = {
-    activeSponsors: 12,
-    totalValue: 420000,
-    prospects: 28,
-    hotLeads: 8,
-    proposals: 7,
-    pendingValue: 280000,
-    conversion: 42
+  const formatCurrency = (amount: number) => {
+    if (amount >= 1000000) {
+      return `$${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+      return `$${(amount / 1000).toFixed(0)}K`;
+    }
+    return `$${amount.toFixed(0)}`;
   };
 
-  // Mock sponsors data
-  const sponsors = [
-    {
-      id: 1,
-      name: 'Luxury Brand Co.',
-      package: 'Platinum Package',
-      value: 50000,
-      status: 'active',
-      events: 5,
-      roi: 285,
-      logo: '/api/placeholder/60/60'
-    },
-    {
-      id: 2,
-      name: 'Fashion Tech Inc.',
-      package: 'Gold Package',
-      value: 25000,
-      status: 'pending',
-      events: 3,
-      roi: 0,
-      logo: '/api/placeholder/60/60'
-    },
-    {
-      id: 3,
-      name: 'Beauty Partners',
-      package: 'Silver Package',
-      value: 15000,
-      status: 'active',
-      events: 2,
-      roi: 156,
-      logo: '/api/placeholder/60/60'
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) {
+      return `${(num / 1000000).toFixed(1)}M`;
+    } else if (num >= 1000) {
+      return `${(num / 1000).toFixed(0)}K`;
     }
-  ];
+    return num.toString();
+  };
 
-  // Mock prospects data
-  const prospects = [
-    {
-      id: 1,
-      company: 'Tech Fashion Co.',
-      contact: 'John Smith',
-      potential: 75000,
-      stage: 'Negotiation',
-      probability: 85,
-      nextAction: 'Send final proposal'
-    },
-    {
-      id: 2,
-      company: 'Eco Style Brand',
-      contact: 'Emma Davis',
-      potential: 35000,
-      stage: 'Qualification',
-      probability: 60,
-      nextAction: 'Schedule meeting'
-    },
-    {
-      id: 3,
-      company: 'Urban Wear Ltd.',
-      contact: 'Mike Johnson',
-      potential: 45000,
-      stage: 'Proposal',
-      probability: 70,
-      nextAction: 'Follow up call'
-    }
-  ];
-
-  // Mock proposals data
-  const proposals = [
-    {
-      id: 1,
-      company: 'Global Fashion House',
-      package: 'Custom Package',
-      value: 95000,
-      status: 'under_review',
-      submitted: '2 days ago',
-      deadline: '5 days'
-    },
-    {
-      id: 2,
-      company: 'Digital Style Co.',
-      package: 'Platinum Package',
-      value: 50000,
-      status: 'negotiating',
-      submitted: '1 week ago',
-      deadline: '3 days'
-    }
-  ];
-
-  // Mock packages data
-  const packages = [
-    {
-      id: 1,
-      name: 'Platinum',
-      price: 50000,
-      features: ['Logo on all materials', 'VIP booth', 'Speaking opportunity', '50 VIP tickets'],
-      popularity: 90,
-      available: 2
-    },
-    {
-      id: 2,
-      name: 'Gold',
-      price: 25000,
-      features: ['Logo placement', 'Standard booth', '20 VIP tickets', 'Social media'],
-      popularity: 75,
-      available: 5
-    },
-    {
-      id: 3,
-      name: 'Silver',
-      price: 15000,
-      features: ['Logo on website', '10 tickets', 'Newsletter mention'],
-      popularity: 60,
-      available: 8
-    }
-  ];
-
-  const getStageColor = (stage: string) => {
-    switch(stage.toLowerCase()) {
-      case 'negotiation': return 'text-purple-600 bg-purple-50';
-      case 'qualification': return 'text-blue-600 bg-blue-50';
-      case 'proposal': return 'text-green-600 bg-green-50';
-      default: return 'text-gray-600 bg-gray-50';
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'bg-green-500';
+      case 'negotiating': return 'bg-yellow-500';
+      case 'lead': return 'bg-blue-500';
+      case 'expired': return 'bg-gray-500';
+      case 'churned': return 'bg-red-500';
+      default: return 'bg-gray-400';
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch(status) {
-      case 'active': return 'bg-green-100 text-green-700 border-green-200';
-      case 'pending': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'under_review': return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'negotiating': return 'bg-purple-100 text-purple-700 border-purple-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'active': return <CheckCircle className="h-4 w-4" />;
+      case 'negotiating': return <Clock className="h-4 w-4" />;
+      case 'lead': return <AlertCircle className="h-4 w-4" />;
+      case 'expired': return <XCircle className="h-4 w-4" />;
+      default: return <AlertCircle className="h-4 w-4" />;
     }
   };
+
+  // Quick action items
+  const quickActions = [
+    { icon: Plus, label: 'Add Sponsor', onClick: () => setShowAddSponsor(true) },
+    { icon: FileText, label: 'Create Proposal', onClick: () => setShowCreateProposal(true) },
+    { icon: Send, label: 'Send Campaign', onClick: () => {} },
+    { icon: Download, label: 'Export Report', onClick: () => {} },
+  ];
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="container mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-          
-          {/* Header Section */}
-          <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">Sponsor Dashboard</h1>
-              <p className="text-gray-600 mt-2">Manage sponsors, proposals, and prospecting</p>
-            </div>
-            <div className="flex items-center gap-3">
+      <div className="p-6 space-y-6">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">Sponsor Dashboard</h1>
+            <p className="text-muted-foreground mt-1">
+              Manage sponsorships, track ROI, and discover opportunities
+            </p>
+          </div>
+          <Button 
+            onClick={() => setShowCreateProposal(true)}
+            className="bg-purple-600 hover:bg-purple-700"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Create Proposal
+          </Button>
+        </div>
+
+        {/* Metrics Grid - matching organizer colors */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white border-0">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Building2 className="h-4 w-4" />
+                Active Sponsors
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{metrics.activeSponsors}</div>
+              <p className="text-purple-100 text-xs mt-1">
+                {metrics.totalSponsors} total sponsors
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <DollarSign className="h-4 w-4" />
+                Total Investment
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatCurrency(metrics.totalInvestment)}</div>
+              <p className="text-green-100 text-xs mt-1 flex items-center gap-1">
+                <TrendingUp className="h-3 w-3" />
+                +{metrics.averageROI.toFixed(0)}% ROI
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-orange-500 to-orange-600 text-white border-0">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Megaphone className="h-4 w-4" />
+                Brand Reach
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatNumber(metrics.totalReach)}</div>
+              <p className="text-orange-100 text-xs mt-1 flex items-center gap-1">
+                <TrendingUp className="h-3 w-3" />
+                +23% growth
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-pink-500 to-pink-600 text-white border-0">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Opportunities
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{metrics.upcomingActivations}</div>
+              <p className="text-pink-100 text-xs mt-1">Upcoming events</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Sponsors List - Takes 2 columns on large screens */}
+          <Card className="lg:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-muted-foreground" />
+                <CardTitle>Current Sponsors ({sponsors.length})</CardTitle>
+              </div>
               <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200"
+                variant="ghost" 
+                size="icon"
                 onClick={() => setShowAddSponsor(true)}
               >
-                <Plus className="h-5 w-5 mr-2" />
-                Add Sponsor
+                <Plus className="h-4 w-4" />
               </Button>
-              <Button size="icon" variant="outline" className="bg-white shadow-md hover:shadow-lg">
-                <Settings className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Key Metrics Row - Using Organizer color scheme */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-8">
-            {/* Active Sponsors */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-500 to-blue-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <Building2 className="h-5 w-5 text-white" />
-                  </div>
-                  Active Sponsors
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">{metrics.activeSponsors}</div>
-                <p className="text-sm text-white/80">
-                  ${(metrics.totalValue/1000).toFixed(0)}K total value
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Prospects */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-500 to-emerald-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <Target className="h-5 w-5 text-white" />
-                  </div>
-                  Prospects
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">{metrics.prospects}</div>
-                <p className="text-sm text-white/80 flex items-center gap-1">
-                  <Sparkles className="h-3 w-3" />
-                  {metrics.hotLeads} hot leads
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Proposals */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-500 to-purple-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <FileText className="h-5 w-5 text-white" />
-                  </div>
-                  Proposals
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">{metrics.proposals}</div>
-                <p className="text-sm text-white/80">
-                  ${(metrics.pendingValue/1000).toFixed(0)}K potential
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Conversion */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-500 to-amber-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <TrendingUp className="h-5 w-5 text-white" />
-                  </div>
-                  Conversion
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">{metrics.conversion}%</div>
-                <p className="text-sm text-white/80">
-                  Lead to sponsor
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Tab Navigation - Minimal style */}
-          <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-            {['Sponsors', 'Prospects', 'Proposals', 'Packages', 'Outreach'].map((tab) => (
-              <Button
-                key={tab}
-                variant={activeFilter === tab.toLowerCase() ? 'default' : 'outline'}
-                size="sm"
-                className={cn(
-                  "whitespace-nowrap",
-                  activeFilter === tab.toLowerCase() 
-                    ? "bg-gray-900 text-white" 
-                    : "bg-white hover:bg-gray-50"
-                )}
-                onClick={() => setActiveFilter(tab.toLowerCase())}
-              >
-                {tab}
-              </Button>
-            ))}
-          </div>
-
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-            
-            {/* Left Column - Current Sponsors & Prospects */}
-            <div className="lg:col-span-8 space-y-6">
-              
-              {/* Current Sponsors Section */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100/50 border-b border-blue-200/30">
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center gap-3 text-blue-900">
-                      <Building2 className="h-5 w-5" />
-                      <span className="font-semibold">Current Sponsors</span>
-                    </span>
-                    <Button size="sm" variant="ghost">
-                      <Filter className="h-4 w-4 mr-2" />
-                      Filter
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    {sponsors.map((sponsor) => (
-                      <div 
-                        key={sponsor.id}
-                        className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 cursor-pointer"
-                      >
-                        <img 
-                          src={sponsor.logo} 
-                          alt={sponsor.name}
-                          className="w-14 h-14 rounded-lg object-cover border border-gray-100"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-semibold text-gray-900">{sponsor.name}</h4>
-                            <Badge className={cn("text-xs", getStatusBadge(sponsor.status))}>
-                              {sponsor.status}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-gray-600 mt-1">{sponsor.package} • ${(sponsor.value/1000).toFixed(0)}K</p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-sm text-gray-600">{sponsor.events} events</div>
-                          {sponsor.roi > 0 && (
-                            <div className="text-sm font-semibold text-green-600 flex items-center gap-1 justify-end mt-1">
-                              <TrendingUp className="h-3 w-3" />
-                              {sponsor.roi}% ROI
-                            </div>
+            </CardHeader>
+            <CardContent>
+              {sponsors.length === 0 ? (
+                <div className="text-center py-8">
+                  <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+                  <p className="text-muted-foreground mb-4">No sponsors yet</p>
+                  <Button 
+                    variant="outline"
+                    onClick={() => setShowAddSponsor(true)}
+                  >
+                    Add Your First Sponsor
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {sponsors.slice(0, 5).map((sponsor) => (
+                    <div 
+                      key={sponsor.id} 
+                      className="flex items-center justify-between p-3 rounded-lg border hover:bg-accent/50 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8">
+                          {sponsor.logo_url ? (
+                            <AvatarImage src={sponsor.logo_url} alt={sponsor.company_name} />
+                          ) : (
+                            <AvatarFallback>
+                              {sponsor.company_name?.substring(0, 2).toUpperCase()}
+                            </AvatarFallback>
                           )}
-                        </div>
-                        <Button size="sm" variant="ghost" onClick={() => alert(`Viewing sponsor: ${sponsor.name}`)}>
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
-                    <Button variant="outline" className="w-full border-dashed border-2 hover:border-blue-400 hover:bg-blue-50" size="sm" onClick={() => alert('Loading all sponsors...')}>
-                      View All Sponsors
-                      <ChevronRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Prospects Pipeline */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-green-50 to-green-100/50 border-b border-green-200/30">
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center gap-3 text-green-900">
-                      <Target className="h-5 w-5" />
-                      <span className="font-semibold">Prospects Pipeline</span>
-                    </span>
-                    <Badge className="bg-green-100 text-green-700">
-                      {metrics.hotLeads} hot
-                    </Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ScrollArea className="h-[300px] pr-4">
-                    <div className="space-y-3">
-                      {prospects.map((prospect) => (
-                        <div 
-                          key={prospect.id}
-                          className="p-4 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl hover:from-green-50 hover:to-green-100/30 transition-all duration-200 cursor-pointer border border-gray-200/50"
-                        >
-                          <div className="flex justify-between items-start mb-2">
-                            <div>
-                              <h4 className="font-semibold text-gray-900">{prospect.company}</h4>
-                              <p className="text-sm text-gray-600">{prospect.contact}</p>
-                            </div>
-                            <Badge className={cn("text-xs", getStageColor(prospect.stage))}>
-                              {prospect.stage}
-                            </Badge>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm font-semibold text-green-600">
-                              ${(prospect.potential/1000).toFixed(0)}K potential
-                            </span>
-                            <div className="flex items-center gap-2">
-                              <Progress value={prospect.probability} className="h-2 w-20" />
-                              <span className="text-xs text-gray-600">{prospect.probability}%</span>
-                            </div>
-                          </div>
-                          <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            Next: {prospect.nextAction}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Right Column - Proposals & Packages */}
-            <div className="lg:col-span-4 space-y-6">
-              
-              {/* Active Proposals */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100/50 border-b border-purple-200/30">
-                  <CardTitle className="flex items-center gap-3 text-purple-900">
-                    <FileText className="h-5 w-5" />
-                    <span className="font-semibold">Active Proposals</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="space-y-3">
-                    {proposals.map((proposal) => (
-                      <div 
-                        key={proposal.id}
-                        className="p-3 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-all"
-                      >
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-medium text-sm text-gray-900">{proposal.company}</h4>
-                          <Badge className={cn("text-xs", getStatusBadge(proposal.status))}>
-                            {proposal.status.replace('_', ' ')}
-                          </Badge>
-                        </div>
-                        <p className="text-xs text-gray-600 mb-1">{proposal.package}</p>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm font-bold text-purple-600">
-                            ${(proposal.value/1000).toFixed(0)}K
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {proposal.deadline} left
-                          </span>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">{sponsor.company_name}</p>
+                          <p className="text-sm text-muted-foreground">{sponsor.industry}</p>
                         </div>
                       </div>
-                    ))}
-                    <Button variant="outline" className="w-full" size="sm" onClick={() => setShowCreateProposal(true)}>
-                      Create Proposal
-                      <Plus className="h-3 w-3 ml-2" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Sponsorship Packages */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-orange-50 to-orange-100/50 border-b border-orange-200/30">
-                  <CardTitle className="flex items-center gap-3 text-orange-900">
-                    <Package className="h-5 w-5" />
-                    <span className="font-semibold">Sponsorship Packages</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="space-y-3">
-                    {packages.map((pkg) => (
-                      <div 
-                        key={pkg.id}
-                        onClick={() => alert(`Selected ${pkg.name} Package - $${(pkg.price/1000).toFixed(0)}K`)}
+                      <Badge 
+                        variant={sponsor.status === 'active' ? 'default' : 'secondary'}
                         className={cn(
-                          "p-3 rounded-lg border-2 transition-all cursor-pointer hover:shadow-md",
-                          pkg.name === 'Platinum' 
-                            ? "bg-gradient-to-r from-purple-50 to-pink-50 border-purple-300 hover:border-purple-400" 
-                            : "bg-white border-gray-200 hover:border-orange-300"
+                          sponsor.status === 'active' && "bg-green-500",
+                          sponsor.status === 'negotiating' && "bg-yellow-500",
+                          sponsor.status === 'lead' && "bg-blue-500"
                         )}
                       >
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <h4 className="font-semibold text-sm">{pkg.name} Package</h4>
-                            <p className="text-lg font-bold text-orange-600">
-                              ${(pkg.price/1000).toFixed(0)}K
-                            </p>
-                          </div>
-                          <Badge variant="secondary" className="text-xs">
-                            {pkg.available} left
-                          </Badge>
+                        {sponsor.status}
+                      </Badge>
+                    </div>
+                  ))}
+                  {sponsors.length > 5 && (
+                    <Button variant="ghost" className="w-full">
+                      View all sponsors
+                      <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Right Column - Stats & Activity */}
+          <div className="space-y-6">
+            {/* Quick Stats */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="h-5 w-5 text-muted-foreground" />
+                  Quick Stats
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="h-4 w-4 text-yellow-500" />
+                    <span className="text-sm">Pending Proposals</span>
+                  </div>
+                  <span className="text-2xl font-bold">{metrics.pendingProposals}</span>
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-orange-500" />
+                    <span className="text-sm">Expiring Soon</span>
+                  </div>
+                  <span className="text-2xl font-bold">{metrics.expiringContracts}</span>
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Target className="h-4 w-4 text-green-500" />
+                    <span className="text-sm">Active Campaigns</span>
+                  </div>
+                  <span className="text-2xl font-bold">{metrics.upcomingActivations}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-muted-foreground" />
+                  Recent Activity
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {recentActivity.length === 0 ? (
+                  <p className="text-muted-foreground text-center py-4">No recent activity</p>
+                ) : (
+                  <div className="space-y-3">
+                    {recentActivity.slice(0, 4).map((activity) => (
+                      <div key={activity.id} className="flex gap-3">
+                        <div className={cn(
+                          "h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0",
+                          activity.type === 'sponsor_added' && "bg-blue-100",
+                          activity.type === 'contract_signed' && "bg-green-100",
+                          activity.type === 'proposal_sent' && "bg-yellow-100"
+                        )}>
+                          {activity.type === 'sponsor_added' && <Plus className="h-4 w-4 text-blue-600" />}
+                          {activity.type === 'contract_signed' && <CheckCircle className="h-4 w-4 text-green-600" />}
+                          {activity.type === 'proposal_sent' && <FileText className="h-4 w-4 text-yellow-600" />}
                         </div>
-                        <Progress value={pkg.popularity} className="h-1.5 mb-2" />
-                        <p className="text-xs text-gray-600">
-                          {pkg.features.length} premium benefits
-                        </p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{activity.title}</p>
+                          <p className="text-xs text-muted-foreground">{activity.description}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Quick Outreach Actions */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-gray-900">
-                    <Send className="h-5 w-5" />
-                    <span className="font-semibold">Quick Outreach</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 space-y-2">
-                  <Button className="w-full justify-start" variant="outline" size="sm" onClick={() => alert('Launching email campaign...')}>
-                    <Mail className="h-4 w-4 mr-3" />
-                    Send Campaign
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline" size="sm" onClick={() => alert('Opening call scheduler...')}>
-                    <Phone className="h-4 w-4 mr-3" />
-                    Schedule Calls
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline" size="sm" onClick={() => alert('Starting outreach campaign...')}>
-                    <Megaphone className="h-4 w-4 mr-3" />
-                    Launch Outreach
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline" size="sm" onClick={() => alert('Exporting contacts to CSV...')}>
-                    <Download className="h-4 w-4 mr-3" />
-                    Export Contacts
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
+        </div>
 
-          {/* Add Sponsor Modal */}
-          <Dialog open={showAddSponsor} onOpenChange={setShowAddSponsor}>
-            <DialogContent className="sm:max-w-[525px]">
-              <DialogHeader>
-                <DialogTitle>Add New Sponsor</DialogTitle>
-                <DialogDescription>
-                  Add a new sponsor to your event. Fill in the details below.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="company" className="text-right">
-                    Company
-                  </Label>
-                  <Input
-                    id="company"
-                    placeholder="Enter company name"
-                    className="col-span-3"
-                  />
+        {/* Sponsor Packages */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Package className="h-5 w-5 text-muted-foreground" />
+                Sponsorship Packages
+              </CardTitle>
+              <Button variant="ghost" size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Package
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {packages.slice(0, 4).map((pkg) => (
+                <div 
+                  key={pkg.id} 
+                  className="p-4 rounded-lg border hover:shadow-md transition-shadow cursor-pointer"
+                >
+                  {pkg.visibility_level === 'premium' && (
+                    <Badge className="mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600">
+                      <Star className="h-3 w-3 mr-1" />
+                      Premium
+                    </Badge>
+                  )}
+                  <h4 className="font-semibold mb-1">{pkg.package_name}</h4>
+                  <p className="text-2xl font-bold text-primary mb-2">
+                    {formatCurrency(pkg.price)}
+                  </p>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Users className="h-3 w-3" />
+                      <span>Max {pkg.max_sponsors} sponsors</span>
+                    </div>
+                    {pkg.benefits && pkg.benefits.length > 0 && (
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <CheckCircle className="h-3 w-3 text-green-500" />
+                        <span>{pkg.benefits.length} benefits</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="contact" className="text-right">
-                    Contact
-                  </Label>
-                  <Input
-                    id="contact"
-                    placeholder="Contact person name"
-                    className="col-span-3"
-                  />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Analytics Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-muted-foreground" />
+                ROI Analysis
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm text-muted-foreground">Average ROI</span>
+                  <span className="text-sm font-medium">{metrics.averageROI.toFixed(1)}%</span>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="email" className="text-right">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="sponsor@company.com"
-                    className="col-span-3"
-                  />
+                <Progress value={metrics.averageROI} className="h-2" />
+              </div>
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm text-muted-foreground">Conversion Rate</span>
+                  <span className="text-sm font-medium">68%</span>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="package" className="text-right">
-                    Package
-                  </Label>
+                <Progress value={68} className="h-2" />
+              </div>
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm text-muted-foreground">Retention Rate</span>
+                  <span className="text-sm font-medium">85%</span>
+                </div>
+                <Progress value={85} className="h-2" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-muted-foreground" />
+                Performance Metrics
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">Total Reach</p>
+                  <p className="text-2xl font-bold">{formatNumber(metrics.totalReach)}</p>
+                  <p className="text-xs text-green-600 flex items-center gap-1">
+                    <ArrowUpRight className="h-3 w-3" />
+                    +23% vs last month
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">Engagement Rate</p>
+                  <p className="text-2xl font-bold">4.8%</p>
+                  <p className="text-xs text-green-600 flex items-center gap-1">
+                    <ArrowUpRight className="h-3 w-3" />
+                    +0.5% vs last month
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">Brand Mentions</p>
+                  <p className="text-2xl font-bold">1.2K</p>
+                  <p className="text-xs text-green-600 flex items-center gap-1">
+                    <ArrowUpRight className="h-3 w-3" />
+                    +15% vs last month
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">Media Value</p>
+                  <p className="text-2xl font-bold">$2.3M</p>
+                  <p className="text-xs text-red-600 flex items-center gap-1">
+                    <ArrowDownRight className="h-3 w-3" />
+                    -5% vs last month
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-muted-foreground" />
+              Quick Actions
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {quickActions.map((action, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="h-auto flex-col gap-2 p-4"
+                  onClick={action.onClick}
+                >
+                  <action.icon className="h-5 w-5" />
+                  <span className="text-xs">{action.label}</span>
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Add Sponsor Dialog */}
+        <Dialog open={showAddSponsor} onOpenChange={setShowAddSponsor}>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Add New Sponsor</DialogTitle>
+              <DialogDescription>
+                Add a new sponsor to your database
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Company Name</Label>
+                  <Input placeholder="Enter company name" />
+                </div>
+                <div>
+                  <Label>Industry</Label>
                   <Select>
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="Select a package" />
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select industry" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="platinum">Platinum - $50K</SelectItem>
-                      <SelectItem value="gold">Gold - $25K</SelectItem>
-                      <SelectItem value="silver">Silver - $15K</SelectItem>
-                      <SelectItem value="custom">Custom Package</SelectItem>
+                      <SelectItem value="luxury_fashion">Luxury Fashion</SelectItem>
+                      <SelectItem value="sportswear">Sportswear</SelectItem>
+                      <SelectItem value="fast_fashion">Fast Fashion</SelectItem>
+                      <SelectItem value="retail">Retail</SelectItem>
+                      <SelectItem value="beauty">Beauty</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="notes" className="text-right">
-                    Notes
-                  </Label>
-                  <Textarea
-                    id="notes"
-                    placeholder="Additional notes..."
-                    className="col-span-3"
-                  />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Contact Name</Label>
+                  <Input placeholder="Contact person name" />
+                </div>
+                <div>
+                  <Label>Contact Email</Label>
+                  <Input type="email" placeholder="email@company.com" />
                 </div>
               </div>
-              <DialogFooter>
+              <div>
+                <Label>Website</Label>
+                <Input placeholder="https://www.company.com" />
+              </div>
+              <div>
+                <Label>Notes</Label>
+                <Textarea placeholder="Additional notes about this sponsor..." />
+              </div>
+              <div className="flex justify-end gap-3">
                 <Button variant="outline" onClick={() => setShowAddSponsor(false)}>
                   Cancel
                 </Button>
-                <Button 
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                  onClick={() => {
-                    alert('Sponsor added successfully!');
-                    setShowAddSponsor(false);
-                  }}
-                >
+                <Button onClick={() => {
+                  addSponsor({
+                    company_name: 'New Sponsor',
+                    status: 'lead'
+                  });
+                  setShowAddSponsor(false);
+                }}>
                   Add Sponsor
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
-          {/* Create Proposal Modal */}
-          <Dialog open={showCreateProposal} onOpenChange={setShowCreateProposal}>
-            <DialogContent className="sm:max-w-[625px]">
-              <DialogHeader>
-                <DialogTitle>Create Sponsorship Proposal</DialogTitle>
-                <DialogDescription>
-                  Create a customized sponsorship proposal for your prospect.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="prospect" className="text-right">
-                    Prospect
-                  </Label>
-                  <Select>
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="Select a prospect" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="tech-fashion">Tech Fashion Co.</SelectItem>
-                      <SelectItem value="eco-style">Eco Style Brand</SelectItem>
-                      <SelectItem value="urban-wear">Urban Wear Ltd.</SelectItem>
-                      <SelectItem value="new">+ New Prospect</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="event" className="text-right">
-                    Event
-                  </Label>
-                  <Select>
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="Select an event" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="fashion-week">Fashion Week 2025</SelectItem>
-                      <SelectItem value="designer-showcase">Designer Showcase</SelectItem>
-                      <SelectItem value="summer-launch">Summer Launch</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="package-type" className="text-right">
-                    Package
-                  </Label>
-                  <Select>
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="Select package type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="platinum">Platinum - $50K</SelectItem>
-                      <SelectItem value="gold">Gold - $25K</SelectItem>
-                      <SelectItem value="silver">Silver - $15K</SelectItem>
-                      <SelectItem value="custom">Custom Package</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="value" className="text-right">
-                    Value ($)
-                  </Label>
-                  <Input
-                    id="value"
-                    type="number"
-                    placeholder="50000"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="benefits" className="text-right">
-                    Benefits
-                  </Label>
-                  <Textarea
-                    id="benefits"
-                    placeholder="List key benefits and deliverables..."
-                    className="col-span-3"
-                    rows={4}
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="deadline" className="text-right">
-                    Deadline
-                  </Label>
-                  <Input
-                    id="deadline"
-                    type="date"
-                    className="col-span-3"
-                  />
-                </div>
               </div>
-              <DialogFooter>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Create Proposal Dialog */}
+        <Dialog open={showCreateProposal} onOpenChange={setShowCreateProposal}>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Create Sponsorship Proposal</DialogTitle>
+              <DialogDescription>
+                Generate a professional sponsorship proposal
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-4">
+              <div>
+                <Label>Select Sponsor</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose a sponsor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sponsors.map(sponsor => (
+                      <SelectItem key={sponsor.id} value={sponsor.id}>
+                        {sponsor.company_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Package</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select package" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {packages.map(pkg => (
+                      <SelectItem key={pkg.id} value={pkg.id}>
+                        {pkg.package_name} - {formatCurrency(pkg.price)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Event</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select event" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="fashion-week">Fashion Week 2025</SelectItem>
+                    <SelectItem value="summer-show">Summer Collection Show</SelectItem>
+                    <SelectItem value="gala">Annual Gala</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Custom Message</Label>
+                <Textarea placeholder="Add a personalized message..." rows={4} />
+              </div>
+              <div className="flex justify-end gap-3">
                 <Button variant="outline" onClick={() => setShowCreateProposal(false)}>
                   Cancel
                 </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => alert('Saving as draft...')}
-                >
-                  Save Draft
+                <Button onClick={() => {
+                  createProposal({});
+                  setShowCreateProposal(false);
+                }}>
+                  Generate Proposal
                 </Button>
-                <Button 
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                  onClick={() => {
-                    alert('Proposal sent successfully!');
-                    setShowCreateProposal(false);
-                  }}
-                >
-                  Send Proposal
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </DashboardLayout>
   );

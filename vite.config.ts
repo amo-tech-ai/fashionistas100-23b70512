@@ -9,8 +9,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  // Remove base path for Vercel deployment
-  base: process.env.VERCEL ? '/' : '/fashionistas100-23b70512/',
+  // FIXED: Use root path for all deployments
+  base: '/',
   build: {
     outDir: 'dist',
     rollupOptions: {

@@ -4,7 +4,22 @@
 import { createClient } from '@encore.dev/client';
 
 // Define the API base URL based on environment
-const API_BASE_URL = import.meta.env.VITE_LEAP_API_URL || 'http://localhost:4000';
+const getApiUrl = () => {
+  // Production URL
+  if (import.meta.env.VITE_LEAP_API_URL) {
+    return import.meta.env.VITE_LEAP_API_URL;
+  }
+  
+  // Development detection
+  if (import.meta.env.MODE === 'development') {
+    return 'http://localhost:4000';
+  }
+  
+  // Default production API
+  return 'https://api.fashionos.com';
+};
+
+const API_BASE_URL = getApiUrl();
 
 // Create Encore client instance
 export const leapClient = createClient<LeapAPI>({

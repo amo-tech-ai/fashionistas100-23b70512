@@ -13,6 +13,12 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
   const { isLoaded, isSignedIn } = useAuth();
   
+  // DEVELOPMENT OVERRIDE - Allow access without auth
+  const isDev = window.location.hostname === 'localhost' && window.location.search.includes('dev=true');
+  if (isDev) {
+    return <>{children}</>;
+  }
+  
   // Show loading state while Clerk is loading
   if (!isLoaded) {
     return (
