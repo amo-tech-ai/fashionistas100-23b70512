@@ -55,7 +55,7 @@ export const DashboardFooter = () => {
               <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">F</span>
               </div>
-              <span className="font-bold text-xl">FashionOS</span>
+              <span className="font-bold text-xl">Fashionistas</span>
             </div>
             <p className="text-gray-400 text-sm mb-4">
               Complete Fashion Event Management Platform
@@ -204,7 +204,7 @@ export const DashboardFooter = () => {
               ))}
             </div>
             <div className="text-sm text-gray-400">
-              © {currentYear} FashionOS. All rights reserved.
+              © {currentYear} Fashionistas. All rights reserved.
             </div>
           </div>
         </div>

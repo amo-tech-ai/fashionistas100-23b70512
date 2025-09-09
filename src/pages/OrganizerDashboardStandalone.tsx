@@ -137,7 +137,7 @@ const OrganizerDashboardStandalone = () => {
                 F
               </div>
               {isSidebarOpen && (
-                <span className="font-bold text-xl">FashionOS</span>
+                <span className="font-bold text-xl">Fashionistas</span>
               )}
             </div>
           </div>
@@ -455,7 +455,7 @@ const OrganizerDashboardStandalone = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold text-lg mb-4">FashionOS</h3>
+              <h3 className="font-bold text-lg mb-4">Fashionistas</h3>
               <p className="text-gray-400 text-sm">
                 Complete Fashion Event Management Platform
               </p>
@@ -489,7 +489,7 @@ const OrganizerDashboardStandalone = () => {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm text-gray-400">
-            <p>© 2025 FashionOS. All rights reserved.</p>
+            <p>© 2025 Fashionistas. All rights reserved.</p>
           </div>
         </div>
       </div>

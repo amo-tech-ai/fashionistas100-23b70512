@@ -1,4 +1,4 @@
-// Complete Leap Backend Integration Guide for FashionOS
+// Complete Leap Backend Integration Guide for Fashionistas
 // ======================================================
 
 // Define the API base URL based on environment

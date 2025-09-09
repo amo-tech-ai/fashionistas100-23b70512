@@ -1,4 +1,4 @@
-// Cloudinary configuration for FashionOS
+// Cloudinary configuration for Fashionistas
 export const CLOUDINARY_CONFIG = {
   cloudName: 'dzqy2ixl0',
   collectionId: '86f7b7cc7c880fe4a6b183872414ae20',

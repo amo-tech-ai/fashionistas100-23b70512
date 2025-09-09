@@ -28,7 +28,7 @@ export default function SignUpWorking() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full p-6">
-        <h1 className="text-3xl font-bold text-center mb-8">FashionOS Sign Up</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Fashionistas Sign Up</h1>
         
         <div className="mb-6 p-4 bg-blue-50 rounded-lg">
           <p className="text-sm text-blue-800">

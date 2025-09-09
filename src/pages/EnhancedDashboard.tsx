@@ -171,7 +171,7 @@ export function EnhancedDashboard() {
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="text-muted-foreground mt-2">
-            Welcome back, {user?.firstName || 'User'}! Here's your FashionOS overview
+            Welcome back, {user?.firstName || 'User'}! Here's your Fashionistas overview
           </p>
         </div>
 

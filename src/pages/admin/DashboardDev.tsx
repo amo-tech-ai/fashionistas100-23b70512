@@ -28,7 +28,7 @@ const DashboardDev = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-playfair font-bold">Admin Dashboard</h1>
-              <p className="text-muted-foreground">Manage your FashionOS platform</p>
+              <p className="text-muted-foreground">Manage your Fashionistas platform</p>
             </div>
             <Badge variant="secondary" className="flex items-center gap-2">
               <Shield className="w-4 h-4" />

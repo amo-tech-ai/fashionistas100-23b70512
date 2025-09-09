@@ -47,7 +47,7 @@ export default function SignUpPageFixed() {
             </div>
           </div>
           <h2 className="text-4xl font-extrabold text-gray-900 mb-2">
-            Join FashionOS
+            Join Fashionistas
           </h2>
           <p className="text-lg text-gray-600">
             The global platform for fashion events

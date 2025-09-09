@@ -96,7 +96,7 @@ const UserDashboardFixed = () => {
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold">
               F
             </div>
-            {isSidebarOpen && <span className="font-bold text-xl">FashionOS</span>}
+            {isSidebarOpen && <span className="font-bold text-xl">Fashionistas</span>}
           </div>
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -358,7 +358,7 @@ const UserDashboardFixed = () => {
                   <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold">
                     F
                   </div>
-                  <span className="font-bold text-lg">FashionOS</span>
+                  <span className="font-bold text-lg">Fashionistas</span>
                 </div>
                 <p className="text-gray-400 text-sm">
                   Complete Fashion Event<br />Management Platform
@@ -397,7 +397,7 @@ const UserDashboardFixed = () => {
             
             <div className="mt-8 pt-8 border-t border-gray-800">
               <div className="text-center text-sm text-gray-400">
-                © 2025 FashionOS. All rights reserved.
+                © 2025 Fashionistas. All rights reserved.
               </div>
             </div>
           </div>

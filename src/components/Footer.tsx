@@ -9,13 +9,18 @@ const Footer = () => {
           {/* Brand Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold">
-                F
-              </div>
-              <span className="font-bold text-lg">FashionOS</span>
+              <img 
+                src="/fashionistas-logo.png" 
+                alt="Fashionistas" 
+                className="h-8 w-auto"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = '<span class="text-xl font-bold">Fashionistas</span>';
+                }}
+              />
             </div>
             <p className="text-gray-400 text-sm">
-              Complete Fashion Event<br />Management Platform
+              Premier Fashion Event<br />Management Platform
             </p>
           </div>
 
@@ -71,7 +76,7 @@ const Footer = () => {
         <div className="mt-8 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-gray-400">
-              © 2025 FashionOS. All rights reserved.
+              © 2025 Fashionistas. All rights reserved.
             </div>
             <div className="flex gap-6 text-sm text-gray-400">
               <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>

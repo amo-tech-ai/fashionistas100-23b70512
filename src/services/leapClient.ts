@@ -1,5 +1,5 @@
 // Leap/Encore Backend Client Configuration
-// This connects your FashionOS frontend to the Leap backend
+// This connects your Fashionistas frontend to the Leap backend
 
 import { createClient } from '@encore.dev/client';
 
