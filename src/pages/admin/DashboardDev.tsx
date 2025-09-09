@@ -87,7 +87,7 @@ const DashboardDev = () => {
         <div className="p-6 border-b border-gray-200">
           <Link to="/" className="flex items-center gap-3">
             <img 
-              src="/fashionistas-logo-f1.jpg" 
+              src="/fashionistas-logo-main.png" 
               alt="Fashionistas" 
               className="h-10 w-auto"
               onError={(e) => {
