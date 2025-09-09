@@ -62,10 +62,11 @@ export const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center group">
             <img 
-              src="/fashionistas-logo.png" 
+              src="/fashionistas-logo-new.png" 
               alt="Fashionistas" 
               className="h-10 lg:h-12 transition-transform duration-200 group-hover:scale-105"
               onError={(e) => {
+                // Fallback to text if image fails
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.parentElement!.innerHTML = '<span class="text-2xl font-bold text-primary">Fashionistas</span>';
               }}
