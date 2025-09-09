@@ -10,7 +10,9 @@ import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navigation } from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { listDesigners, Designer } from "@/services/designerService";
+import { fashionImages, getRandomImage, handleImageError } from "@/lib/cloudinary";
 
 const Designers = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,13 +92,54 @@ const Designers = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 mt-16 lg:mt-20">
-          {/* Header */}
+        
+        {/* Hero Section with Fashion Images */}
+        <div className="relative h-[400px] overflow-hidden bg-black mt-16 lg:mt-20">
+          <div className="absolute inset-0 grid grid-cols-4 gap-1 opacity-70">
+            {fashionImages.designers.map((image, index) => (
+              <div key={index} className="relative overflow-hidden">
+                <img 
+                  src={image} 
+                  alt={`Fashion designer ${index + 1}`}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80" />
+          <div className="relative z-10 h-full flex items-center justify-center text-center">
+            <div className="space-y-4">
+              <Badge variant="hero" className="text-sm font-inter px-4 py-2 bg-white/20 backdrop-blur-sm text-white border-white/30">
+                World-Class Creators
+              </Badge>
+              <h1 className="text-5xl md:text-6xl font-playfair font-bold text-white">
+                Fashion Designers
+              </h1>
+              <p className="text-xl text-white/90 max-w-2xl mx-auto px-4">
+                Discover talented designers and their unique fashion perspectives
+              </p>
+              <div className="flex justify-center gap-8 pt-4">
+                <div className="text-white/80">
+                  <span className="text-3xl font-bold">{total || "200+"}</span>
+                  <span className="ml-2">Designers</span>
+                </div>
+                <div className="text-white/80">
+                  <span className="text-3xl font-bold">50+</span>
+                  <span className="ml-2">Countries</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          {/* Header - Smaller since we have hero */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold font-playfair mb-4">Fashion Designers</h1>
-            <p className="text-lg text-muted-foreground">
-              Discover talented designers and their unique fashion perspectives
-            </p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Users className="h-4 w-4" />
+              <span>Browse our curated selection of fashion designers</span>
+            </div>
           </div>
 
           {/* Filters */}
@@ -242,21 +285,34 @@ const Designers = () => {
                         </CardDescription>
                       )}
 
-                      {/* Portfolio Preview */}
-                      {designer.portfolioUrls.length > 0 && (
-                        <div className="grid grid-cols-3 gap-2">
-                          {designer.portfolioUrls.slice(0, 3).map((url, index) => (
+                      {/* Portfolio Preview with Fallback Images */}
+                      <div className="grid grid-cols-3 gap-2">
+                        {designer.portfolioUrls.length > 0 ? (
+                          designer.portfolioUrls.slice(0, 3).map((url, index) => (
+                            <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
+                              <img
+                                src={url || fashionImages.gallery[index]}
+                                alt={`${designer.brandName} portfolio ${index + 1}`}
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                loading="lazy"
+                                onError={(e) => handleImageError(e, 'designer')}
+                              />
+                            </div>
+                          ))
+                        ) : (
+                          // Use fashion gallery images as fallback
+                          fashionImages.gallery.slice(0, 3).map((url, index) => (
                             <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
                               <img
                                 src={url}
-                                alt={`${designer.brandName} portfolio ${index + 1}`}
+                                alt={`Fashion collection ${index + 1}`}
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                 loading="lazy"
                               />
                             </div>
-                          ))}
-                        </div>
-                      )}
+                          ))
+                        )}
+                      </div>
 
                       {/* Social Links */}
                       <div className="flex items-center justify-between gap-2 pt-2">
@@ -342,6 +398,7 @@ const Designers = () => {
           )}
         </div>
       </div>
+      <Footer />
     </ErrorBoundary>
   );
 };

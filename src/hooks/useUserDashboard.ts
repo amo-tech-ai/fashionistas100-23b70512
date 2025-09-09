@@ -1,13 +1,13 @@
 // Hook to fetch real data for User Dashboard
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { subDays, format } from 'date-fns';
-import { useUser } from '@clerk/clerk-react';
 
 export const useUserDashboardData = () => {
-  const { user } = useUser();
-  const userEmail = user?.primaryEmailAddress?.emailAddress;
-  const userId = user?.id;
+  // Provide demo data when no user is authenticated
+  const user = null;
+  const userEmail = null;
+  const userId = null;
 
   // Fetch user's tickets
   const ticketsQuery = useQuery({

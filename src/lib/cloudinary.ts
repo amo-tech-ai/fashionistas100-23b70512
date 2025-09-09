@@ -4,38 +4,76 @@ export const CLOUDINARY_CONFIG = {
   collectionId: '86f7b7cc7c880fe4a6b183872414ae20',
 };
 
-// Fashion images from various sources - using placeholder and stock photo services
+// Fashion images from your Cloudinary collection
 export const fashionImages = {
   hero: {
-    main: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop',
-    runway: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1920&h=1080&fit=crop',
-    model: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1920&h=1080&fit=crop',
+    // Main hero image - runway show
+    main: 'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554437/RUNWAy-4_mv4pll.jpg',
+    // Alternative hero images
+    runway: 'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-2_vqzxsh.jpg',
+    model: 'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554437/runway-3_khflw6.jpg',
   },
   events: [
-    'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop',
+    // Fashion week and runway events
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554437/RUNWAy-4_mv4pll.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-2_vqzxsh.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554437/runway-3_khflw6.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554437/runway-1_kx8fzn.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554439/runway-9_vdrlvx.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554439/runway-10_qydbir.jpg',
   ],
   designers: [
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=600&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop',
+    // Designer showcase images
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/Designer-1_pvqdus.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-2_hjyokj.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-3_qwqmr7.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-4_jhrxby.jpg',
   ],
   gallery: [
-    'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&h=600&fit=crop',  
-    'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&h=600&fit=crop',
+    // Fashion gallery and portfolio images
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-8_jbgmch.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-6_w9gcpd.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-7_tfmzfw.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-5_yyqulg.jpg',
   ],
-  // Using your Cloudinary images as alternative (car images for now)
-  cloudinary: [
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1755914892/imgi_49_687bbc3b0bb3dd57d6c1fdf7_MS-Exterior-Hero-Desktop_bojipd.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1755914888/imgi_42_687bbc3b0bb3dd57d6c1fdf4_MS-Performance-Hero-Desktop_fk4b5l.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1755914884/imgi_37_687bbc3b0bb3dd57d6c1fdeb_MS-Interior-Hero-Desktop_gnvplx.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1755914884/imgi_36_687bbc3b0bb3dd57d6c1fde9_ms-main-hero-desktop_p9egmv.jpg',
-  ]
+  backstage: [
+    // Behind the scenes images
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/backstage-1_mqwtfa.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/backstage-2_r8j9xk.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/backstage-3_vhmscz.jpg',
+  ],
+  models: [
+    // Model portfolio images
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-1_jxkqnv.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-2_xqr8pc.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-3_g9vkjt.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-4_mhqwzt.jpg',
+  ],
+  venues: [
+    // Fashion venue images
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554442/venue-1_rtpq8w.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554442/venue-2_nmvqxk.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554442/venue-3_yqkfms.jpg',
+  ],
+  // Fallback images in case Cloudinary is down
+  fallback: {
+    hero: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop',
+    event: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=600&fit=crop',
+    designer: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop',
+  }
+};
+
+// Helper function to get a random image from a category
+export const getRandomImage = (category: keyof typeof fashionImages): string => {
+  const images = fashionImages[category];
+  if (Array.isArray(images)) {
+    return images[Math.floor(Math.random() * images.length)];
+  }
+  return fashionImages.fallback.hero;
+};
+
+// Helper function to handle image errors
+export const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>, fallbackCategory: 'hero' | 'event' | 'designer' = 'hero') => {
+  const target = e.target as HTMLImageElement;
+  target.src = fashionImages.fallback[fallbackCategory];
 };

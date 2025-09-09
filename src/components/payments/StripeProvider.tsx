@@ -1,4 +1,3 @@
-import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { ReactNode, createContext, useContext } from 'react';
 
@@ -14,9 +13,7 @@ const StripeContext = createContext<StripeContextType | null>(null);
 export function StripeProvider({ children }: { children: ReactNode }) {
   return (
     <StripeContext.Provider value={{ stripe: stripePromise }}>
-      <Elements stripe={stripePromise}>
-        {children}
-      </Elements>
+      {children}
     </StripeContext.Provider>
   );
 }

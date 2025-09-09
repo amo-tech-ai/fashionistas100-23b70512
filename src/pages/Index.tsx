@@ -4,18 +4,20 @@ import { FeaturedEvents } from "@/components/FeaturedEvents";
 import { DesignerSpotlight } from "@/components/DesignerSpotlight";
 import { TicketTiers } from "@/components/TicketTiers";
 import { Newsletter } from "@/components/Newsletter";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
-      <main className="pt-16 lg:pt-20"> {/* Add padding for fixed nav */}
+      <main className="pt-16 lg:pt-20 flex-1"> {/* Add padding for fixed nav */}
         <Hero />
         <FeaturedEvents />
         <DesignerSpotlight />
         <TicketTiers />
         <Newsletter />
       </main>
+      <Footer />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { withErrorHandling } from "@/utils/errorHandling";
 import { useToast } from "@/hooks/use-toast";
 import { EmptyState } from "@/components/EmptyState";
 import { EventHero } from "@/components/events/EventHero";
-import { BookingWidget } from "@/components/events/BookingWidget";
+import { BookingWidgetOfficial } from "@/components/events/BookingWidgetOfficial";
 import { RelatedEvents } from "@/components/events/RelatedEvents";
 import { ImageLightbox } from "@/components/events/ImageGallery";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -297,7 +297,7 @@ const EventDetail = () => {
           {/* Right Column - Booking Widget */}
           <div className="lg:col-span-1">
             <div className="sticky top-8">
-              <BookingWidget event={event} tickets={tickets} />
+              <BookingWidgetOfficial event={event} tickets={tickets} />
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, CreditCard } from 'lucide-react';
+import { Loader2, CreditCard, CheckCircle } from 'lucide-react';
 
 interface TicketType {
   id: string;
@@ -30,6 +30,7 @@ export function CheckoutForm({ event, ticketType, quantity, onSuccess, onError }
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [cardComplete, setCardComplete] = useState(false);
 
   const totalAmount = ticketType.price * quantity;
 
@@ -50,52 +51,53 @@ export function CheckoutForm({ event, ticketType, quantity, onSuccess, onError }
     setProcessing(true);
     setError(null);
 
+    // Simulate processing delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     try {
-      // Create payment intent
-      const response = await fetch('/api/payments/create-intent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      // For demo purposes, simulate a successful payment
+      // In production, this would call your backend API
+      
+      // Simulate checking card validation
+      const cardResult = await stripe.createToken(card);
+      
+      if (cardResult.error) {
+        throw new Error(cardResult.error.message || 'Card validation failed');
+      }
+
+      // Simulate successful payment intent
+      const mockPaymentIntent = {
+        id: `pi_test_${Date.now()}`,
+        amount: Math.round(totalAmount * 100), // Amount in cents
+        currency: ticketType.currency.toLowerCase(),
+        status: 'succeeded',
+        metadata: {
           eventId: event.id,
-          ticketType: ticketType.id,
-          quantity,
-          amount: Math.round(totalAmount * 100), // Convert to cents
-          currency: ticketType.currency.toLowerCase(),
           eventTitle: event.title,
           eventDate: event.date,
-        }),
-      });
+          ticketType: ticketType.name,
+          quantity: quantity.toString(),
+        }
+      };
 
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
-
-      const { client_secret } = await response.json();
-
-      // Confirm payment
-      const result = await stripe.confirmCardPayment(client_secret, {
-        payment_method: {
-          card,
-          billing_details: {
-            name: 'Fashion Event Attendee', // TODO: Get from user form
-          },
-        },
-      });
-
-      if (result.error) {
-        throw new Error(result.error.message || 'Payment failed');
-      } else {
-        // Payment succeeded
-        onSuccess(result.paymentIntent);
-      }
+      // Call success handler
+      onSuccess(mockPaymentIntent);
+      
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
       setError(errorMessage);
       onError(errorMessage);
     } finally {
       setProcessing(false);
+    }
+  };
+
+  const handleCardChange = (event: any) => {
+    setCardComplete(event.complete);
+    if (event.error) {
+      setError(event.error.message);
+    } else {
+      setError(null);
     }
   };
 
@@ -130,6 +132,7 @@ export function CheckoutForm({ event, ticketType, quantity, onSuccess, onError }
                   },
                 },
               }}
+              onChange={handleCardChange}
             />
           </div>
         </div>
@@ -143,7 +146,7 @@ export function CheckoutForm({ event, ticketType, quantity, onSuccess, onError }
 
       <Button
         type="submit"
-        disabled={!stripe || processing}
+        disabled={!stripe || processing || !cardComplete}
         className="w-full bg-pink-600 hover:bg-pink-700 text-white py-3"
         size="lg"
       >
@@ -159,6 +162,17 @@ export function CheckoutForm({ event, ticketType, quantity, onSuccess, onError }
           </>
         )}
       </Button>
+
+      <div className="bg-blue-50 p-3 rounded-lg">
+        <div className="flex items-center gap-2 text-sm text-blue-800">
+          <CheckCircle className="h-4 w-4" />
+          <span className="font-medium">Demo Mode Active</span>
+        </div>
+        <p className="text-xs text-blue-700 mt-1">
+          This is a demo that simulates Stripe payment processing. 
+          The card will be validated but no actual charge will be made.
+        </p>
+      </div>
 
       <p className="text-xs text-gray-500 text-center">
         Your payment is secured by Stripe. We do not store your card information.

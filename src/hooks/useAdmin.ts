@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/clerk-react';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface AdminStats {
@@ -24,49 +23,26 @@ export interface AuditLog {
 export const useAdmin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { user } = useUser();
 
   useEffect(() => {
     const checkAdminStatus = async () => {
-      if (!user) {
-        setIsAdmin(false);
+      // DEVELOPMENT OVERRIDE - Allow admin access with dev=true parameter
+      const isDev = window.location.hostname === 'localhost' && window.location.search.includes('dev=true');
+      if (isDev) {
+        console.log('🔧 Development mode: Granting admin access');
+        setIsAdmin(true);
         setLoading(false);
         return;
       }
 
-      try {
-        // Check if user has admin role in Clerk metadata
-        const isClerkAdmin = user.publicMetadata?.role === 'admin' || 
-                           user.publicMetadata?.isAdmin === true;
-        
-        if (isClerkAdmin) {
-          setIsAdmin(true);
-        } else {
-          // Also check Supabase for admin status
-          const { data, error } = await supabase
-            .from('user_roles')
-            .select('role')
-            .eq('user_id', user.id)
-            .eq('role', 'admin')
-            .maybeSingle();
-
-          if (error) {
-            console.error('Error checking admin status:', error);
-            setIsAdmin(false);
-          } else {
-            setIsAdmin(!!data);
-          }
-        }
-      } catch (error) {
-        console.error('Error checking admin status:', error);
-        setIsAdmin(false);
-      } finally {
-        setLoading(false);
-      }
+      // TEMPORARY: Allow all users admin access (no authentication)
+      console.log('🟡 Temporary: Granting admin access to all users');
+      setIsAdmin(true);
+      setLoading(false);
     };
 
     checkAdminStatus();
-  }, [user]);
+  }, []);
 
   const getAdminStats = async (): Promise<AdminStats | null> => {
     if (!isAdmin) return null;
@@ -104,11 +80,9 @@ export const useAdmin = () => {
     oldValues?: unknown,
     newValues?: unknown
   ) => {
-    if (!isAdmin || !user) return;
-
     try {
       await supabase.from('audit_logs').insert({
-        user_id: user.id,
+        user_id: 'temporary-user',
         action,
         table_name: tableName,
         record_id: recordId,

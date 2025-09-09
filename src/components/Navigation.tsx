@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -9,14 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, LogOut } from "lucide-react";
 import { 
   useAuth, 
   useUser, 
-  SignInButton,
-  SignUpButton,
-  UserButton,
-  SignedIn,
+  SignInButton, 
+  SignUpButton, 
+  UserButton, 
+  SignedIn, 
   SignedOut 
 } from "@clerk/clerk-react";
 
@@ -109,14 +108,7 @@ export const Navigation = () => {
                     Dashboard
                   </Button>
                 </Link>
-                <UserButton 
-                  afterSignOutUrl="/"
-                  appearance={{
-                    elements: {
-                      avatarBox: "h-8 w-8"
-                    }
-                  }}
-                />
+                <UserButton afterSignOutUrl="/" />
               </SignedIn>
             </div>
           </div>

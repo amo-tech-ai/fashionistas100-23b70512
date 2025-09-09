@@ -9,6 +9,7 @@ import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navigation } from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { listPublishedEvents, EventSummary } from "@/services/eventService";
 import { fashionImages } from "@/lib/cloudinary";
 
@@ -380,6 +381,7 @@ const Events = () => {
           )}
         </div>
       </div>
+      <Footer />
     </ErrorBoundary>
   );
 };

@@ -1,12 +1,10 @@
 // Enhanced Hook with Real Revenue Calculations
 import { useQuery } from '@tanstack/react-query';
-import { useSupabase } from '@/lib/supabase-clerk';
-import { useUser } from '@clerk/clerk-react';
+import { supabase } from '@/integrations/supabase/client';
 import { subDays, startOfDay } from 'date-fns';
 
 export const useOrganizerDashboardData = () => {
-  const supabase = useSupabase();
-  const { user } = useUser();
+  const user = { id: 'temp-user' }; // Temporary mock user
   // Fetch events data
   const eventsQuery = useQuery({
     queryKey: ['organizer-events'],
