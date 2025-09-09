@@ -10,7 +10,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <img 
-                src="/fashionistas-logo-new.png" 
+                src="/fashionistas-logo-f1.jpg" 
                 alt="Fashionistas" 
                 className="h-8 w-auto"
                 onError={(e) => {

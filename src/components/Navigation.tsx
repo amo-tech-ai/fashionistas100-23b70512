@@ -62,7 +62,7 @@ export const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center group">
             <img 
-              src="/fashionistas-logo-new.png" 
+              src="/fashionistas-logo-f1.jpg" 
               alt="Fashionistas" 
               className="h-10 lg:h-12 transition-transform duration-200 group-hover:scale-105"
               onError={(e) => {
