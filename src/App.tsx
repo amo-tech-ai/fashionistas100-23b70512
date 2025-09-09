@@ -33,6 +33,7 @@ import DesignerDashboard from "./pages/DesignerDashboard";
 import ModelDashboard from "./pages/ModelDashboard";
 import VenueDashboard from "./pages/VenueDashboard";
 import Venues from "./pages/Venues";
+import MainDashboard from "./pages/MainDashboard";
 
 const PublicDashboard = lazy(() => import("./pages/PublicDashboard"));
 // Lazy load all other pages
@@ -135,8 +136,8 @@ const App = () => {
                 <Route path="/admin/venue-availability" element={<VenueAvailability />} />
                 <Route path="/admin/gallery" element={<Gallery />} />
                 
-                {/* Main Dashboard Routes - Using Original Dashboards with Supabase */}
-                <Route path="/dashboard" element={<OrganizerDashboardDemo />} />
+                {/* Main Dashboard Routes - Protected with Authentication */}
+                <Route path="/dashboard" element={<MainDashboard />} />
                 <Route path="/organizer-dashboard" element={<OrganizerDashboardNew />} />
                 <Route path="/user-dashboard" element={<UserDashboardNew />} />
                 <Route path="/sponsor-dashboard" element={<SponsorDashboardNew />} />
