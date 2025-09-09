@@ -159,7 +159,6 @@ const About = () => {
           </CardContent>
         </Card>
       </main>
-      </main>
       <Footer />
     </div>
   );
