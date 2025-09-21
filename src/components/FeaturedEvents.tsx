@@ -36,7 +36,7 @@ export const FeaturedEvents = () => {
   }, []);
 
   return (
-    <section className="py-16 px-4">
+    <section className="py-16 px-4 bg-background">
       <div className="container mx-auto">
         {/* Section Header */}
         <div className="text-center space-y-4 mb-12">

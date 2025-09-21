@@ -72,15 +72,15 @@ export const DesignerSpotlight = () => {
 
   return (
     <ErrorBoundary>
-      <section className="py-16 bg-muted/50">
-        <div className="container mx-auto px-4">
+      <section className="py-16 bg-foreground px-4">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4">
+            <Badge variant="outline" className="mb-4 bg-background/20 text-background border-background/30">
               <Star className="w-4 h-4 mr-2" />
               Designer Spotlight
             </Badge>
-            <h2 className="text-3xl font-playfair font-bold mb-4">Featured Designer</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl font-playfair font-bold mb-4 text-background">Featured Designer</h2>
+            <p className="text-lg text-background/80 max-w-2xl mx-auto">
               Discover exceptional talent shaping the future of fashion
             </p>
           </div>
@@ -105,22 +105,22 @@ export const DesignerSpotlight = () => {
 
             <div className="space-y-6">
               <div>
-                <h3 className="text-3xl font-playfair font-bold mb-2">
+                <h3 className="text-3xl font-playfair font-bold mb-2 text-background">
                   {featuredDesigner.brandName}
                 </h3>
                 {featuredDesigner.isVerified && (
-                  <Badge variant="default" className="mb-4">
+                  <Badge variant="default" className="mb-4 bg-accent text-accent-foreground">
                     Verified Designer
                   </Badge>
                 )}
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <p className="text-lg text-background/80 leading-relaxed">
                   {featuredDesigner.bio || "An exceptional designer creating innovative fashion experiences."}
                 </p>
               </div>
 
               {featuredDesigner.portfolioUrls.length > 0 ? (
                 <div>
-                  <h4 className="font-semibold mb-3">Recent Work</h4>
+                  <h4 className="font-semibold mb-3 text-background">Recent Work</h4>
                   <div className="grid grid-cols-3 gap-3">
                     {featuredDesigner.portfolioUrls.slice(0, 3).map((url, index) => (
                       <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
@@ -140,7 +140,7 @@ export const DesignerSpotlight = () => {
                 </div>
               ) : (
                 <div>
-                  <h4 className="font-semibold mb-3">Gallery</h4>
+                  <h4 className="font-semibold mb-3 text-background">Gallery</h4>
                   <div className="grid grid-cols-3 gap-3">
                     {fashionImages.gallery.slice(0, 3).map((url, index) => (
                       <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
@@ -158,7 +158,7 @@ export const DesignerSpotlight = () => {
 
               <div className="flex items-center gap-4">
                 {featuredDesigner.websiteUrl && (
-                  <Button variant="outline" size="sm" asChild>
+                  <Button variant="outline" size="sm" asChild className="border-background/30 text-background hover:bg-background hover:text-foreground">
                     <a href={featuredDesigner.websiteUrl} target="_blank" rel="noopener noreferrer">
                       <Globe className="w-4 h-4 mr-2" />
                       Website
@@ -166,7 +166,7 @@ export const DesignerSpotlight = () => {
                   </Button>
                 )}
                 {featuredDesigner.socialLinks.instagram && (
-                  <Button variant="outline" size="sm" asChild>
+                  <Button variant="outline" size="sm" asChild className="border-background/30 text-background hover:bg-background hover:text-foreground">
                     <a href={featuredDesigner.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
                       <Instagram className="w-4 h-4 mr-2" />
                       Instagram
@@ -176,7 +176,7 @@ export const DesignerSpotlight = () => {
               </div>
 
               <div className="pt-4">
-                <Button asChild size="lg">
+                <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90">
                   <Link to={`/designers/${featuredDesigner.brandSlug}`}>
                     View Full Portfolio
                     <ExternalLink className="w-4 h-4 ml-2" />

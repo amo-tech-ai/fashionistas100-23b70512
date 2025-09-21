@@ -155,4 +155,43 @@ const UserDashboardDemo = () => {
             
             {isSidebarOpen && (
               <div className="mt-8 p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg">
-                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+                  Upgrade Plan
+                </Button>
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+      </div>
+
+      {/* Main Content */}
+      <div className={cn(
+        "min-h-screen transition-all duration-300",
+        isSidebarOpen ? "ml-64" : "ml-16"
+      )}>
+        {/* Header */}
+        <header className="bg-white border-b p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">User Dashboard</h1>
+              <p className="text-gray-600 mt-1">Welcome back! Here's what's happening with your events.</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Button variant="outline" size="sm">
+                <Bell className="h-4 w-4 mr-2" />
+                Notifications
+              </Button>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                New Booking
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        {/* Content */}
+        <main className="p-6">{/* Add your main content here */}</main>
+      </div>
+    </div>
+  );
+};

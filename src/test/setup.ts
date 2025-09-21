@@ -1,17 +1,18 @@
 import '@testing-library/jest-dom';
+import { vi, beforeAll, afterEach, afterAll } from 'vitest';
+import React from 'react';
 
 // Mock environment variables
-process.env.VITE_CLERK_PUBLISHABLE_KEY = 'pk_test_mock';
-process.env.VITE_SUPABASE_URL = 'https://test.supabase.co';
-process.env.VITE_SUPABASE_ANON_KEY = 'test-anon-key';
+Object.defineProperty(process, 'env', {
+  value: {
+    NODE_ENV: 'test',
+    VITE_SUPABASE_URL: 'https://test.supabase.co',
+    VITE_SUPABASE_ANON_KEY: 'test-key',
+  },
+});
 
-// Mock Clerk
+// Mock @clerk/clerk-react
 vi.mock('@clerk/clerk-react', () => ({
-  useAuth: () => ({
-    isSignedIn: false,
-    userId: null,
-    signOut: vi.fn(),
-  }),
   useUser: () => ({
     user: null,
     isLoaded: true,
@@ -19,8 +20,8 @@ vi.mock('@clerk/clerk-react', () => ({
   SignedIn: ({ children }: { children: React.ReactNode }) => children,
   SignedOut: ({ children }: { children: React.ReactNode }) => children,
   ClerkProvider: ({ children }: { children: React.ReactNode }) => children,
-  SignInButton: () => <button>Sign In</button>,
-  UserButton: () => <button>User</button>,
+  SignInButton: () => React.createElement('button', {}, 'Sign In'),
+  UserButton: () => React.createElement('button', {}, 'User'),
 }));
 
 // Mock Supabase
@@ -43,8 +44,32 @@ vi.mock('react-router-dom', () => ({
   Routes: ({ children }: { children: React.ReactNode }) => children,
   Route: () => null,
   Link: ({ children, to }: { children: React.ReactNode; to: string }) => 
-    <a href={to}>{children}</a>,
+    React.createElement('a', { href: to }, children),
   useNavigate: () => vi.fn(),
   useLocation: () => ({ pathname: '/' }),
   useParams: () => ({}),
 }));
+
+// Setup DOM
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});
+
+Object.defineProperty(window, 'ResizeObserver', {
+  writable: true,
+  value: vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  })),
+});

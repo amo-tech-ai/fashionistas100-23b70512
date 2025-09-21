@@ -55,7 +55,7 @@ const tiers = [
 
 export const TicketTiers = () => {
   return (
-    <section className="py-16 px-4 bg-muted/30">
+    <section className="py-16 px-4 bg-background">
       <div className="container mx-auto">
         {/* Section Header */}
         <div className="text-center space-y-4 mb-12">
