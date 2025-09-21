@@ -48,10 +48,10 @@ export const ContactManager = () => {
 
       if (error) throw error;
       setContacts(data || []);
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       toast({
         title: 'Error fetching contacts',
-        description: error.message as string,
+        description: error.message,
         variant: 'destructive'
       });
     } finally {
@@ -89,7 +89,7 @@ export const ContactManager = () => {
       });
 
       fetchContacts();
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       toast({
         title: 'Error updating status',
         description: error.message,

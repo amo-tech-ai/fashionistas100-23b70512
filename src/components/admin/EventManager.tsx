@@ -67,7 +67,7 @@ export const EventManager = () => {
 
       if (error) throw error;
       setEvents(data || []);
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       toast({
         title: 'Error fetching events',
         description: error.message,
@@ -88,7 +88,7 @@ export const EventManager = () => {
 
       if (error) throw error;
       setVenues(data || []);
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       console.error('Error fetching venues:', error);
     }
   };
@@ -116,7 +116,7 @@ export const EventManager = () => {
       setShowEventDialog(false);
       resetForm();
       fetchEvents();
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       toast({
         title: 'Error creating event',
         description: error.message,
@@ -149,7 +149,7 @@ export const EventManager = () => {
       setEditingEvent(null);
       resetForm();
       fetchEvents();
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       toast({
         title: 'Error updating event',
         description: error.message,
@@ -179,7 +179,7 @@ export const EventManager = () => {
       });
 
       fetchEvents();
-    } catch (error: Record<string, unknown>) {
+    } catch (error: any) {
       toast({
         title: 'Error deleting event',
         description: error.message,
