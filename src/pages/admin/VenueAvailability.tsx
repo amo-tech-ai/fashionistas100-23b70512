@@ -144,9 +144,9 @@ const VenueAvailability = () => {
                 <h4 className="font-medium mb-2">Selected Dates:</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedDates.map((date, index) => (
-                    <Badge key={index} variant="secondary">
-                      {format(date, 'MMM dd, yyyy')}
-                    </Badge>
+                     <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                       {format(date, 'MMM dd, yyyy')}
+                     </span>
                   ))}
                 </div>
               </div>

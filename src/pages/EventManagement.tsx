@@ -264,7 +264,6 @@ export const EventManagement = () => {
                       <h2 className="text-2xl font-bold">Sponsor Management</h2>
                       <div className="flex gap-3">
                         <Button variant="outline">
-                          <Target className="h-4 w-4 mr-2" />
                           Prospecting
                         </Button>
                         <Button variant="outline">

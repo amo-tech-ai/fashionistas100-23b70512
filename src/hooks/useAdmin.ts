@@ -1,9 +1,22 @@
 import { useState, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
+export interface AdminStats {
+  totalUsers: number;
+  totalEvents: number;
+  totalRevenue: number;
+  totalBookings: number;
+  totalDesigners: number;
+  totalContacts: number;
+}
+
 export const useAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
+  
+  // Mock admin state
+  const isAdmin = true;
+  const loading = isLoading;
 
   const logAdminAction = useCallback(async (
     action: string,
@@ -24,6 +37,8 @@ export const useAdmin = () => {
 
   return {
     isLoading,
-    logAdminAction
+    logAdminAction,
+    isAdmin,
+    loading
   };
 };

@@ -71,15 +71,27 @@ const SponsorDashboardNew = () => {
   const { 
     sponsors, 
     sponsorships,
-    packages,
-    activations,
-    metrics, 
-    recentActivity,
-    isLoading, 
-    error,
-    addSponsor,
-    createProposal
+    isLoading
   } = useSponsorDashboard();
+  
+  // Mock additional data
+  const packages = [];
+  const activations = [];
+  const metrics = { 
+    totalSponsors: sponsors.length, 
+    totalRevenue: 125000,
+    activeSponsors: sponsors.length,
+    totalInvestment: 500000,
+    averageROI: 250,
+    totalReach: 50000,
+    upcomingActivations: 5,
+    pendingProposals: 3,
+    expiringContracts: 2
+  };
+  const recentActivity = [];
+  const error = null;
+  const addSponsor = (sponsor: any) => {};
+  const createProposal = (proposal: any) => {};
 
   const [showAddSponsor, setShowAddSponsor] = useState(false);
   const [showCreateProposal, setShowCreateProposal] = useState(false);

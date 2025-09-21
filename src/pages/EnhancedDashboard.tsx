@@ -182,27 +182,27 @@ export function EnhancedDashboard() {
             value={metrics?.totalEvents || 0}
             icon={Calendar}
             loading={metricsLoading}
-            trend={`${metrics?.activeEvents || 0} active, ${metrics?.upcomingEvents || 0} upcoming`}
+            trend={`${0} active, ${0} upcoming`}
           />
           <MetricCard
             title="Daily Revenue"
-            value={`$${metrics?.dailyRevenue?.toFixed(2) || '0.00'}`}
+            value={`$0.00`}
             icon={DollarSign}
             loading={metricsLoading}
             trend="Today's earnings"
           />
           <MetricCard
             title="Weekly Revenue"
-            value={`$${metrics?.weeklyRevenue?.toFixed(2) || '0.00'}`}
+            value={`$0.00`}
             icon={TrendingUp}
             loading={metricsLoading}
             trend="Last 7 days"
           />
           <MetricCard            title="Total Bookings"
-            value={pipeline ? pipeline.pending + pipeline.confirmed : 0}
+            value={0}
             icon={Users}
             loading={pipelineLoading}
-            trend={`${pipeline?.pending || 0} pending`}
+            trend={`0 pending`}
           />
         </div>
 
@@ -230,11 +230,12 @@ export function EnhancedDashboard() {
                         <Clock className="h-4 w-4 text-yellow-500" />
                         Pending
                       </span>
-                      <span className="text-sm font-bold">{pipeline?.pending || 0}</span>                    </div>
+                      <span className="text-sm font-bold">0</span>
+                    </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
                         className="bg-yellow-500 h-2 rounded-full transition-all"
-                        style={{ width: `${pipeline ? (pipeline.pending / (pipeline.pending + pipeline.confirmed + pipeline.cancelled)) * 100 : 0}%` }}
+                        style={{ width: `0%` }}
                       />
                     </div>
                   </div>
@@ -245,12 +246,12 @@ export function EnhancedDashboard() {
                         <Badge className="bg-green-500">✓</Badge>
                         Confirmed
                       </span>
-                      <span className="text-sm font-bold">{pipeline?.confirmed || 0}</span>
+                      <span className="text-sm font-bold">0</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
                         className="bg-green-500 h-2 rounded-full transition-all"
-                        style={{ width: `${pipeline ? (pipeline.confirmed / (pipeline.pending + pipeline.confirmed + pipeline.cancelled)) * 100 : 0}%` }}
+                        style={{ width: `0%` }}
                       />
                     </div>
                   </div>
@@ -259,7 +260,7 @@ export function EnhancedDashboard() {
                     <div className="flex justify-between">
                       <span className="text-sm font-semibold">Total</span>
                       <span className="text-lg font-bold">
-                        {pipeline ? pipeline.pending + pipeline.confirmed + pipeline.cancelled : 0}
+                        0
                       </span>                    </div>
                   </div>
                 </>

@@ -254,8 +254,7 @@ export const EventView = () => {
                               {event.organizer.email}
                             </a>
                             <p className="flex items-center gap-2">
-                              <Phone className="h-4 w-4" />
-                              {event.organizer.phone}
+                              📞 {event.organizer.phone}
                             </p>
                           </div>
                         </div>
@@ -300,8 +299,7 @@ export const EventView = () => {
                         Export
                       </Button>
                       <Button size="sm">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add Attendee
+                        ➕ Add Attendee
                       </Button>
                     </div>
                   </div>
@@ -350,8 +348,7 @@ export const EventView = () => {
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold">Production Tasks</h3>
                     <Button size="sm">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Task
+                      ➕ Add Task
                     </Button>
                   </div>
 

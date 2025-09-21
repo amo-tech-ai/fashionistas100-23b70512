@@ -63,7 +63,7 @@ const DesignerProfile = () => {
                 Back to Designers
               </Link>
             </Button>
-            <LoadingSkeleton variant="detail" />
+            <LoadingSkeleton />
           </div>
         </div>
       </ErrorBoundary>

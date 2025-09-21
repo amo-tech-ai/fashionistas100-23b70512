@@ -12,7 +12,7 @@ export function useSupabase() {
   const client = useMemo(
     () => createClient(supabaseUrl, supabaseAnonKey, {
       global: {
-        fetch: async (url, options = {}) => {
+        fetch: async (url, options: RequestInit = {}) => {
           const token = await getToken()
           const headers = new Headers(options?.headers)
           headers.set('Authorization', token ? `Bearer ${token}` : '')

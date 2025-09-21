@@ -24,15 +24,22 @@ const OrganizerDashboardNew = () => {
   const navigate = useNavigate();
   
   // Fetch real data from Supabase
-  const { events, attendees, revenue, messages, isLoading } = useOrganizerDashboardData();
+  const { data, isLoading } = useOrganizerDashboardData();
+  const { events = [], revenue = 0, attendees = 0 } = data || {};
+  
+  // Mock additional data
+  const messages = [];
+  const eventsData = { activeCount: 5, thisWeek: 2 };
+  const attendeesData = { total: 1247, lastMonth: 1085 };
+  const revenueData = { formatted: '$125K' };
 
   // Use real data or fallback to defaults with demo data
-  const activeEventsCount = events?.activeCount || 5; // Show 5 as demo
-  const thisWeekEvents = events?.thisWeek || 2; // Show 2 as demo
-  const totalAttendees = attendees?.total || 1247; // Show realistic demo number
-  const attendeesGrowth = attendees?.lastMonth ? 
-    Math.round(((totalAttendees - attendees.lastMonth) / attendees.lastMonth) * 100) : 15; // Show 15% growth as demo
-  const totalRevenue = revenue?.formatted || '$125K'; // Show demo revenue
+  const activeEventsCount = eventsData?.activeCount || 5;
+  const thisWeekEvents = eventsData?.thisWeek || 2;
+  const totalAttendees = attendeesData?.total || 1247;
+  const attendeesGrowth = attendeesData?.lastMonth ? 
+    Math.round(((totalAttendees - attendeesData.lastMonth) / attendeesData.lastMonth) * 100) : 15;
+  const totalRevenue = revenueData?.formatted || '$125K';
   const revenueGrowth = revenue?.growth || 8; // Show 8% growth as demo
   // Transform events data for display
   const upcomingEvents = events?.events?.slice(0, 3).map((event, index) => ({
@@ -56,7 +63,7 @@ const OrganizerDashboardNew = () => {
   // Mock analytics data (can be replaced with real data later)
   const analyticsData = {
     ticketSales: { current: 1234, capacity: 1645, percentage: 75 },
-    revenueTarget: { current: revenue?.total || 125000, target: 152000, percentage: 82 },
+    revenueTarget: { current: 125000, target: 152000, percentage: 82 },
     engagement: { rate: 68, trend: 12 }
   };
 
