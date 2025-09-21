@@ -7,6 +7,7 @@ export interface Designer {
   city: string;
   bio: string;
   image: string;
+  profileImage?: string;
   portfolio: string[];
   contact: {
     email: string;

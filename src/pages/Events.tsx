@@ -160,8 +160,8 @@ const Events = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         
-        {/* Hero Section with Cloudinary Images - Adjusted for fixed nav */}
-        <div className="relative h-[400px] overflow-hidden bg-black mt-16 lg:mt-20">
+        {/* Hero Section - Dark Background */}
+        <div className="relative h-[500px] overflow-hidden bg-foreground -mt-16 lg:-mt-20">
           <div className="absolute inset-0 grid grid-cols-3 gap-1 opacity-60">
             {fashionImages.events.slice(0, 3).map((image, index) => (
               <div key={index} className="relative overflow-hidden">
@@ -175,211 +175,222 @@ const Events = () => {
             ))}
           </div>
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
-          <div className="relative z-10 h-full flex items-center justify-center text-center">
-            <div className="space-y-4">
-              <h1 className="text-5xl md:text-6xl font-playfair font-bold text-white">
+          <div className="relative z-10 h-full flex items-center justify-center text-center px-4">
+            <div className="space-y-6 max-w-4xl mx-auto">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-white">
                 Fashion Events
               </h1>
-              <p className="text-xl text-white/90 max-w-2xl mx-auto px-4">
+              <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed">
                 Discover upcoming fashion shows, exhibitions, and exclusive events worldwide
               </p>
-              <div className="flex justify-center gap-4 pt-4">
-                <div className="text-white/80">
-                  <span className="text-3xl font-bold">{allEvents.length}</span>
-                  <span className="ml-2">Events Available</span>
+              
+              {/* Search bar in hero */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto pt-8">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      placeholder="Search events..."
+                      defaultValue={search}
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                      className="pl-10 bg-white/90 backdrop-blur-sm border-white/20"
+                    />
+                  </div>
+                </div>
+                
+                <Select value={city || undefined} onValueChange={(value) => updateFilter("city", value)}>
+                  <SelectTrigger className="w-full sm:w-48 bg-white/90 backdrop-blur-sm border-white/20">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="All Cities" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Cities</SelectItem>
+                    <SelectItem value="Milan">Milan</SelectItem>
+                    <SelectItem value="Paris">Paris</SelectItem>
+                    <SelectItem value="New York">New York</SelectItem>
+                    <SelectItem value="London">London</SelectItem>
+                    <SelectItem value="Tokyo">Tokyo</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex justify-center gap-8 pt-6">
+                <div className="text-center text-white/80">
+                  <span className="text-3xl font-bold block">{allEvents.length}</span>
+                  <span className="text-sm">Events Available</span>
+                </div>
+                <div className="text-center text-white/80">
+                  <span className="text-3xl font-bold block">{filteredEvents.length}</span>
+                  <span className="text-sm">Matching Filters</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         
-        <div className="container mx-auto px-4 py-8">
-          {/* Header - Updated */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <Calendar className="h-4 w-4" />
-              <span>Showing {filteredEvents.length} upcoming events</span>
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="mb-8 space-y-4">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                  <Input
-                    placeholder="Search events..."
-                    defaultValue={search}
-                    onChange={(e) => handleSearchChange(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
+        {/* Filters Section - Light Background */}
+        <section className="py-8 bg-background border-b">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Calendar className="h-4 w-4" />
+                <span>Showing {filteredEvents.length} upcoming events</span>
               </div>
               
-              <Select value={city || undefined} onValueChange={(value) => updateFilter("city", value)}>
-                <SelectTrigger className="w-full md:w-48">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="All Cities" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Cities</SelectItem>
-                  <SelectItem value="Milan">Milan</SelectItem>
-                  <SelectItem value="Paris">Paris</SelectItem>
-                  <SelectItem value="New York">New York</SelectItem>
-                  <SelectItem value="London">London</SelectItem>
-                  <SelectItem value="Tokyo">Tokyo</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Select value={sortBy} onValueChange={(value) => updateFilter("sort", value)}>
+                  <SelectTrigger className="w-full sm:w-48">
+                    <Filter className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="date">Date</SelectItem>
+                    <SelectItem value="price">Price</SelectItem>
+                    <SelectItem value="name">Name</SelectItem>
+                    <SelectItem value="relevance">Relevance</SelectItem>
+                  </SelectContent>
+                </Select>
 
-              <Select value={sortBy} onValueChange={(value) => updateFilter("sort", value)}>
-                <SelectTrigger className="w-full md:w-48">
-                  <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="date">Date</SelectItem>
-                  <SelectItem value="price">Price</SelectItem>
-                  <SelectItem value="name">Name</SelectItem>
-                  <SelectItem value="relevance">Relevance</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {(search || city || sortBy !== "date") && (
-                <Button variant="outline" onClick={clearFilters}>
-                  Clear Filters
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {/* Results */}
-          {loading ? (
-            <LoadingSkeleton variant="grid" count={12} />
-          ) : error ? (
-            <EmptyState
-              icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
-              title="Failed to load events"
-              description={error}
-              action={{
-                label: "Try Again",
-                onClick: () => window.location.reload()
-              }}
-            />
-          ) : filteredEvents.length === 0 ? (
-            <EmptyState
-              icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
-              title="No events found"
-              description={
-                search || city
-                  ? "Try adjusting your filters to see more events"
-                  : "No upcoming events are available at the moment"
-              }
-              action={
-                search || city
-                  ? {
-                      label: "Clear Filters",
-                      onClick: clearFilters
-                    }
-                  : undefined
-              }
-            />
-          ) : (
-            <>
-              <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <p className="text-muted-foreground">
-                  Showing {((currentPage - 1) * EVENTS_PER_PAGE) + 1}-{Math.min(currentPage * EVENTS_PER_PAGE, filteredEvents.length)} of {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}
-                </p>
-                
-                {totalPages > 1 && (
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigateToPage(currentPage - 1)}
-                      disabled={!hasPrevPage}
-                    >
-                      <ChevronLeft className="h-4 w-4" />
-                      Previous
-                    </Button>
-                    
-                    <div className="flex items-center gap-1">
-                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        let pageNum;
-                        if (totalPages <= 5) {
-                          pageNum = i + 1;
-                        } else if (currentPage <= 3) {
-                          pageNum = i + 1;
-                        } else if (currentPage >= totalPages - 2) {
-                          pageNum = totalPages - 4 + i;
-                        } else {
-                          pageNum = currentPage - 2 + i;
-                        }
-                        
-                        return (
-                          <Button
-                            key={pageNum}
-                            variant={pageNum === currentPage ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => navigateToPage(pageNum)}
-                            className="w-8 h-8 p-0"
-                          >
-                            {pageNum}
-                          </Button>
-                        );
-                      })}
-                    </div>
-                    
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigateToPage(currentPage + 1)}
-                      disabled={!hasNextPage}
-                    >
-                      Next
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </div>
+                {(search || city || sortBy !== "date") && (
+                  <Button variant="outline" onClick={clearFilters}>
+                    Clear Filters
+                  </Button>
                 )}
               </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8">
-                {paginatedEvents.map((event) => (
-                  <EventCard key={event.id} event={event} />
-                ))}
-              </div>
-              
-              {/* Bottom Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      onClick={() => navigateToPage(currentPage - 1)}
-                      disabled={!hasPrevPage}
-                    >
-                      <ChevronLeft className="h-4 w-4 mr-2" />
-                      Previous
-                    </Button>
-                    
-                    <span className="text-sm text-muted-foreground px-4">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    
-                    <Button
-                      variant="outline"
-                      onClick={() => navigateToPage(currentPage + 1)}
-                      disabled={!hasNextPage}
-                    >
-                      Next
-                      <ChevronRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Results Section - Alternating Backgrounds */}
+        <section className="py-12 bg-background">
+          <div className="container mx-auto px-4">
+            {loading ? (
+              <LoadingSkeleton variant="grid" count={12} />
+            ) : error ? (
+              <EmptyState
+                icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
+                title="Failed to load events"
+                description={error}
+                action={{
+                  label: "Try Again",
+                  onClick: () => window.location.reload()
+                }}
+              />
+            ) : filteredEvents.length === 0 ? (
+              <EmptyState
+                icon={<Calendar className="h-8 w-8 text-muted-foreground" />}
+                title="No events found"
+                description={
+                  search || city
+                    ? "Try adjusting your filters to see more events"
+                    : "No upcoming events are available at the moment"
+                }
+                action={
+                  search || city
+                    ? {
+                        label: "Clear Filters",
+                        onClick: clearFilters
+                      }
+                    : undefined
+                }
+              />
+            ) : (
+              <>
+                <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <p className="text-muted-foreground">
+                    Showing {((currentPage - 1) * EVENTS_PER_PAGE) + 1}-{Math.min(currentPage * EVENTS_PER_PAGE, filteredEvents.length)} of {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}
+                  </p>
+                  
+                  {totalPages > 1 && (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigateToPage(currentPage - 1)}
+                        disabled={!hasPrevPage}
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        Previous
+                      </Button>
+                      
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <Button
+                              key={pageNum}
+                              variant={pageNum === currentPage ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => navigateToPage(pageNum)}
+                              className="w-8 h-8 p-0"
+                            >
+                              {pageNum}
+                            </Button>
+                          );
+                        })}
+                      </div>
+                      
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigateToPage(currentPage + 1)}
+                        disabled={!hasNextPage}
+                      >
+                        Next
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </>
-          )}
-        </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                  {paginatedEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+                
+                {/* Bottom Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => navigateToPage(currentPage - 1)}
+                        disabled={!hasPrevPage}
+                      >
+                        <ChevronLeft className="h-4 w-4 mr-2" />
+                        Previous
+                      </Button>
+                      
+                      <span className="text-sm text-muted-foreground px-4">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      
+                      <Button
+                        variant="outline"
+                        onClick={() => navigateToPage(currentPage + 1)}
+                        disabled={!hasNextPage}
+                      >
+                        Next
+                        <ChevronRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </section>
       </div>
       <Footer />
     </ErrorBoundary>

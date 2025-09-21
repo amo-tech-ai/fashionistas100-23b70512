@@ -27,8 +27,8 @@ export const BackendStatus = () => {
     // Test Supabase
     setSupabaseStatus('testing');
     try {
-      const supabaseConnected = await testSupabaseConnection();
-      setSupabaseStatus(supabaseConnected ? 'connected' : 'error');
+      await testSupabaseConnection();
+      setSupabaseStatus('connected');
     } catch {
       setSupabaseStatus('error');
     }

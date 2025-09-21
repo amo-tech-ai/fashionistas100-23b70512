@@ -12,9 +12,11 @@ import { ImageLightbox } from "@/components/events/ImageGallery";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { CalendarDays, Clock, MapPin, Users, Star, MessageCircle, Sparkles } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CalendarDays, Clock, MapPin, Users, Star, MessageCircle, Sparkles, User } from "lucide-react";
 import { EventSummary, getEventById } from "@/services/eventService";
 import { supabase } from "@/integrations/supabase/client";
+import Footer from "@/components/Footer";
 
 interface TicketTier {
   id: string;
@@ -167,148 +169,189 @@ const EventDetail = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero Section */}
+      {/* Hero Section - Dark Background with Image */}
       <EventHero event={event} onImageClick={handleImageClick} />
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Event Details */}
-          <div className="lg:col-span-2 space-y-8">
-            
-            {/* Event Description */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5" />
-                    About This Event
-                  </CardTitle>
-                  {getCountdownDisplay()}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="prose prose-gray max-w-none">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {event.description || 'Join us for an unforgettable fashion experience featuring the latest trends and designs from talented creators.'}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Event Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Event Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <CalendarDays className="w-5 h-5 text-accent mt-0.5" />
-                      <div>
-                        <p className="font-semibold">Date</p>
-                        <p className="text-muted-foreground">{formatDate(event.startISO)}</p>
+      {/* Quick Info + Pricing Widget - White Background */}
+      <section className="py-12 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Quick Event Info */}
+            <div className="lg:col-span-2 space-y-6">
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Sparkles className="w-5 h-5" />
+                      Event Overview
+                    </CardTitle>
+                    {getCountdownDisplay()}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <CalendarDays className="w-5 h-5 text-primary mt-0.5" />
+                        <div>
+                          <p className="font-semibold">Date</p>
+                          <p className="text-muted-foreground">{formatDate(event.startISO)}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <Clock className="w-5 h-5 text-primary mt-0.5" />
+                        <div>
+                          <p className="font-semibold">Time</p>
+                          <p className="text-muted-foreground">
+                            {formatTime(event.startISO)}
+                            {event.endISO && ` - ${formatTime(event.endISO)}`}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-5 h-5 text-accent mt-0.5" />
-                      <div>
-                        <p className="font-semibold">Time</p>
-                        <p className="text-muted-foreground">
-                          {formatTime(event.startISO)}
-                          {event.endISO && ` - ${formatTime(event.endISO)}`}
-                        </p>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <MapPin className="w-5 h-5 text-primary mt-0.5" />
+                        <div>
+                          <p className="font-semibold">Venue</p>
+                          <p className="text-muted-foreground">
+                            {event.venue.name}
+                            {event.venue.address && (
+                              <>
+                                <br />
+                                <span className="text-sm">{event.venue.address}</span>
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <Users className="w-5 h-5 text-primary mt-0.5" />
+                        <div>
+                          <p className="font-semibold">Capacity</p>
+                          <p className="text-muted-foreground">
+                            {event.capacity ? `${event.capacity} attendees` : 'Limited capacity'}
+                            {event.ticketsSold > 0 && (
+                              <span className="block text-sm">
+                                {event.ticketsSold} tickets sold
+                              </span>
+                            )}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-accent mt-0.5" />
-                      <div>
-                        <p className="font-semibold">Venue</p>
-                        <p className="text-muted-foreground">
-                          {event.venue.name}
-                          {event.venue.address && (
-                            <>
-                              <br />
-                              <span className="text-sm">{event.venue.address}</span>
-                            </>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <Users className="w-5 h-5 text-accent mt-0.5" />
-                      <div>
-                        <p className="font-semibold">Capacity</p>
-                        <p className="text-muted-foreground">
-                          {event.capacity ? `${event.capacity} attendees` : 'Limited capacity'}
-                          {event.ticketsSold > 0 && (
-                            <span className="block text-sm">
-                              {event.ticketsSold} tickets sold
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
 
-            {/* Designer Lineup Section */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Featured Designers</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <Users className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-muted-foreground">
-                    Designer lineup will be announced soon. Stay tuned for updates!
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Reviews Section */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="w-5 h-5" />
-                  Reviews & Ratings
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <Star className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-muted-foreground">
-                    No reviews yet. Be the first to share your experience!
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Booking Widget */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <BookingWidgetOfficial event={event} tickets={tickets} />
+            {/* Right Column - Booking Widget */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <BookingWidgetOfficial event={event} tickets={tickets} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Related Events */}
-      <Separator className="my-12" />
-      <RelatedEvents 
-        currentEventId={event.id} 
-        currentEventCity={event.venue.city || undefined} 
-      />
+      {/* Tabs Section - White Background with Dark Headers */}
+      <section className="py-12 bg-background">
+        <div className="container mx-auto px-4">
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 bg-foreground">
+              <TabsTrigger value="overview" className="text-background data-[state=active]:bg-background data-[state=active]:text-foreground">Overview</TabsTrigger>
+              <TabsTrigger value="schedule" className="text-background data-[state=active]:bg-background data-[state=active]:text-foreground">Schedule</TabsTrigger>
+              <TabsTrigger value="designers" className="text-background data-[state=active]:bg-background data-[state=active]:text-foreground">Designers</TabsTrigger>
+              <TabsTrigger value="venue" className="text-background data-[state=active]:bg-background data-[state=active]:text-foreground">Venue</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="overview" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>About This Event</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="prose prose-gray max-w-none">
+                    <p className="text-muted-foreground leading-relaxed">
+                      {event.description || 'Join us for an unforgettable fashion experience featuring the latest trends and designs from talented creators.'}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="schedule" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Event Schedule</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <Clock className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-muted-foreground">
+                      Detailed schedule will be available soon. Stay tuned for updates!
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="designers" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Featured Designers</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <User className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-muted-foreground">
+                      Designer lineup will be announced soon. Stay tuned for updates!
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="venue" className="space-y-6 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Venue Information</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2">{event.venue.name}</h4>
+                      {event.venue.address && (
+                        <p className="text-muted-foreground">{event.venue.address}</p>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
+
+      {/* Related Events - Dark Background */}
+      <section className="py-12 bg-foreground">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-playfair font-bold text-background mb-4">Related Events</h2>
+            <p className="text-background/80 max-w-2xl mx-auto">
+              Discover similar fashion events you might be interested in
+            </p>
+          </div>
+          <RelatedEvents 
+            currentEventId={event.id} 
+            currentEventCity={event.venue.city || undefined} 
+          />
+        </div>
+      </section>
 
       {/* Image Lightbox */}
       <ImageLightbox
@@ -318,6 +361,8 @@ const EventDetail = () => {
         currentIndex={currentImageIndex}
         onIndexChange={setCurrentImageIndex}
       />
+      
+      <Footer />
     </div>
   );
 };
