@@ -14,9 +14,9 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useAdmin, AdminStats } from '@/hooks/useAdmin';
-import { EventManager } from '@/components/admin/EventManager';
-import { DesignerManager } from '@/components/admin/DesignerManager';
-import { ContactManager } from '@/components/admin/ContactManager';
+import EventManagerSimple from '@/components/admin/EventManagerSimple';
+import DesignerManagerSimple from '@/components/admin/DesignerManagerSimple';
+import ContactManagerSimple from '@/components/admin/ContactManagerSimple';
 
 const Dashboard = () => {
   const { isAdmin, loading } = useAdmin();
@@ -214,15 +214,15 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="events">
-            <EventManager />
+            <EventManagerSimple />
           </TabsContent>
 
           <TabsContent value="designers">
-            <DesignerManager />
+            <DesignerManagerSimple />
           </TabsContent>
 
           <TabsContent value="contacts">
-            <ContactManager />
+            <ContactManagerSimple />
           </TabsContent>
 
           <TabsContent value="users">

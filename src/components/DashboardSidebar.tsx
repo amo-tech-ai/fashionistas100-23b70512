@@ -45,31 +45,31 @@ const menuSections: MenuSection[] = [
     title: "Dashboards",
     defaultOpen: true,
     items: [
-      { id: 'main', label: 'Overview', path: '/dashboard', icon: Home },
-      { id: 'organizer', label: 'Organizer', path: '/organizer-dashboard', icon: BarChart3 },
-      { id: 'sponsor', label: 'Sponsor', path: '/sponsor-dashboard', icon: Star },
-      { id: 'venue', label: 'Venue', path: '/venue-dashboard', icon: Building2 },
-      { id: 'analytics', label: 'Analytics', path: '/admin/analytics', icon: BarChart3, badge: 'Pro' }
+      { id: 'main', label: 'Overview', path: '/dashboard/overview', icon: Home },
+      { id: 'organizer', label: 'Organizer', path: '/dashboard/organizer', icon: BarChart3 },
+      { id: 'sponsor', label: 'Sponsor', path: '/dashboard/sponsor', icon: Star },
+      { id: 'venue', label: 'Venue', path: '/dashboard/venue', icon: Building2 },
+      { id: 'analytics', label: 'Analytics', path: '/dashboard/analytics', icon: BarChart3, badge: 'Pro' }
     ]
   },
   {
     title: "Users",
     items: [
-      { id: 'designers', label: 'Designers', path: '/designers', icon: Palette },
-      { id: 'attendees', label: 'Attendees', path: '/users', icon: Users },
-      { id: 'sponsors', label: 'Sponsors', path: '/sponsors', icon: Star },
-      { id: 'venues', label: 'Venues', path: '/venues', icon: Building2 }
+      { id: 'designers', label: 'Designers', path: '/dashboard/designers', icon: Palette },
+      { id: 'attendees', label: 'Attendees', path: '/dashboard/attendees', icon: Users },
+      { id: 'sponsors', label: 'Sponsors', path: '/dashboard/sponsors', icon: Star },
+      { id: 'venues', label: 'Venues', path: '/dashboard/venues', icon: Building2 }
     ]
   },
   {
     title: "Make",
     items: [
-      { id: 'create-event', label: 'Create Event', path: '/admin/create-event', icon: PlusCircle, isNew: true },
-      { id: 'event-brief', label: 'Event Brief', path: '/admin/event-brief', icon: FileText },
-      { id: 'gallery', label: 'Gallery', path: '/admin/gallery', icon: Camera },
-      { id: 'portfolio', label: 'Portfolio Upload', path: '/admin/portfolio-upload', icon: Upload },
-      { id: 'payments', label: 'Payments', path: '/admin/payments', icon: CreditCard },
-      { id: 'contact', label: 'Contact Forms', path: '/admin/contacts', icon: MessageSquare }
+      { id: 'create-event', label: 'Create Event', path: '/dashboard/create-event', icon: PlusCircle, isNew: true },
+      { id: 'event-brief', label: 'Event Brief', path: '/dashboard/event-brief', icon: FileText },
+      { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Camera },
+      { id: 'portfolio', label: 'Portfolio Upload', path: '/dashboard/portfolio-upload', icon: Upload },
+      { id: 'payments', label: 'Payments', path: '/dashboard/payments', icon: CreditCard },
+      { id: 'contact', label: 'Contact Forms', path: '/dashboard/contact-forms', icon: MessageSquare }
     ]
   }
 ];
@@ -168,7 +168,7 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
 
       {/* Create Event CTA */}
       <div className="p-4 border-t border-border">
-        <Link to="/admin/create-event">
+        <Link to="/dashboard/create-event">
           <Button className="w-full bg-gradient-brand hover:opacity-90 text-brand-foreground">
             <Plus className="h-4 w-4 mr-2" />
             Create Event
