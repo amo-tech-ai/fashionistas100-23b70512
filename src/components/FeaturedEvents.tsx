@@ -2,38 +2,11 @@ import { EventCard } from "@/components/EventCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight } from "lucide-react";
-import { listPublishedEvents } from "@/services/eventService";
-import { useState, useEffect } from "react";
-import type { EventSummary } from "@/services/eventService";
+import { useEventData } from "@/hooks/useEventData";
 
 export const FeaturedEvents = () => {
-  const [events, setEvents] = useState<EventSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await listPublishedEvents({ 
-          limit: 6,
-          fromDateISO: new Date().toISOString()
-        });
-        
-        if (error) {
-          setError(error);
-        } else {
-          setEvents(data);
-        }
-      } catch (e) {
-        setError('Failed to load events');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
+  const { data, error, isLoading } = useEventData({ kind: "list", featured: true, limit: 6 });
+  const events = Array.isArray(data) ? data : [];
 
   return (
     <section className="py-16 px-4 bg-background">
@@ -75,7 +48,7 @@ export const FeaturedEvents = () => {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12">
-          {loading ? (
+          {isLoading ? (
             <div className="col-span-full text-center py-12">
               <p className="font-inter text-muted-foreground">Loading events...</p>
             </div>
@@ -83,7 +56,7 @@ export const FeaturedEvents = () => {
             <div className="col-span-full text-center py-12">
               <p className="font-inter text-destructive">Error: {error}</p>
             </div>
-          ) : events.length === 0 ? (
+          ) : !events?.length ? (
             <div className="col-span-full text-center py-12">
               <p className="font-inter text-muted-foreground">No upcoming events found.</p>
             </div>

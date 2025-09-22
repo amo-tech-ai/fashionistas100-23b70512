@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, User, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import { EventSummary } from "@/services/eventService";
+import { EventSummary } from "@/hooks/useEventData";
 import { useImageResolver } from "@/hooks/useImageResolver";
 import { fashionImages } from "@/lib/cloudinary";
 
@@ -93,7 +93,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 flex-shrink-0" />
-            <span className="font-inter truncate">{event.venue.name}, {event.venue.city}</span>
+            <span className="font-inter truncate">{event.venue.name}, {event.venue.city || event.venue.address}</span>
           </div>
         </div>
 

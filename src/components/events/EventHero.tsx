@@ -3,7 +3,7 @@ import { ArrowLeft, Share2, Calendar, Clock, MapPin, Users } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { EventSummary } from "@/services/eventService";
+import { EventSummary } from "@/hooks/useEventData";
 import { ImageGallery } from "./ImageGallery";
 import { useToast } from "@/hooks/use-toast";
 import { useImageResolver } from "@/hooks/useImageResolver";
@@ -141,7 +141,7 @@ export const EventHero = ({ event, onImageClick }: EventHeroProps) => {
                   {daysUntil === 1 ? 'Tomorrow' : `${daysUntil} days left`}
                 </Badge>
               )}
-              {event.available && event.available < 50 && (
+              {event.available && typeof event.available === 'number' && event.available < 50 && (
                 <Badge variant="destructive" className="bg-orange-600/80 text-white">
                   Limited tickets
                 </Badge>

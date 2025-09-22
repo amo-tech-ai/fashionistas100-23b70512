@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, Clock, MapPin, Users, Star, MessageCircle, Sparkles, User } from "lucide-react";
-import { EventSummary, getEventById } from "@/services/eventService";
+import { EventSummary, useEvent } from "@/hooks/useEventData";
 import { supabase } from "@/integrations/supabase/client";
 import Footer from "@/components/Footer";
 
@@ -33,62 +33,40 @@ interface TicketTier {
 
 const EventDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [event, setEvent] = useState<EventSummary | null>(null);
+  const { event, loading, error } = useEvent(id || "");
   const [tickets, setTickets] = useState<TicketTier[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchEventData = async () => {
+    const fetchTickets = async () => {
       if (!id) return;
 
-      const eventData = await withErrorHandling(
+      const ticketsData = await withErrorHandling(
         async () => {
-          const result = await getEventById(id);
-          if (result.error) throw new Error(result.error);
-          if (!result.data) throw new Error("Event not found");
-          return result.data;
+          const { data, error } = await supabase
+            .from('event_tickets')
+            .select('*')
+            .eq('event_id', id)
+            .eq('status', 'active')
+            .order('price', { ascending: true });
+          
+          if (error) throw error;
+          return data || [];
         },
         toast,
-        "Failed to load event details"
+        "Failed to load ticket information"
       );
 
-      if (eventData) {
-        setEvent(eventData);
-
-        // Fetch tickets for this event
-        const ticketsData = await withErrorHandling(
-          async () => {
-            const { data, error } = await supabase
-              .from('event_tickets')
-              .select('*')
-              .eq('event_id', id)
-              .eq('status', 'active')
-              .order('price', { ascending: true });
-            
-            if (error) throw error;
-            return data || [];
-          },
-          toast,
-          "Failed to load ticket information"
-        );
-
-        if (ticketsData) {
-          setTickets(ticketsData);
-        }
-      } else {
-        setError("Event not found");
+      if (ticketsData) {
+        setTickets(ticketsData);
       }
-      
-      setLoading(false);
     };
 
-    fetchEventData();
-  }, [id]);
+    fetchTickets();
+  }, [id, toast]);
 
   const handleImageClick = (imageUrl: string, allImages: string[]) => {
     const index = allImages.findIndex(img => img === imageUrl);
@@ -216,15 +194,15 @@ const EventDetail = () => {
                         <MapPin className="w-5 h-5 text-primary mt-0.5" />
                         <div>
                           <p className="font-semibold">Venue</p>
-                          <p className="text-muted-foreground">
-                            {event.venue.name}
-                            {event.venue.address && (
-                              <>
-                                <br />
-                                <span className="text-sm">{event.venue.address}</span>
-                              </>
-                            )}
-                          </p>
+                           <p className="text-muted-foreground">
+                             {event.venue.name}
+                             {event.venue.address && (
+                               <>
+                                 <br />
+                                 <span className="text-sm">{event.venue.address}</span>
+                               </>
+                             )}
+                           </p>
                         </div>
                       </div>
                       
@@ -346,9 +324,9 @@ const EventDetail = () => {
               Discover similar fashion events you might be interested in
             </p>
           </div>
-          <RelatedEvents 
+           <RelatedEvents 
             currentEventId={event.id} 
-            currentEventCity={event.venue.city || undefined} 
+            currentEventCity={event.venue?.city || undefined} 
           />
         </div>
       </section>

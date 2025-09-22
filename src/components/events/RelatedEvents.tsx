@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import { EventCard } from "@/components/EventCard";
-import { EventSummary, listPublishedEvents } from "@/services/eventService";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { useEventData } from "@/hooks/useEventData";
 
 interface RelatedEventsProps {
   currentEventId: string;
@@ -9,51 +8,13 @@ interface RelatedEventsProps {
 }
 
 export const RelatedEvents = ({ currentEventId, currentEventCity }: RelatedEventsProps) => {
-  const [relatedEvents, setRelatedEvents] = useState<EventSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchRelatedEvents = async () => {
-      try {
-        setLoading(true);
-        
-        // First try to get events in the same city
-        let { data: events } = await listPublishedEvents({ 
-          limit: 8,
-          city: currentEventCity 
-        });
-
-        // Filter out current event
-        events = events.filter(event => event.id !== currentEventId);
-
-        // If we don't have enough events from the same city, get more general events
-        if (events.length < 3) {
-          const { data: moreEvents } = await listPublishedEvents({ 
-            limit: 6 
-          });
-          
-          const additionalEvents = moreEvents
-            .filter(event => 
-              event.id !== currentEventId && 
-              !events.some(existing => existing.id === event.id)
-            )
-            .slice(0, 3 - events.length);
-          
-          events = [...events, ...additionalEvents];
-        }
-
-        // Limit to 3 events
-        setRelatedEvents(events.slice(0, 3));
-      } catch (error) {
-        console.error('Error fetching related events:', error);
-        setRelatedEvents([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRelatedEvents();
-  }, [currentEventId, currentEventCity]);
+  const { data, isLoading: loading } = useEventData({ 
+    kind: "list", 
+    relatedToId: currentEventId, 
+    city: currentEventCity,
+    limit: 3 
+  });
+  const relatedEvents = Array.isArray(data) ? data : [];
 
   if (loading) {
     return (
@@ -68,7 +29,7 @@ export const RelatedEvents = ({ currentEventId, currentEventCity }: RelatedEvent
     );
   }
 
-  if (relatedEvents.length === 0) {
+  if (!relatedEvents?.length) {
     return null;
   }
 
