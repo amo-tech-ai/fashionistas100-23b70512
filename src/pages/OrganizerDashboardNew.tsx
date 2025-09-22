@@ -98,8 +98,7 @@ const OrganizerDashboardNew = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100">        {/* Improved container with max width and proper padding */}
-        <div className="container mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <div className="container mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
           
           {/* Header Section with better spacing */}
           <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -462,7 +461,6 @@ const OrganizerDashboardNew = () => {
             </div>
           </div>
         </div>
-      </div>
     </DashboardLayout>
   );
 };

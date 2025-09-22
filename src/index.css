@@ -8,103 +8,126 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Fashion Website Design System - Light Mode (Modern Grayscale) */
-    --background: 0 0% 100%; /* Pure White */
-    --foreground: 0 0% 9%; /* Near Black #171717 */
+    /* Fashionistas Brand Design System - Light Mode */
+    --background: 0 0% 99%; /* Almost white */
+    --foreground: 220 13% 9%; /* Rich black */
 
-    --card: 0 0% 98%; 
-    --card-foreground: 0 0% 9%;
+    --card: 0 0% 100%; 
+    --card-foreground: 220 13% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
+    --popover-foreground: 220 13% 9%;
 
-    --primary: 0 0% 9%; /* Near Black */
+    /* Brand Colors */
+    --primary: 262 83% 58%; /* Fashion purple */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 96%; /* Light Grey */
-    --secondary-foreground: 0 0% 9%;
+    --brand: 262 83% 58%; /* Fashion purple */
+    --brand-foreground: 0 0% 98%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --secondary: 220 14% 96%; /* Neutral light */
+    --secondary-foreground: 220 13% 9%;
 
-    --accent: 0 0% 15%; /* Dark Grey */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 262 83% 58%; /* Brand accent */
     --accent-foreground: 0 0% 98%;
 
-    --silver: 0 0% 75%; /* Silver */
-    --silver-foreground: 0 0% 9%;
+    /* Semantic Colors */
+    --success: 142 76% 36%;
+    --success-foreground: 355 7% 97%;
 
-    --charcoal: 0 0% 20%; /* Charcoal */
-    --charcoal-foreground: 0 0% 98%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 26 7% 14%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 37 36% 95%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 37 20% 85%;
-    --input: 37 20% 90%;
-    --ring: 14 52% 57%;
+    --info: 221 83% 53%;
+    --info-foreground: 0 0% 98%;
 
-    --radius: 0.75rem;
+    /* UI Elements */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262 83% 58%;
 
-    /* Gradients */
+    --radius: 1rem; /* 16px - larger for modern look */
+
+    /* Modern Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--charcoal)));
-    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
+    --gradient-brand: linear-gradient(135deg, hsl(var(--brand)), hsl(var(--primary)));
+    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+    --gradient-surface: linear-gradient(135deg, hsl(var(--card)), hsl(var(--muted) / 0.3));
 
-    /* Shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(var(--foreground) / 0.1);
-    --shadow-card: 0 4px 20px -4px hsl(var(--foreground) / 0.08);
-    --shadow-hover: 0 8px 30px -8px hsl(var(--foreground) / 0.15);
+    /* Sophisticated Shadows */
+    --shadow-subtle: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 0 1px 2px 0 hsl(var(--foreground) / 0.06);
+    --shadow-moderate: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -1px hsl(var(--foreground) / 0.06);
+    --shadow-prominent: 0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -2px hsl(var(--foreground) / 0.05);
+    --shadow-dramatic: 0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 10px 10px -5px hsl(var(--foreground) / 0.04);
 
-    /* Animations */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Smooth Animations */
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
-    /* Fashion Website Design System - Dark Mode (Modern Dark) */
-    --background: 0 0% 9%; /* Near Black #171717 */
-    --foreground: 0 0% 98%; /* Off White */
+    /* Fashionistas Brand Design System - Dark Mode */
+    --background: 220 27% 8%; /* Rich dark */
+    --foreground: 220 9% 98%; /* Pure white */
 
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 27% 12%;
+    --card-foreground: 220 9% 98%;
 
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 27% 8%;
+    --popover-foreground: 220 9% 98%;
 
-    --primary: 0 0% 98%; /* Off White */
-    --primary-foreground: 0 0% 9%;
+    /* Brand Colors - Dark Mode */
+    --primary: 262 83% 68%; /* Lighter brand in dark */
+    --primary-foreground: 220 27% 8%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --brand: 262 83% 68%;
+    --brand-foreground: 220 27% 8%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --secondary: 220 27% 16%;
+    --secondary-foreground: 220 9% 98%;
 
-    --accent: 0 0% 85%; /* Light Grey */
-    --accent-foreground: 0 0% 9%;
+    --muted: 220 27% 16%;
+    --muted-foreground: 220 9% 65%;
 
-    --silver: 0 0% 75%; /* Silver */
-    --silver-foreground: 0 0% 9%;
+    --accent: 262 83% 68%;
+    --accent-foreground: 220 27% 8%;
 
-    --charcoal: 0 0% 20%; /* Charcoal */
-    --charcoal-foreground: 0 0% 98%;
+    /* Semantic Colors - Dark Mode */
+    --success: 142 76% 45%;
+    --success-foreground: 220 27% 8%;
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 38 40% 78%;
+    --warning: 45 93% 55%;
+    --warning-foreground: 220 27% 8%;
 
-    --border: 340 15% 30%;
-    --input: 340 15% 25%;
-    --ring: 14 52% 57%;
+    --destructive: 0 84% 65%;
+    --destructive-foreground: 220 27% 8%;
+
+    --info: 221 83% 63%;
+    --info-foreground: 220 27% 8%;
+
+    /* UI Elements - Dark Mode */
+    --border: 220 27% 20%;
+    --input: 220 27% 18%;
+    --ring: 262 83% 68%;
 
     /* Dark mode gradients */
     --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--charcoal)));
-    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
+    --gradient-brand: linear-gradient(135deg, hsl(var(--brand)), hsl(var(--primary)));
+    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+    --gradient-surface: linear-gradient(135deg, hsl(var(--card)), hsl(var(--muted) / 0.3));
 
     /* Dark mode shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.4);
-    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.5);
-    --shadow-hover: 0 8px 30px -8px hsl(0 0% 0% / 0.6);
+    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.3), 0 1px 2px 0 hsl(0 0% 0% / 0.2);
+    --shadow-moderate: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+    --shadow-prominent: 0 10px 15px -3px hsl(0 0% 0% / 0.3), 0 4px 6px -2px hsl(0 0% 0% / 0.15);
+    --shadow-dramatic: 0 20px 25px -5px hsl(0 0% 0% / 0.3), 0 10px 10px -5px hsl(0 0% 0% / 0.1);
   }
 }
 

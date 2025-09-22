@@ -32,17 +32,21 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				
+				// Brand Colors
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
+				brand: {
+					DEFAULT: 'hsl(var(--brand))',
+					foreground: 'hsl(var(--brand-foreground))'
+				},
+				
+				// UI Colors
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
-				},
-				destructive: {
-					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
 				},
 				muted: {
 					DEFAULT: 'hsl(var(--muted))',
@@ -52,14 +56,26 @@ export default {
 					DEFAULT: 'hsl(var(--accent))',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
-				silver: {
-					DEFAULT: 'hsl(var(--silver))',
-					foreground: 'hsl(var(--silver-foreground))'
+				
+				// Semantic Colors
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
 				},
-				charcoal: {
-					DEFAULT: 'hsl(var(--charcoal))',
-					foreground: 'hsl(var(--charcoal-foreground))'
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
 				},
+				destructive: {
+					DEFAULT: 'hsl(var(--destructive))',
+					foreground: 'hsl(var(--destructive-foreground))'
+				},
+				info: {
+					DEFAULT: 'hsl(var(--info))',
+					foreground: 'hsl(var(--info-foreground))'
+				},
+				
+				// Component Colors
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
@@ -71,22 +87,27 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-accent': 'var(--gradient-accent)',
+				'gradient-brand': 'var(--gradient-brand)',
 				'gradient-card': 'var(--gradient-card)',
+				'gradient-surface': 'var(--gradient-surface)',
 			},
 			boxShadow: {
-				'elegant': 'var(--shadow-elegant)',
-				'card': 'var(--shadow-card)',
-				'hover': 'var(--shadow-hover)',
+				'subtle': 'var(--shadow-subtle)',
+				'moderate': 'var(--shadow-moderate)',
+				'prominent': 'var(--shadow-prominent)',
+				'dramatic': 'var(--shadow-dramatic)',
 			},
 			transitionTimingFunction: {
+				'fast': 'var(--transition-fast)',
 				'smooth': 'var(--transition-smooth)',
 				'bounce': 'var(--transition-bounce)',
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				'2xl': 'var(--radius)',
+				'xl': 'calc(var(--radius) - 2px)',
+				'lg': 'calc(var(--radius) - 4px)',
+				'md': 'calc(var(--radius) - 6px)',
+				'sm': 'calc(var(--radius) - 8px)'
 			},
 			keyframes: {
 				'accordion-down': {
