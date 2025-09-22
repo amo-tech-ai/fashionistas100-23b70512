@@ -19,6 +19,9 @@ const PageLoader = () => (
 import Home from '@/pages/Home';
 import Services from '@/pages/Services';
 import Photography from '@/pages/services/Photography';
+import Video from '@/pages/services/Video';
+import AI from '@/pages/services/AI';
+import Campaigns from '@/pages/services/Campaigns';
 import Events from '@/pages/Events';
 import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
@@ -44,6 +47,9 @@ const Tickets = lazy(() => import("./pages/Tickets"));
 const Sponsors = lazy(() => import("./pages/Sponsors"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+
+// Validation page
+const ServicesValidation = lazy(() => import("./components/ServicesValidation").then(m => ({ default: m.ServicesValidation })));
 
 // Lazy load dashboards (admin only)
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -107,6 +113,9 @@ const App = () => {
                     <Route path="/home" element={<Home />} />
                     <Route path="/services" element={<Services />} />
                     <Route path="/services/photography" element={<Photography />} />
+                    <Route path="/services/video" element={<Video />} />
+                    <Route path="/services/ai" element={<AI />} />
+                    <Route path="/services/campaigns" element={<Campaigns />} />
                     <Route path="/events" element={<Events />} />
                     <Route path="/sign-in" element={<SignInPage />} />
                     <Route path="/sign-up" element={<SignUpPage />} />
@@ -122,6 +131,7 @@ const App = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/venues" element={<Venues />} />
                     <Route path="/booking-success" element={<BookingSuccess />} />
+                    <Route path="/validation" element={<ServicesValidation />} />
                     
                     {/* Dashboard Routes */}
                     <Route path="/dashboard" element={<MainDashboard />} />
