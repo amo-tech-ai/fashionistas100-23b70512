@@ -1,26 +1,15 @@
-import { lazy, Suspense } from 'react';
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { ClerkProvider } from "@clerk/clerk-react";
-import { StripeProvider } from "@/components/payments/StripeProvider";
+import { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from '@/components/ui/sonner';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
-// Loading component for lazy-loaded pages
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-white">
-    <div className="text-center space-y-4">
-      <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
-      <p className="text-gray-600 animate-pulse">Loading...</p>
-    </div>
-  </div>
-);
-
-// Core pages (loaded immediately)
-import Index from "./pages/Index";
-import Events from "./pages/Events";
+// Pages
+import Home from '@/pages/Home';
+import Services from '@/pages/Services';
+import Photography from '@/pages/services/Photography';
+import Events from '@/pages/Events';
 import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 
