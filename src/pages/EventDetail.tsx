@@ -46,12 +46,11 @@ const EventDetail = () => {
 
       const ticketsData = await withErrorHandling(
         async () => {
-          const { data, error } = await supabase
-            .from('event_tickets')
-            .select('*')
-            .eq('event_id', id)
-            .eq('status', 'active')
-            .order('price', { ascending: true });
+            const { data, error } = await supabase
+              .from('tickets')
+              .select('*')
+              .eq('event_id', id)
+              .order('price', { ascending: true });
           
           if (error) throw error;
           return data || [];
@@ -61,7 +60,20 @@ const EventDetail = () => {
       );
 
       if (ticketsData) {
-        setTickets(ticketsData);
+        // Map database schema to TicketTier interface
+        const mappedTickets = ticketsData.map(ticket => ({
+          id: ticket.id,
+          ticket_name: ticket.ticket_type || 'General Admission',
+          ticket_type: ticket.ticket_type || 'general',
+          description: null,
+          price: ticket.price,
+          currency: 'USD',
+          total_quantity: ticket.quantity,
+          sold_quantity: ticket.sold,
+          available_quantity: ticket.quantity - ticket.sold,
+          status: 'active'
+        }));
+        setTickets(mappedTickets);
       }
     };
 

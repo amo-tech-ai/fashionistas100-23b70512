@@ -42,12 +42,26 @@ export const DesignerManager = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('designer_profiles')
+        .from('designers')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setDesigners(data || []);
+      // Map database schema to component interface
+      const mappedDesigners = (data || []).map(designer => ({
+        id: designer.id,
+        user_id: designer.user_id || '',
+        brand_name: designer.brand_name || designer.name || '',
+        brand_slug: (designer.brand_name || designer.name || '').toLowerCase().replace(/\s+/g, '-'),
+        bio: designer.bio || null,
+        website_url: null,
+        portfolio_urls: [],
+        social_links: {},
+        is_verified: false,
+        created_at: designer.created_at,
+        updated_at: designer.created_at
+      }));
+      setDesigners(mappedDesigners);
     } catch (error: any) {
       toast({
         title: 'Error fetching designers',

@@ -30,7 +30,7 @@ export default function PublicDashboard() {
         const [eventsRes, designersRes, usersRes, upcomingRes] = await Promise.all([
           supabase.from('events').select('id', { count: 'exact', head: true }),
           supabase.from('designer_profiles').select('id', { count: 'exact', head: true }),
-          supabase.from('profiles').select('id', { count: 'exact', head: true }),
+          supabase.from('users').select('id', { count: 'exact', head: true }),
           supabase
             .from('events')
             .select('id, title, date_time, featured_image')

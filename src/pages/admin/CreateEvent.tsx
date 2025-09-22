@@ -40,7 +40,7 @@ export default function CreateEvent() {
       const { data, error } = await supabase
         .from('events')
         .insert({
-          event_name: formData.title,
+          title: formData.title,
           description: formData.description,
           venue_id: formData.venue_name, // Map to venue_id for consistency
           organizer_id: user?.id || 'test-organizer',

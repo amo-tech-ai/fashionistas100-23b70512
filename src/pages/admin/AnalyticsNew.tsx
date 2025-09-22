@@ -41,7 +41,7 @@ export default function Analytics() {
             .select('*', { count: 'exact', head: true }),
           
           supabase
-            .from('event_registrations')
+            .from('bookings')
             .select('*', { count: 'exact', head: true })
         ]);
 
@@ -203,7 +203,7 @@ export default function Analytics() {
                                 <span className="text-sm font-medium text-blue-600">{index + 1}</span>
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-900">{event.event_name}</h4>
+                                <h4 className="font-medium text-gray-900">{event.title}</h4>
                                 <p className="text-sm text-gray-500">{ticketsSold} tickets sold</p>
                               </div>
                             </div>

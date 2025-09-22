@@ -169,7 +169,7 @@ export const BookingWidget = ({ event, tickets, className }: BookingWidgetProps)
       if (error) throw error;
 
       // Navigate to success page
-      navigate(`/booking-success?ref=${booking.booking_reference}`);
+      navigate(`/booking-success?ref=${booking.id}`);
       
     } catch (error) {
       console.error('Error saving booking:', error);

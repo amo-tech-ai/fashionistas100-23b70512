@@ -13,14 +13,14 @@ export const useUserDashboardData = () => {
   const ticketsQuery = useQuery({
     queryKey: ['user-tickets', userId],
     queryFn: async () => {
-      // Get user's event registrations
+      // Get user's bookings
       const { data: registrations, error: regError } = await supabase
-        .from('event_registrations')
+        .from('bookings')
         .select(`
           *,
           events (
             id,
-            event_name,
+            title,
             start_datetime,
             end_datetime,
             venue_id,
@@ -110,7 +110,7 @@ export const useUserDashboardData = () => {
 
       // Count total events attended
       const { count: eventsAttended } = await supabase
-        .from('event_registrations')
+        .from('bookings')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', userId || 'guest')
         .eq('status', 'confirmed');

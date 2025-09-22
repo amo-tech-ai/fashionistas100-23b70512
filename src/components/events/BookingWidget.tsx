@@ -125,46 +125,49 @@ export const BookingWidget = ({ event, tickets, className }: BookingWidgetProps)
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
 
-      // Create booking
+      // Create booking for the first available ticket
+      const firstTicket = Object.entries(selection)[0];
+      if (!firstTicket) throw new Error('No tickets selected');
+      
+      const selectedTicket = tickets.find(t => t.id === firstTicket[0]);
+      if (!selectedTicket) throw new Error('Invalid ticket selection');
+
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
         .insert({
-          user_id: user?.id || null,
+          user_id: user?.id || 'guest',
           event_id: event.id,
-          attendee_name: attendeeInfo.name,
-          attendee_email: attendeeInfo.email,
-          attendee_phone: attendeeInfo.phone || null,
-          special_requests: attendeeInfo.specialRequests || null,
-          currency: tickets[0]?.currency || 'USD',
-          booking_status: 'confirmed'
+          ticket_id: selectedTicket.id,
+          quantity: firstTicket[1],
+          total_amount: selectedTicket.price * firstTicket[1],
+          status: 'confirmed'
         })
         .select()
         .single();
 
       if (bookingError) throw bookingError;
 
-      // Create booking tickets
-      const bookingTickets = getSelectedTicketsDetails().map(item => ({
-        booking_id: booking.id,
-        ticket_id: item!.ticket.id,
-        quantity: item!.quantity,
-        unit_price: item!.ticket.price,
-        total_price: item!.ticket.price * item!.quantity
-      }));
-
-      const { error: ticketsError } = await supabase
-        .from('booking_tickets')
-        .insert(bookingTickets);
-
-      if (ticketsError) throw ticketsError;
+      // Update ticket sold count
+      if (booking) {
+        const { error: ticketUpdateError } = await supabase
+          .from('tickets')
+          .update({ 
+            sold: selectedTicket.sold_quantity + firstTicket[1]
+          })
+          .eq('id', selectedTicket.id);
+        
+        if (ticketUpdateError) {
+          console.warn('Failed to update ticket count:', ticketUpdateError);
+        }
+      }
 
       // Success
-      setBookingReference(booking.booking_reference);
+      setBookingReference(booking.id);
       setBookingComplete(true);
       
       toast({
         title: "Booking confirmed!",
-        description: `Your booking reference is ${booking.booking_reference}`,
+        description: `Your booking reference is ${booking.id}`,
       });
 
     } catch (error: any) {

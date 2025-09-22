@@ -204,7 +204,7 @@ const ModelDashboard = () => {
                             <div className="flex justify-between items-start mb-3">
                               <div className="flex-1">
                                 <h4 className="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">
-                                  {booking.event_name}
+                                  {booking.title || 'Event'}
                                 </h4>
                                 <p className="text-sm text-gray-600 mt-1">
                                   {booking.designer} • {booking.type}
@@ -270,7 +270,7 @@ const ModelDashboard = () => {
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex-1">
                             <h5 className="font-medium text-gray-900 group-hover:text-orange-700 transition-colors text-sm">
-                              {casting.event_name}
+                              {casting.title}
                             </h5>
                             <p className="text-xs text-gray-600 mt-1">
                               {casting.lookingFor} • Deadline: {casting.deadline}

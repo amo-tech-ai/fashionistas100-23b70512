@@ -47,7 +47,24 @@ export const ContactManager = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setContacts(data || []);
+      // Map database schema to component interface
+      const mappedContacts = (data || []).map(contact => ({
+        id: contact.id,
+        name: contact.name || '',
+        email: contact.email || '',
+        phone: null, // Not in current schema
+        subject: 'General Inquiry', // Default value
+        message: contact.message || '',
+        inquiry_type: 'general',
+        status: 'new',
+        event_id: null,
+        user_id: null,
+        created_at: contact.created_at,
+        updated_at: contact.created_at,
+        resolved_at: null,
+        assigned_to: null
+      }));
+      setContacts(mappedContacts);
     } catch (error: any) {
       toast({
         title: 'Error fetching contacts',

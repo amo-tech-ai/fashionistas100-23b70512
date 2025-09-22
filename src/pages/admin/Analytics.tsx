@@ -34,9 +34,8 @@ export default function Analytics() {
       // Mock venue bookings data
       const venueBookings = [];
 
-      // Note: event_tickets table might have different column names
       const { data: tickets } = await supabase
-        .from('event_tickets')
+        .from('tickets')
         .select('price')
         .not('price', 'is', null);
       
@@ -55,7 +54,7 @@ export default function Analytics() {
 
       // Get registrations count
       const { count: registrations } = await supabase
-        .from('event_registrations')
+        .from('bookings')
         .select('*', { count: 'exact', head: true });
 
       // Mock attendees count
@@ -147,7 +146,7 @@ export default function Analytics() {
     
     return {
       id: event.id,
-      name: event.event_name,
+      name: event.title,
       revenue: eventRevenue || Math.floor(Math.random() * 50000 + 10000), // Fallback to mock if no real data
       tickets: Math.floor(Math.random() * 300 + 50), // Mock tickets since capacity not available
       growth: Math.floor(Math.random() * 40 - 10)

@@ -66,7 +66,20 @@ export const EventManager = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setEvents(data || []);
+      // Map database schema to component interface
+      const mappedEvents = (data || []).map(event => ({
+        id: event.id,
+        event_name: event.title, // Map title to event_name
+        organizer_id: event.organizer_id || '',
+        description: event.description || '',
+        start_datetime: event.start_datetime,
+        end_datetime: event.end_datetime,
+        venue_id: event.venue_id || '',
+        status: event.status || 'draft',
+        created_at: event.created_at,
+        updated_at: event.updated_at || event.created_at
+      }));
+      setEvents(mappedEvents);
     } catch (error: any) {
       toast({
         title: 'Error fetching events',
@@ -82,12 +95,18 @@ export const EventManager = () => {
     try {
       const { data, error } = await supabase
         .from('venues')
-        .select('id, venue_name, city, address')
-        .eq('status', 'active')
-        .order('venue_name');
+        .select('id, name, location, capacity')
+        .order('name');
 
       if (error) throw error;
-      setVenues(data || []);
+      // Map database schema to component interface  
+      const mappedVenues = (data || []).map(venue => ({
+        id: venue.id,
+        venue_name: venue.name, // Map name to venue_name
+        city: venue.location || '',
+        address: venue.location || ''
+      }));
+      setVenues(mappedVenues);
     } catch (error: any) {
       console.error('Error fetching venues:', error);
     }
@@ -98,8 +117,13 @@ export const EventManager = () => {
       const { data, error } = await supabase
         .from('events')
         .insert([{
-          ...eventForm,
-          organizer_id: (await supabase.auth.getUser()).data.user?.id
+          organizer_id: (await supabase.auth.getUser()).data.user?.id,
+          title: eventForm.event_name, // Use title instead of event_name
+          description: eventForm.description,
+          status: eventForm.status,
+          start_datetime: eventForm.start_datetime,
+          end_datetime: eventForm.end_datetime,
+          venue_id: eventForm.venue_id,
         }])
         .select()
         .single();
