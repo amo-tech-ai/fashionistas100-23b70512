@@ -9,11 +9,10 @@ import { Loader2, Shield, Calendar, Users, TrendingUp, DollarSign, Ticket, Heart
 
 // Import individual dashboard components
 import OrganizerDashboardDemo from './OrganizerDashboardDemo';
-import UserDashboardNew from './UserDashboardNew';
+import UserDashboard from './UserDashboard';
 import DesignerDashboard from './DesignerDashboard';
 import VenueDashboard from './VenueDashboard';
 import SponsorDashboardNew from './SponsorDashboardNew';
-import ModelDashboard from './ModelDashboard';
 
 const MainDashboard = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -99,7 +98,7 @@ const MainDashboard = () => {
         return <SponsorDashboardNew />;
       
       case 'model':
-        return <ModelDashboard />;
+        return <UserDashboard />;
       
       case 'admin':
         return <AdminDashboard />;
@@ -108,7 +107,7 @@ const MainDashboard = () => {
       case 'customer':
       case 'fashion_enthusiast':
       default:
-        return <UserDashboardNew />;
+        return <UserDashboard />;
     }
   };
 

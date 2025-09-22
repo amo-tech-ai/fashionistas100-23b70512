@@ -1,19 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { eventService } from "@/services/eventService";
-import type { Event } from "@/services/eventService";
+import { listEvents, getEventById, Event, EventSummary } from "@/services/eventService";
 
 export type Venue = {
+  id: string;
   name: string;
-  address: string;
-  city?: string;
+  address?: string;
+  city: string;
 };
 
-export type EventSummary = Event & {
-  title: string; // Alias for event_name
-  startISO: string; // Alias for start_datetime
-  endISO: string; // Alias for end_datetime
-  venue: Venue;
-};
+export type { EventSummary };
 
 export interface EventFilters {
   city?: string;
@@ -49,7 +44,7 @@ export function useEventData(params: UseEventDataParams): UseEventDataResult {
       setError(null);
       try {
         if (params.kind === "detail") {
-          const result = await eventService.getEvent(params.id);
+          const result = await getEventById(params.id);
           if (!cancelled && result) {
             setData(normalizeEvent(result));
           } else if (!cancelled) {
@@ -57,20 +52,16 @@ export function useEventData(params: UseEventDataParams): UseEventDataResult {
           }
         } else {
           const { limit, relatedToId, featured, city } = params;
-          let result = await eventService.getAllEvents();
+          let result = await listEvents();
           
           // Apply filters
-          if (featured) {
-            result = await eventService.getFeaturedEvents(limit);
-          }
           if (relatedToId) {
             result = result.filter(e => e.id !== relatedToId);
           }
           if (city) {
             result = result.filter(e => {
-              const venueData = (e as any).venue || { address: "" };
-              const eventCity = extractCityFromAddress(venueData.address || "");
-              return eventCity?.toLowerCase().includes(city.toLowerCase());
+              const venueData = e.venue || { city: "" };
+              return venueData.city?.toLowerCase().includes(city.toLowerCase());
             });
           }
           if (limit) {
@@ -97,8 +88,9 @@ export function useEventData(params: UseEventDataParams): UseEventDataResult {
 /** Helper: normalize event fields and derive venue.city if missing */
 function normalizeEvent(e: Event): EventSummary {
   // Handle venue properly - it might not exist or have the expected structure
-  const venueData = (e as any).venue || { name: "TBD", address: "" };
+  const venueData = e.venue || { id: '', name: "TBD", address: "", city: "" };
   const venue = {
+    id: venueData.id || '',
     name: venueData.name || "TBD",
     address: venueData.address || "",
     city: venueData.city || extractCityFromAddress(venueData.address || "")
@@ -107,17 +99,22 @@ function normalizeEvent(e: Event): EventSummary {
   return {
     ...e,
     title: e.event_name,
-    startISO: e.start_datetime,
-    endISO: e.end_datetime,
-    venue
-  };
+    startISO: e.startISO,
+    endISO: e.endISO || '',
+    venue,
+    heroImage: e.heroImage || e.imageUrl,
+    galleryImages: e.galleryImages || [],
+    priceMin: e.priceMin || 0,
+    currency: e.currency || 'COP',
+    available: e.available !== false
+  } as EventSummary;
 }
 
 /** Helper: extract city from address string */
-function extractCityFromAddress(address: string): string | undefined {
-  if (!address) return undefined;
+function extractCityFromAddress(address: string): string {
+  if (!address) return "";
   const parts = address.split(",").map(s => s.trim());
-  return parts.length >= 2 ? parts[parts.length - 2] : undefined;
+  return parts.length >= 2 ? parts[parts.length - 2] : "";
 }
 
 // Legacy hooks for backward compatibility

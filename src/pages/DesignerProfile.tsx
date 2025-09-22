@@ -29,19 +29,13 @@ const DesignerProfile = () => {
       setError(null);
 
       try {
-        const { data, error: fetchError } = await getDesignerBySlug(slug);
+        const data = await getDesignerBySlug(slug);
 
-        if (fetchError) {
-          setError(fetchError);
-          return;
+        if (data) {
+          setDesigner(data);
+        } else {
+          setError('Designer not found');
         }
-
-        if (!data) {
-          setError("Designer not found");
-          return;
-        }
-
-        setDesigner(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load designer profile");
       } finally {
@@ -280,9 +274,7 @@ const DesignerProfile = () => {
                   
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Member Since</span>
-                    <span className="font-medium">
-                      {new Date(designer.createdAt).getFullYear()}
-                    </span>
+                      <span className="text-muted-foreground">Member since {new Date(designer.createdAt || designer.memberSince).getFullYear()}</span>
                   </div>
                 </CardContent>
               </Card>

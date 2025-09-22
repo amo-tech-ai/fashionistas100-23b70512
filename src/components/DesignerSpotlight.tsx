@@ -18,19 +18,16 @@ export const DesignerSpotlight = () => {
   useEffect(() => {
     const fetchFeaturedDesigner = async () => {
       try {
-        const { data, error: fetchError } = await listDesigners({
-          verified: true,
-          limit: 1,
-          sortBy: 'popularity'
+        const data = await listDesigners({ 
+          verified: true, 
+          sortBy: 'popularity', 
+          limit: 1 
         });
-
-        if (fetchError) {
-          setError(fetchError);
-          return;
-        }
-
-        if (data.length > 0) {
+        
+        if (data && data.length > 0) {
           setFeaturedDesigner(data[0]);
+        } else {
+          setError('No featured designer found');
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load featured designer");

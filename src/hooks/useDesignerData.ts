@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { listDesigners, getDesignerBySlug, type Designer, type DesignerFilters } from '@/services/designerService';
+import { listDesigners, getDesignerBySlug, Designer, DesignerFilters } from '@/services/designerService';
+import { getFeaturedDesigners } from '@/services/getFeaturedDesigners';
 
 // Hook for fetching multiple designers
 export function useDesigners(filters: DesignerFilters = {}) {
@@ -13,18 +14,15 @@ export function useDesigners(filters: DesignerFilters = {}) {
     setError(null);
     
     try {
-      const result = await listDesigners(filters);
-      
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setDesigners(result.data);
-        setTotal(result.total || 0);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch designers');
-    } finally {
+      const response = await listDesigners({ ...filters, offset: (filters.page - 1) * (filters.limit || 12) });
+      setDesigners(response);
+      setError(null);
       setLoading(false);
+      setTotal(response.length);
+    } catch (err) {
+      setError('Failed to fetch designers');
+      setLoading(false);
+      console.error('Error fetching designers:', err);
     }
   };
 
@@ -37,7 +35,8 @@ export function useDesigners(filters: DesignerFilters = {}) {
     filters.location,
     filters.sortBy,
     filters.limit,
-    filters.offset
+    filters.offset,
+    filters.page
   ]);
 
   return { 
@@ -65,17 +64,14 @@ export function useDesigner(slug: string) {
     setError(null);
     
     try {
-      const result = await getDesignerBySlug(slug);
-      
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setDesigner(result.data);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch designer');
-    } finally {
+      const response = await getDesignerBySlug(slug);
+      setDesigner(response);
+      setError(null);
       setLoading(false);
+    } catch (err) {
+      setError('Failed to fetch designer');
+      setLoading(false);
+      console.error('Error fetching designer:', err);
     }
   };
 
@@ -97,21 +93,14 @@ export function useFeaturedDesigner() {
     setError(null);
     
     try {
-      const result = await listDesigners({ 
-        limit: 1, 
-        sortBy: 'popularity',
-        verified: true 
-      });
-      
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setDesigner(result.data[0] || null);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch featured designer');
-    } finally {
+      const response = await getFeaturedDesigners(1);
+      setDesigner(response[0] || null);
+      setError(null);
       setLoading(false);
+    } catch (err) {
+      setError('Failed to fetch featured designers');
+      setLoading(false);
+      console.error('Error fetching featured designers:', err);
     }
   };
 

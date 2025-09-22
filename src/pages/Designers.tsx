@@ -26,7 +26,7 @@ const Designers = () => {
   const verified = searchParams.get("verified");
   const specialty = searchParams.get("specialty");
   const location = searchParams.get("location");
-  const sortBy = searchParams.get("sortBy") as 'newest' | 'oldest' | 'alphabetical' | 'popularity' || 'newest';
+  const sortBy = searchParams.get("sortBy") as 'newest' | 'alphabetical' | 'popularity' || 'newest';
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = 12;
 
@@ -36,7 +36,7 @@ const Designers = () => {
       setError(null);
 
       try {
-        const { data, error: fetchError, total: totalCount } = await listDesigners({
+        const designers = await listDesigners({
           search: search || undefined,
           verified: verified === "true" ? true : undefined,
           specialty: specialty || undefined,
@@ -46,14 +46,10 @@ const Designers = () => {
           offset: (page - 1) * limit
         });
 
-        if (fetchError) {
-          setError(fetchError);
-          setDesigners([]);
-          return;
-        }
-
-        setDesigners(data);
-        setTotal(totalCount || 0);
+        setDesigners(designers || []);
+        setError(null);
+        setLoading(false);
+        setTotal(designers?.length || 0);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load designers");
         setDesigners([]);
