@@ -12,13 +12,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-4">
               <img 
                 src="/fashionistas1.png" 
                 alt="Fashionistas Logo" 
-                className="w-10 h-10 object-contain"
+                className="w-16 h-16 object-contain"
               />
-              <span className="font-bold text-xl">Fashionistas</span>
             </div>
             <p className="text-white/70 text-sm mb-6">
               The premier platform for fashion event management in Colombia

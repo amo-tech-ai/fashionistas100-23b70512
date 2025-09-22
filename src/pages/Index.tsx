@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
+import { AboutSection } from "@/components/AboutSection";
 import { FeaturedEvents } from "@/components/FeaturedEvents";
 import { DesignerSpotlight } from "@/components/DesignerSpotlight";
 import { TicketTiers } from "@/components/TicketTiers";
@@ -12,6 +13,7 @@ const Index = () => {
       <Navigation />
       <main className="pt-16 lg:pt-20 flex-1"> {/* Add padding for fixed nav */}
         <Hero />
+        <AboutSection />
         <FeaturedEvents />
         <DesignerSpotlight />
         <TicketTiers />
