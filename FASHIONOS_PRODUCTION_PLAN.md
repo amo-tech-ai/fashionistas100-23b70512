@@ -1,24 +1,39 @@
-# 🚀 FashionOS Production Plan - Complete Implementation
+# 🚀 FashionOS Production Plan - Simplified MVP Execution
 
 ## 🎯 PROJECT OVERVIEW
 **FashionOS**: AI-powered Omnichannel Fashion Commerce + Events Platform
 **Goal**: Convert 3-day workflows into 3-minute automated flows
 **Target**: Colombian fashion market (WhatsApp + Instagram focused)
 
+## 🕵️ Strategy Audit Results
+- **70% correct approach** - well-organized, iterative structure
+- **Key improvements**: Simplified scope, earlier payments, incremental testing
+- **Focus**: Services + Events as MVP backbone, then expand
+
 ---
 
-## 📋 PRODUCTION CHECKLIST - PHASE 1: FOUNDATION
+## 📋 WEEK 1: FOUNDATION (Framework + Sitemap)
 
 ### ✅ 1. INFRASTRUCTURE SETUP
-- [x] Fix build errors (Navigation.tsx syntax)
-- [ ] Fix App.tsx imports and routing structure
-- [ ] Update design system tokens for FashionOS brand
+**Tasks:**
+- [x] Fix build errors (Navigation.tsx, App.tsx)
+- [ ] Update design system tokens (luxury black/white, Inter + serif fonts)
 - [ ] Configure development environment
 - [ ] Set up error boundaries and loading states
 
-**Priority**: CRITICAL | **Estimated Time**: 2 hours
+**Success Criteria:**
+- ✅ Project builds with zero console errors
+- ✅ Navigation works without broken links
+- ✅ Color tokens + typography consistent across pages
 
-### ✅ 2. CORE ROUTING ARCHITECTURE
+**Production-Ready Checklist:**
+- [ ] No TypeScript or runtime errors
+- [ ] Dark/light mode functional
+- [ ] Mobile breakpoints working
+
+**Priority**: CRITICAL | **Estimated Time**: 3 hours
+
+### ✅ 2. ROUTING & SITEMAP
 **Public Marketing Routes:**
 - [ ] `/` - Home page (hero + value props)
 - [ ] `/services` - Services overview  
@@ -35,316 +50,244 @@
 
 **Dashboard Routes (Protected):**
 - [ ] `/dashboard` - Dashboard home
-- [ ] `/dashboard/services/*` - Services module
-- [ ] `/dashboard/shoots` - Photo/video shoots
-- [ ] `/dashboard/gallery` - Asset management
-- [ ] `/dashboard/campaigns` - Campaign manager
+- [ ] `/dashboard/services/browse` - Services browser
+- [ ] `/dashboard/services/book` - Services booking flow
+- [ ] `/dashboard/services/my-services` - Service management
+- [ ] `/dashboard/events/create` - Event wizard
 - [ ] `/dashboard/events` - Event management
-- [ ] `/dashboard/sponsors` - Sponsorship deals
-- [ ] `/dashboard/products` - Product sync
-- [ ] `/dashboard/analytics` - Performance metrics
+
+**Success Criteria:**
+- ✅ All routes load without 404
+- ✅ Navbar + sidebar navigation match sitemap
+- ✅ Auth routes redirect properly
+
+**Production-Ready Checklist:**
+- [ ] Core sitemap published in Lovable
+- [ ] All menu items visible + clickable
+- [ ] Dashboard shell loads after login
 
 **Priority**: HIGH | **Estimated Time**: 4 hours
 
 ---
 
-## 📋 PRODUCTION CHECKLIST - PHASE 2: CORE PAGES
+## 📋 WEEK 2: CORE FLOWS (Services + Events)
 
-### ✅ 3. PUBLIC MARKETING PAGES
+### ✅ 3. SERVICES BOOKING FLOW
+**Tasks:**
+- [ ] `/services` overview page with category cards
+- [ ] `/services/photography` package details page
+- [ ] `/dashboard/services/book` complete flow:
+  - Step 1: Select service package (Starter/Pro/Enterprise)
+  - Step 2: Customize requirements & upload products
+  - Step 3: Schedule & turnaround selection
+  - Step 4: Review & payment (Stripe integration)
+- [ ] `/dashboard/services/my-services` status tracking
 
-#### 3.1 Home Page (`/`)
-- [ ] Hero section with value proposition
-- [ ] "Explore Services" primary CTA
-- [ ] "Browse Events" secondary CTA  
-- [ ] Trending Services carousel
-- [ ] Upcoming Events carousel
-- [ ] Designer Spotlights
-- [ ] Three value pillars (Faster, Cheaper, Omnichannel)
-- [ ] Trust indicators (logos/testimonials)
-- [ ] Final CTA band
+**Success Criteria:**
+- ✅ User can book a service from start to finish
+- ✅ Stripe payment succeeds in test mode
+- ✅ Booking shows in **My Services** list with status updates
 
-**Priority**: HIGH | **Time**: 3 hours
+**Production-Ready Checklist:**
+- [ ] Packages visible with pricing ($39/photo • 48h turnaround)
+- [ ] Payment integrated (Stripe test mode)
+- [ ] Booking status updates correctly (draft → confirmed → in progress → delivered)
+- [ ] Mobile booking flow functional
 
-#### 3.2 Services Overview (`/services`)
-- [ ] Category cards (Photography, Video, AI, Campaigns)
-- [ ] "How it works" (3 steps: Choose → Upload → Deliver)
-- [ ] Pricing transparency ($39/photo • 48h turnaround)
-- [ ] Before/after gallery showcase
-- [ ] "Book a Service" CTA → dashboard flow
+**Priority**: CRITICAL | **Estimated Time**: 6 hours
 
-**Priority**: HIGH | **Time**: 2 hours
+### ✅ 4. EVENT WIZARD (MVP)
+**Tasks:**
+- [ ] `/dashboard/events/create` wizard:
+  - Event basics (title, description, venue, date/time)
+  - Ticket tiers setup (pricing, quantities)
+  - Marketing integration options
+  - Sponsor package attachment
+- [ ] Event confirmation & management page
+- [ ] Auto-create event recap placeholder
 
-#### 3.3 Service Detail Pages
-- [ ] Photography packages (Starter/Pro/Enterprise)
-- [ ] Video production packages
-- [ ] AI Studio tools & pricing
-- [ ] Campaign management packages
-- [ ] FAQ accordions for each service
-- [ ] Examples carousels
-- [ ] Sticky CTA → Sign-in → booking flow
+**Success Criteria:**
+- ✅ User creates event in <5 minutes
+- ✅ Ticket tiers saved in database
+- ✅ Event detail page displays correctly
+- ✅ Confirmation page shows event summary
 
-**Priority**: MEDIUM | **Time**: 4 hours
+**Production-Ready Checklist:**
+- [ ] Event creation wizard stepper complete
+- [ ] Ticketing system integrated (mock or Stripe)
+- [ ] Event appears in `/events` public listing
+- [ ] Mobile event creation functional
 
-### ✅ 4. DASHBOARD FOUNDATION
-
-#### 4.1 Dashboard Layout
-- [ ] Create `DashboardLayout` component
-- [ ] Responsive sidebar navigation
-- [ ] Top navigation with user menu
-- [ ] Mobile-responsive design
-- [ ] Breadcrumb navigation
-
-**Priority**: HIGH | **Time**: 2 hours
-
-#### 4.2 Dashboard Home (`/dashboard`)
-- [ ] Welcome header with user name
-- [ ] Quick actions: Book Service, Create Campaign, Create Event
-- [ ] Metric tiles: Events, Campaigns, Spending, Points
-- [ ] "My Bookings & Tickets" panel
-- [ ] "For You" recommendations
-- [ ] "Favorite Designers" section
-
-**Priority**: HIGH | **Time**: 2 hours
+**Priority**: HIGH | **Estimated Time**: 5 hours
 
 ---
 
-## 📋 PRODUCTION CHECKLIST - PHASE 3: SERVICES MODULE
+## 📋 WEEK 3: CONTENT MODULES (Gallery + Campaigns)
 
-### ✅ 5. SERVICES DASHBOARD MODULE
+### ✅ 5. GALLERY MODULE
+**Tasks:**
+- [ ] `/dashboard/gallery` asset grid layout
+- [ ] Image upload functionality (drag & drop)
+- [ ] AI-powered tags and scoring system
+- [ ] Bulk selection and download tools
+- [ ] Asset sharing capabilities
 
-#### 5.1 Browse Services (`/dashboard/services/browse`)
-- [ ] Service category filters
-- [ ] Service cards with pricing
-- [ ] Search functionality
-- [ ] "Book Now" CTAs
+**Success Criteria:**
+- ✅ Upload → Asset visible in grid immediately
+- ✅ AI tags populate automatically on upload
+- ✅ User can download/share individual or bulk assets
+- ✅ Search and filter by tags functional
 
-**Priority**: HIGH | **Time**: 2 hours
+**Production-Ready Checklist:**
+- [ ] Bulk upload works without errors
+- [ ] AI tagging service integrated
+- [ ] Filters/search responsive on mobile
+- [ ] Version control for asset updates
 
-#### 5.2 Service Booking Flow (`/dashboard/services/book`)
-- [ ] Step 1: Select service package
-- [ ] Step 2: Customize requirements
-- [ ] Step 3: Upload/link products
-- [ ] Step 4: Schedule & turnaround
-- [ ] Step 5: Review & payment
-- [ ] Progress indicator
-- [ ] Save as draft functionality
+**Priority**: MEDIUM | **Estimated Time**: 4 hours
 
-**Priority**: CRITICAL | **Time**: 4 hours
-
-#### 5.3 My Services (`/dashboard/services/my-services`)
-- [ ] Service status tracking (draft/scheduled/in progress/delivered)
-- [ ] Action buttons (manage, view assets, reorder)
-- [ ] Filter by status/date
-- [ ] Service history
-
-**Priority**: MEDIUM | **Time**: 2 hours
-
-#### 5.4 AI Quick Tools (`/dashboard/services/ai`)
-- [ ] Caption generator
-- [ ] Background cleanup tool
-- [ ] Trend score analyzer
-- [ ] Batch processing options
-
-**Priority**: LOW | **Time**: 3 hours
-
----
-
-## 📋 PRODUCTION CHECKLIST - PHASE 4: CORE MODULES
-
-### ✅ 6. SHOOTS MODULE (`/dashboard/shoots`)
-- [ ] Calendar view
-- [ ] "New Shoot" wizard
-- [ ] Team member selection
-- [ ] Shot list creation
-- [ ] Product attachment
-- [ ] Location booking
-- [ ] Equipment requests
-
-**Priority**: MEDIUM | **Time**: 4 hours
-
-### ✅ 7. GALLERY MODULE (`/dashboard/gallery`)
-- [ ] Asset grid layout
-- [ ] AI-powered tags and scoring
-- [ ] Bulk selection tools
-- [ ] Download/share functionality
-- [ ] Version management
-- [ ] Search and filters
-
-**Priority**: MEDIUM | **Time**: 3 hours
-
-### ✅ 8. CAMPAIGNS MODULE (`/dashboard/campaigns`)
+### ✅ 6. CAMPAIGNS MODULE
+**Tasks:**
+- [ ] `/dashboard/campaigns/create` campaign builder
 - [ ] Platform planner (Instagram/TikTok/WhatsApp)
-- [ ] Content scheduler
-- [ ] Campaign templates
-- [ ] Performance preview
-- [ ] Content queue management
-- [ ] Auto-posting setup
+- [ ] Content scheduler with calendar view
+- [ ] Campaign status tracking (draft, scheduled, active, completed)
+- [ ] Basic performance metrics
 
-**Priority**: MEDIUM | **Time**: 4 hours
+**Success Criteria:**
+- ✅ User schedules a campaign across multiple platforms
+- ✅ Campaign shows in calendar view with correct timing
+- ✅ WhatsApp test message successfully delivered
+- ✅ Campaign status updates automatically
 
-### ✅ 9. EVENTS MODULE (`/dashboard/events`)
-- [ ] Event creation wizard
-- [ ] Ticketing setup
-- [ ] Marketing campaign integration
-- [ ] Live coverage coordination
-- [ ] Automatic recap generation
-- [ ] Attendee management
+**Production-Ready Checklist:**
+- [ ] Campaign creation form fully functional
+- [ ] Scheduler UI responsive on all devices
+- [ ] Integration tested with at least one external platform
+- [ ] Performance tracking displays real data
 
-**Priority**: MEDIUM | **Time**: 5 hours
-
----
-
-## 📋 PRODUCTION CHECKLIST - PHASE 5: BUSINESS MODULES
-
-### ✅ 10. SPONSORS MODULE (`/dashboard/sponsors`)
-- [ ] Package listings
-- [ ] Proposal generator
-- [ ] Deal tracking pipeline
-- [ ] ROI dashboard (impressions, leads, conversions)
-- [ ] Contract management
-- [ ] Payment tracking
-
-**Priority**: MEDIUM | **Time**: 4 hours
-
-### ✅ 11. PRODUCTS MODULE (`/dashboard/products`)
-- [ ] Shopify connection interface
-- [ ] Amazon seller integration
-- [ ] Product catalog sync
-- [ ] Recommended service packages
-- [ ] Sales performance tracking
-- [ ] Inventory alerts
-
-**Priority**: LOW | **Time**: 5 hours
-
-### ✅ 12. ANALYTICS MODULE (`/dashboard/analytics`)
-- [ ] Overview dashboard (Social, E-commerce, Sponsorship)
-- [ ] Performance trend charts
-- [ ] ROI calculators
-- [ ] Export functionality
-- [ ] Custom date ranges
-- [ ] Automated reports
-
-**Priority**: MEDIUM | **Time**: 4 hours
+**Priority**: MEDIUM | **Estimated Time**: 5 hours
 
 ---
 
-## 📋 PRODUCTION CHECKLIST - PHASE 6: DESIGN SYSTEM
+## 📋 WEEK 4: BUSINESS + ANALYTICS
 
-### ✅ 13. DESIGN SYSTEM UPDATE
-- [ ] Update color tokens for FashionOS (luxury minimal)
-- [ ] Implement card patterns (image | title | bullets | price | CTA)
-- [ ] Create component variants (MetricTile, ServiceCard, EventCard)
-- [ ] Add loading skeletons (no spinners)
-- [ ] Design empty states with friendly copy
-- [ ] Ensure AA accessibility compliance
+### ✅ 7. SPONSORS MODULE
+**Tasks:**
+- [ ] `/sponsors` public packages page
+- [ ] `/dashboard/sponsors` deal management
+- [ ] Sponsor proposal generator
+- [ ] Deal tracking pipeline (prospect → negotiation → confirmed)
+- [ ] ROI dashboard with key metrics
 
-**Priority**: HIGH | **Time**: 3 hours
+**Success Criteria:**
+- ✅ Sponsor can view and select available packages
+- ✅ Sponsor can commit to a package through the system
+- ✅ ROI data visible and updateable in dashboard
+- ✅ Deal pipeline tracks status changes
 
-### ✅ 14. RESPONSIVE DESIGN
-- [ ] Mobile-first approach
-- [ ] Sidebar collapse at ≤1024px
-- [ ] Card grids: 1-2-3-4 columns by breakpoint
-- [ ] Touch-friendly navigation
-- [ ] WhatsApp integration ready
+**Production-Ready Checklist:**
+- [ ] Sponsorship packages clearly displayed with pricing
+- [ ] Contract status tracking functional
+- [ ] ROI calculations accurate with real/mock data
+- [ ] Mobile sponsor experience optimized
 
-**Priority**: HIGH | **Time**: 2 hours
+**Priority**: MEDIUM | **Estimated Time**: 4 hours
 
----
+### ✅ 8. ANALYTICS HUB
+**Tasks:**
+- [ ] `/dashboard/analytics` unified overview
+- [ ] Campaign performance metrics (reach, engagement, ROI)
+- [ ] Event analytics (ticket sales, attendance, revenue)
+- [ ] Sponsor ROI tracking (impressions, leads, conversions)
+- [ ] Export functionality (CSV/PDF)
 
-## 📋 PRODUCTION CHECKLIST - PHASE 7: USER JOURNEYS
+**Success Criteria:**
+- ✅ Designer sees campaign reach + engagement rates
+- ✅ Organizer sees ticket sales and revenue per event
+- ✅ Sponsor sees ROI percentage and lead generation
+- ✅ All data exports successfully
 
-### ✅ 15. DESIGNER JOURNEY (Content → Distribution)
-- [ ] Home → Services → Photography → Auth → Book → Upload → Gallery → Campaign → Analytics
-- [ ] Test complete flow end-to-end
-- [ ] Ensure all CTAs work properly
+**Production-Ready Checklist:**
+- [ ] Analytics page loads without performance lag
+- [ ] Charts responsive across all screen sizes
+- [ ] Export functionality works for all data types
+- [ ] Real-time data updates functional
 
-**Priority**: CRITICAL | **Time**: 2 hours
-
-### ✅ 16. ORGANIZER JOURNEY (Event → Recap)
-- [ ] Home → Events → Create Event → Add Services → Post-event Assets → Auto Recap
-- [ ] Test wizard flows
-- [ ] Verify service integration
-
-**Priority**: HIGH | **Time**: 2 hours
-
-### ✅ 17. SPONSOR JOURNEY (ROI)
-- [ ] Sponsors → Packages → Auth → Select Package → Add AI Boost → Track ROI
-- [ ] Test payment flows
-- [ ] Verify analytics tracking
-
-**Priority**: MEDIUM | **Time**: 2 hours
-
----
-
-## 📋 PRODUCTION CHECKLIST - PHASE 8: FINAL POLISH
-
-### ✅ 18. CONTENT & COPY
-- [ ] Outcome-driven headlines
-- [ ] Colombian market localization
-- [ ] WhatsApp communication references
-- [ ] Pricing transparency ($39/photo • 48h)
-- [ ] Fashion industry examples
-
-**Priority**: MEDIUM | **Time**: 2 hours
-
-### ✅ 19. PERFORMANCE OPTIMIZATION
-- [ ] Code splitting implementation
-- [ ] Image optimization
-- [ ] Bundle size analysis
-- [ ] Loading performance audit
-- [ ] Mobile performance testing
-
-**Priority**: MEDIUM | **Time**: 2 hours
-
-### ✅ 20. FINAL TESTING & DEPLOYMENT
-- [ ] Cross-browser testing
-- [ ] Mobile device testing
-- [ ] User flow validation
-- [ ] Performance benchmarks
-- [ ] Production deployment
-- [ ] Post-deployment verification
-
-**Priority**: CRITICAL | **Time**: 3 hours
+**Priority**: MEDIUM | **Estimated Time**: 4 hours
 
 ---
 
-## 🚀 IMPLEMENTATION ORDER
+## 📋 FINAL MVP SUCCESS METRICS
 
-### Week 1: Foundation (Phase 1-2)
-1. Fix build errors & routing
-2. Update design system
-3. Create core pages (Home, Services)
-4. Setup dashboard layout
+### Core Functionality Validation
+- [ ] **Services booking** works end-to-end with payments
+- [ ] **Event wizard** works with ticketing system
+- [ ] **Gallery** shows assets with AI tags and sharing
+- [ ] **Campaigns** can be scheduled with external platform integration
+- [ ] **Sponsors** can select packages and view ROI data
+- [ ] **Analytics** display minimum 3 KPIs per module
 
-### Week 2: Core Features (Phase 3-4)
-1. Services booking module
-2. Dashboard modules (Shoots, Gallery, Campaigns)
-3. Event management
+### Technical Requirements
+- [ ] **Mobile-first** design functional on all breakpoints
+- [ ] **Load time** < 2 seconds on all pages
+- [ ] **Zero console errors** in production build
+- [ ] **Colombian market ready** (WhatsApp integration tested)
 
-### Week 3: Business Logic (Phase 5-6)
-1. Sponsors & Products modules
-2. Analytics dashboard
-3. Design system refinement
-
-### Week 4: Polish & Launch (Phase 7-8)
-1. User journey testing
-2. Content optimization
-3. Performance tuning
-4. Production deployment
+### User Journey Completion
+- [ ] **Designer journey**: Home → Services → Book → Gallery → Campaign → Analytics
+- [ ] **Organizer journey**: Home → Events → Create → Tickets → Analytics
+- [ ] **Sponsor journey**: Sponsors → Package → Commit → ROI tracking
 
 ---
 
-## 📊 SUCCESS METRICS
-- [ ] All routes accessible and functional
-- [ ] Complete Designer journey (Home → Analytics)
-- [ ] Mobile-responsive on all breakpoints
-- [ ] Loading performance < 2s
-- [ ] Zero console errors
-- [ ] All CTAs properly wired
-- [ ] Colombian market ready (WhatsApp integration)
+## 🚀 IMPLEMENTATION TIMELINE
+
+### Week 1: Foundation (12 hours)
+- Infrastructure setup + routing architecture
+- Design system implementation
+- Core navigation functional
+
+### Week 2: MVP Backbone (11 hours)  
+- Services booking flow with payments
+- Event wizard with ticketing
+- Critical user flows established
+
+### Week 3: Content Features (9 hours)
+- Gallery asset management
+- Campaign creation and scheduling
+- Content distribution preparation
+
+### Week 4: Business Intelligence (8 hours)
+- Sponsor management system
+- Analytics and reporting
+- Final optimization and testing
 
 ---
 
-**TOTAL ESTIMATED TIME**: 60-80 hours
-**TARGET COMPLETION**: 4 weeks
-**PRIORITY FOCUS**: Designer journey (highest ROI)
+## 📊 SUCCESS CRITERIA SUMMARY
+
+**Technical Excellence:**
+- All routes accessible and functional
+- Mobile-responsive on all breakpoints  
+- Zero production errors
+- Performance optimized (< 2s load time)
+
+**Business Value:**
+- Complete Designer journey functional
+- Event creation and management working
+- Sponsor ROI tracking operational
+- Colombian market features ready
+
+**Production Readiness:**
+- Stripe payments integrated and tested
+- WhatsApp integration verified
+- Analytics providing actionable insights
+- All CTAs properly connected and functional
+
+---
+
+**TOTAL ESTIMATED TIME**: 40 hours (simplified from 80)
+**TARGET COMPLETION**: 4 weeks  
+**PRIORITY FOCUS**: Services + Events as MVP backbone, then expand
+**SUCCESS RATE**: 95% achievable with iterative approach
