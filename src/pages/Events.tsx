@@ -160,11 +160,10 @@ const Events = () => {
             icon={<Calendar className="w-8 h-8" />}
             title="Error Loading Events"
             description={error}
-            action={
-              <Button onClick={() => window.location.reload()}>
-                Try Again
-              </Button>
-            }
+            action={{
+              label: "Try Again",
+              onClick: () => window.location.reload()
+            }}
           />
         </div>
         <Footer />
@@ -180,7 +179,7 @@ const Events = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-accent/20 via-background to-accent/10 py-16 px-4">
         <div className="absolute inset-0 opacity-10">
           <img 
-            src={fashionImages.heroes[0]} 
+            src={fashionImages.hero.main} 
             alt="Fashion Events" 
             className="w-full h-full object-cover"
           />
@@ -254,9 +253,10 @@ const Events = () => {
                     : "No events are currently available. Check back soon for upcoming fashion shows!"
                 }
                 action={
-                  (search || city || eventType || date) ? (
-                    <Button onClick={resetFilters}>Clear Filters</Button>
-                  ) : undefined
+                  (search || city || eventType || date) ? {
+                    label: "Clear Filters",
+                    onClick: resetFilters
+                  } : undefined
                 }
               />
             ) : (
