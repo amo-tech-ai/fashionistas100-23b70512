@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { TicketTiers } from "@/components/TicketTiers";
-import { DashboardFooter } from "@/components/DashboardFooter";
+import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { fashionImages } from "@/lib/cloudinary";
 
@@ -36,7 +36,7 @@ const Tickets = () => {
         <TicketTiers />
       </main>
       
-      <DashboardFooter />
+      <Footer />
     </div>
   );
 };

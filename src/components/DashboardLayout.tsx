@@ -1,6 +1,6 @@
 import React from 'react';
 import DashboardNavbar from './DashboardNavbar';
-import DashboardFooter from './DashboardFooter';
+import Footer from './Footer';
 import DashboardSidebar from './DashboardSidebar';
 
 interface DashboardLayoutProps {
@@ -31,7 +31,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       </div>
       
       {/* Footer - Outside container for full width */}
-      <DashboardFooter />
+      <Footer />
     </div>
   );
 };

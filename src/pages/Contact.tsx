@@ -11,7 +11,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/clerk-react";
-import { DashboardFooter } from "@/components/DashboardFooter";
+import Footer from "@/components/Footer";
 import { fashionImages } from "@/lib/cloudinary";
 
 const Contact = () => {
@@ -275,7 +275,7 @@ const Contact = () => {
         </div>
       </main>
       
-      <DashboardFooter />
+      <Footer />
     </div>
   );
 };

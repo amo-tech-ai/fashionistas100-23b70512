@@ -3,7 +3,7 @@ import { StandardCard, StandardCardContent } from "@/components/ui/StandardCard"
 import { Badge } from "@/components/ui/badge";
 import { Users, Award, Calendar, Heart } from "lucide-react";
 import { fashionImages } from "@/lib/cloudinary";
-import { DashboardFooter } from "@/components/DashboardFooter";
+import Footer from "@/components/Footer";
 
 const About = () => {
   const stats = [
@@ -159,7 +159,7 @@ const About = () => {
           </StandardCardContent>
         </StandardCard>
       </main>
-      <DashboardFooter />
+      <Footer />
     </div>
   );
 };
