@@ -1,17 +1,28 @@
-import { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ClerkProvider } from '@clerk/clerk-react';
 import { Toaster } from '@/components/ui/sonner';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import LoadingSkeleton from '@/components/LoadingSkeleton';
+import { Toaster as Sonner } from 'sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { StripeProvider } from '@/components/payments/StripeProvider';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
-// Pages
+// Loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+  </div>
+);
+
+// Pages - Direct imports for core pages
 import Home from '@/pages/Home';
 import Services from '@/pages/Services';
 import Photography from '@/pages/services/Photography';
 import Events from '@/pages/Events';
 import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
+import Index from '@/pages/Index';
 
 // Import dashboards directly to avoid lazy loading issues
 import OrganizerDashboardDemo from "./pages/OrganizerDashboardDemo";
@@ -91,87 +102,50 @@ const App = () => {
               <BrowserRouter>
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
-                {/* Public routes - Core pages loaded immediately */}
-                <Route path="/" element={<Index />} />
-                <Route path="/events" element={<Events />} />
-                <Route path="/sign-in" element={<SignInPage />} />
-                <Route path="/sign-up" element={<SignUpPage />} />
-                
-                {/* Lazy loaded public routes */}
-                                <Route path="/public-dashboard" element={<PublicDashboard />} />
-                <Route path="/events/:id" element={<EventDetail />} />
-                <Route path="/designers" element={<Designers />} />
-                <Route path="/designers/:id" element={<DesignerProfile />} />
-                <Route path="/tickets" element={<Tickets />} />
-                <Route path="/sponsors" element={<Sponsors />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/venues" element={<Venues />} />
-                <Route path="/booking-success" element={<BookingSuccess />} />
-                
-                {/* Admin routes - Protected and lazy loaded */}
-                <Route path="/admin" element={<Dashboard />} />
-                <Route path="/admin/dashboard" element={<Dashboard />} />
-                <Route path="/admin/dashboard-dev" element={<DashboardDev />} />
-                <Route path="/admin/create-event" element={<CreateEvent />} />
-                <Route path="/admin/add-sponsor" element={<AddSponsor />} />
-                <Route path="/admin/production" element={<Production />} />
-                <Route path="/admin/group-booking" element={<GroupBooking />} />
-                <Route path="/admin/analytics" element={<Analytics />} />
-                <Route path="/admin/event-plans" element={<EventPlans />} />
-                <Route path="/admin/portfolio-upload" element={<PortfolioUpload />} />
-                <Route path="/admin/collection-manager" element={<CollectionManager />} />
-                <Route path="/admin/venue-photos" element={<VenuePhotos />} />
-                <Route path="/admin/venue-availability" element={<VenueAvailability />} />
-                <Route path="/admin/gallery" element={<Gallery />} />
-                
-                {/* Main Dashboard Routes - Protected with Authentication */}
-                <Route path="/dashboard" element={<MainDashboard />} />
-                <Route path="/organizer-dashboard" element={<OrganizerDashboardNew />} />
-                <Route path="/user-dashboard" element={<UserDashboardNew />} />
-                <Route path="/sponsor-dashboard" element={<SponsorDashboardNew />} />
-                <Route path="/designer-dashboard" element={<DesignerDashboard />} />
-                <Route path="/model-dashboard" element={<ModelDashboard />} />
-                <Route path="/venue-dashboard" element={<VenueDashboard />} />
-                
-                {/* Admin Routes */}
-                <Route path="/admin/organizer" element={<OrganizerDashboardDemo />} />
-                <Route path="/admin/user" element={<UserDashboardNew />} />
-                <Route path="/admin/sponsor" element={<SponsorDashboardNew />} />
-                <Route path="/admin/designer" element={<DesignerDashboard />} />
-                <Route path="/admin/model" element={<ModelDashboard />} />
-                <Route path="/admin/venue" element={<VenueDashboard />} />
-                
-                {/* Preview Routes for Testing */}
-                <Route path="/preview/organizer" element={<OrganizerDashboardDemo />} />
-                <Route path="/preview/user" element={<UserDashboardNew />} />
-                <Route path="/preview/sponsor" element={<SponsorDashboardNew />} />
-                <Route path="/preview/designer" element={<DesignerDashboard />} />
-                <Route path="/preview/model" element={<ModelDashboard />} />
-                <Route path="/preview/venue" element={<VenueDashboard />} />
-                <Route path="/preview/analytics" element={<Analytics />} />
-                
-                {/* Additional Dashboard Variations */}
-                <Route path="/dashboard/enhanced" element={<EnhancedDashboard />} />
-                <Route path="/leap-dashboard" element={<LeapDashboard />} />
-                
-                {/* Test routes - Lazy loaded */}
-                <Route path="/test-auth" element={<TestAuth />} />
-                <Route path="/test-integration" element={<CompleteIntegrationTest />} />
-                <Route path="/test-direct-auth" element={<TestDirectAuth />} />
-                <Route path="/test-stripe" element={<StripeTestPage />} />
-                
-                {/* Fallback */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </StripeProvider>
-  </ClerkProvider>
-</ErrorBoundary>
-);
+                    {/* Public routes - Core pages loaded immediately */}
+                    <Route path="/" element={<Index />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/services/photography" element={<Photography />} />
+                    <Route path="/events" element={<Events />} />
+                    <Route path="/sign-in" element={<SignInPage />} />
+                    <Route path="/sign-up" element={<SignUpPage />} />
+                    
+                    {/* Lazy loaded public routes */}
+                    <Route path="/public-dashboard" element={<PublicDashboard />} />
+                    <Route path="/events/:id" element={<EventDetail />} />
+                    <Route path="/designers" element={<Designers />} />
+                    <Route path="/designers/:id" element={<DesignerProfile />} />
+                    <Route path="/tickets" element={<Tickets />} />
+                    <Route path="/sponsors" element={<Sponsors />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/venues" element={<Venues />} />
+                    <Route path="/booking-success" element={<BookingSuccess />} />
+                    
+                    {/* Dashboard Routes */}
+                    <Route path="/dashboard" element={<MainDashboard />} />
+                    
+                    {/* Admin routes - Protected and lazy loaded */}
+                    <Route path="/admin" element={<Dashboard />} />
+                    <Route path="/admin/dashboard" element={<Dashboard />} />
+                    <Route path="/admin/dashboard-dev" element={<DashboardDev />} />
+                    <Route path="/admin/create-event" element={<CreateEvent />} />
+                    <Route path="/admin/add-sponsor" element={<AddSponsor />} />
+                    <Route path="/admin/production" element={<Production />} />
+                    <Route path="/admin/group-booking" element={<GroupBooking />} />
+                    <Route path="/admin/analytics" element={<Analytics />} />
+                    
+                    {/* Fallback */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </TooltipProvider>
+          </QueryClientProvider>
+        </StripeProvider>
+      </ClerkProvider>
+    </ErrorBoundary>
+  );
 };
-
 export default App;
