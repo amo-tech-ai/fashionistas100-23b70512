@@ -19,10 +19,10 @@ All colors MUST be HSL.
     --popover-foreground: 220 13% 9%;
 
     /* Brand Colors */
-    --primary: 262 83% 58%; /* Fashion purple */
+    --primary: 220 13% 9%; /* Rich black */
     --primary-foreground: 0 0% 98%;
 
-    --brand: 262 83% 58%; /* Fashion purple */
+    --brand: 220 13% 9%; /* Rich black */
     --brand-foreground: 0 0% 98%;
 
     --secondary: 220 14% 96%; /* Neutral light */
@@ -31,7 +31,7 @@ All colors MUST be HSL.
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 262 83% 58%; /* Brand accent */
+    --accent: 220 13% 9%; /* Black accent */
     --accent-foreground: 0 0% 98%;
 
     /* Semantic Colors */
@@ -50,7 +50,7 @@ All colors MUST be HSL.
     /* UI Elements */
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 262 83% 58%;
+    --ring: 220 13% 9%;
 
     --radius: 1rem; /* 16px - larger for modern look */
 
@@ -84,10 +84,10 @@ All colors MUST be HSL.
     --popover-foreground: 220 9% 98%;
 
     /* Brand Colors - Dark Mode */
-    --primary: 262 83% 68%; /* Lighter brand in dark */
+    --primary: 220 9% 98%; /* Pure white */
     --primary-foreground: 220 27% 8%;
 
-    --brand: 262 83% 68%;
+    --brand: 220 9% 98%; /* Pure white */
     --brand-foreground: 220 27% 8%;
 
     --secondary: 220 27% 16%;
@@ -96,7 +96,7 @@ All colors MUST be HSL.
     --muted: 220 27% 16%;
     --muted-foreground: 220 9% 65%;
 
-    --accent: 262 83% 68%;
+    --accent: 220 9% 98%; /* White accent */
     --accent-foreground: 220 27% 8%;
 
     /* Semantic Colors - Dark Mode */
@@ -115,7 +115,7 @@ All colors MUST be HSL.
     /* UI Elements - Dark Mode */
     --border: 220 27% 20%;
     --input: 220 27% 18%;
-    --ring: 262 83% 68%;
+    --ring: 220 9% 98%;
 
     /* Dark mode gradients */
     --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));

@@ -73,7 +73,7 @@ export const EventCard = ({ event }: EventCardProps) => {
       
       <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4 flex-1 flex flex-col">
         <div className="space-y-2 flex-1">
-          <h3 className="font-playfair text-lg sm:text-xl font-bold text-foreground group-hover:text-accent transition-smooth line-clamp-2">
+          <h3 className="font-playfair text-lg sm:text-xl font-bold text-foreground group-hover:text-foreground transition-smooth line-clamp-2">
             {event.title}
           </h3>
           <div className="flex items-center gap-2 text-muted-foreground">
@@ -100,7 +100,7 @@ export const EventCard = ({ event }: EventCardProps) => {
         <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-border mt-auto">
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground font-inter">From</p>
-            <p className="text-base sm:text-lg font-bold text-accent font-playfair">
+            <p className="text-base sm:text-lg font-bold text-foreground font-playfair">
               {event.priceMin ? `${event.currency || '$'}${event.priceMin}` : 'TBD'}
             </p>
           </div>

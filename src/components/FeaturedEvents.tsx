@@ -19,7 +19,7 @@ export const FeaturedEvents = () => {
           </Badge>
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground">
             Upcoming Fashion
-            <span className="block text-accent">Experiences</span>
+            <span className="block text-foreground">Experiences</span>
           </h2>
           <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
             Discover the most exclusive fashion events happening around the world. 

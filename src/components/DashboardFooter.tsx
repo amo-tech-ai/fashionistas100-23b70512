@@ -43,10 +43,12 @@ export const DashboardFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-brand rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">F</span>
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <img 
+                src="https://fashionistas100.lovable.app/fashionistas-logo-main.png" 
+                alt="Fashionistas Logo" 
+                className="w-10 h-10 object-contain"
+              />
               <span className="font-bold text-xl">Fashionistas</span>
             </div>
             <p className="text-white/70 text-sm mb-6">
