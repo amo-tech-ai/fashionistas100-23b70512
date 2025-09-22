@@ -53,11 +53,26 @@ export const DashboardFooter = () => {
               The premier platform for fashion event management in Colombia
             </p>
             <div className="flex gap-2">
-              {[Facebook, Twitter, Instagram, Linkedin, Youtube].map((Icon, index) => (
-                <Button key={index} variant="ghost" size="icon" className="hover:bg-white/10 text-white/70 hover:text-white">
-                  <Icon className="h-4 w-4" />
-                </Button>
-              ))}
+              <Button asChild variant="ghost" size="icon" className="hover:bg-white/10 text-white/70 hover:text-white">
+                <a href="https://www.facebook.com/fashionweeks" target="_blank" rel="noopener noreferrer">
+                  <Facebook className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="icon" className="hover:bg-white/10 text-white/70 hover:text-white">
+                <a href="https://www.instagram.com/fashionistasme/" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="icon" className="hover:bg-white/10 text-white/70 hover:text-white">
+                <a href="https://youtube.com/@fashionistas195?si=CRew1XcJjWrmJOD4" target="_blank" rel="noopener noreferrer">
+                  <Youtube className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="icon" className="hover:bg-white/10 text-white/70 hover:text-white">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              </Button>
             </div>
           </div>
 

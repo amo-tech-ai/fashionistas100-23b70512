@@ -1,9 +1,9 @@
 import { Navigation } from "@/components/Navigation";
-import { Card, CardContent } from "@/components/ui/card";
+import { StandardCard, StandardCardContent } from "@/components/ui/StandardCard";
 import { Badge } from "@/components/ui/badge";
 import { Users, Award, Calendar, Heart } from "lucide-react";
 import { fashionImages } from "@/lib/cloudinary";
-import Footer from "@/components/Footer";
+import { DashboardFooter } from "@/components/DashboardFooter";
 
 const About = () => {
   const stats = [
@@ -14,7 +14,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
       
       {/* Hero Section with Fashion Image */}
@@ -44,15 +44,15 @@ const About = () => {
       <main className="container mx-auto px-4 py-8">
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 mb-16">
           {stats.map((stat, index) => (
-            <Card key={index} className="text-center">
-              <CardContent className="p-6">
-                <stat.icon className="w-8 h-8 text-accent mx-auto mb-3" />
+            <StandardCard key={index} className="text-center">
+              <StandardCardContent className="p-4 md:p-6">
+                <stat.icon className="w-8 h-8 text-brand mx-auto mb-3" />
                 <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </CardContent>
-            </Card>
+              </StandardCardContent>
+            </StandardCard>
           ))}
         </div>
 
@@ -105,31 +105,31 @@ const About = () => {
               in all its forms. Where technology and tradition merge to create extraordinary experiences.
             </p>
             <div className="grid grid-cols-2 gap-4 mt-6">
-              <Card className="bg-accent/5">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-accent">10,000+</div>
+              <StandardCard className="bg-brand/5">
+                <StandardCardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-brand">10,000+</div>
                   <div className="text-sm text-muted-foreground">Events by 2025</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-accent/5">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-accent">100+</div>
+                </StandardCardContent>
+              </StandardCard>
+              <StandardCard className="bg-brand/5">
+                <StandardCardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-brand">100+</div>
                   <div className="text-sm text-muted-foreground">Global Cities</div>
-                </CardContent>
-              </Card>
+                </StandardCardContent>
+              </StandardCard>
             </div>
           </div>
         </div>
 
         {/* Values */}
-        <Card className="bg-accent/5">
-          <CardContent className="p-8">
+        <StandardCard className="bg-brand/5">
+          <StandardCardContent className="p-6 lg:p-8">
             <h2 className="text-3xl font-playfair font-bold text-center text-foreground mb-8">
               Our Values
             </h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-accent rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-brand rounded-full mx-auto mb-4 flex items-center justify-center">
                   <Award className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-playfair font-bold text-lg mb-2">Excellence</h3>
@@ -138,7 +138,7 @@ const About = () => {
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-accent rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-brand rounded-full mx-auto mb-4 flex items-center justify-center">
                   <Users className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-playfair font-bold text-lg mb-2">Community</h3>
@@ -147,7 +147,7 @@ const About = () => {
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-accent rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-brand rounded-full mx-auto mb-4 flex items-center justify-center">
                   <Heart className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-playfair font-bold text-lg mb-2">Passion</h3>
@@ -156,10 +156,10 @@ const About = () => {
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </StandardCardContent>
+        </StandardCard>
       </main>
-      <Footer />
+      <DashboardFooter />
     </div>
   );
 };
