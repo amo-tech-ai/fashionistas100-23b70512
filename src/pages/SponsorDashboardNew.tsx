@@ -272,10 +272,12 @@ const SponsorDashboardNew = () => {
                             </AvatarFallback>
                           )}
                         </Avatar>
-                        <div>
-                          <p className="font-medium">{sponsor.company_name}</p>
-                          <p className="text-sm text-muted-foreground">{sponsor.industry}</p>
-                        </div>
+                         <div>
+                           <p className="font-medium">{sponsor.company_name}</p>
+                           {sponsor.industry && (
+                             <p className="text-sm text-muted-foreground">{sponsor.industry}</p>
+                           )}
+                         </div>
                       </div>
                       <Badge 
                         variant={sponsor.status === 'active' ? 'default' : 'secondary'}

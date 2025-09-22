@@ -40,9 +40,9 @@ const OrganizerDashboardNew = () => {
   const attendeesGrowth = attendeesData?.lastMonth ? 
     Math.round(((totalAttendees - attendeesData.lastMonth) / attendeesData.lastMonth) * 100) : 15;
   const totalRevenue = revenueData?.formatted || '$125K';
-  const revenueGrowth = revenue?.growth || 8; // Show 8% growth as demo
+  const revenueGrowth = 8; // Show 8% growth as demo
   // Transform events data for display
-  const upcomingEvents = events?.events?.slice(0, 3).map((event, index) => ({
+  const upcomingEvents = (Array.isArray(events) ? events : []).slice(0, 3).map((event, index) => ({
     id: event.id,
     name: event.event_name || event.title || `Event ${index + 1}`,
     date: event.start_datetime ? format(new Date(event.start_datetime), 'MMM dd, yyyy') : 'TBD',

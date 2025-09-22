@@ -149,7 +149,7 @@ export default function Analytics() {
       id: event.id,
       name: event.event_name,
       revenue: eventRevenue || Math.floor(Math.random() * 50000 + 10000), // Fallback to mock if no real data
-      tickets: event.capacity || Math.floor(Math.random() * 300 + 50),
+      tickets: Math.floor(Math.random() * 300 + 50), // Mock tickets since capacity not available
       growth: Math.floor(Math.random() * 40 - 10)
     };
   }) || [];
@@ -234,9 +234,9 @@ export default function Analytics() {
                               </div>
                               <div>
                                 <h4 className="font-semibold text-gray-900">{event.name}</h4>
-                                <p className="text-sm text-gray-600">
-                                  {event.tickets} tickets sold
-                                </p>
+                         <p className="text-sm text-gray-600">
+                           {event.tickets} tickets available
+                         </p>
                               </div>
                             </div>
                             <div className="text-right">

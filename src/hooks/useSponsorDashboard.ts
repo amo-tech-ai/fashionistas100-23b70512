@@ -9,6 +9,7 @@ export interface Sponsor {
   tier: string;
   amount: number;
   status: string;
+  industry?: string; // Add optional industry field
 }
 
 export interface Sponsorship {
@@ -39,7 +40,8 @@ export const useSponsorDashboard = () => {
           contact_email: 'sponsor@fashionbrand.com',
           tier: 'gold',
           amount: 50000,
-          status: 'active'
+          status: 'active',
+          industry: 'Fashion'
         }
       ]);
 

@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 // Enhanced Analytics with proper error handling and loading states
 export default function Analytics() {
   // Use the enhanced revenue hook
-  const { data: revenueData, isLoading: revenueLoading, error: revenueError } = useRevenueData();
+  const { revenueData, isLoading: revenueLoading } = useRevenueData();
 
   // Fetch comprehensive analytics data
   const analyticsQuery = useQuery({
@@ -64,7 +64,7 @@ export default function Analytics() {
   const { data: analytics, isLoading: analyticsLoading, error: analyticsError } = analyticsQuery;
 
   // Handle errors
-  if (revenueError || analyticsError) {
+  if (analyticsError) {
     return (
       <DashboardLayout>
         <DashboardErrorBoundary>
@@ -79,7 +79,7 @@ export default function Analytics() {
   const stats = [
     {
       title: "Total Revenue",
-      value: isLoading ? <LoadingSkeleton variant="number" /> : revenueData?.formatted || '$0',
+      value: isLoading ? <LoadingSkeleton variant="number" /> : `$${((revenueData?.totalRevenue || 0) / 1000).toFixed(1)}K`,
       change: "+22.5%",
       icon: DollarSign,
       description: "All time revenue",
@@ -203,7 +203,7 @@ export default function Analytics() {
                                 <span className="text-sm font-medium text-blue-600">{index + 1}</span>
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-900">{event.event_name || event.title}</h4>
+                                <h4 className="font-medium text-gray-900">{event.event_name}</h4>
                                 <p className="text-sm text-gray-500">{ticketsSold} tickets sold</p>
                               </div>
                             </div>

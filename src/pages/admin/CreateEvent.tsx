@@ -40,23 +40,13 @@ export default function CreateEvent() {
       const { data, error } = await supabase
         .from('events')
         .insert({
-          title: formData.title,
+          event_name: formData.title,
           description: formData.description,
-          type: formData.type,
-          venue_name: formData.venue_name,
-          venue_address: formData.venue_address,
-          event_date: formData.date,
-          start_time: formData.start_time,
-          end_time: formData.end_time,
-          capacity: parseInt(formData.capacity),
+          venue_id: formData.venue_name, // Map to venue_id for consistency
           organizer_id: user?.id || 'test-organizer',
           status: 'draft',
-          price_tiers: {
-            general: parseFloat(formData.price_general),
-            vip: parseFloat(formData.price_vip),
-            sponsor: parseFloat(formData.price_sponsor)
-          },
-          image_url: formData.image_url
+          start_datetime: `${formData.date}T${formData.start_time}:00`,
+          end_datetime: `${formData.date}T${formData.end_time}:00`
         })
         .select()
         .single();

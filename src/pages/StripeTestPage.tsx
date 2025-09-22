@@ -118,6 +118,8 @@ export default function StripeTestPage() {
       status: 'confirmed' as const,
       purchaseDate: new Date().toLocaleDateString(),
       metadata: {
+        seatNumber: `${ticket.tierName?.charAt(0)}${index + 1}`,
+        section: ticket.tierName || 'General',
         specialInstructions: 'Please arrive 15 minutes before the show starts',
         paymentMethod: 'stripe_test'
       }

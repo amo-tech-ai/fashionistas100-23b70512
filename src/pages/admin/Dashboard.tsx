@@ -39,7 +39,8 @@ const Dashboard = () => {
           totalDesigners: 48,
           totalContacts: 156,
           totalUsers: 2847,
-          recentActivity: []
+          totalRevenue: 125000,
+          totalBookings: 89
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
