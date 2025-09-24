@@ -40,6 +40,7 @@ export const Navigation = () => {
 
   const navigationItems = [
     { name: "Events", href: "/events" },
+    { name: "Services", href: "/services" },
     { name: "Designers", href: "/designers" },
     { name: "Tickets", href: "/tickets" },
     { name: "Sponsors", href: "/sponsors" },

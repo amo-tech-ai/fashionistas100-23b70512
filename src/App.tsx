@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Home from "./pages/Home";
 import Events from "./pages/Events";
 import MockDashboard from "./pages/MockDashboard";
+import Services from "./pages/Services";
 
 // Lazy load other pages
 const EventDetail = lazy(() => import("./pages/EventDetail"));
@@ -25,6 +26,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<EventDetail />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             
             {/* Dashboard routes */}
