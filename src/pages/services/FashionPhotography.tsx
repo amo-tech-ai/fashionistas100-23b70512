@@ -153,7 +153,7 @@ const FashionPhotography = () => {
         </div>
       </section>
 
-      {/* Visual Showcase Grid */}
+      {/* Visual Showcase Grid - Masonry Style */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -161,30 +161,141 @@ const FashionPhotography = () => {
             <p className="text-gray-600">Professional photography that drives sales and engagement</p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[
-              "/src/assets/campaign-showcase.jpg",
-              "/src/assets/designer-spotlight.jpg", 
-              "/src/assets/product-photography-samples.jpg",
-              "/src/assets/video-production-samples.jpg",
-              "/src/assets/ai-services-sample.jpg",
-              "/src/assets/campaign-showcase.jpg",
-              "/src/assets/designer-spotlight.jpg",
-              "/src/assets/product-photography-samples.jpg"
-            ].map((image, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-lg aspect-square">
-                <img 
-                  src={image}
-                  alt={`Photography sample ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="text-white font-medium">
-                    {index % 3 === 0 ? "On-Model" : index % 3 === 1 ? "Flat Lay" : "Studio"}
+          {/* Masonry Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+            {/* On-Model Photography */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={campaignShowcase}
+                alt="On-model fashion photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    On-Model
                   </span>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Studio Product Shot */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={productPhotographySamples}
+                alt="Studio product photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Studio Product
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Editorial Style */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={designerSpotlight}
+                alt="Editorial fashion photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Editorial
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Flat Lay */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={aiServicesSample}
+                alt="Flat lay product photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Flat Lay
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Lifestyle Shot */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={videoProductionSamples}
+                alt="Lifestyle fashion photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Lifestyle
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Ghost Mannequin */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={campaignShowcase}
+                alt="Ghost mannequin photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Ghost Mannequin
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Detail Shots */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={productPhotographySamples}
+                alt="Detail product photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Detail Shots
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Brand Campaign */}
+            <div className="group relative overflow-hidden rounded-xl break-inside-avoid mb-4 cursor-pointer">
+              <img 
+                src={designerSpotlight}
+                alt="Brand campaign photography"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    Brand Campaign
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button className="bg-black text-white hover:bg-gray-800">
+              View Full Portfolio <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
           </div>
         </div>
       </section>
