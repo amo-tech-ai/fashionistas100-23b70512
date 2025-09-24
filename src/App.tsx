@@ -15,6 +15,7 @@ const EventDetail = lazy(() => import("./pages/EventDetail"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const About = lazy(() => import("./pages/About"));
 const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
+const VideoProduction = lazy(() => import("./pages/services/VideoProduction"));
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/fashion-photography" element={<FashionPhotography />} />
+            <Route path="/services/video-production" element={<VideoProduction />} />
             <Route path="/about" element={<About />} />
             
             {/* Dashboard routes */}

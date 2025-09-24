@@ -1,4 +1,9 @@
 import React from 'react';
+import productPhotographySamples from '@/assets/product-photography-samples.jpg';
+import campaignShowcase from '@/assets/campaign-showcase.jpg';
+import designerSpotlight from '@/assets/designer-spotlight.jpg';
+import videoProductionSamples from '@/assets/video-production-samples.jpg';
+import aiServicesSample from '@/assets/ai-services-sample.jpg';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Navigation } from '@/components/Navigation';
@@ -34,7 +39,7 @@ const FashionPhotography = () => {
     {
       title: "Creative Direction",
       description: "Props, sets, AI style matching",
-      image: "/src/assets/designer-spotlight.jpg", 
+      image: designerSpotlight,
       features: ["Custom props", "Set design", "AI style matching", "Brand alignment"]
     }
   ];
@@ -82,13 +87,13 @@ const FashionPhotography = () => {
       quote: "Fashionistas transformed our product catalog. Sales increased 40% after switching to their photography.",
       name: "Maria Rodriguez",
       title: "Designer, Elegancia Boutique",
-      image: "/src/assets/designer-spotlight.jpg"
+      image: designerSpotlight
     },
     {
       quote: "The 48-hour delivery is game-changing. We can launch collections faster than ever.",
       name: "Carlos Mendez", 
       title: "Creative Director, Moda Latina",
-      image: "/src/assets/campaign-showcase.jpg"
+      image: campaignShowcase
     }
   ];
 

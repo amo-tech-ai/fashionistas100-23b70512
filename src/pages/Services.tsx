@@ -39,7 +39,7 @@ const Services: React.FC = () => {
   const services = [
     {
       icon: Camera,
-      title: 'Product Photography',
+      title: 'Fashion E-commerce Photography',
       description: 'On-model, ghost mannequin, flat lay - multi-angle coverage',
       features: ['Professional lighting', 'Ghost mannequin', 'Detail shots', 'Lifestyle photography'],
       price: 'From $39',
@@ -55,8 +55,8 @@ const Services: React.FC = () => {
     },
     {
       icon: Package,
-      title: 'Media Packs',
-      description: 'Launch Pack, Runway Pack, Sponsor Pack bundles',
+      title: 'Social Media Content',
+      description: 'Video + photography bundles for social platforms',
       features: ['Photo + Video combo', 'Social media assets', 'E-commerce ready', 'Bulk pricing'],
       price: 'From $299',  
       image: campaignShowcase
@@ -277,9 +277,11 @@ const Services: React.FC = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full bg-black text-white hover:bg-gray-800">
-                    Get Started
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button asChild className="w-full bg-black text-white hover:bg-gray-800">
+                    <Link to={index === 0 ? "/services/fashion-photography" : index === 1 ? "/services/video-production" : "/services"}>
+                      Get Started
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>
