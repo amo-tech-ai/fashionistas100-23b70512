@@ -40,7 +40,16 @@ export const Navigation = () => {
 
   const navigationItems = [
     { name: "Events", href: "/events" },
-    { name: "Services", href: "/services" },
+    { 
+      name: "Services", 
+      href: "/services",
+      submenu: [
+        { name: "All Services", href: "/services" },
+        { name: "Fashion Photography", href: "/services/fashion-photography" },
+        { name: "Video Production", href: "/services/video-production" },
+        { name: "AI Services", href: "/services/ai-services" }
+      ]
+    },
     { name: "Designers", href: "/designers" },
     { name: "Tickets", href: "/tickets" },
     { name: "Sponsors", href: "/sponsors" },
@@ -78,17 +87,43 @@ export const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
             {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
-                  isActive(item.href)
-                    ? "text-primary bg-primary/10"
-                    : "text-gray-700 hover:text-primary hover:bg-primary/5"
-                }`}
-              >
-                {item.name}
-              </Link>
+              item.submenu ? (
+                <DropdownMenu key={item.name}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
+                        location.pathname.startsWith(item.href)
+                          ? "text-primary bg-primary/10"
+                          : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                      }`}
+                    >
+                      {item.name}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {item.submenu.map((subItem) => (
+                      <DropdownMenuItem key={subItem.name} asChild>
+                        <Link to={subItem.href} className="w-full">
+                          {subItem.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
+                    isActive(item.href)
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
             
             {/* Auth Buttons */}
@@ -134,18 +169,33 @@ export const Navigation = () => {
           <div className="lg:hidden py-4 border-t">
             <div className="flex flex-col space-y-2">
               {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
-                    isActive(item.href)
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                <div key={item.name}>
+                  <Link
+                    to={item.href}
+                    className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg block ${
+                      isActive(item.href)
+                        ? "text-primary bg-primary/10"
+                        : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.submenu && (
+                    <div className="ml-4 mt-2 space-y-1">
+                      {item.submenu.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          to={subItem.href}
+                          className="block px-4 py-2 text-sm text-gray-600 hover:text-primary hover:bg-primary/5 rounded-lg"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
               
               {/* Mobile Auth Buttons */}

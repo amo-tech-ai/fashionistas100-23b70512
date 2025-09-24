@@ -14,6 +14,7 @@ import Services from "./pages/Services";
 const EventDetail = lazy(() => import("./pages/EventDetail"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const About = lazy(() => import("./pages/About"));
+const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/services/fashion-photography" element={<FashionPhotography />} />
             <Route path="/about" element={<About />} />
             
             {/* Dashboard routes */}
