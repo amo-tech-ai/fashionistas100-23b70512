@@ -341,30 +341,30 @@ const Services: React.FC = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-black text-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
               How It Works
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Our streamlined 4-step process delivers professional results in record time
             </p>
           </div>
 
           <div className="relative">
             {/* Desktop connecting line */}
-            <div className="hidden lg:block absolute top-16 left-1/2 transform -translate-x-1/2 w-3/4 h-px bg-gray-200" />
+            <div className="hidden lg:block absolute top-16 left-1/2 transform -translate-x-1/2 w-3/4 h-px bg-gray-600" />
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {workflowSteps.map((step, index) => (
                 <div key={index} className="relative text-center">
-                  <div className="relative z-10 w-16 h-16 mx-auto bg-black rounded-full flex items-center justify-center text-white mb-6">
+                  <div className="relative z-10 w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center text-black mb-6">
                     <step.icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-lg font-bold mb-3 text-black">{step.title}</h3>
-                  <p className="text-gray-600 mb-4 text-sm">{step.description}</p>
-                  <div className="text-xs text-gray-500 flex items-center justify-center">
+                  <h3 className="text-lg font-bold mb-3 text-white">{step.title}</h3>
+                  <p className="text-gray-300 mb-4 text-sm">{step.description}</p>
+                  <div className="text-xs text-gray-400 flex items-center justify-center">
                     <Clock className="w-3 h-3 mr-1" />
                     {step.duration}
                   </div>
@@ -373,7 +373,7 @@ const Services: React.FC = () => {
             </div>
             
             <div className="text-center mt-12">
-              <Button className="bg-black text-white hover:bg-gray-800">
+              <Button className="bg-white text-black hover:bg-gray-100">
                 Book Now
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -436,26 +436,26 @@ const Services: React.FC = () => {
       </section>
 
       {/* Social Proof */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-black text-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
               Trusted by Leading Brands
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Fashion brands across Colombia choose Fashionistas for professional results
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300">
+              <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 bg-gray-900 border-gray-800">
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-black text-black" />
+                    <Star key={i} className="w-4 h-4 fill-white text-white" />
                   ))}
                 </div>
-                <blockquote className="text-gray-700 mb-6 italic">
+                <blockquote className="text-gray-300 mb-6 italic">
                   "{testimonial.quote}"
                 </blockquote>
                 <div className="flex items-center">
@@ -465,8 +465,8 @@ const Services: React.FC = () => {
                     className="w-10 h-10 rounded-full mr-3 object-cover"
                   />
                   <div>
-                    <div className="font-bold text-black text-sm">{testimonial.author}</div>
-                    <div className="text-xs text-gray-600">{testimonial.role}</div>
+                    <div className="font-bold text-white text-sm">{testimonial.author}</div>
+                    <div className="text-xs text-gray-400">{testimonial.role}</div>
                   </div>
                 </div>
               </Card>
@@ -475,63 +475,63 @@ const Services: React.FC = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div className="flex flex-col items-center">
-              <Shield className="w-10 h-10 mb-3 text-black" />
-              <div className="text-xl font-bold mb-1 text-black">100%</div>
-              <div className="text-sm text-gray-600">Money-Back Guarantee</div>
+              <Shield className="w-10 h-10 mb-3 text-white" />
+              <div className="text-xl font-bold mb-1 text-white">100%</div>
+              <div className="text-sm text-gray-300">Money-Back Guarantee</div>
             </div>
             <div className="flex flex-col items-center">
-              <Zap className="w-10 h-10 mb-3 text-black" />
-              <div className="text-xl font-bold mb-1 text-black">48h</div>
-              <div className="text-sm text-gray-600">Delivery Promise</div>
+              <Zap className="w-10 h-10 mb-3 text-white" />
+              <div className="text-xl font-bold mb-1 text-white">48h</div>
+              <div className="text-sm text-gray-300">Delivery Promise</div>
             </div>
             <div className="flex flex-col items-center">
-              <Award className="w-10 h-10 mb-3 text-black" />
-              <div className="text-xl font-bold mb-1 text-black">5★</div>
-              <div className="text-sm text-gray-600">Average Rating</div>
+              <Award className="w-10 h-10 mb-3 text-white" />
+              <div className="text-xl font-bold mb-1 text-white">5★</div>
+              <div className="text-sm text-gray-300">Average Rating</div>
             </div>
             <div className="flex flex-col items-center">
-              <Users className="w-10 h-10 mb-3 text-black" />
-              <div className="text-xl font-bold mb-1 text-black">500+</div>
-              <div className="text-sm text-gray-600">Happy Clients</div>
+              <Users className="w-10 h-10 mb-3 text-white" />
+              <div className="text-xl font-bold mb-1 text-white">500+</div>
+              <div className="text-sm text-gray-300">Happy Clients</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 bg-black text-white">
+      <section className="py-20 px-4 bg-white text-black">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to elevate your fashion content?
           </h2>
-          <p className="text-lg mb-12 text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg mb-12 text-gray-600 max-w-2xl mx-auto">
             Join 500+ fashion brands who trust Fashionistas for professional media services. 
             48-hour delivery, guaranteed quality, unlimited revisions.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-2xl mx-auto">
             <div className="flex items-center justify-center">
-              <Clock className="w-5 h-5 mr-2 text-white" />
+              <Clock className="w-5 h-5 mr-2 text-black" />
               <span>48h delivery</span>
             </div>
             <div className="flex items-center justify-center">
-              <CheckCircle className="w-5 h-5 mr-2 text-white" />
+              <CheckCircle className="w-5 h-5 mr-2 text-black" />
               <span>Professional quality</span>
             </div>
             <div className="flex items-center justify-center">
-              <Star className="w-5 h-5 mr-2 text-white" />
+              <Star className="w-5 h-5 mr-2 text-black" />
               <span>5-star support</span>
             </div>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-black hover:bg-gray-100">
+            <Button asChild size="lg" className="bg-black text-white hover:bg-gray-800">
               <Link to="/dashboard/services/book">Book Now</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+            <Button asChild variant="outline" size="lg" className="border-black text-black hover:bg-black/10">
               <Link to="/contact">Talk to a Producer</Link>
             </Button>
-            <Button asChild variant="ghost" size="lg" className="text-white hover:bg-white/10">
+            <Button asChild variant="ghost" size="lg" className="text-black hover:bg-black/10">
               <Link to="/services/pricing">Download Rate Card</Link>
             </Button>
           </div>
