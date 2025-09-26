@@ -16,6 +16,10 @@ const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const About = lazy(() => import("./pages/About"));
 const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
 const VideoProduction = lazy(() => import("./pages/services/VideoProduction"));
+const Designers = lazy(() => import("./pages/Designers"));
+const Tickets = lazy(() => import("./pages/Tickets"));
+const Sponsors = lazy(() => import("./pages/Sponsors"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 function App() {
   return (
@@ -31,7 +35,12 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/fashion-photography" element={<FashionPhotography />} />
             <Route path="/services/video-production" element={<VideoProduction />} />
+            <Route path="/services/ai-services" element={<Services />} />
+            <Route path="/designers" element={<Designers />} />
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/sponsors" element={<Sponsors />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             
             {/* Dashboard routes */}
             <Route path="/dashboard" element={<MockDashboard />} />
