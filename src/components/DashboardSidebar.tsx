@@ -13,7 +13,8 @@ import {
   DollarSign,
   Image,
   MessageCircle,
-  LogOut
+  LogOut,
+  Users
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -46,6 +47,7 @@ const menuSections: MenuSection[] = [
       { id: 'inbox', label: 'Inbox', path: '/dashboard/inbox', icon: Inbox, badge: '3' },
       { id: 'calendar', label: 'Calendar', path: '/dashboard/calendar', icon: Calendar },
       { id: 'events', label: 'Events', path: '/dashboard/events', icon: Ticket },
+      { id: 'models', label: 'Models', path: '/dashboard/models', icon: Users },
       { id: 'financials', label: 'Financials', path: '/dashboard/financials', icon: DollarSign },
       { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Image },
       { id: 'feedback', label: 'Feedback', path: '/dashboard/feedback', icon: MessageCircle }
