@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "description": "Route deprecation map - 301 redirects from old routes to new namespaced routes",
+  "deprecations": {
+    "/dashboard/overview": "/dashboard/{role}/overview",
+    "/dashboard/create-event": "/dashboard/organizer/events/create",
+    "/dashboard/events/:id": "/dashboard/organizer/events/:id",
+    "/dashboard/portfolio-upload": "/dashboard/designer/portfolio/upload",
+    "/dashboard/payments": "/dashboard/{role}/billing",
+    "/dashboard/analytics": "/dashboard/{role}/analytics",
+    "/admin/dashboard": "/dashboard/admin/overview",
+    "/dashboard/event-management": "/dashboard/organizer/events",
+    "/dashboard/venue-availability": "/dashboard/venue/bookings",
+    "/dashboard/sponsor-dashboard": "/dashboard/sponsor/overview",
+    "/dashboard/user-dashboard": "/dashboard/user/overview",
+    "/dashboard/designer-dashboard": "/dashboard/designer/overview",
+    "/dashboard/organizer-dashboard": "/dashboard/organizer/overview"
+  },
+  "notes": [
+    "Routes with {role} will be replaced with the actual user role at runtime",
+    "301 redirects will be active for 30 days after deployment",
+    "After 30 days, deprecated routes will return 410 Gone"
+  ]
+}
