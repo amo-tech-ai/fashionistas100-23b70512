@@ -2,13 +2,12 @@ import { Navigate } from 'react-router-dom';
 import { useResolvedRole, type UserRole } from '@/hooks/useResolvedRole';
 
 const ROLE_DASHBOARD_MAP: Record<UserRole, string> = {
-  admin: '/dashboard/admin',
-  organizer: '/dashboard/organizer',
-  designer: '/dashboard/designer',
-  venue: '/dashboard/venue',
-  sponsor: '/dashboard/sponsor',
-  media: '/dashboard/media',
-  user: '/dashboard/user',
+  admin: '/dashboard/admin/overview',
+  organizer: '/dashboard/organizer/overview',
+  designer: '/dashboard/designer/overview',
+  venue_owner: '/dashboard/venue/overview',
+  sponsor: '/dashboard/sponsor/overview',
+  attendee: '/dashboard/user/overview',
 };
 
 /**

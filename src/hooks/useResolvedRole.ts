@@ -2,7 +2,7 @@ import { useAuth, useUser } from '@clerk/clerk-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
-export type UserRole = 'admin' | 'organizer' | 'designer' | 'venue' | 'sponsor' | 'user' | 'media';
+export type UserRole = 'admin' | 'organizer' | 'designer' | 'venue_owner' | 'sponsor' | 'attendee';
 
 interface ResolvedRoleData {
   role: UserRole | null;
@@ -54,7 +54,7 @@ export function useResolvedRole(): ResolvedRoleData {
 
       // 4. If no profile exists, create one with Clerk metadata or default
       if (!profile) {
-        const newRole = clerkRole || 'user';
+        const newRole = clerkRole || 'attendee';
         const nameParts = user.fullName?.split(' ') || [];
         
         const { error: insertError } = await supabase
@@ -76,7 +76,7 @@ export function useResolvedRole(): ResolvedRoleData {
         return newRole;
       }
 
-      return clerkRole || 'user';
+      return clerkRole || 'attendee';
     },
     enabled: authLoaded && !!userId,
     staleTime: 5 * 60 * 1000, // 5 minutes

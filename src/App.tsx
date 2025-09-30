@@ -102,7 +102,7 @@ function App() {
             <Route 
               path="/dashboard/venue/overview" 
               element={
-                <WithRoleGuard allow={["venue", "admin"]}>
+                <WithRoleGuard allow={["venue_owner", "admin"]}>
                   <VenueDashboard />
                 </WithRoleGuard>
               } 
@@ -122,7 +122,7 @@ function App() {
             <Route 
               path="/dashboard/user/overview" 
               element={
-                <WithRoleGuard allow={["user", "admin"]}>
+                <WithRoleGuard allow={["attendee", "admin"]}>
                   <UserDashboard />
                 </WithRoleGuard>
               } 
