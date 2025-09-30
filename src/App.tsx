@@ -37,6 +37,7 @@ const SponsorDashboard = lazy(() => import("./pages/dashboard/SponsorDashboardNe
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboardFixed"));
 const AdminDashboard = lazy(() => import("./pages/EventManagerDashboard"));
 const DashboardTest = lazy(() => import("./pages/DashboardTest"));
+const CalendarDashboard = lazy(() => import("./pages/CalendarDashboard"));
 
 function App() {
   return (
@@ -138,6 +139,16 @@ function App() {
                 <WithRoleGuard allow={DASHBOARD_ACCESS.admin}>
                   <AdminDashboard />
                 </WithRoleGuard>
+              } 
+            />
+            
+            {/* CALENDAR DASHBOARD */}
+            <Route 
+              path="/dashboard/calendar" 
+              element={
+                <ProtectedRoute>
+                  <CalendarDashboard />
+                </ProtectedRoute>
               } 
             />
             
