@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { RoleBasedRedirect } from "@/components/RoleBasedRedirect";
@@ -38,7 +38,7 @@ const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 
 function App() {
   return (
-    <Router>
+    <>
       <RedirectHandler />
       <div className="App">
         <Suspense fallback={<LoadingSkeleton />}>
@@ -148,7 +148,7 @@ function App() {
         
         <Toaster />
       </div>
-    </Router>
+    </>
   );
 }
 
