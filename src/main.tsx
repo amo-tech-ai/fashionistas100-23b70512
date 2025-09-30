@@ -77,14 +77,22 @@ const AppWithErrorBoundary = Sentry.withErrorBoundary(App, {
   showDialog: import.meta.env.MODE === 'development'
 });
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <AppWithErrorBoundary />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ClerkProvider>
-  </StrictMode>,
-)
+// Prevent double-mount in dev mode or preview environments
+const container = document.getElementById('root')!;
+if (!(container as any).__reactRoot) {
+  (container as any).__reactRoot = true;
+  
+  createRoot(container).render(
+    <StrictMode>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <AppWithErrorBoundary />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </ClerkProvider>
+    </StrictMode>,
+  );
+} else {
+  console.warn('React root already mounted, skipping duplicate mount');
+}
