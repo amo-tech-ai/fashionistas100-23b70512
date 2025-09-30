@@ -48,30 +48,25 @@ const AnalyticsDashboard = () => {
     try {
       setLoading(true);
       
-      // Load dashboard metrics
-      const { data: metrics, error: metricsError } = await supabase.rpc('get_dashboard_metrics', {
-        p_organization_id: selectedOrg
-      });
+      // Mock analytics data for now
+      const mockAnalyticsData: AnalyticsData = {
+        events_total: 24,
+        tickets_sold: 1250,
+        gross_revenue_cents: 15000000,
+        upcoming_events: 8
+      };
 
-      if (metricsError) {
-        console.error('Error loading metrics:', metricsError);
-      } else if (metrics && metrics.length > 0) {
-        setAnalyticsData(metrics[0]);
-      }
+      const mockRealtimeMetrics: RealtimeMetrics[] = Array.from({ length: 30 }, (_, i) => ({
+        organization_id: selectedOrg,
+        day: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        events_published: Math.floor(Math.random() * 5),
+        events_upcoming: Math.floor(Math.random() * 10),
+        events_completed: Math.floor(Math.random() * 8),
+        tickets_sold: Math.floor(Math.random() * 100)
+      }));
 
-      // Load realtime metrics
-      const { data: realtime, error: realtimeError } = await supabase
-        .from('dashboard_metrics_realtime')
-        .select('*')
-        .eq('organization_id', selectedOrg)
-        .order('day', { ascending: false })
-        .limit(30);
-
-      if (realtimeError) {
-        console.error('Error loading realtime metrics:', realtimeError);
-      } else {
-        setRealtimeMetrics(realtime || []);
-      }
+      setAnalyticsData(mockAnalyticsData);
+      setRealtimeMetrics(mockRealtimeMetrics);
 
     } catch (error) {
       console.error('Error loading analytics data:', error);

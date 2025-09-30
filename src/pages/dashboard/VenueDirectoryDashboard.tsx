@@ -94,26 +94,37 @@ const VenueDirectoryDashboard = () => {
         return;
       }
 
-      const formattedVenues: Venue[] = data.map(venue => ({
-        id: venue.id,
-        name: venue.name,
-        venue_type: venue.venue_type || 'convention_center',
-        address: venue.address || '',
-        capacity: venue.capacity || 0,
-        hourly_rate: venue.hourly_rate || 0,
-        amenities: venue.amenities || [],
-        contact_email: 'contact@venue.com', // Mock data
-        contact_phone: '+57-1-234-5678', // Mock data
-        website: 'https://venue.com', // Mock data
-        images: venue.images || [],
-        is_active: venue.is_active || false,
-        availability_calendar: venue.availability_calendar || {},
-        coordinates: venue.coordinates || { lat: 0, lng: 0 },
-        added_date: venue.created_at,
-        events_count: Math.floor(Math.random() * 15) + 1, // Mock data
-        rating: Math.round((Math.random() * 2 + 3) * 10) / 10, // Mock rating 3-5
-        description: venue.description || ''
-      }));
+      const formattedVenues: Venue[] = data.map(venue => {
+        // Handle coordinates type conversion from Json to { lat: number; lng: number }
+        let coordinates = { lat: 0, lng: 0 };
+        if (venue.coordinates && typeof venue.coordinates === 'object' && 'lat' in venue.coordinates && 'lng' in venue.coordinates) {
+          coordinates = {
+            lat: typeof venue.coordinates.lat === 'number' ? venue.coordinates.lat : 0,
+            lng: typeof venue.coordinates.lng === 'number' ? venue.coordinates.lng : 0
+          };
+        }
+
+        return {
+          id: venue.id,
+          name: venue.name,
+          venue_type: venue.venue_type || 'convention_center',
+          address: typeof venue.address === 'string' ? venue.address : 'Address not available',
+          capacity: venue.capacity || 0,
+          hourly_rate: venue.hourly_rate || 0,
+          amenities: venue.amenities || [],
+          contact_email: 'contact@venue.com', // Mock data
+          contact_phone: '+57-1-234-5678', // Mock data
+          website: 'https://venue.com', // Mock data
+          images: venue.images || [],
+          is_active: venue.is_active || false,
+          availability_calendar: venue.availability_calendar || {},
+          coordinates,
+          added_date: venue.created_at,
+          events_count: Math.floor(Math.random() * 15) + 1, // Mock data
+          rating: Math.round((Math.random() * 2 + 3) * 10) / 10, // Mock rating 3-5
+          description: venue.description || ''
+        };
+      });
 
       setVenues(formattedVenues);
     } catch (error) {
@@ -232,9 +243,7 @@ const VenueDirectoryDashboard = () => {
   };
 
   const filteredVenues = venues.filter(venue => {
-    const venueAddress = typeof venue.address === 'object' && venue.address !== null
-      ? `${venue.address.street || ''} ${venue.address.city || ''} ${venue.address.state || ''}`.toLowerCase()
-      : (venue.address || '').toLowerCase();
+    const venueAddress = (venue.address || '').toLowerCase();
       
     const matchesSearch = venue.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          venueAddress.includes(searchTerm.toLowerCase()) ||
@@ -513,9 +522,7 @@ const VenueDirectoryDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {typeof venue.address === 'object' && venue.address !== null
-                              ? `${venue.address.street || ''}, ${venue.address.city || ''}, ${venue.address.state || ''}`.replace(/^,\s*|,\s*$/g, '')
-                              : venue.address || 'Address not available'}
+                            {venue.address || 'Address not available'}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -591,9 +598,7 @@ const VenueDirectoryDashboard = () => {
                           <h3>{venue.name}</h3>
                         </Link>
                         <p className="text-sm text-gray-600">
-                          {typeof venue.address === 'object' && venue.address !== null
-                            ? `${venue.address.street || ''}, ${venue.address.city || ''}, ${venue.address.state || ''}`.replace(/^,\s*|,\s*$/g, '')
-                            : venue.address || 'Address not available'}
+                          {venue.address || 'Address not available'}
                         </p>
                       </div>
                     </div>

@@ -103,7 +103,7 @@ const DesignersListDashboard = () => {
         id: designer.id,
         name: `${designer.profiles.first_name} ${designer.profiles.last_name}`,
         brand_name: designer.brand_name,
-        tier: designer.tier,
+        tier: designer.tier === 'luxury' ? 'established' : designer.tier,
         style_categories: designer.style_categories || [],
         years_experience: designer.years_experience || 0,
         website: designer.website_url || '',

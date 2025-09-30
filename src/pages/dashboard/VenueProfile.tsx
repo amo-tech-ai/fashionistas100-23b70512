@@ -6,11 +6,11 @@ import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { EmptyState } from "@/components/EmptyState";
 import DashboardLayout from "@/components/DashboardLayout";
 import ProfileTemplate from "@/components/ProfileTemplate";
-import { getVenueById, getVenueBySlug, VenueProfile } from "@/services/venueService";
+import { getVenueById, getVenueBySlug, type VenueProfile as VenueProfileType } from "@/services/venueService";
 
 const VenueProfile = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [venue, setVenue] = useState<VenueProfile | null>(null);
+  const [venue, setVenue] = useState<VenueProfileType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
