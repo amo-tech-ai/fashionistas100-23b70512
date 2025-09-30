@@ -30,7 +30,7 @@ export const Hero = () => {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Badge */}
           <div className="flex justify-start">
-            <Badge variant="hero" className="text-sm font-inter px-4 py-2 bg-white/20 backdrop-blur-sm text-white border-white/30">
+            <Badge variant="secondary" className="text-sm font-inter px-4 py-2 bg-white/20 backdrop-blur-sm text-white border-white/30">
               <Sparkles className="w-4 h-4 mr-2" />
               Experience Fashion Live
             </Badge>

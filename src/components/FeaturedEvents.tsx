@@ -29,7 +29,7 @@ export const FeaturedEvents = () => {
 
         {/* Filter Chips */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <Button variant="hero" size="sm" className="font-inter">
+          <Button variant="primary" size="sm" className="font-inter">
             All Events
           </Button>
           <Button variant="outline" size="sm" className="font-inter">

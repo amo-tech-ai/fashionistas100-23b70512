@@ -23,67 +23,80 @@ export default {
 				'22': '5.5rem',
 			},
 			fontFamily: {
-				'inter': ['Inter', 'sans-serif'],
-				'playfair': ['Playfair Display', 'serif'],
+				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
 			},
 			colors: {
-				border: 'hsl(var(--border))',
+				/* Semantic Design System Tokens */
+				surface: {
+					1: 'hsl(var(--surface-1))',
+					2: 'hsl(var(--surface-2))',
+				},
+				text: {
+					primary: 'hsl(var(--text-primary))',
+					muted: 'hsl(var(--text-muted))',
+				},
+				border: {
+					DEFAULT: 'hsl(var(--border))',
+					strong: 'hsl(var(--border-strong))',
+				},
+				action: {
+					DEFAULT: 'hsl(var(--action))',
+					foreground: 'hsl(var(--action-foreground) / 1)',
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground) / 1)',
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground) / 1)',
+				},
+				danger: {
+					DEFAULT: 'hsl(var(--danger))',
+					foreground: 'hsl(var(--danger-foreground) / 1)',
+				},
+				info: {
+					DEFAULT: 'hsl(var(--info))',
+					foreground: 'hsl(var(--info-foreground) / 1)',
+				},
+				
+				/* Legacy Compatibility (gradually migrate away) */
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				
-				// Brand Colors
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
 				},
 				brand: {
 					DEFAULT: 'hsl(var(--brand))',
-					foreground: 'hsl(var(--brand-foreground))'
+					foreground: 'hsl(var(--brand-foreground))',
 				},
-				
-				// UI Colors
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
-				},
-				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
-				},
-				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
-				},
-				
-				// Semantic Colors
-				success: {
-					DEFAULT: 'hsl(var(--success))',
-					foreground: 'hsl(var(--success-foreground))'
-				},
-				warning: {
-					DEFAULT: 'hsl(var(--warning))',
-					foreground: 'hsl(var(--warning-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
-					foreground: 'hsl(var(--destructive-foreground))'
+					foreground: 'hsl(var(--destructive-foreground))',
 				},
-				info: {
-					DEFAULT: 'hsl(var(--info))',
-					foreground: 'hsl(var(--info-foreground))'
+				muted: {
+					DEFAULT: 'hsl(var(--muted))',
+					foreground: 'hsl(var(--muted-foreground))',
 				},
-				
-				// Component Colors
+				accent: {
+					DEFAULT: 'hsl(var(--accent))',
+					foreground: 'hsl(var(--accent-foreground))',
+				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
+					foreground: 'hsl(var(--popover-foreground))',
 				},
 				card: {
 					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
-				}
+					foreground: 'hsl(var(--card-foreground))',
+				},
 			},
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',

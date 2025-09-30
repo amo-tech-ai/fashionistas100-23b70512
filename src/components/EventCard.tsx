@@ -104,7 +104,7 @@ export const EventCard = ({ event }: EventCardProps) => {
               {event.priceMin ? `${event.currency || '$'}${event.priceMin}` : 'TBD'}
             </p>
           </div>
-          <Button variant="hero" size="sm" className="font-inter text-sm">
+          <Button variant="action" size="sm" className="font-inter text-sm">
             Get Tickets
           </Button>
         </div>

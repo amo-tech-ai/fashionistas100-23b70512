@@ -8,48 +8,59 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* FashionOS Brand Colors */
-    --bg: 0 0% 100%;              /* #FFFFFF */
-    --ink: 210 11% 6%;            /* #101010 */
-    --ink-muted: 218 11% 42%;     /* #6B7280 */
-    --card-bg: 220 14% 97%;       /* #F8F9FB */
-    --accent: 199 89% 48%;        /* #0EA5E9 */
+    /* FashionOS Semantic Design System */
     
-    /* Semantic Colors */
-    --success: 142 71% 45%;       /* #16A34A */
-    --warning: 43 96% 56%;        /* #F59E0B */
-    --danger: 0 84% 60%;          /* #EF4444 */
+    /* Surfaces */
+    --surface-1: 0 0% 100%;          /* #FFFFFF */
+    --surface-2: 220 14% 98%;        /* #F8F9FB */
+    
+    /* Text Hierarchy */
+    --text-primary: 210 11% 6%;      /* #101010 */
+    --text-muted: 218 11% 42%;       /* #6B7280 */
+    
+    /* Borders */
+    --border-strong: 220 13% 91%;    /* #E5E7EB */
+    
+    /* Actions & Semantic Colors */
+    --action: 43 96% 56%;            /* #F59E0B - Orange CTA */
+    --success: 142 71% 45%;          /* #16A34A */
+    --warning: 43 96% 56%;           /* #F59E0B */
+    --danger: 0 84% 60%;             /* #EF4444 */
+    --info: 217 91% 60%;             /* #3B82F6 */
+    
+    /* Focus & Interaction */
+    --focus-ring: 217 91% 60%;       /* Blue focus ring */
 
-    /* Shadcn Tokens */
-    --background: var(--bg);
-    --foreground: var(--ink);
-    --card: var(--card-bg);
-    --card-foreground: var(--ink);
-    --popover: var(--bg);
-    --popover-foreground: var(--ink);
+    /* Shadcn Compatibility Layer */
+    --background: var(--surface-1);
+    --foreground: var(--text-primary);
+    --card: var(--surface-1);
+    --card-foreground: var(--text-primary);
+    --popover: var(--surface-1);
+    --popover-foreground: var(--text-primary);
 
-    --primary: var(--ink);
-    --primary-foreground: var(--bg);
-    --brand: var(--ink);
-    --brand-foreground: var(--bg);
+    --primary: var(--text-primary);
+    --primary-foreground: var(--surface-1);
+    --brand: var(--text-primary);
+    --brand-foreground: var(--surface-1);
 
-    --secondary: var(--card-bg);
-    --secondary-foreground: var(--ink);
-    --muted: var(--card-bg);
-    --muted-foreground: var(--ink-muted);
-    --accent: var(--accent);
-    --accent-foreground: var(--bg);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--surface-2);
+    --muted-foreground: var(--text-muted);
+    --accent: var(--action);
+    --accent-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --info: 221 83% 53%;
+    --warning-foreground: var(--text-primary);
+    --danger-foreground: 0 0% 100%;
     --info-foreground: 0 0% 100%;
+    --destructive: var(--danger);
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: var(--accent);
+    --border: var(--border-strong);
+    --input: var(--border-strong);
+    --ring: var(--focus-ring);
 
     --radius: 0.75rem;
 
@@ -71,31 +82,50 @@ All colors MUST be HSL.
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
+  [data-theme="dark"],
   .dark {
-    --bg: 220 13% 8%;            /* Dark background */
-    --ink: 0 0% 98%;             /* Light text */
-    --ink-muted: 218 11% 65%;    /* Muted light text */
-    --card-bg: 220 13% 11%;      /* Dark cards */
+    /* Dark Mode Surfaces */
+    --surface-1: 210 11% 6%;         /* Dark background */
+    --surface-2: 215 28% 10%;        /* Card background */
     
-    --background: var(--bg);
-    --foreground: var(--ink);
-    --card: var(--card-bg);
-    --card-foreground: var(--ink);
-    --popover: var(--card-bg);
-    --popover-foreground: var(--ink);
-    --primary: var(--ink);
-    --primary-foreground: var(--bg);
-    --brand: var(--ink);
-    --brand-foreground: var(--bg);
-    --secondary: var(--card-bg);
-    --secondary-foreground: var(--ink);
-    --muted: var(--card-bg);
-    --muted-foreground: var(--ink-muted);
-    --accent: var(--accent);
-    --accent-foreground: var(--bg);
-    --border: 215 14% 20%;
-    --input: 215 14% 20%;
-    --ring: var(--accent);
+    /* Dark Mode Text */
+    --text-primary: 0 0% 100%;       /* White text */
+    --text-muted: 215 20% 65%;       /* Muted text */
+    
+    /* Dark Mode Borders */
+    --border-strong: 215 28% 20%;
+    
+    /* Actions remain same */
+    --action: 43 96% 56%;
+    --success: 142 71% 45%;
+    --warning: 43 96% 56%;
+    --danger: 0 84% 60%;
+    --info: 217 91% 60%;
+    --focus-ring: 217 91% 60%;
+    
+    /* Compatibility Layer */
+    --background: var(--surface-1);
+    --foreground: var(--text-primary);
+    --card: var(--surface-2);
+    --card-foreground: var(--text-primary);
+    --popover: var(--surface-2);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--text-primary);
+    --primary-foreground: var(--surface-1);
+    --brand: var(--text-primary);
+    --brand-foreground: var(--surface-1);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--surface-2);
+    --muted-foreground: var(--text-muted);
+    --accent: var(--action);
+    --accent-foreground: var(--surface-1);
+    --warning-foreground: var(--surface-1);
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--border-strong);
+    --input: var(--border-strong);
+    --ring: var(--focus-ring);
 
     /* Dark mode gradients */
     --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
@@ -117,11 +147,46 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair;
+  
+  /* Focus Ring Utility */
+  .focus-ring:focus-visible {
+    outline: 2px solid hsl(var(--focus-ring));
+    outline-offset: 2px;
+  }
+  
+  /* Semantic Typography Utilities */
+  .ds-hero {
+    @apply text-5xl font-bold text-text-primary leading-tight;
+  }
+  .ds-title {
+    @apply text-2xl font-semibold text-text-primary;
+  }
+  .ds-section-title {
+    @apply text-xl font-semibold text-text-primary;
+  }
+  .ds-card-title {
+    @apply text-lg font-semibold;
+  }
+  .ds-body {
+    @apply text-base text-text-primary;
+  }
+  .ds-body-secondary {
+    @apply text-base text-text-muted;
+  }
+  .ds-label {
+    @apply text-xs font-semibold uppercase tracking-wide text-text-muted;
+  }
+  .ds-small {
+    @apply text-sm text-text-muted;
+  }
+  
+  /* Minimum touch targets for mobile */
+  .min-touch {
+    min-height: 44px;
+    min-width: 44px;
   }
 
   .line-clamp-2 {

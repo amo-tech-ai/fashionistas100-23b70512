@@ -120,7 +120,7 @@ export const TicketTiers = () => {
                   </ul>
 
                   <Button 
-                    variant={tier.popular ? "hero" : "outline"} 
+                    variant={tier.popular ? "action" : "outline"} 
                     className="w-full font-inter"
                     size="lg"
                   >
