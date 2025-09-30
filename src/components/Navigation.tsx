@@ -17,7 +17,8 @@ import {
   SignUpButton, 
   UserButton, 
   SignedIn, 
-  SignedOut 
+  SignedOut,
+  useClerk
 } from "@clerk/clerk-react";
 
 export const Navigation = () => {
@@ -26,19 +27,47 @@ export const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Use Clerk hooks with error handling
-  const { isSignedIn, isLoaded } = useAuth();
+  // Use Clerk hooks with comprehensive error handling
+  const clerk = useClerk();
+  const auth = useAuth();
   const { user } = useUser();
   
-  // Debug logging
+  const [clerkError, setClerkError] = useState<string | null>(null);
+  const [showDebug] = useState(true); // Always show debug for now
+  
+  // Safe destructuring with fallbacks
+  const isLoaded = auth?.isLoaded ?? false;
+  const isSignedIn = auth?.isSignedIn ?? false;
+  
+  // Comprehensive debug logging
   useEffect(() => {
-    console.log('🔍 Navigation Auth State:', { 
-      isLoaded, 
-      isSignedIn, 
+    const debugInfo = {
+      timestamp: new Date().toISOString(),
+      clerkLoaded: !!clerk,
+      isLoaded,
+      isSignedIn,
       hasUser: !!user,
-      clerkKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.substring(0, 12) 
-    });
-  }, [isLoaded, isSignedIn, user]);
+      userId: user?.id,
+      clerkKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.substring(0, 15),
+      testKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY_TEST?.substring(0, 15),
+      hostname: window.location.hostname
+    };
+    
+    console.log('🔍 Navigation Auth State:', debugInfo);
+    
+    // Check for Clerk initialization errors
+    if (!clerk) {
+      const error = 'Clerk instance not available';
+      console.error('❌ Clerk Error:', error);
+      setClerkError(error);
+    } else if (isLoaded && !isSignedIn && !user) {
+      console.log('✅ Clerk loaded, user not signed in (expected)');
+      setClerkError(null);
+    } else if (isLoaded && isSignedIn && user) {
+      console.log('✅ Clerk loaded, user signed in:', user.id);
+      setClerkError(null);
+    }
+  }, [clerk, isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -136,17 +165,34 @@ export const Navigation = () => {
               )
             ))}
             
-            {/* Auth Buttons - Always visible */}
+            {/* Auth Buttons - Always visible with fallbacks */}
             <div className="ml-4 flex items-center space-x-2">
-              {!isLoaded ? (
+              {clerkError ? (
+                // Show error state
+                <div className="flex items-center space-x-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.location.href = '/sign-in'}
+                  >
+                    Sign In
+                  </Button>
+                  <Button 
+                    size="sm"
+                    onClick={() => window.location.href = '/sign-up'}
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              ) : !isLoaded ? (
                 // Loading state
                 <div className="flex items-center space-x-2">
-                  <div className="h-8 w-16 bg-gray-200 animate-pulse rounded" />
-                  <div className="h-8 w-16 bg-gray-200 animate-pulse rounded" />
+                  <div className="h-9 w-20 bg-gray-200 animate-pulse rounded" />
+                  <div className="h-9 w-20 bg-gray-200 animate-pulse rounded" />
                 </div>
               ) : !isSignedIn ? (
-                // Not signed in - show login buttons
-                <>
+                // Not signed in - show Clerk buttons
+                <div className="flex items-center space-x-2">
                   <SignInButton mode="modal" fallbackRedirectUrl="/">
                     <Button variant="outline" size="sm">
                       Sign In
@@ -157,17 +203,17 @@ export const Navigation = () => {
                       Sign Up
                     </Button>
                   </SignUpButton>
-                </>
+                </div>
               ) : (
                 // Signed in - show dashboard and user button
-                <>
+                <div className="flex items-center space-x-2">
                   <Link to="/dashboard">
-                    <Button variant="ghost" size="sm" className="mr-2">
+                    <Button variant="ghost" size="sm">
                       Dashboard
                     </Button>
                   </Link>
                   <UserButton afterSignOutUrl="/" />
-                </>
+                </div>
               )}
             </div>
           </div>
