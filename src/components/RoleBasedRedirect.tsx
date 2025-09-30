@@ -7,7 +7,26 @@ import { ROLE_DASHBOARD_MAP } from '@/lib/roles';
  * Used at /dashboard route to prevent flicker
  */
 export function RoleBasedRedirect() {
-  const { role, isLoading } = useResolvedRole();
+  const { role, isLoading, error } = useResolvedRole();
+
+  // Show error if role resolution failed
+  if (error) {
+    console.error('❌ Role resolution error:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface-1">
+        <div className="text-center space-y-4 p-8">
+          <h2 className="text-2xl font-bold text-red-600">Error Loading Dashboard</h2>
+          <p className="text-text-muted">{error.message}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -21,9 +40,11 @@ export function RoleBasedRedirect() {
   }
 
   if (!role) {
+    console.log('⚠️ No role found, redirecting to sign-in');
     return <Navigate to="/sign-in" replace />;
   }
 
   const dashboardPath = ROLE_DASHBOARD_MAP[role];
+  console.log('✅ Redirecting to dashboard:', dashboardPath, 'for role:', role);
   return <Navigate to={dashboardPath} replace />;
 }

@@ -36,6 +36,7 @@ const VenueDashboard = lazy(() => import("./pages/dashboard/VenueDashboard"));
 const SponsorDashboard = lazy(() => import("./pages/dashboard/SponsorDashboardNew"));
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboardFixed"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const DashboardTest = lazy(() => import("./pages/DashboardTest"));
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
             {/* AUTH ROUTES */}
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/dashboard-test" element={<DashboardTest />} />
             
             {/* DASHBOARD - Role-based redirect */}
             <Route 
