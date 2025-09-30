@@ -26,9 +26,19 @@ export const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Use Clerk hooks
-  const { isSignedIn } = useAuth();
+  // Use Clerk hooks with error handling
+  const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
+  
+  // Debug logging
+  useEffect(() => {
+    console.log('🔍 Navigation Auth State:', { 
+      isLoaded, 
+      isSignedIn, 
+      hasUser: !!user,
+      clerkKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.substring(0, 12) 
+    });
+  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -126,28 +136,39 @@ export const Navigation = () => {
               )
             ))}
             
-            {/* Auth Buttons */}
+            {/* Auth Buttons - Always visible */}
             <div className="ml-4 flex items-center space-x-2">
-              <SignedOut>
-                <SignInButton mode="modal">
-                  <Button variant="outline" size="sm">
-                    Sign In
-                  </Button>
-                </SignInButton>
-                <SignUpButton mode="modal">
-                  <Button size="sm">
-                    Sign Up
-                  </Button>
-                </SignUpButton>
-              </SignedOut>
-              <SignedIn>
-                <Link to="/dashboard">
-                  <Button variant="ghost" size="sm" className="mr-2">
-                    Dashboard
-                  </Button>
-                </Link>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
+              {!isLoaded ? (
+                // Loading state
+                <div className="flex items-center space-x-2">
+                  <div className="h-8 w-16 bg-gray-200 animate-pulse rounded" />
+                  <div className="h-8 w-16 bg-gray-200 animate-pulse rounded" />
+                </div>
+              ) : !isSignedIn ? (
+                // Not signed in - show login buttons
+                <>
+                  <SignInButton mode="modal" fallbackRedirectUrl="/">
+                    <Button variant="outline" size="sm">
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal" fallbackRedirectUrl="/">
+                    <Button size="sm">
+                      Sign Up
+                    </Button>
+                  </SignUpButton>
+                </>
+              ) : (
+                // Signed in - show dashboard and user button
+                <>
+                  <Link to="/dashboard">
+                    <Button variant="ghost" size="sm" className="mr-2">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <UserButton afterSignOutUrl="/" />
+                </>
+              )}
             </div>
           </div>
 
@@ -198,30 +219,38 @@ export const Navigation = () => {
                 </div>
               ))}
               
-              {/* Mobile Auth Buttons */}
+              {/* Mobile Auth Buttons - Always visible */}
               <div className="pt-4 border-t flex flex-col space-y-2">
-                <SignedOut>
-                  <SignInButton mode="modal">
-                    <Button variant="outline" size="sm" className="w-full">
-                      Sign In
-                    </Button>
-                  </SignInButton>
-                  <SignUpButton mode="modal">
-                    <Button size="sm" className="w-full">
-                      Sign Up
-                    </Button>
-                  </SignUpButton>
-                </SignedOut>
-                <SignedIn>
-                  <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Dashboard
-                    </Button>
-                  </Link>
-                  <div className="flex justify-center pt-2">
-                    <UserButton afterSignOutUrl="/" />
+                {!isLoaded ? (
+                  <div className="space-y-2">
+                    <div className="h-9 bg-gray-200 animate-pulse rounded" />
+                    <div className="h-9 bg-gray-200 animate-pulse rounded" />
                   </div>
-                </SignedIn>
+                ) : !isSignedIn ? (
+                  <>
+                    <SignInButton mode="modal" fallbackRedirectUrl="/">
+                      <Button variant="outline" size="sm" className="w-full">
+                        Sign In
+                      </Button>
+                    </SignInButton>
+                    <SignUpButton mode="modal" fallbackRedirectUrl="/">
+                      <Button size="sm" className="w-full">
+                        Sign Up
+                      </Button>
+                    </SignUpButton>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <div className="flex justify-center pt-2">
+                      <UserButton afterSignOutUrl="/" />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
