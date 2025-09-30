@@ -9,7 +9,10 @@ import App from './App.tsx'
 import { queryClient } from './lib/queryClient'
 import { getClerkPublishableKey } from './lib/clerkKey'
 
-const PUBLISHABLE_KEY = getClerkPublishableKey()
+// Get the appropriate Clerk key based on environment
+const PUBLISHABLE_KEY = getClerkPublishableKey();
+
+console.log('🚀 Main.tsx initializing with Clerk key:', PUBLISHABLE_KEY?.substring(0, 20) + '...');
 
 // Initialize Sentry for error monitoring
 if (import.meta.env.VITE_SENTRY_DSN) {

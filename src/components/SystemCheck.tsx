@@ -31,31 +31,35 @@ export function SystemCheck() {
     // Check 1: Clerk Provider Mounted
     results.push({
       name: 'Clerk Provider',
-      status: isLoaded ? 'pass' : 'fail',
+      status: isLoaded ? 'pass' : 'warn',
       message: isLoaded 
-        ? 'ClerkProvider is properly mounted' 
-        : 'ClerkProvider not detected - check main.tsx',
+        ? 'ClerkProvider is loaded' 
+        : 'Clerk still initializing... (refresh if stuck)',
     });
 
     // Check 2: Environment Variables
-    const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+    const liveKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+    const testKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY_TEST;
+    const hostname = window.location.hostname;
+    const isProduction = hostname === 'fashionistas.one' || hostname.endsWith('.fashionistas.one');
+    const activeKey = isProduction ? liveKey : (testKey || liveKey);
+    
     results.push({
-      name: 'Clerk Publishable Key',
-      status: hasClerkKey ? 'pass' : 'fail',
-      message: hasClerkKey
-        ? 'VITE_CLERK_PUBLISHABLE_KEY is set'
-        : 'Missing VITE_CLERK_PUBLISHABLE_KEY in .env',
+      name: 'Clerk Key',
+      status: activeKey ? 'pass' : 'fail',
+      message: activeKey
+        ? `Using ${isProduction ? 'LIVE' : 'TEST'} key (${activeKey.substring(0, 15)}...)`
+        : 'No Clerk key configured',
     });
 
-    // Check 3: Key Format
-    const key = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-    const hasInvalidChar = key?.endsWith('$');
+    // Check 3: Key Format (check if it's actually a valid Clerk key)
+    const isValidFormat = activeKey?.startsWith('pk_test_') || activeKey?.startsWith('pk_live_');
     results.push({
       name: 'Key Format',
-      status: hasInvalidChar ? 'fail' : 'pass',
-      message: hasInvalidChar
-        ? 'Publishable key has trailing "$" - remove it!'
-        : 'Key format is valid',
+      status: isValidFormat ? 'pass' : 'fail',
+      message: isValidFormat
+        ? 'Valid Clerk key format'
+        : 'Invalid key format - must start with pk_test_ or pk_live_',
     });
 
     // Check 4: Supabase URL
@@ -76,7 +80,7 @@ export function SystemCheck() {
         status: hasRole ? 'pass' : 'warn',
         message: hasRole
           ? `Role: ${user.publicMetadata.role}`
-          : 'No role assigned - will default to attendee',
+          : 'No role - will default to attendee',
       });
     }
 
@@ -86,7 +90,8 @@ export function SystemCheck() {
   const failed = checks.filter(c => c.status === 'fail').length;
   const warned = checks.filter(c => c.status === 'warn').length;
 
-  if (failed === 0 && warned === 0) return null;
+  // Always show if there are failures, only show warnings in dev
+  if (failed === 0 && (!isDev || warned === 0)) return null;
 
   return (
     <div className="fixed top-20 right-4 z-50 max-w-md">
