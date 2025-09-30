@@ -24,7 +24,7 @@ export const fashionImages = {
   ],
   designers: [
     // Designer showcase images
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/Designer-1_pvqdus.jpg',
+    'https://res.cloudinary.com/dzqy2ixl0/image/upload/w_1600,h_900,c_fill,q_auto,f_auto/Designer-1_pvqdus',
     'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-2_hjyokj.jpg',
     'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-3_qwqmr7.jpg',
     'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-4_jhrxby.jpg',
