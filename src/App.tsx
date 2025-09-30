@@ -35,7 +35,7 @@ const DesignerDashboard = lazy(() => import("./pages/dashboard/DesignerDashboard
 const VenueDashboard = lazy(() => import("./pages/dashboard/VenueDashboard"));
 const SponsorDashboard = lazy(() => import("./pages/dashboard/SponsorDashboardNew"));
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboardFixed"));
-const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const AdminDashboard = lazy(() => import("./pages/EventManagerDashboard"));
 const DashboardTest = lazy(() => import("./pages/DashboardTest"));
 
 function App() {
