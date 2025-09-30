@@ -14,7 +14,8 @@ import {
   Image,
   MessageCircle,
   LogOut,
-  Users
+  Users,
+  Palette
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -48,6 +49,7 @@ const menuSections: MenuSection[] = [
       { id: 'calendar', label: 'Calendar', path: '/dashboard/calendar', icon: Calendar },
       { id: 'events', label: 'Events', path: '/dashboard/events', icon: Ticket },
       { id: 'models', label: 'Models', path: '/dashboard/models', icon: Users },
+      { id: 'designers', label: 'Designers', path: '/dashboard/designers', icon: Palette },
       { id: 'financials', label: 'Financials', path: '/dashboard/financials', icon: DollarSign },
       { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Image },
       { id: 'feedback', label: 'Feedback', path: '/dashboard/feedback', icon: MessageCircle }
