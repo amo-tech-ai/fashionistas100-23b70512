@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -157,37 +158,39 @@ const EventsDashboard = () => {
   const GridView = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {fashionShows.slice(0, itemsPerPage).map((show) => (
-        <Card key={show.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-          <div className={`relative h-48 ${show.image} flex items-center justify-center`}>
-            <Badge className="absolute top-3 left-3 bg-white/90 text-gray-700">
-              {show.category}
-            </Badge>
-            <Badge className="absolute top-3 right-3 bg-pink-500 text-white">
-              {show.status}
-            </Badge>
-          </div>
-          <CardContent className="p-4 space-y-3">
-            <div>
-              <h3 className="font-semibold text-base mb-1">{show.title}</h3>
-              <div className="flex items-start gap-1 text-xs text-muted-foreground mb-1">
-                <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
-                <span>{show.venue}</span>
-              </div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Calendar className="h-3 w-3 flex-shrink-0" />
-                <span>{show.date} – {show.time}</span>
-              </div>
+        <Link key={show.id} to={`/dashboard/events/${show.id}`}>
+          <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
+            <div className={`relative h-48 ${show.image} flex items-center justify-center`}>
+              <Badge className="absolute top-3 left-3 bg-white/90 text-gray-700">
+                {show.category}
+              </Badge>
+              <Badge className="absolute top-3 right-3 bg-pink-500 text-white">
+                {show.status}
+              </Badge>
             </div>
-            
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">{show.ticketsSold}% Ticket Sold</span>
-                <span className="font-medium text-purple-600">${show.price}</span>
+            <CardContent className="p-4 space-y-3">
+              <div>
+                <h3 className="font-semibold text-base mb-1">{show.title}</h3>
+                <div className="flex items-start gap-1 text-xs text-muted-foreground mb-1">
+                  <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                  <span>{show.venue}</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Calendar className="h-3 w-3 flex-shrink-0" />
+                  <span>{show.date} – {show.time}</span>
+                </div>
               </div>
-              <Progress value={show.ticketsSold} className="h-2" />
-            </div>
-          </CardContent>
-        </Card>
+              
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">{show.ticketsSold}% Ticket Sold</span>
+                  <span className="font-medium text-purple-600">${show.price}</span>
+                </div>
+                <Progress value={show.ticketsSold} className="h-2" />
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
       ))}
     </div>
   );
@@ -195,52 +198,54 @@ const EventsDashboard = () => {
   const ListView = () => (
     <div className="space-y-4">
       {fashionShows.slice(0, itemsPerPage).map((show) => (
-        <Card key={show.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-          <div className="flex">
-            <div className={`w-48 flex-shrink-0 ${show.image}`}></div>
-            <div className="flex-1 p-4">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Badge className={getCategoryColor(show.category)}>
-                    {show.category}
-                  </Badge>
-                  <Badge className="bg-pink-100 text-pink-700">
-                    {show.status}
-                  </Badge>
-                </div>
-                <span className="text-2xl font-bold text-purple-600">${show.price}</span>
-              </div>
-              
-              <h3 className="font-semibold text-lg mb-2">{show.title}</h3>
-              <p className="text-sm text-muted-foreground mb-3">{show.description}</p>
-              
-              <div className="flex items-center gap-6 text-sm mb-3">
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <MapPin className="h-4 w-4" />
-                  <span>{show.venue}</span>
-                </div>
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  <span>{show.date} – {show.time}</span>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-6">
-                <div className="flex-1 max-w-md space-y-1">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">{show.ticketsSold}% Ticket Sold</span>
+        <Link key={show.id} to={`/dashboard/events/${show.id}`}>
+          <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+            <div className="flex">
+              <div className={`w-48 flex-shrink-0 ${show.image}`}></div>
+              <div className="flex-1 p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Badge className={getCategoryColor(show.category)}>
+                      {show.category}
+                    </Badge>
+                    <Badge className="bg-pink-100 text-pink-700">
+                      {show.status}
+                    </Badge>
                   </div>
-                  <Progress value={show.ticketsSold} className="h-2" />
+                  <span className="text-2xl font-bold text-purple-600">${show.price}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Ticket className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">{show.ticketsLeft}</span>
-                  <span className="text-sm text-muted-foreground">Tickets Left</span>
+                
+                <h3 className="font-semibold text-lg mb-2">{show.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{show.description}</p>
+                
+                <div className="flex items-center gap-6 text-sm mb-3">
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    <span>{show.venue}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    <span>{show.date} – {show.time}</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-6">
+                  <div className="flex-1 max-w-md space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{show.ticketsSold}% Ticket Sold</span>
+                    </div>
+                    <Progress value={show.ticketsSold} className="h-2" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Ticket className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">{show.ticketsLeft}</span>
+                    <span className="text-sm text-muted-foreground">Tickets Left</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </Link>
       ))}
     </div>
   );
