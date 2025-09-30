@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Users, Award } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import heroImage from '@/assets/hero-runway-new.jpg';
 export const AboutSection = () => {
   return (
     <section className="py-16 px-4 bg-gray-50">
@@ -12,7 +12,7 @@ export const AboutSection = () => {
           <div className="order-2 lg:order-1">
             <div className="relative">
               <img
-                src="/src/assets/hero-runway.jpg"
+                src={heroImage}
                 alt="Fashion runway show with models and designers"
                 className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-lg"
               />

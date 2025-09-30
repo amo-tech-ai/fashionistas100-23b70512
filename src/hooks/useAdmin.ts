@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useUser } from '@clerk/clerk-react';
 
 export interface AdminStats {
   totalUsers: number;
@@ -12,7 +12,7 @@ export interface AdminStats {
 
 export const useAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user } = useUser();
   
   // Mock admin state
   const isAdmin = true;

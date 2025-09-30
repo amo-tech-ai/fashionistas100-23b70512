@@ -4,8 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
+
 import { LogIn, UserPlus } from 'lucide-react';
 
 interface LoginDialogProps {
@@ -17,51 +17,19 @@ export const LoginDialog = ({ children }: LoginDialogProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
-  const { toast } = useToast();
+  const navigate = useNavigate();
+  
 
-  const handleSignIn = async () => {
-    setLoading(true);
-    const { error } = await signIn(email, password);
-    
-    if (error) {
-      toast({
-        title: 'Sign in failed',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } else {
-      toast({
-        title: 'Welcome back!',
-        description: 'You have been signed in successfully.',
-      });
-      setOpen(false);
-      setEmail('');
-      setPassword('');
-    }
+  const handleSignIn = () => {
+    setOpen(false);
     setLoading(false);
+    navigate('/sign-in');
   };
 
-  const handleSignUp = async () => {
-    setLoading(true);
-    const { error } = await signUp(email, password);
-    
-    if (error) {
-      toast({
-        title: 'Sign up failed',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } else {
-      toast({
-        title: 'Account created!',
-        description: 'Please check your email to verify your account.',
-      });
-      setOpen(false);
-      setEmail('');
-      setPassword('');
-    }
+  const handleSignUp = () => {
+    setOpen(false);
     setLoading(false);
+    navigate('/sign-up');
   };
 
   return (
@@ -107,7 +75,7 @@ export const LoginDialog = ({ children }: LoginDialogProps) => {
             </div>
             <Button 
               onClick={handleSignIn} 
-              disabled={loading || !email || !password}
+              disabled={loading}
               className="w-full"
             >
               {loading ? 'Signing in...' : 'Sign In'}
@@ -137,7 +105,7 @@ export const LoginDialog = ({ children }: LoginDialogProps) => {
             </div>
             <Button 
               onClick={handleSignUp} 
-              disabled={loading || !email || !password}
+              disabled={loading}
               className="w-full"
             >
               {loading ? 'Creating account...' : 'Create Account'}
