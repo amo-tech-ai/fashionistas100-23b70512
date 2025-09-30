@@ -1,4 +1,4 @@
-import MockDashboard from './MockDashboard';
+import EventManagerDashboard from './EventManagerDashboard';
 
-export default MockDashboard;
-export { default as UserDashboard } from './MockDashboard';
+export default EventManagerDashboard;
+export { default as UserDashboard } from './EventManagerDashboard';

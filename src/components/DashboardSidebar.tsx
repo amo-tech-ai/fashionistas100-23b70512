@@ -5,20 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Plus } from 'lucide-react';
 import {
-  BarChart3,
+  LayoutDashboard,
   Calendar,
-  Users,
-  Building2,
-  Palette,
-  Star,
-  Settings,
-  PlusCircle,
   FileText,
-  Camera,
-  Upload,
-  CreditCard,
-  MessageSquare,
-  Home
+  Inbox,
+  Ticket,
+  DollarSign,
+  Image,
+  MessageCircle,
+  LogOut
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -42,34 +37,18 @@ interface MenuSection {
 
 const menuSections: MenuSection[] = [
   {
-    title: "Dashboards",
+    title: "Main",
     defaultOpen: true,
     items: [
-      { id: 'main', label: 'Overview', path: '/dashboard/overview', icon: Home },
-      { id: 'organizer', label: 'Organizer', path: '/dashboard/organizer', icon: BarChart3 },
-      { id: 'sponsor', label: 'Sponsor', path: '/dashboard/sponsor', icon: Star },
-      { id: 'venue', label: 'Venue', path: '/dashboard/venue', icon: Building2 },
-      { id: 'analytics', label: 'Analytics', path: '/dashboard/analytics', icon: BarChart3, badge: 'Pro' }
-    ]
-  },
-  {
-    title: "Users",
-    items: [
-      { id: 'designers', label: 'Designers', path: '/dashboard/designers', icon: Palette },
-      { id: 'attendees', label: 'Attendees', path: '/dashboard/attendees', icon: Users },
-      { id: 'sponsors', label: 'Sponsors', path: '/dashboard/sponsors', icon: Star },
-      { id: 'venues', label: 'Venues', path: '/dashboard/venues', icon: Building2 }
-    ]
-  },
-  {
-    title: "Make",
-    items: [
-      { id: 'create-event', label: 'Create Event', path: '/dashboard/create-event', icon: PlusCircle, isNew: true },
-      { id: 'event-brief', label: 'Event Brief', path: '/dashboard/event-brief', icon: FileText },
-      { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Camera },
-      { id: 'portfolio', label: 'Portfolio Upload', path: '/dashboard/portfolio-upload', icon: Upload },
-      { id: 'payments', label: 'Payments', path: '/dashboard/payments', icon: CreditCard },
-      { id: 'contact', label: 'Contact Forms', path: '/dashboard/contact-forms', icon: MessageSquare }
+      { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+      { id: 'bookings', label: 'Bookings', path: '/dashboard/bookings', icon: Calendar },
+      { id: 'invoices', label: 'Invoices', path: '/dashboard/invoices', icon: FileText },
+      { id: 'inbox', label: 'Inbox', path: '/dashboard/inbox', icon: Inbox, badge: '3' },
+      { id: 'calendar', label: 'Calendar', path: '/dashboard/calendar', icon: Calendar },
+      { id: 'events', label: 'Events', path: '/events', icon: Ticket },
+      { id: 'financials', label: 'Financials', path: '/dashboard/financials', icon: DollarSign },
+      { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Image },
+      { id: 'feedback', label: 'Feedback', path: '/dashboard/feedback', icon: MessageCircle }
     ]
   }
 ];
@@ -77,9 +56,7 @@ const menuSections: MenuSection[] = [
 export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
   const location = useLocation();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    'Dashboards': true,
-    'Users': false,
-    'Make': false
+    'Main': true
   });
 
   const toggleSection = (sectionTitle: string) => {
@@ -166,14 +143,20 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
         </div>
       </nav>
 
-      {/* Create Event CTA */}
-      <div className="p-4 border-t border-border">
-        <Link to="/dashboard/create-event">
-          <Button className="w-full bg-gradient-brand hover:opacity-90 text-brand-foreground">
-            <Plus className="h-4 w-4 mr-2" />
-            Create Event
+      {/* Promo Card and Sign Out */}
+      <div className="p-4 border-t border-border space-y-3">
+        <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg">
+          <p className="text-sm font-semibold mb-1">Experience enhanced features</p>
+          <p className="text-xs text-muted-foreground mb-3">Access smoother interface with the latest version of Ventixe</p>
+          <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm">
+            Try New Version
           </Button>
-        </Link>
+        </div>
+        
+        <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground">
+          <LogOut className="h-4 w-4 mr-2" />
+          Sign Out
+        </Button>
       </div>
     </aside>
   );
