@@ -39,6 +39,7 @@ const AdminDashboard = lazy(() => import("./pages/EventManagerDashboard"));
 const DashboardTest = lazy(() => import("./pages/DashboardTest"));
 const CalendarDashboard = lazy(() => import("./pages/CalendarDashboard"));
 const EventsDashboard = lazy(() => import("./pages/EventsDashboard"));
+const FinancialsDashboard = lazy(() => import("./pages/FinancialsDashboard"));
 
 function App() {
   return (
@@ -159,6 +160,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EventsDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* FINANCIALS DASHBOARD */}
+            <Route 
+              path="/dashboard/financials" 
+              element={
+                <ProtectedRoute>
+                  <FinancialsDashboard />
                 </ProtectedRoute>
               } 
             />
