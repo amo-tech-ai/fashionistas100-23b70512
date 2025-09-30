@@ -38,6 +38,7 @@ const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboardFixed"))
 const AdminDashboard = lazy(() => import("./pages/EventManagerDashboard"));
 const DashboardTest = lazy(() => import("./pages/DashboardTest"));
 const CalendarDashboard = lazy(() => import("./pages/CalendarDashboard"));
+const EventsDashboard = lazy(() => import("./pages/EventsDashboard"));
 
 function App() {
   return (
@@ -148,6 +149,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CalendarDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* EVENTS DASHBOARD */}
+            <Route 
+              path="/dashboard/events" 
+              element={
+                <ProtectedRoute>
+                  <EventsDashboard />
                 </ProtectedRoute>
               } 
             />

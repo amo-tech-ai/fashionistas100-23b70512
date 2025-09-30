@@ -45,7 +45,7 @@ const menuSections: MenuSection[] = [
       { id: 'invoices', label: 'Invoices', path: '/dashboard/invoices', icon: FileText },
       { id: 'inbox', label: 'Inbox', path: '/dashboard/inbox', icon: Inbox, badge: '3' },
       { id: 'calendar', label: 'Calendar', path: '/dashboard/calendar', icon: Calendar },
-      { id: 'events', label: 'Events', path: '/events', icon: Ticket },
+      { id: 'events', label: 'Events', path: '/dashboard/events', icon: Ticket },
       { id: 'financials', label: 'Financials', path: '/dashboard/financials', icon: DollarSign },
       { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Image },
       { id: 'feedback', label: 'Feedback', path: '/dashboard/feedback', icon: MessageCircle }
