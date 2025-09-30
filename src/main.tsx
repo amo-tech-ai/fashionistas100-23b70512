@@ -7,12 +7,9 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import App from './App.tsx'
 import { queryClient } from './lib/queryClient'
+import { getClerkPublishableKey } from './lib/clerkKey'
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
-}
+const PUBLISHABLE_KEY = getClerkPublishableKey()
 
 // Initialize Sentry for error monitoring
 if (import.meta.env.VITE_SENTRY_DSN) {
