@@ -19,6 +19,12 @@ export function SystemCheck() {
   const { user } = useUser();
   const [checks, setChecks] = useState<CheckResult[]>([]);
 
+  // Only show in dev mode or with ?debug=1 query param
+  const isDev = import.meta.env.DEV;
+  const hasDebug = new URLSearchParams(window.location.search).get('debug') === '1';
+  
+  if (!isDev && !hasDebug) return null;
+
   useEffect(() => {
     const results: CheckResult[] = [];
 
