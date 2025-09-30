@@ -1,14 +1,6 @@
 import { Navigate } from 'react-router-dom';
-import { useResolvedRole, type UserRole } from '@/hooks/useResolvedRole';
-
-const ROLE_DASHBOARD_MAP: Record<UserRole, string> = {
-  admin: '/dashboard/admin/overview',
-  organizer: '/dashboard/organizer/overview',
-  designer: '/dashboard/designer/overview',
-  venue_owner: '/dashboard/venue/overview',
-  sponsor: '/dashboard/sponsor/overview',
-  attendee: '/dashboard/user/overview',
-};
+import { useResolvedRole } from '@/hooks/useResolvedRole';
+import { ROLE_DASHBOARD_MAP } from '@/lib/roles';
 
 /**
  * Component that redirects to role-specific dashboard

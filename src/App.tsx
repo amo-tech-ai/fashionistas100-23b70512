@@ -6,6 +6,7 @@ import { RoleBasedRedirect } from "@/components/RoleBasedRedirect";
 import { WithRoleGuard } from "@/components/WithRoleGuard";
 import { RedirectHandler } from "@/components/RedirectHandler";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { DASHBOARD_ACCESS } from "@/lib/roles";
 
 // Core pages
 import Index from "./pages/Index";
@@ -82,7 +83,7 @@ function App() {
             <Route 
               path="/dashboard/organizer/overview" 
               element={
-                <WithRoleGuard allow={["organizer", "admin"]}>
+                <WithRoleGuard allow={DASHBOARD_ACCESS.organizer}>
                   <OrganizerDashboard />
                 </WithRoleGuard>
               } 
@@ -92,7 +93,7 @@ function App() {
             <Route 
               path="/dashboard/designer/overview" 
               element={
-                <WithRoleGuard allow={["designer", "admin"]}>
+                <WithRoleGuard allow={DASHBOARD_ACCESS.designer}>
                   <DesignerDashboard />
                 </WithRoleGuard>
               } 
@@ -102,7 +103,7 @@ function App() {
             <Route 
               path="/dashboard/venue/overview" 
               element={
-                <WithRoleGuard allow={["venue_owner", "admin"]}>
+                <WithRoleGuard allow={DASHBOARD_ACCESS.venue}>
                   <VenueDashboard />
                 </WithRoleGuard>
               } 
@@ -112,7 +113,7 @@ function App() {
             <Route 
               path="/dashboard/sponsor/overview" 
               element={
-                <WithRoleGuard allow={["sponsor", "admin"]}>
+                <WithRoleGuard allow={DASHBOARD_ACCESS.sponsor}>
                   <SponsorDashboard />
                 </WithRoleGuard>
               } 
@@ -122,7 +123,7 @@ function App() {
             <Route 
               path="/dashboard/user/overview" 
               element={
-                <WithRoleGuard allow={["attendee", "admin"]}>
+                <WithRoleGuard allow={DASHBOARD_ACCESS.user}>
                   <UserDashboard />
                 </WithRoleGuard>
               } 
@@ -132,7 +133,7 @@ function App() {
             <Route 
               path="/dashboard/admin/overview" 
               element={
-                <WithRoleGuard allow={["admin"]}>
+                <WithRoleGuard allow={DASHBOARD_ACCESS.admin}>
                   <AdminDashboard />
                 </WithRoleGuard>
               } 

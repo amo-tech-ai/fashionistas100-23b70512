@@ -1,10 +1,11 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
-import { useResolvedRole, type UserRole } from '@/hooks/useResolvedRole';
+import { useResolvedRole } from '@/hooks/useResolvedRole';
+import { type Role, hasAccess } from '@/lib/roles';
 
 interface WithRoleGuardProps {
-  allow: UserRole[];
+  allow: Role[];
   children: React.ReactNode;
   to?: string;
 }
@@ -45,7 +46,7 @@ export function WithRoleGuard({
   }
 
   // Redirect to 403 if role not allowed
-  if (!role || !allow.includes(role)) {
+  if (!hasAccess(role, allow)) {
     return <Navigate to={to} replace />;
   }
 
@@ -58,7 +59,7 @@ export function WithRoleGuard({
  * @example
  * const ProtectedOrganizer = withRoleGuard(["organizer", "admin"])(OrganizerDashboard);
  */
-export const withRoleGuard = (allow: UserRole[], to = '/403') =>
+export const withRoleGuard = (allow: Role[], to = '/403') =>
   <P extends object>(Component: React.ComponentType<P>) =>
     (props: P) =>
       (

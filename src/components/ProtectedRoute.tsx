@@ -1,12 +1,13 @@
 import { useAuth } from '@clerk/clerk-react';
 import { Navigate } from 'react-router-dom';
 import { ReactNode } from 'react';
-import { useResolvedRole, type UserRole } from '@/hooks/useResolvedRole';
+import { useResolvedRole } from '@/hooks/useResolvedRole';
+import { type Role, hasAccess } from '@/lib/roles';
 
 interface ProtectedRouteProps {
   children: ReactNode;
   fallbackUrl?: string;
-  requiredRole?: UserRole | UserRole[];
+  requiredRole?: Role | Role[];
 }
 
 export function ProtectedRoute({ 
@@ -37,7 +38,7 @@ export function ProtectedRoute({
   // Check role if required
   if (requiredRole && role) {
     const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
-    if (!roles.includes(role)) {
+    if (!hasAccess(role, roles)) {
       // Redirect to user's actual dashboard
       return <Navigate to="/dashboard" replace />;
     }

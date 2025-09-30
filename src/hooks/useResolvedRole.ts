@@ -1,11 +1,13 @@
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { type Role, ROLES } from '@/lib/roles';
 
-export type UserRole = 'admin' | 'organizer' | 'designer' | 'venue_owner' | 'sponsor' | 'attendee';
+// Re-export for backwards compatibility
+export type UserRole = Role;
 
 interface ResolvedRoleData {
-  role: UserRole | null;
+  role: Role | null;
   isLoading: boolean;
   error: Error | null;
 }
@@ -54,7 +56,7 @@ export function useResolvedRole(): ResolvedRoleData {
 
       // 4. If no profile exists, create one with Clerk metadata or default
       if (!profile) {
-        const newRole = clerkRole || 'attendee';
+        const newRole = clerkRole || ROLES.ATTENDEE;
         const nameParts = user.fullName?.split(' ') || [];
         
         const { error: insertError } = await supabase
@@ -76,7 +78,7 @@ export function useResolvedRole(): ResolvedRoleData {
         return newRole;
       }
 
-      return clerkRole || 'attendee';
+      return clerkRole || ROLES.ATTENDEE;
     },
     enabled: authLoaded && !!userId,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -93,7 +95,7 @@ export function useResolvedRole(): ResolvedRoleData {
 /**
  * Hook to check if user has specific role
  */
-export function useHasRole(requiredRole: UserRole | UserRole[]): boolean {
+export function useHasRole(requiredRole: Role | Role[]): boolean {
   const { role } = useResolvedRole();
   
   if (!role) return false;
