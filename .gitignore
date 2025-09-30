@@ -26,6 +26,8 @@ dist-ssr
 # Environment
 .env.local
 .env.production.local
+.env.production
+.env
 
 # Build
 dist/
