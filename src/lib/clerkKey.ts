@@ -15,17 +15,18 @@ export function getClerkPublishableKey(): string {
   // For production domain, use live key
   const selectedKey = isProductionDomain ? liveKey : (testKey || liveKey);
   
-  // Always log key selection for debugging
-  console.log('🔑 Clerk Key Selection:', {
-    hostname,
-    isProductionDomain,
-    hasLiveKey: !!liveKey,
-    hasTestKey: !!testKey,
-    usingTestKey: !isProductionDomain && !!testKey,
-    keyType: isProductionDomain ? 'LIVE' : (testKey ? 'TEST' : 'LIVE-FALLBACK'),
-    keyPrefix: selectedKey?.substring(0, 15) + '...',
-    fullKey: selectedKey // TEMPORARY - for debugging only
-  });
+  // Safe logging (development only)
+  if (import.meta.env.DEV) {
+    console.log('🔑 Clerk Key Selection:', {
+      hostname,
+      isProductionDomain,
+      hasLiveKey: !!liveKey,
+      hasTestKey: !!testKey,
+      usingTestKey: !isProductionDomain && !!testKey,
+      keyType: isProductionDomain ? 'LIVE' : (testKey ? 'TEST' : 'LIVE-FALLBACK'),
+      keyPrefix: selectedKey?.substring(0, 15) + '...'
+    });
+  }
   
   if (!selectedKey) {
     console.error('❌ Missing Clerk publishable key', {
