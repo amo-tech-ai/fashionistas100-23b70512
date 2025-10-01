@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import DashboardSidebar from '@/components/DashboardSidebar';
-import Footer from '@/components/Footer';
+import DashboardLayout from '@/components/DashboardLayout';
 import {
   Search,
   Bell,
@@ -156,24 +155,24 @@ const EventsDashboard = () => {
   };
 
   const GridView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
       {fashionShows.slice(0, itemsPerPage).map((show) => (
         <Link key={show.id} to={`/dashboard/events/${show.id}`}>
-          <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
-            <div className={`relative h-48 ${show.image} flex items-center justify-center`}>
-              <Badge className="absolute top-3 left-3 bg-white/90 text-gray-700">
+          <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full touch-manipulation">
+            <div className={`relative h-40 sm:h-48 ${show.image} flex items-center justify-center`}>
+              <Badge className="absolute top-3 left-3 bg-white/90 text-gray-700 text-xs">
                 {show.category}
               </Badge>
-              <Badge className="absolute top-3 right-3 bg-pink-500 text-white">
+              <Badge className="absolute top-3 right-3 bg-pink-500 text-white text-xs">
                 {show.status}
               </Badge>
             </div>
-            <CardContent className="p-4 space-y-3">
+            <CardContent className="p-3 sm:p-4 space-y-2 sm:space-y-3">
               <div>
-                <h3 className="font-semibold text-base mb-1">{show.title}</h3>
+                <h3 className="font-semibold text-sm sm:text-base mb-1 line-clamp-2">{show.title}</h3>
                 <div className="flex items-start gap-1 text-xs text-muted-foreground mb-1">
                   <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
-                  <span>{show.venue}</span>
+                  <span className="line-clamp-1">{show.venue}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <Calendar className="h-3 w-3 flex-shrink-0" />
@@ -196,50 +195,50 @@ const EventsDashboard = () => {
   );
 
   const ListView = () => (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {fashionShows.slice(0, itemsPerPage).map((show) => (
         <Link key={show.id} to={`/dashboard/events/${show.id}`}>
           <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-            <div className="flex">
-              <div className={`w-48 flex-shrink-0 ${show.image}`}></div>
-              <div className="flex-1 p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <Badge className={getCategoryColor(show.category)}>
+            <div className="flex flex-col sm:flex-row">
+              <div className={`w-full sm:w-48 h-32 sm:h-auto flex-shrink-0 ${show.image}`}></div>
+              <div className="flex-1 p-3 sm:p-4">
+                <div className="flex items-start justify-between mb-2 flex-wrap gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Badge className={getCategoryColor(show.category) + " text-xs"}>
                       {show.category}
                     </Badge>
-                    <Badge className="bg-pink-100 text-pink-700">
+                    <Badge className="bg-pink-100 text-pink-700 text-xs">
                       {show.status}
                     </Badge>
                   </div>
-                  <span className="text-2xl font-bold text-purple-600">${show.price}</span>
+                  <span className="text-xl sm:text-2xl font-bold text-purple-600">${show.price}</span>
                 </div>
                 
-                <h3 className="font-semibold text-lg mb-2">{show.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{show.description}</p>
+                <h3 className="font-semibold text-base sm:text-lg mb-2">{show.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3 hidden sm:block">{show.description}</p>
                 
-                <div className="flex items-center gap-6 text-sm mb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-xs sm:text-sm mb-3">
                   <div className="flex items-center gap-1 text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    <span>{show.venue}</span>
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <span className="line-clamp-1">{show.venue}</span>
                   </div>
                   <div className="flex items-center gap-1 text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
+                    <Calendar className="h-4 w-4 flex-shrink-0" />
                     <span>{show.date} – {show.time}</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-6">
-                  <div className="flex-1 max-w-md space-y-1">
-                    <div className="flex items-center justify-between text-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+                  <div className="flex-1 max-w-full sm:max-w-md space-y-1">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
                       <span className="text-muted-foreground">{show.ticketsSold}% Ticket Sold</span>
                     </div>
                     <Progress value={show.ticketsSold} className="h-2" />
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-sm">
                     <Ticket className="h-4 w-4 text-muted-foreground" />
                     <span className="font-medium">{show.ticketsLeft}</span>
-                    <span className="text-sm text-muted-foreground">Tickets Left</span>
+                    <span className="text-muted-foreground">Tickets Left</span>
                   </div>
                 </div>
               </div>
@@ -251,199 +250,144 @@ const EventsDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar */}
-      <DashboardSidebar />
-      
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Header */}
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex h-16 items-center justify-between px-6">
-            {/* Left - Breadcrumbs and Title */}
-            <div>
-              <div className="text-xs text-muted-foreground mb-1">Dashboard / Events</div>
-              <h1 className="text-xl font-semibold text-foreground">Events</h1>
-            </div>
+    <DashboardLayout>
+      <div className="space-y-4 sm:space-y-6">
+        {/* Header */}
+        <div>
+          <div className="text-xs text-muted-foreground mb-1">Dashboard / Events</div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Events</h1>
+        </div>
 
-            {/* Right - Search, Notifications, Settings, Profile */}
-            <div className="flex items-center gap-4">
-              {/* Notification Bell */}
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="h-5 w-5" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600 text-white text-xs">
-                  3
-                </Badge>
-              </Button>
-
-              {/* Settings Icon */}
-              <Button variant="ghost" size="icon">
-                <Settings className="h-5 w-5" />
-              </Button>
-
-              {/* Profile */}
-              <div className="flex items-center gap-3">
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src="/api/placeholder/36/36" />
-                  <AvatarFallback className="bg-purple-600 text-white">OL</AvatarFallback>
-                </Avatar>
-                <div className="hidden lg:block">
-                  <div className="text-sm font-medium">Orlando Laurentius</div>
-                  <div className="text-xs text-muted-foreground">Admin</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Dashboard Content */}
-        <div className="flex-1 p-6 space-y-6 overflow-y-auto">
-          {/* Tabs and Filters */}
-          <div className="flex items-center justify-between">
-            {/* Tabs */}
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={() => setActiveTab('active')}
-                className={`rounded-full ${
-                  activeTab === 'active'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
-              >
-                Active <Badge className="ml-2 bg-white/20">48</Badge>
-              </Button>
-              <Button
-                onClick={() => setActiveTab('draft')}
-                className={`rounded-full ${
-                  activeTab === 'draft'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
-              >
-                Draft <Badge className="ml-2 bg-white/20">22</Badge>
-              </Button>
-              <Button
-                onClick={() => setActiveTab('past')}
-                className={`rounded-full ${
-                  activeTab === 'past'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }`}
-              >
-                Past <Badge className="ml-2 bg-white/20">32</Badge>
-              </Button>
-            </div>
-
-            {/* Search and Filters */}
-            <div className="flex items-center gap-3">
-              {/* Search Bar */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search event, location, etc"
-                  className="pl-10 w-80 bg-muted/50"
-                />
-              </div>
-
-              {/* Category Filter */}
-              <Button variant="outline" className="bg-blue-900 text-white hover:bg-blue-800">
-                All Category
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-
-              {/* Date Filter */}
-              <Button variant="outline">
-                This Month
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-
-              {/* View Toggle */}
-              <div className="flex items-center gap-1 border rounded-md">
-                <Button
-                  variant={viewType === 'grid' ? 'default' : 'ghost'}
-                  size="icon"
-                  onClick={() => setViewType('grid')}
-                  className={viewType === 'grid' ? 'bg-blue-900 hover:bg-blue-800' : ''}
-                >
-                  <Grid3x3 className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewType === 'list' ? 'default' : 'ghost'}
-                  size="icon"
-                  onClick={() => setViewType('list')}
-                  className={viewType === 'list' ? 'bg-blue-900 hover:bg-blue-800' : ''}
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+        {/* Tabs and Filters - Mobile Optimized */}
+        <div className="space-y-3 sm:space-y-4">
+          {/* Tabs */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              onClick={() => setActiveTab('active')}
+              className={`rounded-full text-xs sm:text-sm min-touch ${
+                activeTab === 'active'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Active <Badge className="ml-2 bg-white/20 text-xs">48</Badge>
+            </Button>
+            <Button
+              onClick={() => setActiveTab('draft')}
+              className={`rounded-full text-xs sm:text-sm min-touch ${
+                activeTab === 'draft'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Draft <Badge className="ml-2 bg-white/20 text-xs">22</Badge>
+            </Button>
+            <Button
+              onClick={() => setActiveTab('past')}
+              className={`rounded-full text-xs sm:text-sm min-touch ${
+                activeTab === 'past'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              Past <Badge className="ml-2 bg-white/20 text-xs">32</Badge>
+            </Button>
           </div>
 
-          {/* Events Display */}
-          {viewType === 'grid' ? <GridView /> : <ListView />}
-
-          {/* Pagination */}
-          <div className="flex items-center justify-between pt-4">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Showing</span>
-              <select 
-                value={itemsPerPage}
-                onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                className="border rounded px-2 py-1 bg-background"
-              >
-                <option value={6}>6</option>
-                <option value={8}>8</option>
-                <option value={12}>12</option>
-                <option value={24}>24</option>
-              </select>
-              <span>out of 48</span>
+          {/* Search and Filters */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            {/* Search Bar */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search event, location..."
+                className="pl-10 w-full bg-muted/50"
+              />
             </div>
 
-            <div className="flex items-center gap-1">
-              <Button variant="outline" size="icon">
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              
-              <Button 
-                variant={currentPage === 1 ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCurrentPage(1)}
-                className={currentPage === 1 ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
+            {/* View Toggle - Desktop */}
+            <div className="hidden sm:flex items-center gap-1 border rounded-md">
+              <Button
+                variant={viewType === 'grid' ? 'default' : 'ghost'}
+                size="icon"
+                onClick={() => setViewType('grid')}
+                className={viewType === 'grid' ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
               >
-                1
+                <Grid3x3 className="h-4 w-4" />
               </Button>
-              <Button 
-                variant={currentPage === 2 ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCurrentPage(2)}
-                className={currentPage === 2 ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
+              <Button
+                variant={viewType === 'list' ? 'default' : 'ghost'}
+                size="icon"
+                onClick={() => setViewType('list')}
+                className={viewType === 'list' ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
               >
-                2
-              </Button>
-              <Button 
-                variant={currentPage === 3 ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCurrentPage(3)}
-                className={currentPage === 3 ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
-              >
-                3
-              </Button>
-              
-              <span className="px-2">...</span>
-              
-              <Button variant="outline" size="sm">8</Button>
-              
-              <Button variant="outline" size="icon" className="bg-blue-900 text-white hover:bg-blue-800">
-                <ChevronRight className="h-4 w-4" />
+                <List className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
-        
-        {/* Footer */}
-        <Footer />
+
+        {/* Events Display */}
+        {viewType === 'grid' ? <GridView /> : <ListView />}
+
+        {/* Pagination - Mobile Optimized */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+            <span>Showing</span>
+            <select 
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+              className="border rounded px-2 py-1 bg-background"
+            >
+              <option value={6}>6</option>
+              <option value={8}>8</option>
+              <option value={12}>12</option>
+              <option value={24}>24</option>
+            </select>
+            <span>out of 48</span>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <Button variant="outline" size="icon" className="min-touch">
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            
+            <Button 
+              variant={currentPage === 1 ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setCurrentPage(1)}
+              className={currentPage === 1 ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
+            >
+              1
+            </Button>
+            <Button 
+              variant={currentPage === 2 ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setCurrentPage(2)}
+              className={currentPage === 2 ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
+            >
+              2
+            </Button>
+            <Button 
+              variant={currentPage === 3 ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setCurrentPage(3)}
+              className={currentPage === 3 ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
+            >
+              3
+            </Button>
+            
+            <span className="px-2 text-sm">...</span>
+            
+            <Button variant="outline" size="sm">8</Button>
+            
+            <Button variant="outline" size="icon" className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 min-touch">
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 

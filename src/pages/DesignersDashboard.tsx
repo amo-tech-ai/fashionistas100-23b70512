@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DashboardSidebar } from '@/components/DashboardSidebar';
+import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -215,7 +215,7 @@ const designers: Designer[] = [
   },
 ];
 
-export default function DesignersDashboard() {
+function DesignersDashboard() {
   const [activeTab, setActiveTab] = useState<'active' | 'draft' | 'past'>('active');
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [currentPage, setCurrentPage] = useState(1);
@@ -247,11 +247,11 @@ export default function DesignersDashboard() {
   };
 
   const GridView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {currentDesigners.map((designer) => (
         <Card
           key={designer.id}
-          className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+          className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer touch-manipulation"
           onClick={() => setSelectedDesigner(designer)}
         >
           <div className="relative h-64">
@@ -359,149 +359,86 @@ export default function DesignersDashboard() {
   );
 
   return (
-    <div className="flex min-h-screen w-full bg-gray-50">
-      <DashboardSidebar />
-
-      <div className="flex-1 flex flex-col">
+    <DashboardLayout>
+      <div className="space-y-4 sm:space-y-6">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Link
-                  to="/dashboard/admin/overview"
-                  className="text-sm text-muted-foreground hover:text-foreground"
+        <div>
+          <div className="text-xs text-muted-foreground mb-1">Dashboard / Designers</div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Designers</h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Left Column - Designers List */}
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+            {/* Tabs and Filters - Mobile Optimized */}
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  onClick={() => setActiveTab('active')}
+                  className={`rounded-full text-xs sm:text-sm min-touch ${
+                    activeTab === 'active'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
                 >
-                  Dashboard
-                </Link>
-                <span className="text-sm text-muted-foreground">/</span>
-                <span className="text-sm text-muted-foreground">Designers</span>
+                  Active <Badge className="ml-2 bg-white/20 text-xs">32</Badge>
+                </Button>
+                <Button
+                  onClick={() => setActiveTab('draft')}
+                  className={`rounded-full text-xs sm:text-sm min-touch ${
+                    activeTab === 'draft'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                >
+                  Draft <Badge className="ml-2 bg-white/20 text-xs">12</Badge>
+                </Button>
+                <Button
+                  onClick={() => setActiveTab('past')}
+                  className={`rounded-full text-xs sm:text-sm min-touch ${
+                    activeTab === 'past'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                >
+                  Past <Badge className="ml-2 bg-white/20 text-xs">18</Badge>
+                </Button>
               </div>
-              <h1 className="text-2xl font-bold text-foreground">Designers</h1>
+
+              <div className="flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search designer name, brand..." className="pl-10" />
+                </div>
+
+                <div className="hidden sm:flex gap-1 border rounded-lg p-1">
+                  <Button
+                    variant={viewType === 'grid' ? 'default' : 'ghost'}
+                    size="icon"
+                    onClick={() => setViewType('grid')}
+                    className={
+                      viewType === 'grid'
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600'
+                        : ''
+                    }
+                  >
+                    <Grid3x3 className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={viewType === 'list' ? 'default' : 'ghost'}
+                    size="icon"
+                    onClick={() => setViewType('list')}
+                    className={
+                      viewType === 'list'
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600'
+                        : ''
+                    }
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
             </div>
-
-            <div className="flex items-center gap-4">
-              <div className="relative w-96">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search designer name, brand, style" className="pl-10" />
-              </div>
-
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Settings className="h-5 w-5" />
-              </Button>
-              <div className="flex items-center gap-3">
-                <img
-                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=Orlando"
-                  alt="Orlando Laurentius"
-                  className="w-10 h-10 rounded-full"
-                />
-                <div>
-                  <p className="text-sm font-medium">Orlando Laurentius</p>
-                  <p className="text-xs text-muted-foreground">Admin</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex-1 p-8 overflow-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Column - Designers List */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Tabs and Filters */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Button
-                    onClick={() => setActiveTab('active')}
-                    className={`rounded-full ${
-                      activeTab === 'active'
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                    }`}
-                  >
-                    Active <Badge className="ml-2 bg-white/20">32</Badge>
-                  </Button>
-                  <Button
-                    onClick={() => setActiveTab('draft')}
-                    className={`rounded-full ${
-                      activeTab === 'draft'
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                    }`}
-                  >
-                    Draft <Badge className="ml-2 bg-white/20">12</Badge>
-                  </Button>
-                  <Button
-                    onClick={() => setActiveTab('past')}
-                    className={`rounded-full ${
-                      activeTab === 'past'
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                        : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                    }`}
-                  >
-                    Past <Badge className="ml-2 bg-white/20">18</Badge>
-                  </Button>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Select defaultValue="all">
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
-                      <SelectItem value="couture">Couture</SelectItem>
-                      <SelectItem value="streetwear">Streetwear</SelectItem>
-                      <SelectItem value="rtw">Ready-to-Wear</SelectItem>
-                      <SelectItem value="accessories">Accessories</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select defaultValue="all-locations">
-                    <SelectTrigger className="w-32">
-                      <SelectValue placeholder="Location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all-locations">All Locations</SelectItem>
-                      <SelectItem value="milan">Milan</SelectItem>
-                      <SelectItem value="paris">Paris</SelectItem>
-                      <SelectItem value="tokyo">Tokyo</SelectItem>
-                      <SelectItem value="london">London</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <div className="flex gap-1 border rounded-lg p-1">
-                    <Button
-                      variant={viewType === 'grid' ? 'default' : 'ghost'}
-                      size="icon"
-                      onClick={() => setViewType('grid')}
-                      className={
-                        viewType === 'grid'
-                          ? 'bg-gradient-to-r from-purple-600 to-pink-600'
-                          : ''
-                      }
-                    >
-                      <Grid3x3 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant={viewType === 'list' ? 'default' : 'ghost'}
-                      size="icon"
-                      onClick={() => setViewType('list')}
-                      className={
-                        viewType === 'list'
-                          ? 'bg-gradient-to-r from-purple-600 to-pink-600'
-                          : ''
-                      }
-                    >
-                      <List className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
 
               {/* Designers Grid/List */}
               {viewType === 'grid' ? <GridView /> : <ListView />}
@@ -638,12 +575,11 @@ export default function DesignersDashboard() {
               </Card>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
 
-      {/* Designer Detail Modal */}
-      <Dialog open={!!selectedDesigner} onOpenChange={() => setSelectedDesigner(null)}>
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        {/* Designer Detail Modal */}
+        <Dialog open={!!selectedDesigner} onOpenChange={() => setSelectedDesigner(null)}>
+          <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
           {selectedDesigner && (
             <>
               <DialogHeader>
@@ -789,6 +725,8 @@ export default function DesignersDashboard() {
           )}
         </DialogContent>
       </Dialog>
-    </div>
+    </DashboardLayout>
   );
 }
+
+export default DesignersDashboard;

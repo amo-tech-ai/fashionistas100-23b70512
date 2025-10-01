@@ -20,6 +20,7 @@ import {
 
 interface SidebarProps {
   className?: string;
+  onNavigate?: () => void;
 }
 
 interface MenuItem {
@@ -57,7 +58,7 @@ const menuSections: MenuSection[] = [
   }
 ];
 
-export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
+export const DashboardSidebar: React.FC<SidebarProps> = ({ className, onNavigate }) => {
   const location = useLocation();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     'Main': true
@@ -77,13 +78,13 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
 
   return (
     <aside className={cn(
-      "w-64 bg-card border-r border-border flex flex-col h-full",
+      "w-64 bg-card border-r border-border flex flex-col h-screen",
       className
     )}>
       {/* Header */}
-      <div className="p-6 border-b border-border">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-brand rounded-xl flex items-center justify-center">
+      <div className="p-4 sm:p-6 border-b border-border">
+        <Link to="/" className="flex items-center gap-3" onClick={onNavigate}>
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
             <span className="text-white font-bold text-lg">F</span>
           </div>
           <span className="font-bold text-xl text-foreground">Fashionistas</span>
@@ -91,13 +92,13 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 overflow-y-auto">
-        <div className="space-y-6">
+      <nav className="flex-1 p-3 sm:p-4 overflow-y-auto">
+        <div className="space-y-4 sm:space-y-6">
           {menuSections.map((section) => (
             <div key={section.title}>
               <button
                 onClick={() => toggleSection(section.title)}
-                className="flex items-center justify-between w-full p-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center justify-between w-full p-2 text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors min-touch"
               >
                 <span className="uppercase tracking-wider">{section.title}</span>
                 <ChevronDown 
@@ -114,21 +115,27 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
                     <Link
                       key={item.id}
                       to={item.path}
+                      onClick={onNavigate}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group",
+                        "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors group min-touch",
                         isActivePath(item.path)
-                          ? "bg-brand text-brand-foreground"
+                          ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
                       )}
                     >
                       <item.icon className={cn(
-                        "h-4 w-4",
-                        isActivePath(item.path) ? "text-brand-foreground" : "text-muted-foreground group-hover:text-foreground"
+                        "h-4 w-4 flex-shrink-0",
+                        isActivePath(item.path) ? "text-white" : "text-muted-foreground group-hover:text-foreground"
                       )} />
                       <span className="flex-1">{item.label}</span>
                       
                       {item.badge && (
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge 
+                          className={cn(
+                            "text-xs",
+                            isActivePath(item.path) ? "bg-white/20 text-white" : "bg-purple-100 text-purple-700"
+                          )}
+                        >
                           {item.badge}
                         </Badge>
                       )}
@@ -148,16 +155,20 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className }) => {
       </nav>
 
       {/* Promo Card and Sign Out */}
-      <div className="p-4 border-t border-border space-y-3">
-        <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-lg">
-          <p className="text-sm font-semibold mb-1">Experience enhanced features</p>
-          <p className="text-xs text-muted-foreground mb-3">Access smoother interface with the latest version of Ventixe</p>
-          <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm">
+      <div className="p-3 sm:p-4 border-t border-border space-y-3">
+        <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-3 sm:p-4 rounded-lg">
+          <p className="text-xs sm:text-sm font-semibold mb-1">Experience enhanced features</p>
+          <p className="text-xs text-muted-foreground mb-3 hidden sm:block">Access smoother interface with the latest version of Ventixe</p>
+          <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xs sm:text-sm min-touch">
             Try New Version
           </Button>
         </div>
         
-        <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground">
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start text-muted-foreground hover:text-foreground min-touch"
+          onClick={onNavigate}
+        >
           <LogOut className="h-4 w-4 mr-2" />
           Sign Out
         </Button>
