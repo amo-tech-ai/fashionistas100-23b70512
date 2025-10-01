@@ -20,6 +20,7 @@ const About = lazy(() => import("./pages/About"));
 const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
 const VideoProduction = lazy(() => import("./pages/services/VideoProduction"));
 const Designers = lazy(() => import("./pages/Designers"));
+const Venues = lazy(() => import("./pages/Venues"));
 const Tickets = lazy(() => import("./pages/Tickets"));
 const Sponsors = lazy(() => import("./pages/Sponsors"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -72,6 +73,8 @@ function App() {
             
             {/* Discovery */}
             <Route path="/designers" element={<Designers />} />
+            <Route path="/venues" element={<Venues />} />
+            <Route path="/venues/:id" element={<VenueProfile />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/sponsors" element={<Sponsors />} />
             

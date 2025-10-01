@@ -90,6 +90,7 @@ export const Navigation = () => {
       ]
     },
     { name: "Designers", href: "/designers" },
+    { name: "Venues", href: "/venues" },
     { name: "Tickets", href: "/tickets" },
     { name: "Sponsors", href: "/sponsors" },
     { name: "About", href: "/about" },
