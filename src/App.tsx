@@ -36,6 +36,7 @@ const VenueDashboard = lazy(() => import("./pages/dashboard/VenueDashboard"));
 const SponsorDashboard = lazy(() => import("./pages/dashboard/SponsorDashboardNew"));
 const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboardFixed"));
 const AdminDashboard = lazy(() => import("./pages/EventManagerDashboard"));
+const BookingsDashboard = lazy(() => import("./pages/dashboard/BookingsDashboard"));
 const DashboardTest = lazy(() => import("./pages/DashboardTest"));
 const CalendarDashboard = lazy(() => import("./pages/CalendarDashboard"));
 const EventsDashboard = lazy(() => import("./pages/EventsDashboard"));
@@ -144,6 +145,16 @@ function App() {
                 <WithRoleGuard allow={DASHBOARD_ACCESS.admin}>
                   <AdminDashboard />
                 </WithRoleGuard>
+              } 
+            />
+            
+            {/* BOOKINGS DASHBOARD */}
+            <Route 
+              path="/dashboard/bookings" 
+              element={
+                <ProtectedRoute>
+                  <BookingsDashboard />
+                </ProtectedRoute>
               } 
             />
             
