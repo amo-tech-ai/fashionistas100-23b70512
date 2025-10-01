@@ -46,6 +46,7 @@ const ModelsDashboard = lazy(() => import("./pages/ModelsDashboard"));
 const DesignersDashboard = lazy(() => import("./pages/DesignersDashboard"));
 const Gallery = lazy(() => import("./pages/dashboard/Gallery"));
 const VenuesListDashboard = lazy(() => import("./pages/dashboard/VenuesListDashboard"));
+const VenueProfile = lazy(() => import("./pages/dashboard/VenueProfile"));
 
 function App() {
   return (
@@ -236,6 +237,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <VenuesListDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* VENUE PROFILE */}
+            <Route 
+              path="/dashboard/venues/:venueId" 
+              element={
+                <ProtectedRoute>
+                  <VenueProfile />
                 </ProtectedRoute>
               } 
             />

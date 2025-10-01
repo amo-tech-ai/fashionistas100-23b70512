@@ -290,7 +290,7 @@ const VenuesListDashboard = () => {
                 <Card 
                   key={venue.id} 
                   className="group cursor-pointer hover:shadow-lg transition-all overflow-hidden"
-                  onClick={() => navigate(`/dashboard/venue/${venue.id}`)}
+                  onClick={() => navigate(`/dashboard/venues/${venue.id}`)}
                 >
                   {/* Venue Image */}
                   <div className="relative h-48 overflow-hidden">
@@ -362,7 +362,7 @@ const VenuesListDashboard = () => {
                         <DropdownMenuContent align="end" className="bg-background">
                           <DropdownMenuItem onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/dashboard/venue/${venue.id}`);
+                            navigate(`/dashboard/venues/${venue.id}`);
                           }}>
                             View Details
                           </DropdownMenuItem>
@@ -426,7 +426,7 @@ const VenuesListDashboard = () => {
                             <Button 
                               variant="outline" 
                               size="sm"
-                              onClick={() => navigate(`/dashboard/venue/${venue.id}`)}
+                              onClick={() => navigate(`/dashboard/venues/${venue.id}`)}
                             >
                               View
                             </Button>
