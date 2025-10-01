@@ -472,7 +472,7 @@ const DesignersListDashboard = () => {
                             </div>
                             <div className="ml-4">
                               <Link 
-                                to={`/designers/${designer.id}`} 
+                                to={`/dashboard/designers/${designer.id}`} 
                                 className="text-sm font-medium text-gray-900 hover:text-blue-600 hover:underline cursor-pointer"
                               >
                                 {designer.name}
@@ -525,7 +525,7 @@ const DesignersListDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <Link to={`/designers/${designer.id}`}>
+                            <Link to={`/dashboard/designers/${designer.id}`}>
                               <Button variant="ghost" size="sm">
                                 <Eye className="h-4 w-4" />
                               </Button>
@@ -568,7 +568,7 @@ const DesignersListDashboard = () => {
                       )}
                       <div>
                         <Link 
-                          to={`/designers/${designer.id}`} 
+                          to={`/dashboard/designers/${designer.id}`} 
                           className="font-semibold text-gray-900 hover:text-blue-600 hover:underline cursor-pointer"
                         >
                           {designer.name}
@@ -622,7 +622,7 @@ const DesignersListDashboard = () => {
                       {designer.is_available ? 'Available' : 'Unavailable'}
                     </Badge>
                     <div className="flex space-x-2">
-                      <Link to={`/designers/${designer.id}`}>
+                      <Link to={`/dashboard/designers/${designer.id}`}>
                         <Button variant="ghost" size="sm">
                           <Eye className="h-4 w-4" />
                         </Button>
