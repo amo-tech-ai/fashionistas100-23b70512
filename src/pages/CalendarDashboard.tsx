@@ -4,8 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import DashboardSidebar from '@/components/DashboardSidebar';
-import Footer from '@/components/Footer';
+import DashboardLayout from '@/components/DashboardLayout';
 import {
   Calendar as CalendarIcon,
   ChevronDown,
@@ -196,20 +195,15 @@ const CalendarDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar */}
-      <DashboardSidebar />
-      
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Header */}
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex h-16 items-center justify-between px-6">
-            {/* Left - Breadcrumbs and Title */}
-            <div>
-              <div className="text-xs text-muted-foreground mb-1">Dashboard / Calendar</div>
-              <h1 className="text-xl font-semibold text-foreground">Calendar</h1>
-            </div>
+    <DashboardLayout>
+      {/* Top Header */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-16 items-center justify-between px-6">
+          {/* Left - Breadcrumbs and Title */}
+          <div>
+            <div className="text-xs text-muted-foreground mb-1">Dashboard / Calendar</div>
+            <h1 className="text-xl font-semibold text-foreground">Calendar</h1>
+          </div>
 
             {/* Right - Search, Notifications, Settings, Profile */}
             <div className="flex items-center gap-4">
@@ -250,8 +244,8 @@ const CalendarDashboard = () => {
           </div>
         </header>
 
-        {/* Dashboard Content */}
-        <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+      {/* Dashboard Content */}
+      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
           <div className="flex gap-6">
             {/* Main Calendar Area */}
             <div className="flex-1 space-y-6">
@@ -475,12 +469,8 @@ const CalendarDashboard = () => {
             )}
           </div>
         </div>
-        
-        {/* Footer */}
-        <Footer />
-      </div>
-    </div>
-  );
-};
-
-export default CalendarDashboard;
+      </DashboardLayout>
+    );
+  };
+  
+  export default CalendarDashboard;
