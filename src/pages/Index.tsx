@@ -9,7 +9,9 @@ import Footer from "@/components/Footer";
 import { SystemCheck } from "@/components/SystemCheck";
 import { AuthDebug } from "@/components/AuthDebug";
 import { AuthStatusBanner } from "@/components/AuthStatusBanner";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { SafeSection } from "@/components/SafeSection";
+
+const NAV_HEIGHT = 64; // px; match your fixed Navigation height
 
 const Index = () => {
   return (
@@ -18,8 +20,10 @@ const Index = () => {
       <AuthStatusBanner />
       <SystemCheck />
       <AuthDebug />
-      <ErrorBoundary>
-        <main className="pt-16 lg:pt-20 flex-1"> {/* Add padding for fixed nav */}
+      {/* Add padding for fixed nav */}
+      <div style={{ height: NAV_HEIGHT }} aria-hidden />
+      <SafeSection>
+        <main className="flex-1">
           <Hero />
           <AboutSection />
           <FeaturedEvents />
@@ -27,7 +31,7 @@ const Index = () => {
           <TicketTiers />
           <Newsletter />
         </main>
-      </ErrorBoundary>
+      </SafeSection>
       <Footer />
     </div>
   );
