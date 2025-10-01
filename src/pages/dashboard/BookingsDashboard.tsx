@@ -29,8 +29,6 @@ import {
   MoreVertical,
   ChevronLeft,
   ChevronRight,
-  FileDown,
-  Filter,
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useBookingsData } from '@/hooks/useBookingsData';
@@ -38,21 +36,136 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
-// Fashion-focused categories with elegant colors
+// Exact colors from screenshot
 const CATEGORY_COLORS = {
-  'Fashion': '#E879F9',         // Bright Pink
-  'Runway': '#3B4BC8',          // Deep Navy Blue  
-  'Couture': '#C4B5FD',         // Lavender
-  'Accessories': '#4B5563',     // Charcoal
-  'Streetwear': '#9CA3AF',      // Silver Gray
-  'Other': '#D1D5DB',           // Light Gray
+  'Music': '#E879F9',           // Bright Pink
+  'Sport': '#3B4BC8',           // Deep Navy Blue  
+  'Fashion': '#C4B5FD',         // Light Purple
+  'Art & Design': '#4B5563',    // Dark Gray
+  'Other': '#9CA3AF',           // Gray fallback
 };
 
-// Subcategories for detailed breakdown
-const FASHION_SUBCATEGORIES = [
-  { name: 'Haute Couture Collections', total: 4000, completed: 3415 },
-  { name: 'Ready-to-Wear Showcases', total: 2500, completed: 2246 },
-  { name: 'Designer Trunk Shows', total: 3200, completed: 2000 },
+// Art & Design subcategories for detailed breakdown
+const ART_DESIGN_SUBCATEGORIES = [
+  { name: 'Landscape Architecture and Design', total: 4000, completed: 3415 },
+  { name: 'Futuristic Art and Design', total: 2500, completed: 2246 },
+  { name: 'Mixed Media Masterclass', total: 3200, completed: 2000 },
+];
+
+// Example bookings data matching screenshot
+const EXAMPLE_BOOKINGS = [
+  {
+    invoice: 'INV10011',
+    date: '2029/02/15',
+    time: '10:00 AM',
+    name: 'Jackson Moore',
+    event: 'Symphony Under the Stars',
+    category: 'Music',
+    ticket: 'Diamond',
+    price: 50,
+    qty: 2,
+    amount: 100,
+    status: 'Confirmed',
+    voucher: '123456-MUSIC'
+  },
+  {
+    invoice: 'INV10012',
+    date: '2029/02/16',
+    time: '03:45 PM',
+    name: 'Alicia Smithson',
+    event: 'Runway Revolution 2024',
+    category: 'Fashion',
+    ticket: 'Platinum',
+    price: 120,
+    qty: 1,
+    amount: 120,
+    status: 'Pending',
+    voucher: '987654-FASHION'
+  },
+  {
+    invoice: 'INV10013',
+    date: '2029/02/17',
+    time: '01:15 PM',
+    name: 'Natalie Johnson',
+    event: 'Global Wellness Summit',
+    category: 'Beauty & Wellness',
+    ticket: 'CAT 1',
+    price: 80,
+    qty: 3,
+    amount: 240,
+    status: 'Confirmed',
+    voucher: '564738-WELLNESS'
+  },
+  {
+    invoice: 'INV10014',
+    date: '2029/02/18',
+    time: '04:10 PM',
+    name: 'Patrick Cooper',
+    event: 'Champions League Screening Night',
+    category: 'Sport',
+    ticket: 'CAT 3',
+    price: 30,
+    qty: 4,
+    amount: 120,
+    status: 'Cancelled',
+    voucher: '223344-SPORT'
+  },
+  {
+    invoice: 'INV10015',
+    date: '2029/02/18',
+    time: '05:30 PM',
+    name: 'Gilda Ramos',
+    event: 'Artistry Unveiled: Modern Art Expo',
+    category: 'Art & Design',
+    ticket: 'Silver',
+    price: 25,
+    qty: 2,
+    amount: 50,
+    status: 'Confirmed',
+    voucher: '445566-ART'
+  },
+  {
+    invoice: 'INV10016',
+    date: '2029/02/19',
+    time: '12:00 PM',
+    name: 'Clara Simmons',
+    event: 'Tech Future Expo',
+    category: 'Technology',
+    ticket: 'CAT 2',
+    price: 75,
+    qty: 2,
+    amount: 150,
+    status: 'Confirmed',
+    voucher: '778899-TECH'
+  },
+  {
+    invoice: 'INV10017',
+    date: '2029/02/20',
+    time: '02:30 PM',
+    name: 'Daniel White',
+    event: 'Culinary Delights Festival',
+    category: 'Food & Culinary',
+    ticket: 'Gold',
+    price: 60,
+    qty: 1,
+    amount: 60,
+    status: 'Cancelled',
+    voucher: '334455-FOOD'
+  },
+  {
+    invoice: 'INV10018',
+    date: '2029/02/21',
+    time: '06:00 PM',
+    name: 'Natalie Johnson',
+    event: 'Echo Beats Festival',
+    category: 'Music',
+    ticket: 'Platinum',
+    price: 70,
+    qty: 3,
+    amount: 210,
+    status: 'Pending',
+    voucher: '998877-MUSIC'
+  },
 ];
 
 const BookingsDashboard = () => {
@@ -60,31 +173,47 @@ const BookingsDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+  const isLoading = false; // Using hardcoded data
 
-  const { data, isLoading } = useBookingsData();
-  const bookings = data?.bookings || [];
-  const metrics = data?.metrics || { totalBookings: 0, totalTickets: 0, totalEarnings: 0 };
-  const weeklyData = data?.weeklyData || [];
-  const categoryBreakdown = data?.categoryBreakdown || {};
+  // Hardcoded data matching screenshot
+  const metrics = { 
+    totalBookings: 55000, 
+    totalTickets: 45000, 
+    totalEarnings: 27545000 // in cents ($275,450)
+  };
 
-  // Format category data for pie chart
-  const categoryChartData = Object.entries(categoryBreakdown).map(([name, value]) => ({
-    name,
-    value,
-    percentage: ((value / metrics.totalBookings) * 100).toFixed(2),
-  }));
+  // Weekly chart data
+  const weeklyData = [
+    { day: 'Sun', bookings: 1200 },
+    { day: 'Mon', bookings: 1100 },
+    { day: 'Tue', bookings: 1396 },
+    { day: 'Wed', bookings: 1150 },
+    { day: 'Thu', bookings: 1580 },
+    { day: 'Fri', bookings: 1650 },
+    { day: 'Sat', bookings: 1550 },
+  ];
 
-  // Filter bookings
+  // Category breakdown data (total 44,115 bookings)
+  const categoryChartData = [
+    { name: 'Music', value: 14172, percentage: '25.77' },
+    { name: 'Sport', value: 12476, percentage: '22.68' },
+    { name: 'Fashion', value: 9806, percentage: '17.83' },
+    { name: 'Art & Design', value: 7661, percentage: '13.93' },
+  ];
+
+  const totalCategoryBookings = categoryChartData.reduce((sum, cat) => sum + cat.value, 0);
+
+  // Filter example bookings
   const filteredBookings = useMemo(() => {
-    return bookings.filter(booking => {
-      const matchesStatus = statusFilter === 'all' || booking.status === statusFilter;
+    return EXAMPLE_BOOKINGS.filter(booking => {
+      const matchesStatus = statusFilter === 'all' || booking.status.toLowerCase() === statusFilter;
       const matchesSearch = searchQuery === '' || 
-        booking.event?.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        booking.profile?.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (booking.profile?.first_name + ' ' + booking.profile?.last_name).toLowerCase().includes(searchQuery.toLowerCase());
+        booking.event.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        booking.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        booking.invoice.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesStatus && matchesSearch;
     });
-  }, [bookings, statusFilter, searchQuery]);
+  }, [statusFilter, searchQuery]);
 
   // Pagination
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
@@ -344,7 +473,7 @@ const BookingsDashboard = () => {
                     </ResponsiveContainer>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                       <p className="text-xs text-muted-foreground font-medium">Total Bookings</p>
-                      <p className="text-2xl font-bold text-foreground">{metrics.totalBookings.toLocaleString()}</p>
+                      <p className="text-2xl font-bold text-foreground">{totalCategoryBookings.toLocaleString()}</p>
                     </div>
                   </div>
                   
@@ -388,21 +517,21 @@ const BookingsDashboard = () => {
           </Card>
         </div>
 
-        {/* Fashion Detailed Breakdown */}
+        {/* Art & Design Detailed Breakdown */}
         <Card className="border-border bg-card shadow-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-lg font-semibold text-foreground">Fashion</CardTitle>
+                <CardTitle className="text-lg font-semibold text-foreground">Art & Design</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {FASHION_SUBCATEGORIES.reduce((sum, cat) => sum + cat.completed, 0).toLocaleString()} Bookings
+                  {ART_DESIGN_SUBCATEGORIES.reduce((sum, cat) => sum + cat.completed, 0).toLocaleString()} Bookings
                 </p>
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {FASHION_SUBCATEGORIES.map((subcategory, index) => {
+              {ART_DESIGN_SUBCATEGORIES.map((subcategory, index) => {
                 const percentage = (subcategory.completed / subcategory.total) * 100;
                 return (
                   <div key={index} className="space-y-2">
@@ -487,52 +616,51 @@ const BookingsDashboard = () => {
                         <TableHead className="text-xs font-semibold text-muted-foreground">Ticket</TableHead>
                         <TableHead className="text-xs font-semibold text-muted-foreground text-right">Amount</TableHead>
                         <TableHead className="text-xs font-semibold text-muted-foreground">Status</TableHead>
+                        <TableHead className="text-xs font-semibold text-muted-foreground">E-Voucher</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {paginatedBookings.map((booking, index) => {
-                        const customerName = booking.profile?.first_name && booking.profile?.last_name
-                          ? `${booking.profile.first_name} ${booking.profile.last_name}`
-                          : booking.profile?.email?.split('@')[0] || 'Guest';
-                        
-                        const ticketInfo = booking.booking_tickets?.[0];
-                        const ticketName = ticketInfo?.event_ticket?.name || 'General';
-                        const ticketQty = booking.booking_tickets?.reduce((sum, bt) => sum + bt.quantity, 0) || 1;
-                        const ticketPrice = (ticketInfo?.unit_price || 0) / 100;
-
                         return (
                           <TableRow 
-                            key={booking.id} 
+                            key={booking.invoice} 
                             className={cn(
                               "border-b border-border hover:bg-muted/50 transition-colors",
                               index % 2 === 0 ? "bg-background" : "bg-muted/10"
                             )}
                           >
-                            <TableCell className="font-mono text-xs text-muted-foreground">
-                              INV{booking.id.slice(0, 5).toUpperCase()}
-                            </TableCell>
                             <TableCell>
                               <div className="space-y-0.5">
-                                <p className="text-sm font-medium text-foreground">
-                                  {format(new Date(booking.created_at), 'yyyy/MM/dd')}
+                                <p className="font-mono text-xs text-muted-foreground font-medium">
+                                  {booking.invoice}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                  {format(new Date(booking.created_at), 'hh:mm a')}
+                                  {booking.name}
                                 </p>
                               </div>
                             </TableCell>
                             <TableCell>
-                              <p className="text-sm font-medium text-foreground capitalize">
-                                {customerName}
+                              <div className="space-y-0.5">
+                                <p className="text-sm font-medium text-foreground">
+                                  {booking.date}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {booking.time}
+                                </p>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <p className="text-sm font-medium text-foreground">
+                                {booking.name}
                               </p>
                             </TableCell>
                             <TableCell>
                               <div className="space-y-0.5">
                                 <p className="text-sm font-medium text-foreground line-clamp-1">
-                                  {booking.event?.title || 'Fashion Event'}
+                                  {booking.event}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                  {booking.event?.tags?.[0] || 'Fashion'}
+                                  {booking.category}
                                 </p>
                               </div>
                             </TableCell>
@@ -542,28 +670,33 @@ const BookingsDashboard = () => {
                                   variant="secondary" 
                                   className="bg-purple-50 text-purple-700 hover:bg-purple-50 border-0 font-medium text-xs"
                                 >
-                                  {ticketName}
+                                  {booking.ticket}
                                 </Badge>
                                 <p className="text-xs text-muted-foreground">
-                                  {ticketQty}x ${ticketPrice}
+                                  {booking.qty}x ${booking.price}
                                 </p>
                               </div>
                             </TableCell>
                             <TableCell className="text-right font-bold text-foreground">
-                              ${(booking.total_amount / 100).toLocaleString()}
+                              ${booking.amount}
                             </TableCell>
                             <TableCell>
                               <Badge 
                                 variant="secondary"
                                 className={cn(
                                   'capitalize font-medium text-xs px-3 py-1 rounded-full border-0',
-                                  booking.status === 'confirmed' && 'bg-pink-50 text-pink-600',
-                                  booking.status === 'pending' && 'bg-purple-50 text-purple-600',
-                                  booking.status === 'cancelled' && 'bg-gray-100 text-gray-600'
+                                  booking.status === 'Confirmed' && 'bg-pink-50 text-pink-600',
+                                  booking.status === 'Pending' && 'bg-purple-50 text-purple-600',
+                                  booking.status === 'Cancelled' && 'bg-gray-100 text-gray-600'
                                 )}
                               >
                                 {booking.status}
                               </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <p className="font-mono text-xs text-muted-foreground">
+                                {booking.voucher}
+                              </p>
                             </TableCell>
                           </TableRow>
                         );
