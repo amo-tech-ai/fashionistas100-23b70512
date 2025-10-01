@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import Footer from '@/components/Footer';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import {
   Table,
   TableBody,
@@ -211,12 +212,13 @@ const EventManagerDashboard = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar */}
-      <DashboardSidebar />
+    <SidebarProvider defaultOpen={true}>
+      <div className="min-h-screen bg-background flex w-full">
+        {/* Sidebar */}
+        <DashboardSidebar />
       
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
         {/* Top Header */}
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="flex h-16 items-center justify-between px-6">
@@ -674,8 +676,9 @@ const EventManagerDashboard = () => {
         
         {/* Footer */}
         <Footer />
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
