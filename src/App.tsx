@@ -20,11 +20,11 @@ const About = lazy(() => import("./pages/About"));
 const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
 const VideoProduction = lazy(() => import("./pages/services/VideoProduction"));
 const Designers = lazy(() => import("./pages/Designers"));
-const Venues = lazy(() => import("./pages/Venues"));
 const Tickets = lazy(() => import("./pages/Tickets"));
 const Sponsors = lazy(() => import("./pages/Sponsors"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Forbidden = lazy(() => import("./pages/Forbidden"));
+const Venues = lazy(() => import("./pages/Venues")); // Venues directory page
 
 // Lazy load auth pages
 const SignIn = lazy(() => import("./pages/auth/SignInCorrect"));
