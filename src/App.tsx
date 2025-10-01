@@ -44,6 +44,7 @@ const EventsDashboard = lazy(() => import("./pages/EventsDashboard"));
 const FinancialsDashboard = lazy(() => import("./pages/FinancialsDashboard"));
 const EventDetailDashboard = lazy(() => import("./pages/EventDetailDashboard"));
 const ModelsDashboard = lazy(() => import("./pages/ModelsDashboard"));
+const ModelProfile = lazy(() => import("./pages/dashboard/ModelProfile"));
 const DesignersDashboard = lazy(() => import("./pages/DesignersDashboard"));
 const Gallery = lazy(() => import("./pages/dashboard/Gallery"));
 const VenuesListDashboard = lazy(() => import("./pages/dashboard/VenuesListDashboard"));
@@ -209,6 +210,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ModelsDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* MODEL PROFILE */}
+            <Route 
+              path="/dashboard/models/:id" 
+              element={
+                <ProtectedRoute>
+                  <ModelProfile />
                 </ProtectedRoute>
               } 
             />

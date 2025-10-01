@@ -14,13 +14,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import {
   Search,
   Bell,
   Settings,
@@ -31,9 +24,6 @@ import {
   TrendingUp,
   ChevronLeft,
   ChevronRight,
-  Eye,
-  Bookmark,
-  Share2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -221,7 +211,6 @@ function ModelsDashboard() {
   const [activeTab, setActiveTab] = useState<'active' | 'draft' | 'past'>('active');
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedModel, setSelectedModel] = useState<Model | null>(null);
   const itemsPerPage = 6;
 
   const totalPages = Math.ceil(models.length / itemsPerPage);
@@ -251,21 +240,15 @@ function ModelsDashboard() {
   const GridView = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {currentModels.map((model) => (
-        <Card
-          key={model.id}
-          className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer touch-manipulation"
-          onClick={() => setSelectedModel(model)}
-        >
+        <Link to={`/dashboard/models/${model.id}`} key={model.id}>
+          <Card
+            className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer touch-manipulation"
+          >
           <div className="relative h-64">
             <img src={model.image} alt={model.name} className="w-full h-full object-cover" />
             <div className="absolute top-3 left-3 flex gap-2">
               <Badge className={getCategoryColor(model.category)}>{model.category}</Badge>
               <Badge className={getStatusColor(model.status)}>{model.status}</Badge>
-            </div>
-            <div className="absolute top-3 right-3 flex gap-2">
-              <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full">
-                <Eye className="h-4 w-4" />
-              </Button>
             </div>
           </div>
           <CardContent className="p-4 space-y-3">
@@ -298,6 +281,7 @@ function ModelsDashboard() {
             </div>
           </CardContent>
         </Card>
+        </Link>
       ))}
     </div>
   );
@@ -305,11 +289,10 @@ function ModelsDashboard() {
   const ListView = () => (
     <div className="space-y-4">
       {currentModels.map((model) => (
-        <Card
-          key={model.id}
-          className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-          onClick={() => setSelectedModel(model)}
-        >
+        <Link to={`/dashboard/models/${model.id}`} key={model.id}>
+          <Card
+            className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+          >
           <div className="flex">
             <div className="w-48 flex-shrink-0">
               <img src={model.image} alt={model.name} className="w-full h-full object-cover" />
@@ -354,6 +337,7 @@ function ModelsDashboard() {
             </div>
           </div>
         </Card>
+        </Link>
       ))}
     </div>
   );
@@ -569,143 +553,6 @@ function ModelsDashboard() {
             </div>
           </div>
         </div>
-
-        {/* Model Detail Modal */}
-        <Dialog open={!!selectedModel} onOpenChange={() => setSelectedModel(null)}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          {selectedModel && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="text-2xl">{selectedModel.name}</DialogTitle>
-                <DialogDescription>{selectedModel.agency}</DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-6">
-                {/* Hero Image */}
-                <div className="relative h-96 rounded-lg overflow-hidden">
-                  <img
-                    src={selectedModel.image}
-                    alt={selectedModel.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <Badge className={getCategoryColor(selectedModel.category)}>
-                      {selectedModel.category}
-                    </Badge>
-                    <Badge className={getStatusColor(selectedModel.status)}>
-                      {selectedModel.status}
-                    </Badge>
-                  </div>
-                  <div className="absolute top-4 right-4 flex gap-2">
-                    <Button size="icon" variant="secondary" className="rounded-full">
-                      <Bookmark className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="secondary" className="rounded-full">
-                      <Share2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Bio & Measurements */}
-                <div className="grid grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-semibold mb-2">About</h3>
-                    <p className="text-sm text-muted-foreground mb-4">{selectedModel.bio}</p>
-
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Location:</span>
-                        <span className="font-medium">{selectedModel.location}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Experience:</span>
-                        <span className="font-medium">{selectedModel.experience}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Age:</span>
-                        <span className="font-medium">{selectedModel.age}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-2">Measurements</h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Height:</span>
-                        <span className="font-medium">{selectedModel.height}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Bust:</span>
-                        <span className="font-medium">{selectedModel.bust}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Waist:</span>
-                        <span className="font-medium">{selectedModel.waist}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Hips:</span>
-                        <span className="font-medium">{selectedModel.hips}</span>
-                      </div>
-                    </div>
-
-                    <h3 className="font-semibold mt-4 mb-2">Rates</h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Per Hour:</span>
-                        <span className="font-bold text-purple-600">
-                          ${selectedModel.pricePerHour}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Per Show:</span>
-                        <span className="font-bold text-purple-600">
-                          ${selectedModel.pricePerShow}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Portfolio Gallery */}
-                <div>
-                  <h3 className="font-semibold mb-3">Portfolio</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {selectedModel.portfolioImages.map((img, idx) => (
-                      <div key={idx} className="relative h-48 rounded-lg overflow-hidden">
-                        <img src={img} alt={`Portfolio ${idx + 1}`} className="w-full h-full object-cover" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Recent Bookings */}
-                <div>
-                  <h3 className="font-semibold mb-3">Recent Bookings</h3>
-                  <div className="space-y-2">
-                    {selectedModel.recentBookings.map((booking, idx) => (
-                      <div key={idx} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                        <Calendar className="h-4 w-4 text-purple-600" />
-                        <span className="text-sm font-medium">{booking}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-3">
-                  <Button className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600">
-                    Book Model
-                  </Button>
-                  <Button variant="outline" className="flex-1">
-                    View Full Portfolio
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
     </DashboardLayout>
   );
 }
