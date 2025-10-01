@@ -50,11 +50,10 @@ const VenueProfile = lazy(() => import("./pages/dashboard/VenueProfile"));
 
 function App() {
   return (
-    <>
+    <div className="App">
       <RedirectHandler />
-      <div className="App">
-        <Suspense fallback={<LoadingSkeleton />}>
-          <Routes>
+      <Suspense fallback={<LoadingSkeleton />}>
+        <Routes>
             {/* PUBLIC ROUTES */}
             <Route path="/" element={<Index />} />
             <Route path="/home" element={<Home />} />
@@ -260,8 +259,7 @@ function App() {
         </Suspense>
         
         <Toaster />
-      </div>
-    </>
+    </div>
   );
 }
 
