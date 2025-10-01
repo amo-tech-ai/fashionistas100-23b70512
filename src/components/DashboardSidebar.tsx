@@ -74,7 +74,6 @@ const menuSections: MenuSection[] = [
 
 export const DashboardSidebar: React.FC<SidebarProps> = ({ className, onNavigate, isMobile = false }) => {
   const location = useLocation();
-  const { open: sidebarOpen } = useSidebar();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     'Main': true
   });
@@ -194,7 +193,20 @@ export const DashboardSidebar: React.FC<SidebarProps> = ({ className, onNavigate
     );
   }
 
-  // Desktop collapsible sidebar
+  // Desktop collapsible sidebar - wrap in component to use useSidebar hook
+  return <DesktopSidebar className={className} onNavigate={onNavigate} />;
+};
+
+// Separate component for desktop sidebar to safely use useSidebar hook
+const DesktopSidebar: React.FC<Omit<SidebarProps, 'isMobile'>> = ({ className, onNavigate }) => {
+  const location = useLocation();
+  const { open: sidebarOpen } = useSidebar();
+
+  const isActivePath = (path: string) => {
+    return location.pathname === path || 
+           (path !== '/dashboard' && location.pathname.startsWith(path));
+  };
+
   return (
     <Sidebar collapsible="icon" className={cn("border-r border-border", className)}>
       <SidebarHeader className="border-b border-border p-4">
