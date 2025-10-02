@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Mail, CheckCircle2, Sparkles } from "lucide-react";
+import { Mail, CheckCircle2, Sparkles, MessageCircle } from "lucide-react";
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -60,12 +60,29 @@ export const Newsletter = () => {
                   type="submit" 
                   className="font-inter h-12 px-8 bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white rounded-full whitespace-nowrap"
                 >
+                  <Mail className="w-4 h-4 mr-2" />
                   Subscribe
                 </Button>
               </div>
               
+              <div className="flex items-center justify-center gap-3">
+                <div className="h-px flex-1 bg-[hsl(var(--border))]" />
+                <span className="font-inter text-xs text-[hsl(var(--breef-gray))]">or</span>
+                <div className="h-px flex-1 bg-[hsl(var(--border))]" />
+              </div>
+
+              <Button 
+                type="button"
+                variant="outline"
+                className="w-full font-inter h-12 rounded-full border-2 border-green-500/20 hover:border-green-500 text-green-600 hover:bg-green-50"
+                onClick={() => window.open('https://wa.me/573001234567?text=Subscribe%20to%20Fashionistas', '_blank')}
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Subscribe via WhatsApp
+              </Button>
+              
               <p className="font-inter text-xs text-[hsl(var(--breef-gray))] text-center">
-                Join 50,000+ fashion professionals. Unsubscribe anytime.
+                Trusted by 10,000+ fashion enthusiasts worldwide • Unsubscribe anytime
               </p>
             </form>
           )}

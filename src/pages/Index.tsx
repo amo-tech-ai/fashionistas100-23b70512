@@ -1,10 +1,12 @@
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
-import { AboutSection } from "@/components/AboutSection";
+import { CategoryCards } from "@/components/CategoryCards";
+import { HowItWorks } from "@/components/HowItWorks";
 import { FeaturedEvents } from "@/components/FeaturedEvents";
 import { DesignerSpotlight } from "@/components/DesignerSpotlight";
-import { TicketTiers } from "@/components/TicketTiers";
 import { Newsletter } from "@/components/Newsletter";
+import { TicketTiers } from "@/components/TicketTiers";
+import { Testimonials } from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import { SystemCheck } from "@/components/SystemCheck";
 import { AuthDebug } from "@/components/AuthDebug";
@@ -25,11 +27,13 @@ const Index = () => {
       <SafeSection>
         <main className="flex-1">
           <Hero />
-          <AboutSection />
+          <CategoryCards />
+          <HowItWorks />
           <FeaturedEvents />
           <DesignerSpotlight />
-          <TicketTiers />
           <Newsletter />
+          <TicketTiers />
+          <Testimonials />
         </main>
       </SafeSection>
       <Footer />
