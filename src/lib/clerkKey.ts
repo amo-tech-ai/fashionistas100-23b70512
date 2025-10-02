@@ -5,9 +5,12 @@
  */
 export function getClerkPublishableKey(): string {
   const hostname = window.location.hostname;
-  const isProductionDomain = hostname === 'fashionistas.one' || hostname.endsWith('.fashionistas.one');
+  const isProductionDomain =
+    hostname === 'fashionistas.one' ||
+    hostname.endsWith('.fashionistas.one') ||
+    hostname === 'fashionistas100.lovable.app';
 
-  // Prefer environment-provided keys
+  // Prefer environment-provided keys (build-time)
   const liveKey = (import.meta as any)?.env?.VITE_CLERK_PUBLISHABLE_KEY as string | undefined;
   const testKey = (import.meta as any)?.env?.VITE_CLERK_PUBLISHABLE_KEY_TEST as string | undefined;
 

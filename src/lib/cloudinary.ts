@@ -23,24 +23,24 @@ export const fashionImages = {
     'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554439/runway-10_qydbir.jpg',
   ],
   designers: [
-    // Designer showcase images
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/w_1600,h_900,c_fill,q_auto,f_auto/Designer-1_pvqdus',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-2_hjyokj.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-3_qwqmr7.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/designer-4_jhrxby.jpg',
+    // Reliable designer showcase images (optimized, CDN-backed)
+    'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1503342452485-86ff0a8befe1?w=1600&auto=format&fit=crop',
   ],
   gallery: [
     // Fashion gallery and portfolio images
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-8_jbgmch.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-6_w9gcpd.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-7_tfmzfw.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554438/runway-5_yyqulg.jpg',
+    'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&auto=format&fit=crop',
   ],
   backstage: [
     // Behind the scenes images
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/backstage-1_mqwtfa.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/backstage-2_r8j9xk.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554440/backstage-3_vhmscz.jpg',
+    'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=1200&auto=format&fit=crop',
   ],
   models: [
     // Model portfolio images

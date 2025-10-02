@@ -21,7 +21,7 @@ const Venues = () => {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = 12;
 
-  // Extended mock venue data
+  // Extended mock venue data (images resolved to working CDN URLs)
   const allVenues = [
     {
       id: "1",
@@ -34,7 +34,7 @@ const Venues = () => {
       price: 15000,
       priceUnit: "day",
       rating: 4.8,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[0],
       tags: ["Runway Hall", "Luxury", "Historic"],
       description: "Iconic Parisian venue perfect for haute couture presentations",
       features: ["Catering", "Professional Lighting", "Backstage Rooms", "VIP Lounge"]
@@ -50,7 +50,7 @@ const Venues = () => {
       price: 12500,
       priceUnit: "day",
       rating: 4.6,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[1 % fashionImages.venues.length],
       tags: ["Fashion Week", "Premium", "Iconic"],
       description: "Premier New York Fashion Week venue in the heart of Manhattan",
       features: ["VIP Areas", "Media Center", "Dressing Rooms", "Parking"]
@@ -66,7 +66,7 @@ const Venues = () => {
       price: 6000,
       priceUnit: "day",
       rating: 4.4,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[2 % fashionImages.venues.length],
       tags: ["Outdoor", "Cultural", "Plaza"],
       description: "Beautiful outdoor venue in Colombia's fashion capital",
       features: ["Open Air", "Stage", "Sound System", "Security"]
@@ -82,7 +82,7 @@ const Venues = () => {
       price: 18000,
       priceUnit: "day",
       rating: 4.7,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[0],
       tags: ["Expo", "Large Scale", "Tech-Enabled"],
       description: "Massive expo center with state-of-the-art technology",
       features: ["LED Screens", "Multiple Halls", "Catering", "Translation Services"]
@@ -98,7 +98,7 @@ const Venues = () => {
       price: 22000,
       priceUnit: "day",
       rating: 4.9,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[1 % fashionImages.venues.length],
       tags: ["Luxury", "Waterfront", "Premium"],
       description: "Ultra-luxury waterfront venue with stunning views",
       features: ["Waterfront Views", "Luxury Catering", "VIP Suites", "Valet Parking"]
@@ -114,7 +114,7 @@ const Venues = () => {
       price: 14000,
       priceUnit: "day",
       rating: 4.7,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[2 % fashionImages.venues.length],
       tags: ["Runway", "Fashion District", "Premium"],
       description: "Classic Milan fashion venue in the style capital",
       features: ["Professional Runway", "Backstage", "Media Room", "Catering"]
@@ -130,7 +130,7 @@ const Venues = () => {
       price: 10000,
       priceUnit: "day",
       rating: 4.5,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[0],
       tags: ["Large Scale", "Modern", "Convention"],
       description: "Modern convention center with expansive exhibition spaces",
       features: ["Multiple Halls", "AV Equipment", "Food Court", "Parking"]
@@ -146,7 +146,7 @@ const Venues = () => {
       price: 16000,
       priceUnit: "day",
       rating: 4.8,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[1 % fashionImages.venues.length],
       tags: ["Historic", "Prestigious", "Central"],
       description: "Historic venue in the heart of London's fashion district",
       features: ["Traditional Architecture", "Modern Tech", "Green Room", "Bar"]
@@ -162,7 +162,7 @@ const Venues = () => {
       price: 8000,
       priceUnit: "day",
       rating: 4.6,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[2 % fashionImages.venues.length],
       tags: ["Beach", "Outdoor", "Tropical"],
       description: "Stunning beachfront venue with Caribbean views",
       features: ["Beach Access", "Sunset Views", "Open Air", "Catering"]
@@ -178,7 +178,7 @@ const Venues = () => {
       price: 13000,
       priceUnit: "day",
       rating: 4.7,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[0],
       tags: ["Modern", "Fashion Week", "Upscale"],
       description: "Contemporary venue hosting Shanghai Fashion Week events",
       features: ["Modern Design", "Tech Integration", "VIP Lounge", "Press Room"]
@@ -194,7 +194,7 @@ const Venues = () => {
       price: 7500,
       priceUnit: "day",
       rating: 4.4,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[1 % fashionImages.venues.length],
       tags: ["Industrial", "Unique", "Urban"],
       description: "Trendy industrial space perfect for avant-garde shows",
       features: ["High Ceilings", "Natural Light", "Urban Feel", "Flexible Space"]
@@ -210,7 +210,7 @@ const Venues = () => {
       price: 4500,
       priceUnit: "day",
       rating: 4.3,
-      image: "/src/assets/venue-setup.jpg",
+      image: fashionImages.venues[2 % fashionImages.venues.length],
       tags: ["Cultural", "Artistic", "Intimate"],
       description: "Art museum venue for intimate, artistic fashion presentations",
       features: ["Art Gallery", "Intimate Setting", "Cultural", "Unique"]
