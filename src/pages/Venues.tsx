@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { fashionImages } from "@/lib/cloudinary";
 
 const Venues = () => {
   const [searchParams, setSearchParams] = useSearchParams();

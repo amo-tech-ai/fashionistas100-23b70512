@@ -43,17 +43,17 @@ export const fashionImages = {
     'https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=1200&auto=format&fit=crop',
   ],
   models: [
-    // Model portfolio images
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-1_jxkqnv.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-2_xqr8pc.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-3_g9vkjt.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554441/model-4_mhqwzt.jpg',
+    // Model portfolio images (reliable CDN)
+    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200&auto=format&fit=crop',
   ],
   venues: [
-    // Fashion venue images
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554442/venue-1_rtpq8w.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554442/venue-2_nmvqxk.jpg',
-    'https://res.cloudinary.com/dzqy2ixl0/image/upload/v1753554442/venue-3_yqkfms.jpg',
+    // Fashion venue images (reliable CDN)
+    'https://images.unsplash.com/photo-1519167758481-83f29da8c686?w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1600&auto=format&fit=crop',
   ],
   // Fallback images in case Cloudinary is down
   fallback: {
