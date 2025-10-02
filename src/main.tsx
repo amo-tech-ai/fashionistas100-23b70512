@@ -8,6 +8,7 @@ import './index.css'
 import { queryClient } from './lib/queryClient'
 import { getClerkPublishableKey } from './lib/clerkKey'
 import { AppWithErrorBoundary } from './components/AppWithErrorBoundary'
+import { registerServiceWorker } from './utils/registerServiceWorker'
 
 // Get the appropriate Clerk key based on environment
 const PUBLISHABLE_KEY = getClerkPublishableKey();
@@ -60,6 +61,11 @@ if (!(container as any).__reactRoot) {
       </ClerkProvider>
     </StrictMode>,
   );
+  
+  // Register service worker for PWA functionality (production only)
+  if (isProduction) {
+    registerServiceWorker();
+  }
 } else {
   console.warn('React root already mounted, skipping duplicate mount');
 }
