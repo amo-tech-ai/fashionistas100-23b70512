@@ -94,7 +94,12 @@ const SponsorProfile = () => {
     phone: sponsor.phone,
     location: sponsor.location,
     founded_date: sponsor.founded_date,
-    social_links: {},
+    social_links: {
+      instagram: sponsor.instagram,
+      linkedin: sponsor.linkedin,
+      youtube: sponsor.youtube,
+      facebook: sponsor.facebook
+    },
     is_verified: sponsor.status === 'active',
     metrics: {
       revenue: `$${sponsor.investment.toLocaleString()}`,

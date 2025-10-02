@@ -29,7 +29,8 @@ import {
   LogOut,
   Users,
   Palette,
-  Building2
+  Building2,
+  Award
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -67,6 +68,7 @@ const menuSections: MenuSection[] = [
       { id: 'models', label: 'Models', path: '/dashboard/models', icon: Users },
       { id: 'designers', label: 'Designers', path: '/dashboard/designers', icon: Palette },
       { id: 'venues', label: 'Venues', path: '/dashboard/venues', icon: Building2 },
+      { id: 'sponsors', label: 'Sponsors', path: '/dashboard/sponsors', icon: Award },
       { id: 'financials', label: 'Financials', path: '/dashboard/financials', icon: DollarSign },
       { id: 'gallery', label: 'Gallery', path: '/dashboard/gallery', icon: Image },
       { id: 'feedback', label: 'Feedback', path: '/dashboard/feedback', icon: MessageCircle }

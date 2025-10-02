@@ -18,6 +18,10 @@ export interface Sponsor {
   founded_date?: string;
   audience_reach?: number;
   engagement_score?: number;
+  instagram?: string;
+  linkedin?: string;
+  youtube?: string;
+  facebook?: string;
   sponsorship_history?: Array<{
     event_name: string;
     date: string;
@@ -46,6 +50,10 @@ const mockSponsors: Sponsor[] = [
     founded_date: '1965',
     audience_reach: 1200000,
     engagement_score: 87,
+    instagram: 'https://instagram.com/vogueitalia',
+    linkedin: 'https://linkedin.com/company/vogue-italia',
+    youtube: 'https://youtube.com/@vogueitalia',
+    facebook: 'https://facebook.com/vogueitalia',
     sponsorship_history: [
       { event_name: 'Milan Fashion Week 2024', date: '2024-09-20', amount: 80000 },
       { event_name: 'Paris Fashion Week 2024', date: '2024-10-01', amount: 90000 },
@@ -69,7 +77,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Paris, France',
     founded_date: '1910',
     audience_reach: 2500000,
-    engagement_score: 92
+    engagement_score: 92,
+    instagram: 'https://instagram.com/chanel',
+    linkedin: 'https://linkedin.com/company/chanel',
+    youtube: 'https://youtube.com/@chanel',
+    facebook: 'https://facebook.com/chanel'
   },
   {
     id: '3',
@@ -89,7 +101,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Paris, France',
     founded_date: '1854',
     audience_reach: 3000000,
-    engagement_score: 94
+    engagement_score: 94,
+    instagram: 'https://instagram.com/louisvuitton',
+    linkedin: 'https://linkedin.com/company/louis-vuitton',
+    youtube: 'https://youtube.com/@louisvuitton',
+    facebook: 'https://facebook.com/LouisVuitton'
   },
   {
     id: '4',
@@ -109,7 +125,11 @@ const mockSponsors: Sponsor[] = [
     location: 'New York, USA',
     founded_date: '1946',
     audience_reach: 1800000,
-    engagement_score: 85
+    engagement_score: 85,
+    instagram: 'https://instagram.com/esteelauder',
+    linkedin: 'https://linkedin.com/company/estee-lauder-companies',
+    youtube: 'https://youtube.com/@esteelauder',
+    facebook: 'https://facebook.com/EsteeLauder'
   },
   {
     id: '5',
@@ -129,7 +149,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Milan, Italy',
     founded_date: '1978',
     audience_reach: 1500000,
-    engagement_score: 88
+    engagement_score: 88,
+    instagram: 'https://instagram.com/versace',
+    linkedin: 'https://linkedin.com/company/versace',
+    youtube: 'https://youtube.com/@Versace',
+    facebook: 'https://facebook.com/Versace'
   },
   {
     id: '6',
@@ -149,7 +173,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Wattens, Austria',
     founded_date: '1895',
     audience_reach: 900000,
-    engagement_score: 82
+    engagement_score: 82,
+    instagram: 'https://instagram.com/swarovski',
+    linkedin: 'https://linkedin.com/company/swarovski',
+    youtube: 'https://youtube.com/@Swarovski',
+    facebook: 'https://facebook.com/swarovski'
   },
   {
     id: '7',
@@ -169,7 +197,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Rome, Italy',
     founded_date: '1884',
     audience_reach: 1100000,
-    engagement_score: 86
+    engagement_score: 86,
+    instagram: 'https://instagram.com/bulgari',
+    linkedin: 'https://linkedin.com/company/bulgari',
+    youtube: 'https://youtube.com/@Bulgari',
+    facebook: 'https://facebook.com/Bulgari'
   },
   {
     id: '8',
@@ -189,7 +221,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Paris, France',
     founded_date: '1847',
     audience_reach: 1300000,
-    engagement_score: 90
+    engagement_score: 90,
+    instagram: 'https://instagram.com/cartier',
+    linkedin: 'https://linkedin.com/company/cartier',
+    youtube: 'https://youtube.com/@Cartier',
+    facebook: 'https://facebook.com/Cartier'
   },
   {
     id: '9',
@@ -209,7 +245,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Paris, France',
     founded_date: '1946',
     audience_reach: 2800000,
-    engagement_score: 93
+    engagement_score: 93,
+    instagram: 'https://instagram.com/dior',
+    linkedin: 'https://linkedin.com/company/christian-dior',
+    youtube: 'https://youtube.com/@Dior',
+    facebook: 'https://facebook.com/Dior'
   },
   {
     id: '10',
@@ -229,7 +269,11 @@ const mockSponsors: Sponsor[] = [
     location: 'Milan, Italy',
     founded_date: '1913',
     audience_reach: 2000000,
-    engagement_score: 89
+    engagement_score: 89,
+    instagram: 'https://instagram.com/prada',
+    linkedin: 'https://linkedin.com/company/prada',
+    youtube: 'https://youtube.com/@Prada',
+    facebook: 'https://facebook.com/Prada'
   }
 ];
 
