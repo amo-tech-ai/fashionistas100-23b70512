@@ -7,6 +7,7 @@ import { DesignerSpotlight } from "@/components/DesignerSpotlight";
 import { Newsletter } from "@/components/Newsletter";
 import { TicketTiers } from "@/components/TicketTiers";
 import { Testimonials } from "@/components/Testimonials";
+import { CTASection } from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { SystemCheck } from "@/components/SystemCheck";
 import { AuthDebug } from "@/components/AuthDebug";
@@ -34,6 +35,7 @@ const Index = () => {
           <Newsletter />
           <TicketTiers />
           <Testimonials />
+          <CTASection />
         </main>
       </SafeSection>
       <Footer />

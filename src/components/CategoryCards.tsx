@@ -6,32 +6,27 @@ const categories = [
   {
     name: "Runway Shows",
     description: "Exclusive fashion shows",
-    link: "/events?category=runway",
-    bg: "bg-gradient-to-br from-purple-50 to-pink-50"
+    link: "/events?category=runway"
   },
   {
     name: "Pop-Up Stores",
     description: "Limited edition collections",
-    link: "/events?category=popup",
-    bg: "bg-gradient-to-br from-orange-50 to-red-50"
+    link: "/events?category=popup"
   },
   {
     name: "Exhibitions",
     description: "Art meets fashion",
-    link: "/events?category=exhibition",
-    bg: "bg-gradient-to-br from-blue-50 to-cyan-50"
+    link: "/events?category=exhibition"
   },
   {
     name: "Fashion Week",
     description: "Industry's biggest events",
-    link: "/events?category=fashionweek",
-    bg: "bg-gradient-to-br from-green-50 to-emerald-50"
+    link: "/events?category=fashionweek"
   },
   {
     name: "Designer Showcases",
     description: "Meet emerging talent",
-    link: "/designers",
-    bg: "bg-gradient-to-br from-yellow-50 to-amber-50"
+    link: "/designers"
   }
 ];
 
@@ -51,7 +46,7 @@ export const CategoryCards = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
           {categories.map((category) => (
             <Link key={category.name} to={category.link}>
-              <Card className={`relative group overflow-hidden ${category.bg} border-[hsl(var(--border))] hover:border-[hsl(var(--breef-orange))] transition-all duration-300 hover:shadow-hover cursor-pointer h-full`}>
+              <Card className="relative group overflow-hidden bg-white border-[hsl(var(--border))] hover:border-[hsl(var(--breef-orange))] transition-all duration-300 hover:shadow-hover cursor-pointer h-full">
                 <div className="p-6 flex flex-col justify-center text-center space-y-2 h-full min-h-[140px]">
                   <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
                     {category.name}

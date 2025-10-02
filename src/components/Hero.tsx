@@ -68,23 +68,6 @@ export const Hero = () => {
           </div>
 
 
-          {/* Image Grid - Breef style horizontal scroll */}
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin mb-16">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden shadow-card">
-                <img 
-                  src={fashionImages.hero.main || heroImageFallback}
-                  alt={`Fashion event ${i}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = heroImageFallback;
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-
           {/* Animated Stats - Breef style large numbers only */}
           <div className="bg-white rounded-2xl shadow-card p-8 md:p-12">
             <p className="font-inter text-sm text-[hsl(var(--breef-gray))] uppercase tracking-wider text-center mb-12">
