@@ -50,13 +50,13 @@ export const Testimonials = () => {
   const current = testimonials[currentIndex];
 
   return (
-    <section className="py-20 px-4 bg-[hsl(var(--breef-cream))]">
+    <section className="py-20 px-4 bg-[hsl(var(--breef-dark))]">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))] mb-4">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-white mb-4">
             Loved by the community
           </h2>
-          <p className="font-inter text-lg text-[hsl(var(--breef-gray))]">
+          <p className="font-inter text-lg text-white/70">
             Hear from designers, models, and event organizers
           </p>
         </div>

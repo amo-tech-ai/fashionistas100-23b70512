@@ -37,13 +37,13 @@ const categories = [
 
 export const CategoryCards = () => {
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 px-4 bg-[hsl(var(--breef-dark))]">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))] mb-4">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-white mb-4">
             Explore by category
           </h2>
-          <p className="font-inter text-lg text-[hsl(var(--breef-gray))]">
+          <p className="font-inter text-lg text-white/70">
             Discover your next fashion experience
           </p>
         </div>
@@ -68,7 +68,7 @@ export const CategoryCards = () => {
         <div className="text-center">
           <Link 
             to="/events" 
-            className="font-inter text-sm text-[hsl(var(--breef-orange))] hover:underline inline-flex items-center gap-2"
+            className="font-inter text-sm text-[hsl(var(--breef-orange))] hover:text-white inline-flex items-center gap-2 transition-colors"
           >
             See All Categories
             <ArrowRight className="w-4 h-4" />

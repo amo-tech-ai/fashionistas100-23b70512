@@ -17,14 +17,14 @@ export const Newsletter = () => {
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 px-4 bg-[hsl(var(--breef-dark))]">
       <div className="container mx-auto max-w-4xl">
         {/* Header - Breef Style */}
         <div className="text-center space-y-6 mb-12">
-          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-white">
             Stay in the loop
           </h2>
-          <p className="font-inter text-lg text-[hsl(var(--breef-gray))] max-w-2xl mx-auto">
+          <p className="font-inter text-lg text-white/70 max-w-2xl mx-auto">
             Get exclusive access to fashion week schedules, designer spotlights, and early-bird ticket releases.
           </p>
         </div>
@@ -85,39 +85,39 @@ export const Newsletter = () => {
         {/* Benefits - Text only list */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           <div className="text-center space-y-2">
-            <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+            <h3 className="font-inter text-lg font-medium text-white">
               Exclusive Events
             </h3>
-            <p className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+            <p className="font-inter text-sm text-white/70">
               First access to limited fashion shows
             </p>
           </div>
           
           <div className="text-center space-y-2">
-            <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+            <h3 className="font-inter text-lg font-medium text-white">
               Industry Insights
             </h3>
-            <p className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+            <p className="font-inter text-sm text-white/70">
               Curated content from fashion weeks
             </p>
           </div>
           
           <div className="text-center space-y-2">
-            <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+            <h3 className="font-inter text-lg font-medium text-white">
               Early Access
             </h3>
-            <p className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+            <p className="font-inter text-sm text-white/70">
               Priority booking for VIP experiences
             </p>
           </div>
         </div>
 
         {/* Trust badges */}
-        <div className="text-center mt-12 pt-12 border-t border-[hsl(var(--border))]">
-          <p className="font-inter text-sm text-[hsl(var(--breef-gray))] mb-6">
+        <div className="text-center mt-12 pt-12 border-t border-white/10">
+          <p className="font-inter text-sm text-white/60 mb-6">
             Trusted by professionals from
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 text-[hsl(var(--breef-gray))]/60">
+          <div className="flex flex-wrap justify-center items-center gap-8 text-white/40">
             <span className="font-inter text-base">Vogue</span>
             <span className="font-inter text-base">Harper's Bazaar</span>
             <span className="font-inter text-base">Elle</span>

@@ -9,14 +9,14 @@ export const FeaturedEvents = () => {
   const events = Array.isArray(data) ? data : [];
 
   return (
-    <section className="py-20 px-4 bg-[hsl(var(--breef-cream))]">
+    <section className="py-20 px-4 bg-[hsl(var(--breef-dark))]">
       <div className="container mx-auto max-w-6xl">
         {/* Section Header - Breef Style */}
         <div className="text-center space-y-6 mb-12">
-          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-white">
             Upcoming fashion events
           </h2>
-          <p className="font-inter text-lg text-[hsl(var(--breef-gray))] max-w-2xl mx-auto">
+          <p className="font-inter text-lg text-white/70 max-w-2xl mx-auto">
             Discover exclusive runway shows, designer showcases, and fashion week experiences.
           </p>
         </div>
