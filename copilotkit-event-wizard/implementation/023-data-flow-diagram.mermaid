@@ -1,0 +1,85 @@
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant CK as CopilotKit
+    participant AI as OpenAI
+    participant C as Clerk Auth
+    participant EF as Edge Function
+    participant DB as Database
+    participant S as Storage
+    
+    Note over U,S: User Authentication Flow
+    U->>F: Access wizard
+    F->>C: Check authentication
+    C-->>F: Return JWT token
+    F->>U: Show wizard UI
+    
+    Note over U,S: Stage 1: Organizer Setup
+    U->>F: Enter organizer info
+    F->>CK: Process with AI
+    CK->>AI: Get suggestions
+    AI-->>CK: Return enhanced data
+    CK-->>F: Update form
+    F->>EF: Save progress
+    EF->>DB: Store with RLS
+    DB-->>EF: Confirm saved
+    EF-->>F: Success
+    
+    Note over U,S: Stage 2: Event Details
+    U->>F: Enter event info
+    F->>CK: Request AI help
+    CK->>AI: Generate description
+    AI-->>CK: Return content
+    CK-->>F: Fill fields
+    U->>F: Upload image
+    F->>S: Store image
+    S-->>F: Return URL
+    F->>EF: Save event data
+    EF->>DB: Update session
+    
+    Note over U,S: Stage 3: Venue Selection
+    U->>F: Search venues
+    F->>EF: Query venues
+    EF->>DB: Search with filters
+    DB-->>EF: Return matches
+    EF-->>F: Venue list
+    U->>F: Select venue
+    F->>EF: Save selection
+    
+    Note over U,S: Stage 4: Ticketing
+    U->>F: Configure tiers
+    F->>CK: Suggest pricing
+    CK->>AI: Analyze market
+    AI-->>CK: Price recommendations
+    CK-->>F: Show suggestions
+    U->>F: Confirm tiers
+    F->>EF: Save ticket config
+    
+    Note over U,S: Stage 5: Sponsors
+    U->>F: Add sponsors
+    F->>EF: Save sponsor data
+    EF->>DB: Update session
+    
+    Note over U,S: Stage 6: Review & Publish
+    U->>F: Review all data
+    F->>EF: Request preview
+    EF->>DB: Compile data
+    DB-->>EF: Return complete
+    EF-->>F: Show preview
+    U->>F: Confirm publish
+    F->>EF: Create event
+    EF->>DB: Insert event
+    DB-->>EF: Event created
+    EF-->>F: Success + Event ID
+    F->>U: Show success
+    
+    style U fill:#e1f5e1
+    style F fill:#e3f2fd
+    style CK fill:#fff3e0
+    style AI fill:#f3e5f5
+    style C fill:#fce4ec
+    style EF fill:#fff9c4
+    style DB fill:#e8f5e9
+    style S fill:#f1f8e9
+```

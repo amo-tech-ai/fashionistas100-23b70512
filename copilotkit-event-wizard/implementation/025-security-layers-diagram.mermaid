@@ -1,0 +1,82 @@
+```mermaid
+graph TB
+    subgraph "Layer 1: Frontend Validation"
+        A1[User Input] --> A2[Zod Schema Validation]
+        A2 --> A3{Valid?}
+        A3 -->|No| A4[Show Error]
+        A3 -->|Yes| A5[Continue]
+    end
+    
+    subgraph "Layer 2: Stage Guards"
+        A5 --> B1[Action Handler]
+        B1 --> B2{Correct Stage?}
+        B2 -->|No| B3[Block Execution]
+        B2 -->|Yes| B4[Process Action]
+    end
+    
+    subgraph "Layer 3: JWT Authentication"
+        B4 --> C1[Edge Function Call]
+        C1 --> C2{Has JWT Token?}
+        C2 -->|No| C3[Return 401]
+        C2 -->|Yes| C4[Verify Token]
+        C4 --> C5{Valid Token?}
+        C5 -->|No| C6[Return 401]
+        C5 -->|Yes| C7[Extract User]
+    end
+    
+    subgraph "Layer 4: User Context"
+        C7 --> D1[Get User ID]
+        D1 --> D2[Load User Profile]
+        D2 --> D3[Set Context]
+        D3 --> D4[Continue with User]
+    end
+    
+    subgraph "Layer 5: RLS Policies"
+        D4 --> E1[Database Query]
+        E1 --> E2[Apply RLS]
+        E2 --> E3{User Authorized?}
+        E3 -->|No| E4[Empty Result]
+        E3 -->|Yes| E5[Return Data]
+    end
+    
+    subgraph "Layer 6: Audit Logging"
+        E5 --> F1[Log Action]
+        F1 --> F2[Store Immutably]
+        F2 --> F3[Update Activity]
+        F3 --> F4[Return Success]
+    end
+    
+    subgraph "Layer 7: Error Recovery"
+        B3 --> G1[Error Boundary]
+        C3 --> G1
+        C6 --> G1
+        E4 --> G1
+        G1 --> G2[Display Error UI]
+        G2 --> G3[Log to Console]
+        G3 --> G4[Send to Monitoring]
+    end
+    
+    style A1 fill:#e1f5e1
+    style B1 fill:#fff3e0
+    style C1 fill:#fce4ec
+    style D1 fill:#e3f2fd
+    style E1 fill:#e8f5e9
+    style F1 fill:#f3e5f5
+    style G1 fill:#ffebee
+    
+    classDef validation fill:#e1f5e1,stroke:#4caf50,stroke-width:2px
+    classDef guard fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef auth fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    classDef context fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    classDef rls fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef audit fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    classDef error fill:#ffebee,stroke:#f44336,stroke-width:2px
+    
+    class A1,A2,A3,A4,A5 validation
+    class B1,B2,B3,B4 guard
+    class C1,C2,C3,C4,C5,C6,C7 auth
+    class D1,D2,D3,D4 context
+    class E1,E2,E3,E4,E5 rls
+    class F1,F2,F3,F4 audit
+    class G1,G2,G3,G4 error
+```

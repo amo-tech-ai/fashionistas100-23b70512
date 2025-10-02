@@ -1,0 +1,64 @@
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        A[User Browser] --> B[Next.js App]
+        B --> C[CopilotKit Provider]
+        C --> D[Stage Components]
+        D --> E[Zustand State]
+    end
+    
+    subgraph "Authentication Layer"
+        B --> F[Clerk Auth]
+        F --> G[JWT Token]
+    end
+    
+    subgraph "AI Layer"
+        C --> H[OpenAI GPT-4]
+        H --> I[Context Processing]
+        I --> C
+    end
+    
+    subgraph "Edge Functions Layer"
+        E --> J[wizard-session Function]
+        G --> J
+        J --> K[JWT Verification]
+        K --> L[User Context]
+    end
+    
+    subgraph "Database Layer"
+        L --> M[Supabase PostgreSQL]
+        M --> N[RLS Policies]
+        N --> O[User Data Isolation]
+    end
+    
+    subgraph "Storage Layer"
+        B --> P[Cloudinary]
+        P --> Q[Image Storage]
+    end
+    
+    subgraph "Payment Layer"
+        B --> R[Stripe Connect]
+        R --> S[Payment Processing]
+    end
+    
+    style A fill:#e1f5e1
+    style B fill:#e3f2fd
+    style C fill:#fff3e0
+    style F fill:#fce4ec
+    style H fill:#f3e5f5
+    style M fill:#e8f5e9
+    style P fill:#f1f8e9
+    style R fill:#e0f2f1
+    
+    classDef frontend fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef auth fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef ai fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef database fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef storage fill:#f1f8e9,stroke:#689f38,stroke-width:2px
+    
+    class A,B,C,D,E frontend
+    class F,G,K,L auth
+    class H,I ai
+    class M,N,O database
+    class P,Q storage
+```

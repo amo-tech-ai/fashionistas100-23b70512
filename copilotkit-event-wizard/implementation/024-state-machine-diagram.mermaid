@@ -1,0 +1,87 @@
+```mermaid
+stateDiagram-v2
+    [*] --> OrganizerSetup: Start Wizard
+    
+    OrganizerSetup --> EventSetup: completeOrganizerSetup()
+    OrganizerSetup --> OrganizerSetup: validateData()
+    
+    EventSetup --> VenueSetup: completeEventSetup()
+    EventSetup --> OrganizerSetup: previousStage()
+    EventSetup --> EventSetup: aiGenerateDescription()
+    
+    VenueSetup --> TicketSetup: completeVenueSetup()
+    VenueSetup --> EventSetup: previousStage()
+    VenueSetup --> VenueSetup: searchVenues()
+    
+    TicketSetup --> SponsorSetup: completeTicketSetup()
+    TicketSetup --> VenueSetup: previousStage()
+    TicketSetup --> TicketSetup: addTier() / removeTier()
+    
+    SponsorSetup --> ReviewPublish: completeSponsorSetup()
+    SponsorSetup --> TicketSetup: previousStage()
+    SponsorSetup --> SponsorSetup: addSponsor() / removeSponsor()
+    
+    ReviewPublish --> Published: publishEvent()
+    ReviewPublish --> SponsorSetup: previousStage()
+    ReviewPublish --> ReviewPublish: validateAll()
+    
+    Published --> [*]: Complete
+    
+    state OrganizerSetup {
+        [*] --> EnterName
+        EnterName --> EnterEmail
+        EnterEmail --> EnterOrganization
+        EnterOrganization --> SelectRole
+        SelectRole --> [*]
+    }
+    
+    state EventSetup {
+        [*] --> EnterTitle
+        EnterTitle --> SelectType
+        SelectType --> EnterDescription
+        EnterDescription --> SetDates
+        SetDates --> UploadImage
+        UploadImage --> [*]
+    }
+    
+    state VenueSetup {
+        [*] --> SearchVenue
+        SearchVenue --> SelectVenue: Found
+        SearchVenue --> AddCustom: Not Found
+        SelectVenue --> SetCapacity
+        AddCustom --> SetCapacity
+        SetCapacity --> [*]
+    }
+    
+    state TicketSetup {
+        [*] --> CreateTier
+        CreateTier --> SetPrice
+        SetPrice --> SetQuantity
+        SetQuantity --> AddBenefits
+        AddBenefits --> CreateTier: Add Another
+        AddBenefits --> [*]: Done
+    }
+    
+    state SponsorSetup {
+        [*] --> AddSponsor
+        AddSponsor --> SetTier
+        SetTier --> SetAmount
+        SetAmount --> AddSponsor: Add Another
+        SetAmount --> [*]: Done
+    }
+    
+    state ReviewPublish {
+        [*] --> ValidateData
+        ValidateData --> PreviewEvent
+        PreviewEvent --> AcceptTerms
+        AcceptTerms --> Publish
+        Publish --> [*]
+    }
+    
+    note right of OrganizerSetup: 15% Complete
+    note right of EventSetup: 35% Complete
+    note right of VenueSetup: 50% Complete
+    note right of TicketSetup: 65% Complete
+    note right of SponsorSetup: 85% Complete
+    note right of ReviewPublish: 100% Complete
+```
