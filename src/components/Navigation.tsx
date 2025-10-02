@@ -78,8 +78,14 @@ export const Navigation = () => {
   }, []);
 
   const navigationItems = [
-    { name: "Events", href: "/events" },
-    { name: "Create Event", href: "/create-event" },
+    { 
+      name: "Events", 
+      href: "/events",
+      submenu: [
+        { name: "Browse Events", href: "/events" },
+        { name: "Create Event", href: "/create-event" }
+      ]
+    },
     { 
       name: "Services", 
       href: "/services",
@@ -90,12 +96,24 @@ export const Navigation = () => {
         { name: "AI Services", href: "/services/ai-services" }
       ]
     },
-    { name: "How It Works", href: "/how-it-works" },
-    { name: "Designers", href: "/designers" },
-    { name: "Venues", href: "/venues" },
-    { name: "Tickets", href: "/tickets" },
-    { name: "Sponsors", href: "/sponsors" },
-    { name: "About", href: "/about" },
+    { 
+      name: "Marketplace", 
+      href: "/designers",
+      submenu: [
+        { name: "Designers", href: "/designers" },
+        { name: "Venues", href: "/venues" },
+        { name: "Tickets", href: "/tickets" },
+        { name: "Sponsors", href: "/sponsors" }
+      ]
+    },
+    { 
+      name: "Resources", 
+      href: "/how-it-works",
+      submenu: [
+        { name: "How It Works", href: "/how-it-works" },
+        { name: "About Us", href: "/about" }
+      ]
+    },
     { name: "Contact", href: "/contact" },
   ];
 
