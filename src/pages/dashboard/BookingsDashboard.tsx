@@ -5,14 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { ResponsiveTable } from '@/components/ui/ResponsiveTable';
+import { ChartResponsive, useChartConfig } from '@/components/ui/ChartResponsive';
 import {
   Select,
   SelectContent,
@@ -35,6 +29,7 @@ import { useBookingsData } from '@/hooks/useBookingsData';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Exact colors from screenshot
 const CATEGORY_COLORS = {
@@ -174,6 +169,8 @@ const BookingsDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const isLoading = false; // Using hardcoded data
+  const isMobile = useIsMobile();
+  const chartConfig = useChartConfig();
 
   // Hardcoded data matching screenshot
   const metrics = { 
@@ -377,8 +374,8 @@ const BookingsDashboard = () => {
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height={280}>
-                  <LineChart data={weeklyData}>
+                <ChartResponsive height={280} mobileHeight={220}>
+                  <LineChart data={weeklyData} margin={chartConfig.chartMargin}>
                     <defs>
                       <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#E879F9" stopOpacity={0.3}/>
@@ -389,40 +386,34 @@ const BookingsDashboard = () => {
                     <XAxis 
                       dataKey="day" 
                       stroke="#9CA3AF"
-                      fontSize={12}
+                      {...chartConfig.axisStyle}
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis 
                       stroke="#9CA3AF"
-                      fontSize={12}
+                      {...chartConfig.axisStyle}
                       tickLine={false}
                       axisLine={false}
                       tickFormatter={(value) => `${value}`}
                     />
                     <Tooltip 
-                      contentStyle={{
-                        backgroundColor: 'white',
-                        border: '1px solid #e5e7eb',
-                        borderRadius: '12px',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                        padding: '12px',
-                      }}
-                      labelStyle={{ color: '#1F2937', fontWeight: 600, marginBottom: '4px' }}
-                      itemStyle={{ color: '#E879F9', fontWeight: 500 }}
+                      contentStyle={chartConfig.tooltipStyle}
+                      labelStyle={chartConfig.labelStyle}
+                      itemStyle={chartConfig.itemStyle}
                       formatter={(value: any) => [`${value} Bookings`, '']}
                     />
                     <Line 
                       type="monotone" 
                       dataKey="bookings" 
                       stroke="#E879F9" 
-                      strokeWidth={3}
-                      dot={{ fill: '#E879F9', r: 4 }}
-                      activeDot={{ r: 6, fill: '#E879F9', strokeWidth: 0 }}
+                      strokeWidth={isMobile ? 2 : 3}
+                      dot={{ fill: '#E879F9', r: isMobile ? 3 : 4 }}
+                      activeDot={{ r: isMobile ? 5 : 6, fill: '#E879F9', strokeWidth: 0 }}
                       fill="url(#lineGradient)"
                     />
                   </LineChart>
-                </ResponsiveContainer>
+                </ChartResponsive>
               )}
             </CardContent>
           </Card>
@@ -449,15 +440,15 @@ const BookingsDashboard = () => {
               ) : categoryChartData.length > 0 ? (
                 <div className="space-y-6">
                   {/* Donut Chart */}
-                  <div className="relative mx-auto" style={{ width: '200px', height: '200px' }}>
-                    <ResponsiveContainer width="100%" height="100%">
+                  <div className="relative mx-auto" style={{ width: isMobile ? '180px' : '200px', height: isMobile ? '180px' : '200px' }}>
+                    <ChartResponsive height={isMobile ? 180 : 200} mobileHeight={180}>
                       <PieChart>
                         <Pie
                           data={categoryChartData}
                           cx="50%"
                           cy="50%"
-                          innerRadius={65}
-                          outerRadius={95}
+                          innerRadius={isMobile ? 55 : 65}
+                          outerRadius={isMobile ? 85 : 95}
                           paddingAngle={2}
                           dataKey="value"
                           strokeWidth={0}
@@ -470,10 +461,12 @@ const BookingsDashboard = () => {
                           ))}
                         </Pie>
                       </PieChart>
-                    </ResponsiveContainer>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    </ChartResponsive>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                       <p className="text-xs text-muted-foreground font-medium">Total Bookings</p>
-                      <p className="text-2xl font-bold text-foreground">{totalCategoryBookings.toLocaleString()}</p>
+                      <p className={cn("font-bold text-foreground", isMobile ? "text-xl" : "text-2xl")}>
+                        {totalCategoryBookings.toLocaleString()}
+                      </p>
                     </div>
                   </div>
                   
@@ -605,162 +598,249 @@ const BookingsDashboard = () => {
               </div>
             ) : paginatedBookings.length > 0 ? (
               <>
-                <div className="rounded-lg overflow-hidden border border-border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-muted/30 hover:bg-muted/30 border-b border-border">
-                        <TableHead className="text-xs font-semibold text-muted-foreground">Invoice</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground">Date</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground">Name</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground">Event</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground">Ticket</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground text-right">Amount</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground">Status</TableHead>
-                        <TableHead className="text-xs font-semibold text-muted-foreground">E-Voucher</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {paginatedBookings.map((booking, index) => {
-                        return (
-                          <TableRow 
-                            key={booking.invoice} 
-                            className={cn(
-                              "border-b border-border hover:bg-muted/50 transition-colors",
-                              index % 2 === 0 ? "bg-background" : "bg-muted/10"
-                            )}
+                <ResponsiveTable
+                  columns={[
+                    {
+                      key: 'invoice',
+                      label: 'Invoice',
+                      mobileLabel: 'Invoice',
+                      mobilePriority: 2,
+                      render: (booking) => (
+                        <div className="space-y-0.5">
+                          <p className="font-mono text-xs text-muted-foreground font-medium">
+                            {booking.invoice}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {booking.name}
+                          </p>
+                        </div>
+                      )
+                    },
+                    {
+                      key: 'date',
+                      label: 'Date',
+                      mobileLabel: 'Date & Time',
+                      mobilePriority: 1,
+                      render: (booking) => (
+                        <div className="space-y-0.5">
+                          <p className="text-sm font-medium text-foreground">
+                            {booking.date}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {booking.time}
+                          </p>
+                        </div>
+                      )
+                    },
+                    {
+                      key: 'name',
+                      label: 'Name',
+                      mobileLabel: 'Customer',
+                      mobilePriority: 1,
+                      render: (booking) => (
+                        <p className="text-sm font-medium text-foreground">
+                          {booking.name}
+                        </p>
+                      )
+                    },
+                    {
+                      key: 'event',
+                      label: 'Event',
+                      mobileLabel: 'Event',
+                      mobilePriority: 1,
+                      render: (booking) => (
+                        <div className="space-y-0.5">
+                          <p className="text-sm font-medium text-foreground line-clamp-1">
+                            {booking.event}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {booking.category}
+                          </p>
+                        </div>
+                      )
+                    },
+                    {
+                      key: 'ticket',
+                      label: 'Ticket',
+                      mobileLabel: 'Ticket',
+                      mobilePriority: 2,
+                      render: (booking) => (
+                        <div className="space-y-1">
+                          <Badge 
+                            variant="secondary" 
+                            className="bg-purple-50 text-purple-700 hover:bg-purple-50 border-0 font-medium text-xs"
                           >
-                            <TableCell>
-                              <div className="space-y-0.5">
-                                <p className="font-mono text-xs text-muted-foreground font-medium">
-                                  {booking.invoice}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {booking.name}
-                                </p>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="space-y-0.5">
-                                <p className="text-sm font-medium text-foreground">
-                                  {booking.date}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {booking.time}
-                                </p>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <p className="text-sm font-medium text-foreground">
-                                {booking.name}
-                              </p>
-                            </TableCell>
-                            <TableCell>
-                              <div className="space-y-0.5">
-                                <p className="text-sm font-medium text-foreground line-clamp-1">
-                                  {booking.event}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {booking.category}
-                                </p>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="space-y-1">
-                                <Badge 
-                                  variant="secondary" 
-                                  className="bg-purple-50 text-purple-700 hover:bg-purple-50 border-0 font-medium text-xs"
-                                >
-                                  {booking.ticket}
-                                </Badge>
-                                <p className="text-xs text-muted-foreground">
-                                  {booking.qty}x ${booking.price}
-                                </p>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right font-bold text-foreground">
-                              ${booking.amount}
-                            </TableCell>
-                            <TableCell>
-                              <Badge 
-                                variant="secondary"
-                                className={cn(
-                                  'capitalize font-medium text-xs px-3 py-1 rounded-full border-0',
-                                  booking.status === 'Confirmed' && 'bg-pink-50 text-pink-600',
-                                  booking.status === 'Pending' && 'bg-purple-50 text-purple-600',
-                                  booking.status === 'Cancelled' && 'bg-gray-100 text-gray-600'
-                                )}
-                              >
-                                {booking.status}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <p className="font-mono text-xs text-muted-foreground">
-                                {booking.voucher}
-                              </p>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
+                            {booking.ticket}
+                          </Badge>
+                          <p className="text-xs text-muted-foreground">
+                            {booking.qty}x ${booking.price}
+                          </p>
+                        </div>
+                      )
+                    },
+                    {
+                      key: 'amount',
+                      label: 'Amount',
+                      mobileLabel: 'Amount',
+                      mobilePriority: 1,
+                      className: 'text-right',
+                      render: (booking) => (
+                        <span className="font-bold text-foreground">
+                          ${booking.amount}
+                        </span>
+                      )
+                    },
+                    {
+                      key: 'status',
+                      label: 'Status',
+                      mobileLabel: 'Status',
+                      mobilePriority: 1,
+                      render: (booking) => (
+                        <Badge 
+                          variant="secondary"
+                          className={cn(
+                            'capitalize font-medium text-xs px-3 py-1 rounded-full border-0',
+                            booking.status === 'Confirmed' && 'bg-pink-50 text-pink-600',
+                            booking.status === 'Pending' && 'bg-purple-50 text-purple-600',
+                            booking.status === 'Cancelled' && 'bg-gray-100 text-gray-600'
+                          )}
+                        >
+                          {booking.status}
+                        </Badge>
+                      )
+                    },
+                    {
+                      key: 'voucher',
+                      label: 'E-Voucher',
+                      mobileLabel: 'Voucher',
+                      mobilePriority: 3,
+                      render: (booking) => (
+                        <p className="font-mono text-xs text-muted-foreground">
+                          {booking.voucher}
+                        </p>
+                      )
+                    },
+                  ]}
+                  data={paginatedBookings}
+                  keyExtractor={(booking) => booking.invoice}
+                  emptyMessage="No bookings found"
+                  mobileCardRender={(booking) => (
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-foreground line-clamp-2 mb-1">
+                            {booking.event}
+                          </h4>
+                          <p className="text-sm text-muted-foreground">
+                            {booking.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {booking.date} • {booking.time}
+                          </p>
+                        </div>
+                        <Badge 
+                          variant="secondary"
+                          className={cn(
+                            'capitalize font-medium text-xs px-3 py-1 rounded-full border-0 flex-shrink-0 ml-2',
+                            booking.status === 'Confirmed' && 'bg-pink-50 text-pink-600',
+                            booking.status === 'Pending' && 'bg-purple-50 text-purple-600',
+                            booking.status === 'Cancelled' && 'bg-gray-100 text-gray-600'
+                          )}
+                        >
+                          {booking.status}
+                        </Badge>
+                      </div>
+                      
+                      <div className="flex items-center justify-between pt-2 border-t border-border">
+                        <div className="flex items-center gap-3">
+                          <Badge 
+                            variant="secondary" 
+                            className="bg-purple-50 text-purple-700 border-0 font-medium text-xs"
+                          >
+                            {booking.ticket}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">
+                            {booking.qty}x ${booking.price}
+                          </span>
+                        </div>
+                        <span className="font-bold text-foreground text-lg">
+                          ${booking.amount}
+                        </span>
+                      </div>
+                      
+                      <div className="text-xs text-muted-foreground pt-1">
+                        <span className="font-mono">{booking.invoice}</span>
+                      </div>
+                    </div>
+                  )}
+                />
 
                 {/* Enhanced Pagination */}
                 <div className="flex flex-col sm:flex-row items-center justify-between mt-6 pt-4 border-t border-border gap-4">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground order-2 sm:order-1">
                     Showing <span className="font-semibold text-foreground">{itemsPerPage}</span> out of{' '}
                     <span className="font-semibold text-foreground">{filteredBookings.length}</span>
                   </p>
                   
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 order-1 sm:order-2">
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 rounded-lg hover:bg-muted"
+                      className="h-9 w-9 rounded-lg hover:bg-muted min-touch"
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
                     >
                       <ChevronLeft className="h-4 w-4" />
                     </Button>
                     
-                    {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                      const pageNum = i + 1;
-                      return (
-                        <Button
-                          key={pageNum}
-                          variant={currentPage === pageNum ? 'default' : 'ghost'}
-                          size="icon"
-                          className={cn(
-                            "h-9 w-9 rounded-lg transition-all",
-                            currentPage === pageNum 
-                              ? "bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-500 hover:to-purple-600 shadow-md" 
-                              : "hover:bg-muted text-muted-foreground hover:text-foreground"
-                          )}
-                          onClick={() => setCurrentPage(pageNum)}
-                        >
-                          {pageNum}
-                        </Button>
-                      );
-                    })}
+                    {/* Desktop: Show page numbers */}
+                    <div className="hidden sm:flex items-center gap-1">
+                      {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                        const pageNum = i + 1;
+                        return (
+                          <Button
+                            key={pageNum}
+                            variant={currentPage === pageNum ? 'default' : 'ghost'}
+                            size="icon"
+                            className={cn(
+                              "h-9 w-9 rounded-lg transition-all min-touch",
+                              currentPage === pageNum 
+                                ? "bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-500 hover:to-purple-600 shadow-md" 
+                                : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                            )}
+                            onClick={() => setCurrentPage(pageNum)}
+                          >
+                            {pageNum}
+                          </Button>
+                        );
+                      })}
+                      
+                      {totalPages > 5 && (
+                        <>
+                          <span className="text-muted-foreground px-2 text-sm">...</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9 rounded-lg hover:bg-muted min-touch"
+                            onClick={() => setCurrentPage(totalPages)}
+                          >
+                            {totalPages}
+                          </Button>
+                        </>
+                      )}
+                    </div>
                     
-                    {totalPages > 5 && (
-                      <>
-                        <span className="text-muted-foreground px-2 text-sm">...</span>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 rounded-lg hover:bg-muted"
-                          onClick={() => setCurrentPage(totalPages)}
-                        >
-                          {totalPages}
-                        </Button>
-                      </>
-                    )}
+                    {/* Mobile: Show current page indicator */}
+                    <div className="sm:hidden flex items-center gap-2 px-3 py-1 bg-muted rounded-md">
+                      <span className="text-sm font-medium text-foreground">
+                        {currentPage} / {totalPages}
+                      </span>
+                    </div>
                     
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 text-white border-0 hover:from-indigo-600 hover:to-indigo-700 shadow-md"
+                      className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 text-white border-0 hover:from-indigo-600 hover:to-indigo-700 shadow-md min-touch"
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
                     >

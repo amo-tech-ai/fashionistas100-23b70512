@@ -1,0 +1,199 @@
+/**
+ * Mobile-First Design Tokens
+ * 
+ * This file contains mobile-specific design tokens for spacing, sizing,
+ * and interaction patterns. These tokens ensure consistent mobile UX.
+ */
+
+:root {
+  /* Mobile Spacing Scale */
+  --space-mobile-xs: 0.25rem;    /* 4px */
+  --space-mobile-sm: 0.5rem;     /* 8px */
+  --space-mobile-md: 0.75rem;    /* 12px */
+  --space-mobile-lg: 1rem;       /* 16px */
+  --space-mobile-xl: 1.5rem;     /* 24px */
+  --space-mobile-2xl: 2rem;      /* 32px */
+  
+  /* Touch Target Sizes */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+  --touch-target-large: 56px;
+  
+  /* Mobile Font Sizes */
+  --font-mobile-xs: 0.75rem;     /* 12px */
+  --font-mobile-sm: 0.875rem;    /* 14px */
+  --font-mobile-base: 1rem;      /* 16px */
+  --font-mobile-lg: 1.125rem;    /* 18px */
+  --font-mobile-xl: 1.25rem;     /* 20px */
+  --font-mobile-2xl: 1.5rem;     /* 24px */
+  --font-mobile-3xl: 1.875rem;   /* 30px */
+  
+  /* Mobile Line Heights */
+  --leading-mobile-tight: 1.25;
+  --leading-mobile-normal: 1.5;
+  --leading-mobile-relaxed: 1.75;
+  
+  /* Mobile Borders & Radii */
+  --border-mobile-sm: 0.375rem;  /* 6px */
+  --border-mobile-md: 0.5rem;    /* 8px */
+  --border-mobile-lg: 0.75rem;   /* 12px */
+  --border-mobile-xl: 1rem;      /* 16px */
+  
+  /* Mobile Transitions */
+  --transition-mobile-fast: 150ms ease-out;
+  --transition-mobile-normal: 250ms ease-out;
+  --transition-mobile-slow: 350ms ease-out;
+  
+  /* Mobile Z-Index Scale */
+  --z-mobile-dropdown: 1000;
+  --z-mobile-sticky: 1010;
+  --z-mobile-modal: 1020;
+  --z-mobile-toast: 1030;
+}
+
+/* Mobile-Specific Utility Classes */
+@media (max-width: 768px) {
+  .mobile-container {
+    padding-left: var(--space-mobile-lg);
+    padding-right: var(--space-mobile-lg);
+  }
+  
+  .mobile-section-spacing {
+    padding-top: var(--space-mobile-xl);
+    padding-bottom: var(--space-mobile-xl);
+  }
+  
+  .mobile-card-spacing {
+    padding: var(--space-mobile-lg);
+  }
+  
+  .mobile-gap-sm {
+    gap: var(--space-mobile-sm);
+  }
+  
+  .mobile-gap-md {
+    gap: var(--space-mobile-md);
+  }
+  
+  .mobile-gap-lg {
+    gap: var(--space-mobile-lg);
+  }
+}
+
+/* Mobile Touch Interaction States */
+@media (max-width: 768px) {
+  .mobile-touchable {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  .mobile-touchable-lg {
+    min-height: var(--touch-target-comfortable);
+    min-width: var(--touch-target-comfortable);
+  }
+  
+  /* Remove hover effects on mobile */
+  .mobile-no-hover:hover {
+    background-color: inherit;
+    color: inherit;
+  }
+  
+  /* Mobile active states */
+  .mobile-active:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+/* Mobile Form Elements */
+@media (max-width: 768px) {
+  .mobile-input {
+    min-height: var(--touch-target-min);
+    font-size: var(--font-mobile-base);
+    padding: var(--space-mobile-md) var(--space-mobile-lg);
+  }
+  
+  .mobile-select {
+    min-height: var(--touch-target-min);
+    font-size: var(--font-mobile-base);
+  }
+  
+  .mobile-textarea {
+    min-height: 120px;
+    font-size: var(--font-mobile-base);
+    padding: var(--space-mobile-md);
+  }
+  
+  .mobile-label {
+    font-size: var(--font-mobile-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-mobile-xs);
+    display: block;
+  }
+}
+
+/* Mobile Typography Scale */
+@media (max-width: 768px) {
+  .mobile-heading-1 {
+    font-size: var(--font-mobile-3xl);
+    line-height: var(--leading-mobile-tight);
+    font-weight: 700;
+  }
+  
+  .mobile-heading-2 {
+    font-size: var(--font-mobile-2xl);
+    line-height: var(--leading-mobile-tight);
+    font-weight: 600;
+  }
+  
+  .mobile-heading-3 {
+    font-size: var(--font-mobile-xl);
+    line-height: var(--leading-mobile-normal);
+    font-weight: 600;
+  }
+  
+  .mobile-body {
+    font-size: var(--font-mobile-base);
+    line-height: var(--leading-mobile-normal);
+  }
+  
+  .mobile-caption {
+    font-size: var(--font-mobile-sm);
+    line-height: var(--leading-mobile-normal);
+  }
+}
+
+/* Mobile Bottom Sheet / Modal */
+@media (max-width: 768px) {
+  .mobile-bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: var(--border-mobile-xl) var(--border-mobile-xl) 0 0;
+    z-index: var(--z-mobile-modal);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Mobile Safe Areas (for notch/home indicator) */
+@supports (padding: max(0px)) {
+  .mobile-safe-top {
+    padding-top: max(var(--space-mobile-lg), env(safe-area-inset-top));
+  }
+  
+  .mobile-safe-bottom {
+    padding-bottom: max(var(--space-mobile-lg), env(safe-area-inset-bottom));
+  }
+  
+  .mobile-safe-left {
+    padding-left: max(var(--space-mobile-lg), env(safe-area-inset-left));
+  }
+  
+  .mobile-safe-right {
+    padding-right: max(var(--space-mobile-lg), env(safe-area-inset-right));
+  }
+}
