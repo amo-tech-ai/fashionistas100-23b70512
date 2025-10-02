@@ -7,6 +7,11 @@ interface ReviewPublishProps {
 }
 
 export function ReviewPublish({ data, onPublish }: ReviewPublishProps) {
+  const eventData = data?.event || {};
+  const venueData = data?.venue || {};
+  const ticketsData = data?.tickets || {};
+  const sponsorsData = data?.sponsors || {};
+  
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#1A1A1A]/60">
@@ -25,22 +30,22 @@ export function ReviewPublish({ data, onPublish }: ReviewPublishProps) {
         <div className="space-y-3">
           <div>
             <p className="text-xs text-[#1A1A1A]/60 mb-1">Event Title</p>
-            <p className="text-sm text-[#1A1A1A]">{data.event?.title || "Not set"}</p>
+            <p className="text-sm text-[#1A1A1A]">{eventData.title || "Not set"}</p>
           </div>
           <div>
             <p className="text-xs text-[#1A1A1A]/60 mb-1">Type</p>
-            <p className="text-sm text-[#1A1A1A]">{data.event?.type || "Not set"}</p>
+            <p className="text-sm text-[#1A1A1A]">{eventData.type || "Not set"}</p>
           </div>
           <div>
             <p className="text-xs text-[#1A1A1A]/60 mb-1">Date & Time</p>
             <p className="text-sm text-[#1A1A1A]">
-              {data.event?.date || "Not set"} at {data.event?.startTime || "Not set"} - {data.event?.endTime || "Not set"}
+              {eventData.date || "Not set"} at {eventData.startTime || "Not set"} - {eventData.endTime || "Not set"}
             </p>
           </div>
           <div>
             <p className="text-xs text-[#1A1A1A]/60 mb-1">Description</p>
             <p className="text-sm text-[#1A1A1A] line-clamp-3">
-              {data.event?.description || "Not set"}
+              {eventData.description || "Not set"}
             </p>
           </div>
         </div>
@@ -58,33 +63,33 @@ export function ReviewPublish({ data, onPublish }: ReviewPublishProps) {
         <div className="space-y-3">
           <div>
             <p className="text-xs text-[#1A1A1A]/60 mb-1">Mode</p>
-            <p className="text-sm text-[#1A1A1A] capitalize">{data.venue?.mode || "Not set"}</p>
+            <p className="text-sm text-[#1A1A1A] capitalize">{venueData.mode || "Not set"}</p>
           </div>
-          {(data.venue?.mode === "physical" || data.venue?.mode === "hybrid") && (
+          {(venueData.mode === "physical" || venueData.mode === "hybrid") && (
             <>
               <div>
                 <p className="text-xs text-[#1A1A1A]/60 mb-1">Venue Name</p>
-                <p className="text-sm text-[#1A1A1A]">{data.venue?.venueName || "Not set"}</p>
+                <p className="text-sm text-[#1A1A1A]">{venueData.venueName || "Not set"}</p>
               </div>
               <div>
                 <p className="text-xs text-[#1A1A1A]/60 mb-1">Address</p>
-                <p className="text-sm text-[#1A1A1A]">{data.venue?.address || "Not set"}</p>
+                <p className="text-sm text-[#1A1A1A]">{venueData.address || "Not set"}</p>
               </div>
               <div>
                 <p className="text-xs text-[#1A1A1A]/60 mb-1">Capacity</p>
-                <p className="text-sm text-[#1A1A1A]">{data.venue?.capacity || 0} people</p>
+                <p className="text-sm text-[#1A1A1A]">{venueData.capacity || 0} people</p>
               </div>
             </>
           )}
-          {(data.venue?.mode === "virtual" || data.venue?.mode === "hybrid") && (
+          {(venueData.mode === "virtual" || venueData.mode === "hybrid") && (
             <>
               <div>
                 <p className="text-xs text-[#1A1A1A]/60 mb-1">Platform</p>
-                <p className="text-sm text-[#1A1A1A]">{data.venue?.platform || "Not set"}</p>
+                <p className="text-sm text-[#1A1A1A]">{venueData.platform || "Not set"}</p>
               </div>
               <div>
                 <p className="text-xs text-[#1A1A1A]/60 mb-1">Stream URL</p>
-                <p className="text-sm text-[#1A1A1A] truncate">{data.venue?.streamUrl || "Not set"}</p>
+                <p className="text-sm text-[#1A1A1A] truncate">{venueData.streamUrl || "Not set"}</p>
               </div>
             </>
           )}
@@ -100,16 +105,16 @@ export function ReviewPublish({ data, onPublish }: ReviewPublishProps) {
             Edit
           </Button>
         </div>
-        {data.tickets?.tiers && data.tickets.tiers.length > 0 ? (
+        {ticketsData.tiers && Array.isArray(ticketsData.tiers) && ticketsData.tiers.length > 0 ? (
           <div className="space-y-3">
-            {data.tickets.tiers.map((tier: any, index: number) => (
+            {ticketsData.tiers.map((tier: any, index: number) => (
               <div key={index} className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-[#1A1A1A]">{tier.name}</p>
-                  <p className="text-xs text-[#1A1A1A]/60">{tier.quantity} tickets available</p>
+                  <p className="text-sm font-medium text-[#1A1A1A]">{tier.name || "Ticket"}</p>
+                  <p className="text-xs text-[#1A1A1A]/60">{tier.quantity || 0} tickets available</p>
                 </div>
                 <p className="text-sm font-medium text-[#1A1A1A]">
-                  ${tier.price === "0" ? "Free" : `${tier.price} COP`}
+                  {tier.price === "0" || tier.price === 0 ? "Free" : `$${tier.price} COP`}
                 </p>
               </div>
             ))}
@@ -120,7 +125,7 @@ export function ReviewPublish({ data, onPublish }: ReviewPublishProps) {
       </div>
 
       {/* Sponsors */}
-      {data.sponsors?.sponsors && data.sponsors.sponsors.length > 0 && (
+      {sponsorsData.sponsors && Array.isArray(sponsorsData.sponsors) && sponsorsData.sponsors.length > 0 && (
         <div className="p-6 bg-[#FAF8F5] rounded-lg">
           <div className="flex items-start justify-between mb-4">
             <h3 className="text-lg font-medium text-[#1A1A1A]">Sponsors</h3>
@@ -130,10 +135,10 @@ export function ReviewPublish({ data, onPublish }: ReviewPublishProps) {
             </Button>
           </div>
           <div className="space-y-2">
-            {data.sponsors.sponsors.map((sponsor: any, index: number) => (
+            {sponsorsData.sponsors.map((sponsor: any, index: number) => (
               <div key={index} className="flex items-center">
                 <Check className="w-4 h-4 mr-2 text-[#E85C2B]" />
-                <p className="text-sm text-[#1A1A1A]">{sponsor.name}</p>
+                <p className="text-sm text-[#1A1A1A]">{sponsor.name || "Sponsor"}</p>
               </div>
             ))}
           </div>
