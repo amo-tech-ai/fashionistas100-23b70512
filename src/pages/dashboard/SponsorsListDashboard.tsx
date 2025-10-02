@@ -331,7 +331,7 @@ const SponsorsListDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <Link to={`/sponsors/${sponsor.id}`}>
+                            <Link to={`/dashboard/sponsors/${sponsor.id}`}>
                               <Button variant="ghost" size="sm">
                                 <Eye className="h-4 w-4" />
                               </Button>
@@ -374,7 +374,7 @@ const SponsorsListDashboard = () => {
                       )}
                       <div>
                         <Link 
-                          to={`/sponsors/${sponsor.id}`} 
+                          to={`/dashboard/sponsors/${sponsor.id}`} 
                           className="font-semibold text-gray-900 hover:text-blue-600 hover:underline cursor-pointer"
                         >
                           <h3>{sponsor.name}</h3>
