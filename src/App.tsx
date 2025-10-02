@@ -50,6 +50,8 @@ const DesignersDashboard = lazy(() => import("./pages/DesignersDashboard"));
 const Gallery = lazy(() => import("./pages/dashboard/Gallery"));
 const VenuesListDashboard = lazy(() => import("./pages/dashboard/VenuesListDashboard"));
 const VenueProfile = lazy(() => import("./pages/dashboard/VenueProfile"));
+const SponsorsListDashboard = lazy(() => import("./pages/dashboard/SponsorsListDashboard"));
+const SponsorProfile = lazy(() => import("./pages/dashboard/SponsorProfile"));
 
 function App() {
   return (
@@ -245,9 +247,29 @@ function App() {
               } 
             />
             
+            {/* SPONSORS DASHBOARD */}
+            <Route 
+              path="/dashboard/sponsors" 
+              element={
+                <ProtectedRoute>
+                  <SponsorsListDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* SPONSOR PROFILE */}
+            <Route 
+              path="/dashboard/sponsors/:id" 
+              element={
+                <ProtectedRoute>
+                  <SponsorProfile />
+                </ProtectedRoute>
+              } 
+            />
+            
             {/* GALLERY DASHBOARD */}
             <Route 
-              path="/dashboard/gallery" 
+              path="/dashboard/gallery"
               element={
                 <ProtectedRoute>
                   <Gallery />

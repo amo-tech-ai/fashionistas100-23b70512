@@ -22,23 +22,7 @@ import {
   Edit,
   Trash2
 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-
-interface Sponsor {
-  id: string;
-  name: string;
-  industry: string;
-  website: string;
-  phone: string;
-  email: string;
-  tier: 'title' | 'platinum' | 'gold' | 'silver' | 'bronze';
-  logo_url?: string;
-  added_date: string;
-  contact_person: string;
-  status: 'active' | 'inactive' | 'pending';
-  investment: number;
-  events_count: number;
-}
+import { getAllSponsors, type Sponsor } from '@/services/sponsorService';
 
 const SponsorsListDashboard = () => {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
@@ -58,164 +42,8 @@ const SponsorsListDashboard = () => {
   const loadSponsors = async () => {
     try {
       setLoading(true);
-      
-      // For now, we'll use mock data since we don't have a sponsors table yet
-      // In the future, this would be: const { data, error } = await supabase.from('sponsors').select('*');
-      
-      const mockSponsors: Sponsor[] = [
-        {
-          id: '1',
-          name: 'Google',
-          industry: 'Technology',
-          website: 'https://google.com',
-          phone: '+1-650-253-0000',
-          email: 'partnerships@google.com',
-          tier: 'title',
-          logo_url: 'https://logo.clearbit.com/google.com',
-          added_date: '2024-10-24',
-          contact_person: 'Sarah Johnson',
-          status: 'active',
-          investment: 150000,
-          events_count: 12
-        },
-        {
-          id: '2',
-          name: 'Facebook',
-          industry: 'Social Media',
-          website: 'https://facebook.com',
-          phone: '+1-650-543-4800',
-          email: 'sponsors@facebook.com',
-          tier: 'platinum',
-          logo_url: 'https://logo.clearbit.com/facebook.com',
-          added_date: '2024-10-16',
-          contact_person: 'Mike Chen',
-          status: 'active',
-          investment: 100000,
-          events_count: 8
-        },
-        {
-          id: '3',
-          name: 'Twitter',
-          industry: 'Social Media',
-          website: 'https://twitter.com',
-          phone: '+1-415-222-9670',
-          email: 'brand@twitter.com',
-          tier: 'gold',
-          logo_url: 'https://logo.clearbit.com/twitter.com',
-          added_date: '2024-10-10',
-          contact_person: 'Alex Rodriguez',
-          status: 'active',
-          investment: 75000,
-          events_count: 6
-        },
-        {
-          id: '4',
-          name: 'YouTube',
-          industry: 'Entertainment',
-          website: 'https://youtube.com',
-          phone: '+1-650-253-0000',
-          email: 'creator@youtube.com',
-          tier: 'gold',
-          logo_url: 'https://logo.clearbit.com/youtube.com',
-          added_date: '2024-10-05',
-          contact_person: 'Emma Wilson',
-          status: 'active',
-          investment: 60000,
-          events_count: 5
-        },
-        {
-          id: '5',
-          name: 'Reddit',
-          industry: 'Social Media',
-          website: 'https://reddit.com',
-          phone: '+1-415-606-4000',
-          email: 'ads@reddit.com',
-          tier: 'silver',
-          logo_url: 'https://logo.clearbit.com/reddit.com',
-          added_date: '2024-09-28',
-          contact_person: 'David Kim',
-          status: 'active',
-          investment: 40000,
-          events_count: 3
-        },
-        {
-          id: '6',
-          name: 'LinkedIn',
-          industry: 'Professional Network',
-          website: 'https://linkedin.com',
-          phone: '+1-650-687-3600',
-          email: 'marketing@linkedin.com',
-          tier: 'silver',
-          logo_url: 'https://logo.clearbit.com/linkedin.com',
-          added_date: '2024-09-20',
-          contact_person: 'Lisa Park',
-          status: 'active',
-          investment: 35000,
-          events_count: 4
-        },
-        {
-          id: '7',
-          name: 'Twitch',
-          industry: 'Gaming & Streaming',
-          website: 'https://twitch.tv',
-          phone: '+1-206-343-1000',
-          email: 'partnerships@twitch.tv',
-          tier: 'bronze',
-          logo_url: 'https://logo.clearbit.com/twitch.tv',
-          added_date: '2024-09-15',
-          contact_person: 'James Miller',
-          status: 'active',
-          investment: 25000,
-          events_count: 2
-        },
-        {
-          id: '8',
-          name: 'Pinterest',
-          industry: 'Visual Discovery',
-          website: 'https://pinterest.com',
-          phone: '+1-650-300-0000',
-          email: 'business@pinterest.com',
-          tier: 'bronze',
-          logo_url: 'https://logo.clearbit.com/pinterest.com',
-          added_date: '2024-09-10',
-          contact_person: 'Maria Garcia',
-          status: 'pending',
-          investment: 20000,
-          events_count: 1
-        },
-        {
-          id: '9',
-          name: 'Webflow',
-          industry: 'Web Development',
-          website: 'https://webflow.com',
-          phone: '+1-415-555-0123',
-          email: 'partners@webflow.com',
-          tier: 'bronze',
-          logo_url: 'https://logo.clearbit.com/webflow.com',
-          added_date: '2024-09-05',
-          contact_person: 'Tom Anderson',
-          status: 'active',
-          investment: 15000,
-          events_count: 2
-        },
-        {
-          id: '10',
-          name: 'Spotify',
-          industry: 'Music Streaming',
-          website: 'https://spotify.com',
-          phone: '+1-212-539-2500',
-          email: 'brand@spotify.com',
-          tier: 'silver',
-          logo_url: 'https://logo.clearbit.com/spotify.com',
-          added_date: '2024-08-30',
-          contact_person: 'Anna Thompson',
-          status: 'active',
-          investment: 45000,
-          events_count: 3
-        }
-      ];
-
-      setSponsors(mockSponsors);
+      const data = await getAllSponsors();
+      setSponsors(data);
     } catch (error) {
       console.error('Error loading sponsors:', error);
     } finally {
@@ -454,7 +282,7 @@ const SponsorsListDashboard = () => {
                             </div>
                             <div className="ml-4">
                               <Link 
-                                to={`/sponsors/${sponsor.id}`} 
+                                to={`/dashboard/sponsors/${sponsor.id}`} 
                                 className="text-sm font-medium text-gray-900 hover:text-blue-600 hover:underline cursor-pointer"
                               >
                                 {sponsor.name}
@@ -590,7 +418,7 @@ const SponsorsListDashboard = () => {
                       {sponsor.status.charAt(0).toUpperCase() + sponsor.status.slice(1)}
                     </Badge>
                     <div className="flex space-x-2">
-                      <Link to={`/sponsors/${sponsor.id}`}>
+                      <Link to={`/dashboard/sponsors/${sponsor.id}`}>
                         <Button variant="ghost" size="sm">
                           <Eye className="h-4 w-4" />
                         </Button>
