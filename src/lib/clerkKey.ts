@@ -6,38 +6,38 @@
 export function getClerkPublishableKey(): string {
   const hostname = window.location.hostname;
   const isProductionDomain = hostname === 'fashionistas.one' || hostname.endsWith('.fashionistas.one');
-  
-  // Get both keys
-  const liveKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-  const testKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY_TEST;
-  
-  // For staging domains, prefer test key
-  // For production domain, use live key
-  const selectedKey = isProductionDomain ? liveKey : (testKey || liveKey);
-  
+
+  // Prefer environment-provided keys
+  const liveKey = (import.meta as any)?.env?.VITE_CLERK_PUBLISHABLE_KEY as string | undefined;
+  const testKey = (import.meta as any)?.env?.VITE_CLERK_PUBLISHABLE_KEY_TEST as string | undefined;
+
+  // Allow runtime injection via global if build-time envs are missing
+  const runtimeKey = (window as any).__CLERK_PUBLISHABLE_KEY as string | undefined;
+
+  // Public publishable fallback (safe to ship; prevents hard crash in staging)
+  const FALLBACK_TEST_KEY = 'pk_test_Y2hhcm1pbmctc2VydmFsLTE1LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+  // Resolve preferred key following domain rules, then runtime, then fallback
+  const preferredByDomain = isProductionDomain ? liveKey : (testKey || liveKey);
+  const resolvedKey = preferredByDomain || runtimeKey || FALLBACK_TEST_KEY;
+
   // Safe logging (development only)
-  if (import.meta.env.DEV) {
+  if ((import.meta as any)?.env?.DEV) {
     console.log('🔑 Clerk Key Selection:', {
       hostname,
       isProductionDomain,
       hasLiveKey: !!liveKey,
       hasTestKey: !!testKey,
-      usingTestKey: !isProductionDomain && !!testKey,
-      keyType: isProductionDomain ? 'LIVE' : (testKey ? 'TEST' : 'LIVE-FALLBACK'),
-      keyPrefix: selectedKey?.substring(0, 15) + '...'
+      usedRuntimeKey: !preferredByDomain && !!runtimeKey,
+      usedFallback: !preferredByDomain && !runtimeKey,
+      keyType: isProductionDomain ? 'LIVE' : (!!testKey ? 'TEST' : (liveKey ? 'LIVE-FALLBACK' : (runtimeKey ? 'RUNTIME' : 'PUBLIC-FALLBACK'))),
+      keyPrefix: resolvedKey?.substring(0, 15) + '...'
     });
   }
-  
-  if (!selectedKey) {
-    console.error('❌ Missing Clerk publishable key', {
-      hostname,
-      isProductionDomain,
-      hasLiveKey: !!liveKey,
-      hasTestKey: !!testKey,
-      envKeys: Object.keys(import.meta.env).filter(k => k.includes('CLERK'))
-    });
-    throw new Error('Missing Clerk publishable key - check .env file');
+
+  if (!preferredByDomain) {
+    console.warn('⚠️ Clerk publishable key not found in build-time envs. Using runtime or public fallback. Configure VITE_CLERK_PUBLISHABLE_KEY to avoid this.');
   }
-  
-  return selectedKey;
+
+  return resolvedKey;
 }
