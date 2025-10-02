@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { DashboardLayout } from '@/components/DashboardLayout';
+import { Link, useNavigate } from 'react-router-dom';
+import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { ResponsiveTable } from '@/components/ui/ResponsiveTable';
 import { 
   Search, 
   Filter, 
@@ -20,9 +21,13 @@ import {
   TrendingUp,
   Eye,
   Edit,
-  Trash2
+  Trash2,
+  Award,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { getAllSponsors, type Sponsor } from '@/services/sponsorService';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const SponsorsListDashboard = () => {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
@@ -32,6 +37,8 @@ const SponsorsListDashboard = () => {
   const [viewMode, setViewMode] = useState<'table' | 'card'>('table');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   // Using imported supabase client
 
@@ -229,126 +236,192 @@ const SponsorsListDashboard = () => {
         {viewMode === 'table' && (
           <Card>
             <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <input type="checkbox" className="rounded border-gray-300" />
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Company
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Industry
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Tier
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Contact
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Investment
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Added Date
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {paginatedSponsors.map((sponsor) => (
-                      <tr key={sponsor.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <input type="checkbox" className="rounded border-gray-300" />
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10">
-                              {sponsor.logo_url ? (
-                                <img
-                                  className="h-10 w-10 rounded-full object-cover"
-                                  src={sponsor.logo_url}
-                                  alt={sponsor.name}
-                                />
-                              ) : (
-                                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                  <Building2 className="h-5 w-5 text-gray-500" />
-                                </div>
-                              )}
-                            </div>
-                            <div className="ml-4">
-                              <Link 
-                                to={`/dashboard/sponsors/${sponsor.id}`} 
-                                className="text-sm font-medium text-gray-900 hover:text-blue-600 hover:underline cursor-pointer"
-                              >
-                                {sponsor.name}
-                              </Link>
-                              <div className="text-sm text-gray-500">{sponsor.contact_person}</div>
-                            </div>
+              <ResponsiveTable
+                columns={[
+                  {
+                    key: 'name',
+                    label: 'Company',
+                    mobileLabel: 'Company',
+                    mobilePriority: 1,
+                    render: (sponsor) => (
+                      <div className="flex items-center gap-3">
+                        {sponsor.logo_url ? (
+                          <img
+                            className="h-10 w-10 rounded-full object-cover flex-shrink-0"
+                            src={sponsor.logo_url}
+                            alt={sponsor.name}
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                            <Award className="h-5 w-5 text-muted-foreground" />
                           </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {sponsor.industry}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge className={getTierColor(sponsor.tier)}>
-                            {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)}
-                          </Badge>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center space-x-2">
-                            <a
-                              href={`mailto:${sponsor.email}`}
-                              className="text-blue-600 hover:text-blue-800"
-                            >
-                              <Mail className="h-4 w-4" />
-                            </a>
-                            <a
-                              href={`tel:${sponsor.phone}`}
-                              className="text-green-600 hover:text-green-800"
-                            >
-                              <Phone className="h-4 w-4" />
-                            </a>
-                            <a
-                              href={sponsor.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-600 hover:text-gray-800"
-                            >
-                              <Globe className="h-4 w-4" />
-                            </a>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          ${sponsor.investment.toLocaleString()}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {new Date(sponsor.added_date).toLocaleDateString()}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex items-center space-x-2">
-                            <Link to={`/dashboard/sponsors/${sponsor.id}`}>
-                              <Button variant="ghost" size="sm">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </Link>
-                            <Button variant="ghost" size="sm">
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        )}
+                        <div className="min-w-0">
+                          <Link 
+                            to={`/dashboard/sponsors/${sponsor.id}`} 
+                            className="font-medium text-foreground hover:text-primary hover:underline block truncate"
+                          >
+                            {sponsor.name}
+                          </Link>
+                          <div className="text-sm text-muted-foreground truncate">{sponsor.contact_person}</div>
+                        </div>
+                      </div>
+                    )
+                  },
+                  {
+                    key: 'industry',
+                    label: 'Industry',
+                    mobileLabel: 'Industry',
+                    mobilePriority: 2,
+                  },
+                  {
+                    key: 'tier',
+                    label: 'Tier',
+                    mobileLabel: 'Tier',
+                    mobilePriority: 1,
+                    render: (sponsor) => (
+                      <Badge className={getTierColor(sponsor.tier)}>
+                        {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)}
+                      </Badge>
+                    )
+                  },
+                  {
+                    key: 'contact',
+                    label: 'Contact',
+                    mobileLabel: 'Contact',
+                    mobilePriority: 3,
+                    render: (sponsor) => (
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={`mailto:${sponsor.email}`}
+                          className="text-primary hover:text-primary/80 min-touch"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Mail className="h-4 w-4" />
+                        </a>
+                        <a
+                          href={`tel:${sponsor.phone}`}
+                          className="text-success hover:text-success/80 min-touch"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Phone className="h-4 w-4" />
+                        </a>
+                        <a
+                          href={sponsor.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-foreground min-touch"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Globe className="h-4 w-4" />
+                        </a>
+                      </div>
+                    )
+                  },
+                  {
+                    key: 'investment',
+                    label: 'Investment',
+                    mobileLabel: 'Investment',
+                    mobilePriority: 1,
+                    render: (sponsor) => `$${sponsor.investment.toLocaleString()}`
+                  },
+                  {
+                    key: 'added_date',
+                    label: 'Added Date',
+                    mobileLabel: 'Added',
+                    mobilePriority: 2,
+                    render: (sponsor) => new Date(sponsor.added_date).toLocaleDateString()
+                  },
+                  {
+                    key: 'actions',
+                    label: 'Actions',
+                    mobileLabel: 'Actions',
+                    mobilePriority: 3,
+                    render: (sponsor) => (
+                      <div className="flex items-center gap-1">
+                        <Link to={`/dashboard/sponsors/${sponsor.id}`}>
+                          <Button variant="ghost" size="sm" className="min-touch">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="min-touch"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Handle edit
+                          }}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="min-touch"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Handle more options
+                          }}
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )
+                  },
+                ]}
+                data={paginatedSponsors}
+                keyExtractor={(sponsor) => sponsor.id}
+                onRowClick={(sponsor) => navigate(`/dashboard/sponsors/${sponsor.id}`)}
+                emptyMessage="No sponsors found"
+                mobileCardRender={(sponsor) => (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      {sponsor.logo_url ? (
+                        <img
+                          className="h-12 w-12 rounded-full object-cover flex-shrink-0"
+                          src={sponsor.logo_url}
+                          alt={sponsor.name}
+                        />
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                          <Award className="h-6 w-6 text-muted-foreground" />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-foreground truncate">{sponsor.name}</h3>
+                        <p className="text-sm text-muted-foreground truncate">{sponsor.industry}</p>
+                      </div>
+                      <Badge className={getTierColor(sponsor.tier)}>
+                        {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)}
+                      </Badge>
+                    </div>
+                    
+                    <div className="flex items-center justify-between pt-2 border-t">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Investment</p>
+                        <p className="font-semibold text-foreground">${sponsor.investment.toLocaleString()}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={`mailto:${sponsor.email}`}
+                          className="text-primary hover:text-primary/80 min-touch p-2"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Mail className="h-5 w-5" />
+                        </a>
+                        <a
+                          href={`tel:${sponsor.phone}`}
+                          className="text-success hover:text-success/80 min-touch p-2"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Phone className="h-5 w-5" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              />
             </CardContent>
           </Card>
         )}
@@ -436,36 +509,67 @@ const SponsorsListDashboard = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-muted-foreground order-2 sm:order-1">
               Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredSponsors.length)} of {filteredSponsors.length} results
             </div>
-            <div className="flex space-x-2">
+            <div className="flex items-center gap-2 order-1 sm:order-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
+                className="min-touch"
               >
-                Previous
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Previous</span>
               </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </Button>
-              ))}
+              
+              {/* Page numbers - hidden on mobile */}
+              <div className="hidden sm:flex items-center gap-1">
+                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                  // Show first, last, current, and surrounding pages
+                  let page;
+                  if (totalPages <= 5) {
+                    page = i + 1;
+                  } else if (currentPage <= 3) {
+                    page = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    page = totalPages - 4 + i;
+                  } else {
+                    page = currentPage - 2 + i;
+                  }
+                  
+                  return (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setCurrentPage(page)}
+                      className="min-w-[40px] min-touch"
+                    >
+                      {page}
+                    </Button>
+                  );
+                })}
+              </div>
+              
+              {/* Mobile: Show current page indicator */}
+              <div className="sm:hidden flex items-center gap-2 px-3 py-1 bg-muted rounded-md">
+                <span className="text-sm font-medium text-foreground">
+                  {currentPage} / {totalPages}
+                </span>
+              </div>
+              
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
+                className="min-touch"
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight className="h-4 w-4 ml-1" />
               </Button>
             </div>
           </div>

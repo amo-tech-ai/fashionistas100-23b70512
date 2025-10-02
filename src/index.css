@@ -183,12 +183,45 @@ All colors MUST be HSL.
     @apply text-sm text-text-muted;
   }
   
-  /* Minimum touch targets for mobile */
+  /* Mobile-First Touch Targets & Utilities */
   .min-touch {
     min-height: 44px;
     min-width: 44px;
   }
+  
+  /* Enhanced touch targets for interactive elements */
+  .min-touch-lg {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  /* Prevent text selection on touch devices */
+  .touch-manipulation {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* Mobile-optimized scrolling */
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
 
+  /* Text utilities */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -201,6 +234,19 @@ All colors MUST be HSL.
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Mobile typography scaling */
+  @media (max-width: 768px) {
+    .ds-hero {
+      @apply text-3xl;
+    }
+    .ds-title {
+      @apply text-xl;
+    }
+    .ds-section-title {
+      @apply text-lg;
+    }
   }
 }
 /* Custom Navigation Styles */
