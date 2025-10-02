@@ -1,10 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fashionImages } from "@/lib/cloudinary";
-// Fallback to local image if Cloudinary fails
 import heroImageFallback from "@/assets/hero-runway-new.jpg";
 
 export const Hero = () => {
@@ -21,7 +19,7 @@ export const Hero = () => {
           {/* Main Heading */}
           <div className="text-center space-y-8 mb-16">
             <Badge className="bg-[hsl(var(--breef-orange))]/10 text-[hsl(var(--breef-orange))] border-[hsl(var(--breef-orange))]/20 font-inter text-sm px-4 py-1.5">
-              🎭 Colombia's Premier Fashion Event Platform
+              Colombia's Premier Fashion Event Platform
             </Badge>
             
             <h1 className="font-inter text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[hsl(var(--breef-dark))] leading-tight tracking-tight">
@@ -40,7 +38,6 @@ export const Hero = () => {
                   size="lg" 
                   className="font-inter h-14 px-10 text-base bg-[hsl(var(--breef-orange))] text-white hover:bg-[hsl(var(--breef-orange))]/90 rounded-full transition-all duration-300 w-full sm:w-auto shadow-lg hover:shadow-xl"
                 >
-                  <Sparkles className="w-5 h-5 mr-2" />
                   Browse Events
                 </Button>
               </Link>
@@ -88,17 +85,14 @@ export const Hero = () => {
             ))}
           </div>
 
-          {/* Animated Stats - Breef style with icons */}
+          {/* Animated Stats - Breef style large numbers only */}
           <div className="bg-white rounded-2xl shadow-card p-8 md:p-12">
-            <p className="font-inter text-sm text-[hsl(var(--breef-gray))] uppercase tracking-wider text-center mb-8">
+            <p className="font-inter text-sm text-[hsl(var(--breef-gray))] uppercase tracking-wider text-center mb-12">
               Trusted by the Fashion Community
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="text-center space-y-3 group">
-                <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Calendar className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-                </div>
-                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+              <div className="text-center space-y-2">
+                <div className="font-inter text-5xl md:text-6xl font-light text-[hsl(var(--breef-dark))]">
                   500+
                 </div>
                 <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">
@@ -106,11 +100,8 @@ export const Hero = () => {
                 </div>
               </div>
               
-              <div className="text-center space-y-3 group">
-                <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Sparkles className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-                </div>
-                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+              <div className="text-center space-y-2">
+                <div className="font-inter text-5xl md:text-6xl font-light text-[hsl(var(--breef-dark))]">
                   200+
                 </div>
                 <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">
@@ -118,11 +109,8 @@ export const Hero = () => {
                 </div>
               </div>
               
-              <div className="text-center space-y-3 group">
-                <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <MapPin className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-                </div>
-                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+              <div className="text-center space-y-2">
+                <div className="font-inter text-5xl md:text-6xl font-light text-[hsl(var(--breef-dark))]">
                   50+
                 </div>
                 <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">
@@ -130,11 +118,8 @@ export const Hero = () => {
                 </div>
               </div>
               
-              <div className="text-center space-y-3 group">
-                <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Badge className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-                </div>
-                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+              <div className="text-center space-y-2">
+                <div className="font-inter text-5xl md:text-6xl font-light text-[hsl(var(--breef-dark))]">
                   10k+
                 </div>
                 <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">

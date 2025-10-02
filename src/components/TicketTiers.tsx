@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Star, Crown, Ticket } from "lucide-react";
 
 const tiers = [
   {
@@ -15,8 +14,8 @@ const tiers = [
       "Event networking",
       "Digital program guide"
     ],
-    icon: Ticket,
-    popular: false
+    popular: false,
+    bookings: "150+ booked this month"
   },
   {
     name: "VIP",
@@ -31,8 +30,8 @@ const tiers = [
       "Exclusive gift bag",
       "Professional photography"
     ],
-    icon: Star,
-    popular: true
+    popular: true,
+    bookings: "250+ booked this month"
   },
   {
     name: "Sponsor",
@@ -48,8 +47,8 @@ const tiers = [
       "Brand partnership opportunities",
       "Lifetime membership perks"
     ],
-    icon: Crown,
-    popular: false
+    popular: false,
+    bookings: "75+ booked this month"
   }
 ];
 
@@ -69,13 +68,11 @@ export const TicketTiers = () => {
 
         {/* Pricing Cards - Breef Style: Clean 3-column */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {tiers.map((tier) => {
-            const IconComponent = tier.icon;
-            return (
-              <Card 
-                key={tier.name} 
-                className={`relative bg-white rounded-2xl shadow-card hover:shadow-hover transition-all ${tier.popular ? 'ring-2 ring-[hsl(var(--breef-orange))]' : ''}`}
-              >
+          {tiers.map((tier) => (
+            <Card 
+              key={tier.name} 
+              className={`relative bg-white rounded-2xl shadow-card hover:shadow-hover transition-all ${tier.popular ? 'ring-2 ring-[hsl(var(--breef-orange))]' : ''}`}
+            >
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-[hsl(var(--breef-orange))] text-white border-0 px-4">
@@ -98,6 +95,9 @@ export const TicketTiers = () => {
                     <p className="font-inter text-sm text-[hsl(var(--breef-gray))] mt-3">
                       {tier.description}
                     </p>
+                    <p className="font-inter text-xs text-[hsl(var(--breef-orange))] mt-2">
+                      {tier.bookings}
+                    </p>
                   </div>
                 </CardHeader>
 
@@ -105,7 +105,7 @@ export const TicketTiers = () => {
                   <ul className="space-y-3">
                     {tier.features.map((feature, index) => (
                       <li key={index} className="flex items-start space-x-3">
-                        <Check className="w-5 h-5 text-[hsl(var(--breef-orange))] mt-0.5 flex-shrink-0" />
+                        <span className="text-[hsl(var(--breef-orange))] text-lg leading-none mt-0.5">•</span>
                         <span className="font-inter text-sm text-[hsl(var(--breef-dark))]">{feature}</span>
                       </li>
                     ))}
@@ -123,9 +123,8 @@ export const TicketTiers = () => {
                   </Button>
                 </CardContent>
               </Card>
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
         {/* Additional Info */}
         <div className="text-center mt-12 space-y-4">

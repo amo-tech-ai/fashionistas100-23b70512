@@ -1,42 +1,37 @@
 import { Card } from "@/components/ui/card";
-import { Sparkles, ShoppingBag, Palette, Shirt, Star, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const categories = [
   {
-    name: "Runway",
-    icon: Sparkles,
+    name: "Runway Shows",
     description: "Exclusive fashion shows",
     link: "/events?category=runway",
-    gradient: "from-purple-500/10 to-pink-500/10"
+    bg: "bg-gradient-to-br from-purple-50 to-pink-50"
   },
   {
-    name: "Pop-Ups",
-    icon: ShoppingBag,
+    name: "Pop-Up Stores",
     description: "Limited edition collections",
     link: "/events?category=popup",
-    gradient: "from-orange-500/10 to-red-500/10"
+    bg: "bg-gradient-to-br from-orange-50 to-red-50"
   },
   {
     name: "Exhibitions",
-    icon: Palette,
     description: "Art meets fashion",
     link: "/events?category=exhibition",
-    gradient: "from-blue-500/10 to-cyan-500/10"
+    bg: "bg-gradient-to-br from-blue-50 to-cyan-50"
   },
   {
     name: "Fashion Week",
-    icon: Shirt,
     description: "Industry's biggest events",
     link: "/events?category=fashionweek",
-    gradient: "from-green-500/10 to-emerald-500/10"
+    bg: "bg-gradient-to-br from-green-50 to-emerald-50"
   },
   {
-    name: "Designer Spotlight",
-    icon: Star,
+    name: "Designer Showcases",
     description: "Meet emerging talent",
     link: "/designers",
-    gradient: "from-yellow-500/10 to-amber-500/10"
+    bg: "bg-gradient-to-br from-yellow-50 to-amber-50"
   }
 ];
 
@@ -54,28 +49,20 @@ export const CategoryCards = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-          {categories.map((category) => {
-            const IconComponent = category.icon;
-            return (
-              <Link key={category.name} to={category.link}>
-                <Card className={`relative group overflow-hidden bg-gradient-to-br ${category.gradient} border-[hsl(var(--border))] hover:border-[hsl(var(--breef-orange))] transition-all duration-300 hover:shadow-hover cursor-pointer h-full`}>
-                  <div className="p-6 flex flex-col items-center text-center space-y-3 h-full justify-center">
-                    <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <IconComponent className="w-7 h-7 text-[hsl(var(--breef-orange))]" />
-                    </div>
-                    <div>
-                      <h3 className="font-inter font-medium text-[hsl(var(--breef-dark))] mb-1">
-                        {category.name}
-                      </h3>
-                      <p className="font-inter text-xs text-[hsl(var(--breef-gray))]">
-                        {category.description}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              </Link>
-            );
-          })}
+          {categories.map((category) => (
+            <Link key={category.name} to={category.link}>
+              <Card className={`relative group overflow-hidden ${category.bg} border-[hsl(var(--border))] hover:border-[hsl(var(--breef-orange))] transition-all duration-300 hover:shadow-hover cursor-pointer h-full`}>
+                <div className="p-6 flex flex-col justify-center text-center space-y-2 h-full min-h-[140px]">
+                  <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+                    {category.name}
+                  </h3>
+                  <p className="font-inter text-xs text-[hsl(var(--breef-gray))]">
+                    {category.description}
+                  </p>
+                </div>
+              </Card>
+            </Link>
+          ))}
         </div>
 
         <div className="text-center">

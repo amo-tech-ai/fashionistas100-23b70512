@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Mail, CheckCircle2, Sparkles, MessageCircle } from "lucide-react";
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -35,9 +33,7 @@ export const Newsletter = () => {
         <div className="bg-[hsl(var(--breef-cream))] rounded-2xl p-8 md:p-12 shadow-card">
           {isSubscribed ? (
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
-                <CheckCircle2 className="w-8 h-8 text-[hsl(var(--breef-orange))]" />
-              </div>
+              <div className="text-6xl text-[hsl(var(--breef-orange))]">✓</div>
               <h3 className="font-inter text-2xl font-medium text-[hsl(var(--breef-dark))]">
                 You're all set!
               </h3>
@@ -60,7 +56,6 @@ export const Newsletter = () => {
                   type="submit" 
                   className="font-inter h-12 px-8 bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white rounded-full whitespace-nowrap"
                 >
-                  <Mail className="w-4 h-4 mr-2" />
                   Subscribe
                 </Button>
               </div>
@@ -77,7 +72,6 @@ export const Newsletter = () => {
                 className="w-full font-inter h-12 rounded-full border-2 border-green-500/20 hover:border-green-500 text-green-600 hover:bg-green-50"
                 onClick={() => window.open('https://wa.me/573001234567?text=Subscribe%20to%20Fashionistas', '_blank')}
               >
-                <MessageCircle className="w-4 h-4 mr-2" />
                 Subscribe via WhatsApp
               </Button>
               
@@ -88,12 +82,9 @@ export const Newsletter = () => {
           )}
         </div>
 
-        {/* Benefits - Breef style icon grid */}
+        {/* Benefits - Text only list */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-            </div>
+          <div className="text-center space-y-2">
             <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
               Exclusive Events
             </h3>
@@ -102,10 +93,7 @@ export const Newsletter = () => {
             </p>
           </div>
           
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
-              <Mail className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-            </div>
+          <div className="text-center space-y-2">
             <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
               Industry Insights
             </h3>
@@ -114,10 +102,7 @@ export const Newsletter = () => {
             </p>
           </div>
           
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
-              <CheckCircle2 className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
-            </div>
+          <div className="text-center space-y-2">
             <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
               Early Access
             </h3>
