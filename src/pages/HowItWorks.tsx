@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -10,42 +13,41 @@ import {
 import { 
   LogIn, 
   Globe, 
-  Sparkles, 
+  Zap, 
   LayoutDashboard, 
-  MessageSquare,
+  BrainCircuit,
   TrendingUp,
   FileText,
   BarChart3,
-  Calendar
+  Phone
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
   const steps = [
     {
       icon: <LogIn className="w-8 h-8" />,
       title: "Social Login",
-      description: "Sign in with Google, Apple, or Facebook."
+      description: "Sign in instantly with Google, Apple, or Facebook — no long forms."
     },
     {
       icon: <Globe className="w-8 h-8" />,
       title: "Auto Brand Import",
-      description: "We pull your website, logo, and key details automatically."
+      description: "We automatically pull your website, logo, and brand details for you."
     },
     {
-      icon: <Sparkles className="w-8 h-8" />,
+      icon: <Zap className="w-8 h-8" />,
       title: "Instant Event Page",
-      description: "An event page is instantly created using your brand details."
+      description: "An event page is generated in seconds with your brand identity applied."
     },
     {
       icon: <LayoutDashboard className="w-8 h-8" />,
       title: "Event Planning Dashboard",
-      description: "Add dates, venues, tickets, and sponsors — all in one dashboard."
+      description: "Manage venues, tickets, sponsors, and schedules — all in one dashboard."
     },
     {
-      icon: <MessageSquare className="w-8 h-8" />,
+      icon: <BrainCircuit className="w-8 h-8" />,
       title: "AI Assistance",
-      description: "AI helps streamline your planning: generate descriptions, suggest ticket pricing, optimize schedules, and create promo content."
+      description: "AI helps at every step: generate event descriptions, optimize ticket pricing, suggest schedules, and draft promotional content."
     }
   ];
 
@@ -53,68 +55,75 @@ const HowItWorks = () => {
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: "Smart Suggestions",
-      description: "AI recommends pricing, reminders, and schedules."
+      description: "Get AI-driven recommendations for ticket pricing, timelines, and reminders."
     },
     {
       icon: <FileText className="w-6 h-6" />,
       title: "Content Generation",
-      description: "Instant event descriptions, invites, and social posts."
+      description: "Auto-generate descriptions, invites, emails, and social media posts."
     },
     {
       icon: <BarChart3 className="w-6 h-6" />,
       title: "Insights",
-      description: "Real-time analytics on sales, attendance, and guest engagement."
+      description: "Track real-time sales, attendance, and guest engagement with AI summaries."
     }
   ];
 
   const faqs = [
     {
       question: "How does AI help with my event?",
-      answer: "AI assists throughout the entire event planning process by generating compelling event descriptions, suggesting optimal ticket pricing based on market data, creating promotional content for social media, and providing real-time insights on attendee engagement and ticket sales."
+      answer: "AI suggests pricing, generates content, and keeps you on track with smart reminders. You're always in control."
     },
     {
       question: "Can I edit the event page?",
-      answer: "Yes, absolutely! While we auto-generate your event page using your brand details, you have full control to customize every aspect - from text and images to layout and styling. Our intuitive editor makes it easy to make changes on the fly."
+      answer: "Yes. Every AI-generated page is editable. You can update text, images, tickets, and schedules anytime."
     },
     {
       question: "How does the brand auto-import work?",
-      answer: "Our smart import system analyzes your website to extract your logo, brand colors, fonts, and key business information. This ensures your event page maintains consistent branding with your existing online presence. You can review and adjust all imported details before publishing."
+      answer: "When you log in and enter your website, we automatically pull your logo, brand colors, and basic info to save you time."
     },
     {
       question: "What's included in the dashboard?",
-      answer: "The dashboard is your central hub for event management. It includes ticket sales tracking, attendee management, venue coordination, sponsor management, financial reporting, marketing tools, and real-time analytics. Everything you need to run a successful fashion event is in one place."
+      answer: "The dashboard includes event scheduling, ticket sales, sponsor management, attendee check-ins, and post-event analytics — all in one place."
     }
   ];
 
   return (
-    <div className="min-h-screen bg-surface-2">
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-text-primary mb-6 leading-tight">
+      <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-text-primary mb-6">
             The easiest way to create your fashion event.
           </h1>
-          <p className="text-lg md:text-xl text-text-muted mb-8 max-w-2xl mx-auto">
-            Log in, auto-import your brand, and let AI help you publish and manage your event in minutes.
+          <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">
+            Sign in, auto-import your brand, and let AI help you publish and manage your event in minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/sign-up">
-              <Button size="lg" variant="action" className="w-full sm:w-auto min-h-[48px] px-8">
-                Get Started
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button size="lg" variant="secondary" className="w-full sm:w-auto min-h-[48px] px-8">
-                Book a Demo
-              </Button>
-            </Link>
+            <Button 
+              asChild 
+              size="lg"
+              className="bg-[#E85C2B] hover:bg-[#D14D1F] text-white"
+            >
+              <Link to="/sign-up">Get Started</Link>
+            </Button>
+            <Button 
+              asChild 
+              variant="outline" 
+              size="lg"
+              className="border-border-strong hover:bg-surface-2"
+            >
+              <Link to="/contact">Book a Demo</Link>
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Steps Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-surface-1">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
               How it works
@@ -123,26 +132,20 @@ const HowItWorks = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {steps.map((step, index) => (
-              <Card 
-                key={index}
-                className="bg-surface-1 border-border-strong hover:shadow-moderate transition-shadow duration-300"
-              >
-                <CardContent className="p-8">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-action/10 flex items-center justify-center text-action">
-                      {step.icon}
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-semibold text-text-muted mb-2">
-                        Step {index + 1}
+              <Card key={index} className="border-border-strong hover:border-[#E85C2B] transition-all duration-300 bg-background">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-16 h-16 rounded-full bg-surface-2 flex items-center justify-center mb-4">
+                      <div className="text-[#E85C2B]">
+                        {step.icon}
                       </div>
-                      <h3 className="text-lg font-semibold text-text-primary mb-2">
-                        {step.title}
-                      </h3>
-                      <p className="text-text-muted text-sm leading-relaxed">
-                        {step.description}
-                      </p>
                     </div>
+                    <h3 className="text-xl font-semibold text-text-primary mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-text-muted">
+                      {step.description}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -151,49 +154,50 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      {/* Dashboard Highlight */}
-      <section className="py-16 px-4 bg-surface-1">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                Your Event, Powered by AI.
-              </h2>
-              <p className="text-lg text-text-muted mb-6">
-                From ticketing to marketing, AI makes event planning smarter and faster.
-              </p>
-              <Link to="/sign-up">
-                <Button variant="action" size="lg" className="min-h-[48px]">
-                  Start Planning Now
-                </Button>
-              </Link>
-            </div>
-            <div className="bg-surface-2 rounded-2xl p-8 min-h-[400px] flex items-center justify-center border-2 border-border-strong">
-              <div className="text-center space-y-4">
-                <Calendar className="w-16 h-16 mx-auto text-action" />
-                <p className="text-text-muted text-sm">Dashboard Preview</p>
-                <p className="text-xs text-text-muted max-w-xs">
-                  Manage events, tickets, sponsors, and analytics all in one beautiful interface
-                </p>
-              </div>
+      {/* Dashboard Highlight Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+              Your Event, Powered by AI.
+            </h2>
+            <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">
+              From ticketing to marketing, AI helps you plan smarter and faster.
+            </p>
+            <Button 
+              asChild 
+              size="lg"
+              className="bg-[#E85C2B] hover:bg-[#D14D1F] text-white"
+            >
+              <Link to="/dashboard">Explore the Dashboard</Link>
+            </Button>
+          </div>
+          
+          {/* Dashboard mockup placeholder */}
+          <div className="bg-surface-2 rounded-lg border border-border-strong p-8 flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <LayoutDashboard className="w-20 h-20 text-text-muted mx-auto mb-4" />
+              <p className="text-text-muted">Dashboard Preview</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* AI Benefits */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-6xl">
+      {/* AI Benefits Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-surface-1">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <div key={index} className="text-center">
-                <div className="w-14 h-14 rounded-full bg-action/10 flex items-center justify-center text-action mx-auto mb-4">
-                  {benefit.icon}
+                <div className="w-16 h-16 rounded-full bg-background border border-border-strong flex items-center justify-center mx-auto mb-4">
+                  <div className="text-[#E85C2B]">
+                    {benefit.icon}
+                  </div>
                 </div>
                 <h3 className="text-xl font-semibold text-text-primary mb-3">
                   {benefit.title}
                 </h3>
-                <p className="text-text-muted leading-relaxed">
+                <p className="text-text-muted">
                   {benefit.description}
                 </p>
               </div>
@@ -203,29 +207,32 @@ const HowItWorks = () => {
       </section>
 
       {/* Support Section */}
-      <section className="py-16 px-4 bg-surface-1">
-        <div className="container mx-auto max-w-4xl text-center">
-          <Card className="bg-surface-2 border-border-strong">
-            <CardContent className="p-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <Card className="border-border-strong bg-surface-1">
+            <CardContent className="p-8">
+              <Phone className="w-12 h-12 text-[#E85C2B] mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-text-primary mb-3">
                 Need expert guidance?
               </h2>
-              <p className="text-text-muted mb-6 max-w-xl mx-auto">
-                Our team is here to help you create unforgettable fashion events.
+              <p className="text-text-muted mb-6">
+                Our event specialists are here to help you succeed.
               </p>
-              <Link to="/contact">
-                <Button variant="action" size="lg" className="min-h-[48px] px-8">
-                  Book a Strategy Call
-                </Button>
-              </Link>
+              <Button 
+                asChild 
+                size="lg"
+                className="bg-[#E85C2B] hover:bg-[#D14D1F] text-white"
+              >
+                <Link to="/contact">Book a Strategy Call</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-3xl">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-surface-1">
+        <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-text-primary text-center mb-12">
             Frequently asked questions
           </h2>
@@ -235,12 +242,12 @@ const HowItWorks = () => {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-surface-1 border border-border-strong rounded-lg px-6"
+                className="bg-background border border-border-strong rounded-lg px-6"
               >
-                <AccordionTrigger className="text-left text-text-primary font-semibold hover:no-underline py-6">
+                <AccordionTrigger className="text-left text-text-primary hover:text-[#E85C2B]">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-text-muted leading-relaxed pb-6">
+                <AccordionContent className="text-text-muted">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -249,26 +256,26 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-16 px-4 bg-action text-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to create your event?
+      {/* Final CTA Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6">
+            Ready to create your fashion event?
           </h2>
-          <p className="text-lg mb-8 opacity-90">
-            Join hundreds of fashion professionals using FashionOS Event Wizard
+          <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">
+            Join hundreds of fashion professionals using AI to plan better events.
           </p>
-          <Link to="/sign-up">
-            <Button 
-              variant="secondary" 
-              size="lg" 
-              className="bg-white text-action hover:bg-white/90 min-h-[48px] px-8"
-            >
-              Get Started Free
-            </Button>
-          </Link>
+          <Button 
+            asChild 
+            size="lg"
+            className="bg-[#E85C2B] hover:bg-[#D14D1F] text-white"
+          >
+            <Link to="/sign-up">Get Started</Link>
+          </Button>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
