@@ -89,6 +89,7 @@ export const Navigation = () => {
         { name: "AI Services", href: "/services/ai-services" }
       ]
     },
+    { name: "How It Works", href: "/how-it-works" },
     { name: "Designers", href: "/designers" },
     { name: "Venues", href: "/venues" },
     { name: "Tickets", href: "/tickets" },

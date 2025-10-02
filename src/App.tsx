@@ -17,6 +17,7 @@ import Services from "./pages/Services";
 // Lazy load public pages
 const EventDetail = lazy(() => import("./pages/EventDetail"));
 const About = lazy(() => import("./pages/About"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
 const VideoProduction = lazy(() => import("./pages/services/VideoProduction"));
 const Designers = lazy(() => import("./pages/Designers"));
@@ -64,6 +65,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
             
             {/* Events */}
             <Route path="/events" element={<Events />} />
