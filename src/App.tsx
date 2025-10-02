@@ -18,6 +18,7 @@ import Services from "./pages/Services";
 const EventDetail = lazy(() => import("./pages/EventDetail"));
 const About = lazy(() => import("./pages/About"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const EventWizard = lazy(() => import("./pages/EventWizard"));
 const FashionPhotography = lazy(() => import("./pages/services/FashionPhotography"));
 const VideoProduction = lazy(() => import("./pages/services/VideoProduction"));
 const Designers = lazy(() => import("./pages/Designers"));
@@ -66,6 +67,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/create-event" element={<EventWizard />} />
             
             {/* Events */}
             <Route path="/events" element={<Events />} />

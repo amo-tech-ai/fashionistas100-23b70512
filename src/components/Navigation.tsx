@@ -79,6 +79,7 @@ export const Navigation = () => {
 
   const navigationItems = [
     { name: "Events", href: "/events" },
+    { name: "Create Event", href: "/create-event" },
     { 
       name: "Services", 
       href: "/services",
