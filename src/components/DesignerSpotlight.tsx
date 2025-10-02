@@ -69,116 +69,103 @@ export const DesignerSpotlight = () => {
 
   return (
     <ErrorBoundary>
-      <section className="py-16 bg-foreground px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-background/20 text-background border-background/30">
-              <Star className="w-4 h-4 mr-2" />
-              Designer Spotlight
-            </Badge>
-            <h2 className="text-3xl font-playfair font-bold mb-4 text-background">Featured Designer</h2>
-            <p className="text-lg text-background/80 max-w-2xl mx-auto">
+      <section className="py-20 bg-white px-4">
+        <div className="container mx-auto max-w-6xl">
+          {/* Header - Breef style */}
+          <div className="text-center mb-16">
+            <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))] mb-4">
+              Featured designer
+            </h2>
+            <p className="font-inter text-lg text-[hsl(var(--breef-gray))]">
               Discover exceptional talent shaping the future of fashion
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <img
-                src={fashionImages.designers[0] || designerSpotlightImage}
-                alt="Designer Spotlight"
-                className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = designerSpotlightImage;
-                }}
-              />
-              <div className="absolute top-4 left-4">
-                <Badge className="bg-primary text-primary-foreground">
-                  Featured
-                </Badge>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-3xl font-playfair font-bold mb-2 text-background">
-                  {featuredDesigner.brandName}
-                </h3>
-                {featuredDesigner.isVerified && (
-                  <Badge variant="default" className="mb-4 bg-accent text-accent-foreground">
-                    Verified Designer
-                  </Badge>
-                )}
-                <p className="text-lg text-background/80 leading-relaxed">
-                  {featuredDesigner.bio || "An exceptional designer creating innovative fashion experiences."}
-                </p>
+          {/* Designer Card - Breef style horizontal layout */}
+          <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+            <div className="grid lg:grid-cols-2 gap-0">
+              {/* Image */}
+              <div className="relative h-96 lg:h-auto">
+                <img
+                  src={fashionImages.designers[0] || designerSpotlightImage}
+                  alt="Featured Designer"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = designerSpotlightImage;
+                  }}
+                />
               </div>
 
-              {featuredDesigner.portfolioUrls.length > 0 ? (
+              {/* Content */}
+              <div className="p-8 lg:p-12 flex flex-col justify-center space-y-6">
                 <div>
-                  <h4 className="font-semibold mb-3 text-background">Recent Work</h4>
+                  {featuredDesigner.isVerified && (
+                    <Badge className="mb-3 bg-[hsl(var(--breef-orange))] text-white border-0">
+                      Verified Designer
+                    </Badge>
+                  )}
+                  <h3 className="font-inter text-3xl font-medium text-[hsl(var(--breef-dark))] mb-4">
+                    {featuredDesigner.brandName}
+                  </h3>
+                  <p className="font-inter text-[hsl(var(--breef-gray))] leading-relaxed text-lg">
+                    {featuredDesigner.bio || "An exceptional designer creating innovative fashion experiences."}
+                  </p>
+                </div>
+
+                {/* Portfolio thumbnails */}
+                {(featuredDesigner.portfolioUrls.length > 0 || fashionImages.gallery.length > 0) && (
                   <div className="grid grid-cols-3 gap-3">
-                    {featuredDesigner.portfolioUrls.slice(0, 3).map((url, index) => (
-                      <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
+                    {(featuredDesigner.portfolioUrls.length > 0 
+                      ? featuredDesigner.portfolioUrls 
+                      : fashionImages.gallery
+                    ).slice(0, 3).map((url, index) => (
+                      <div key={index} className="aspect-square rounded-lg overflow-hidden">
                         <img
-                          src={url || fashionImages.gallery[index]}
-                          alt={`${featuredDesigner.brandName} portfolio ${index + 1}`}
+                          src={url}
+                          alt={`Portfolio ${index + 1}`}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = fashionImages.gallery[index] || designerSpotlightImage;
+                            if (fashionImages.gallery[index]) {
+                              target.src = fashionImages.gallery[index];
+                            }
                           }}
                         />
                       </div>
                     ))}
                   </div>
-                </div>
-              ) : (
-                <div>
-                  <h4 className="font-semibold mb-3 text-background">Gallery</h4>
-                  <div className="grid grid-cols-3 gap-3">
-                    {fashionImages.gallery.slice(0, 3).map((url, index) => (
-                      <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
-                        <img
-                          src={url}
-                          alt={`Fashion gallery ${index + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="flex items-center gap-4">
-                {featuredDesigner.websiteUrl && (
-                  <Button variant="outline" size="sm" asChild className="border-background/30 text-background hover:bg-background hover:text-foreground">
-                    <a href={featuredDesigner.websiteUrl} target="_blank" rel="noopener noreferrer">
-                      <Globe className="w-4 h-4 mr-2" />
-                      Website
-                    </a>
-                  </Button>
                 )}
-                {featuredDesigner.socialLinks.instagram && (
-                  <Button variant="outline" size="sm" asChild className="border-background/30 text-background hover:bg-background hover:text-foreground">
-                    <a href={featuredDesigner.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                      <Instagram className="w-4 h-4 mr-2" />
-                      Instagram
-                    </a>
-                  </Button>
-                )}
-              </div>
 
-              <div className="pt-4">
-                <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90">
-                  <Link to={`/designers/${featuredDesigner.brandSlug}`}>
-                    View Full Portfolio
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </Link>
-                </Button>
+                {/* Links */}
+                <div className="flex items-center gap-3 pt-4">
+                  {featuredDesigner.websiteUrl && (
+                    <Button variant="outline" size="sm" asChild className="rounded-full border-[hsl(var(--border))]">
+                      <a href={featuredDesigner.websiteUrl} target="_blank" rel="noopener noreferrer">
+                        <Globe className="w-4 h-4 mr-2" />
+                        Website
+                      </a>
+                    </Button>
+                  )}
+                  {featuredDesigner.socialLinks.instagram && (
+                    <Button variant="outline" size="sm" asChild className="rounded-full border-[hsl(var(--border))]">
+                      <a href={featuredDesigner.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
+                        <Instagram className="w-4 h-4 mr-2" />
+                        Instagram
+                      </a>
+                    </Button>
+                  )}
+                </div>
+
+                <div className="pt-2">
+                  <Button asChild size="lg" className="bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white rounded-full">
+                    <Link to={`/designers/${featuredDesigner.brandSlug}`}>
+                      View Full Portfolio
+                      <ExternalLink className="w-4 h-4 ml-2" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

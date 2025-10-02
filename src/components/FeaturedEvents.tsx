@@ -9,45 +9,40 @@ export const FeaturedEvents = () => {
   const events = Array.isArray(data) ? data : [];
 
   return (
-    <section className="py-16 px-4 bg-background">
-      <div className="container mx-auto">
-        {/* Section Header */}
-        <div className="text-center space-y-4 mb-12">
-          <Badge variant="accent" className="font-inter">
-            <Calendar className="w-4 h-4 mr-2" />
-            Featured Events
-          </Badge>
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground">
-            Upcoming Fashion
-            <span className="block text-foreground">Experiences</span>
+    <section className="py-20 px-4 bg-[hsl(var(--breef-cream))]">
+      <div className="container mx-auto max-w-6xl">
+        {/* Section Header - Breef Style */}
+        <div className="text-center space-y-6 mb-12">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+            Upcoming fashion events
           </h2>
-          <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover the most exclusive fashion events happening around the world. 
-            From haute couture showcases to emerging designer spotlights.
+          <p className="font-inter text-lg text-[hsl(var(--breef-gray))] max-w-2xl mx-auto">
+            Discover exclusive runway shows, designer showcases, and fashion week experiences.
           </p>
         </div>
 
-        {/* Filter Chips */}
+        {/* Filter Pills - Breef Style */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <Button variant="primary" size="sm" className="font-inter">
+          <Button 
+            size="sm" 
+            className="font-inter px-4 py-2 bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white rounded-full"
+          >
             All Events
           </Button>
-          <Button variant="outline" size="sm" className="font-inter">
-            Runway Shows
-          </Button>
-          <Button variant="outline" size="sm" className="font-inter">
-            VIP Experiences
-          </Button>
-          <Button variant="outline" size="sm" className="font-inter">
-            Emerging Designers
-          </Button>
-          <Button variant="outline" size="sm" className="font-inter">
-            Haute Couture
-          </Button>
+          {["Runway", "Couture", "Streetwear", "Pop-ups"].map((filter) => (
+            <Button 
+              key={filter}
+              variant="outline" 
+              size="sm" 
+              className="font-inter px-4 py-2 border-[hsl(var(--border))] bg-white hover:border-[hsl(var(--breef-orange))] rounded-full"
+            >
+              {filter}
+            </Button>
+          ))}
         </div>
 
-        {/* Events Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12">
+        {/* Events Grid - Breef card style */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {isLoading ? (
             <div className="col-span-full text-center py-12">
               <p className="font-inter text-muted-foreground">Loading events...</p>
@@ -67,9 +62,13 @@ export const FeaturedEvents = () => {
           )}
         </div>
 
-        {/* View All Button */}
+        {/* View All Button - Breef Style */}
         <div className="text-center">
-          <Button variant="outline" size="lg" className="font-inter">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="font-inter h-12 px-8 border-2 border-[hsl(var(--breef-dark))]/20 bg-white hover:bg-[hsl(var(--surface-2))] rounded-full"
+          >
             View All Events
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>

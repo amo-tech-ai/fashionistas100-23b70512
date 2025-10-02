@@ -5,80 +5,72 @@ import { Link } from "react-router-dom";
 import heroImage from '@/assets/hero-runway-new.jpg';
 export const AboutSection = () => {
   return (
-    <section className="py-16 px-4 bg-gray-50">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Hero Image */}
-          <div className="order-2 lg:order-1">
-            <div className="relative">
-              <img
-                src={heroImage}
-                alt="Fashion runway show with models and designers"
-                className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-lg"
-              />
-              <div className="absolute inset-0 bg-black/20 rounded-2xl"></div>
+    <section className="py-20 px-4 bg-white">
+      <div className="container mx-auto max-w-6xl">
+        {/* Breef-style section header */}
+        <div className="text-center mb-16">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))] mb-6">
+            The new event standard
+          </h2>
+          <p className="font-inter text-lg text-[hsl(var(--breef-gray))] max-w-2xl mx-auto leading-relaxed">
+            Streamlined event creation, seamless model casting, and effortless ticket management—all in one platform.
+          </p>
+        </div>
+
+        {/* Features List - Breef style */}
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <h3 className="font-inter text-xl font-medium text-[hsl(var(--breef-dark))]">
+                Streamlined Agency Search
+              </h3>
+              <p className="font-inter text-[hsl(var(--breef-gray))] leading-relaxed">
+                Access 500+ verified fashion events and connect with world-class designers in minutes.
+              </p>
+            </div>
+            
+            <div className="space-y-3">
+              <h3 className="font-inter text-xl font-medium text-[hsl(var(--breef-dark))]">
+                Vetted Agency Credentials
+              </h3>
+              <p className="font-inter text-[hsl(var(--breef-gray))] leading-relaxed">
+                Every designer and venue is verified for quality and professionalism.
+              </p>
+            </div>
+            
+            <div className="space-y-3">
+              <h3 className="font-inter text-xl font-medium text-[hsl(var(--breef-dark))]">
+                Guided Project Pricing
+              </h3>
+              <p className="font-inter text-[hsl(var(--breef-gray))] leading-relaxed">
+                Transparent pricing with no hidden fees. Book tickets and services with confidence.
+              </p>
             </div>
           </div>
 
-          {/* Content */}
-          <div className="order-1 lg:order-2 space-y-6">
-            <div className="space-y-4">
-              <Badge variant="outline" className="font-inter">
-                <Award className="w-4 h-4 mr-2" />
-                About Fashionistas
-              </Badge>
-              
-              <h2 className="font-playfair text-4xl lg:text-5xl font-bold text-foreground">
-                The Premier Hub for
-                <span className="block text-foreground">Fashion Events</span>
-              </h2>
-              
-              <p className="font-inter text-lg text-muted-foreground leading-relaxed">
-                Fashionistas is Colombia's leading platform connecting fashion professionals, 
-                designers, and enthusiasts through exclusive events, runway shows, and 
-                industry experiences.
-              </p>
-              
-              <p className="font-inter text-muted-foreground">
-                From emerging designer showcases to haute couture presentations, 
-                we curate the most prestigious fashion events while providing 
-                seamless booking experiences for attendees and comprehensive 
-                management tools for organizers.
-              </p>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 py-6">
-              <div className="text-center">
-                <div className="font-playfair text-2xl font-bold text-foreground">500+</div>
-                <div className="font-inter text-sm text-muted-foreground">Events Created</div>
-              </div>
-              <div className="text-center">
-                <div className="font-playfair text-2xl font-bold text-foreground">50K+</div>
-                <div className="font-inter text-sm text-muted-foreground">Attendees</div>
-              </div>
-              <div className="text-center">
-                <div className="font-playfair text-2xl font-bold text-foreground">200+</div>
-                <div className="font-inter text-sm text-muted-foreground">Designers</div>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="font-inter">
-                <Link to="/events">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Browse Events
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="font-inter">
-                <Link to="/designers">
-                  <Users className="w-4 h-4 mr-2" />
-                  Meet Our Designers
-                </Link>
-              </Button>
-            </div>
+          {/* Image */}
+          <div className="relative">
+            <img
+              src={heroImage}
+              alt="Fashion event management"
+              className="w-full h-full min-h-[400px] object-cover rounded-2xl shadow-card"
+            />
           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <Link to="/create-event">
+            <Button 
+              size="lg" 
+              className="font-inter h-12 px-8 bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white rounded-full shadow-md"
+            >
+              Get Started
+            </Button>
+          </Link>
+          <p className="font-inter text-sm text-[hsl(var(--breef-gray))] mt-4">
+            Create your first event in minutes
+          </p>
         </div>
       </div>
     </section>

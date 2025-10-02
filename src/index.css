@@ -11,47 +11,53 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* FashionOS Semantic Design System */
+    /* FashionOS Semantic Design System - Breef Inspired */
+    
+    /* Breef Core Colors */
+    --breef-cream: 30 20% 98%;       /* #FAF8F5 */
+    --breef-orange: 14 85% 54%;      /* #E85C2B */
+    --breef-dark: 0 0% 10%;          /* #1A1A1A */
+    --breef-gray: 0 0% 45%;          /* #737373 */
     
     /* Surfaces */
     --surface-1: 0 0% 100%;          /* #FFFFFF */
-    --surface-2: 220 14% 98%;        /* #F8F9FB */
+    --surface-2: 30 15% 96%;         /* Light cream surface */
     
     /* Text Hierarchy */
-    --text-primary: 210 11% 6%;      /* #101010 */
-    --text-muted: 218 11% 42%;       /* #6B7280 */
+    --text-primary: 0 0% 10%;        /* Dark text */
+    --text-muted: 0 0% 45%;          /* Muted gray text */
     
-    /* Borders */
-    --border-strong: 220 13% 91%;    /* #E5E7EB */
+    /* Borders - Subtle Breef style */
+    --border-strong: 0 0% 88%;       /* #E5E5E5 */
     
     /* Actions & Semantic Colors */
-    --action: 43 96% 56%;            /* #F59E0B - Orange CTA */
+    --action: 14 85% 54%;            /* Breef Orange CTA */
     --success: 142 71% 45%;          /* #16A34A */
     --warning: 43 96% 56%;           /* #F59E0B */
     --danger: 0 84% 60%;             /* #EF4444 */
     --info: 217 91% 60%;             /* #3B82F6 */
     
     /* Focus & Interaction */
-    --focus-ring: 217 91% 60%;       /* Blue focus ring */
+    --focus-ring: 14 85% 54%;        /* Orange focus ring */
 
     /* Shadcn Compatibility Layer */
-    --background: var(--surface-1);
+    --background: var(--breef-cream);
     --foreground: var(--text-primary);
     --card: var(--surface-1);
     --card-foreground: var(--text-primary);
     --popover: var(--surface-1);
     --popover-foreground: var(--text-primary);
 
-    --primary: var(--text-primary);
+    --primary: var(--breef-dark);
     --primary-foreground: var(--surface-1);
-    --brand: var(--text-primary);
+    --brand: var(--breef-orange);
     --brand-foreground: var(--surface-1);
 
     --secondary: var(--surface-2);
     --secondary-foreground: var(--text-primary);
     --muted: var(--surface-2);
     --muted-foreground: var(--text-muted);
-    --accent: var(--action);
+    --accent: var(--breef-orange);
     --accent-foreground: 0 0% 100%;
 
     --success-foreground: 0 0% 100%;
@@ -65,19 +71,19 @@ All colors MUST be HSL.
     --input: var(--border-strong);
     --ring: var(--focus-ring);
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
     /* Modern Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)));
-    --gradient-brand: linear-gradient(135deg, hsl(var(--brand)), hsl(var(--primary)));
-    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
-    --gradient-surface: linear-gradient(135deg, hsl(var(--card)), hsl(var(--muted) / 0.3));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--breef-cream)), hsl(var(--surface-1)));
+    --gradient-brand: linear-gradient(135deg, hsl(var(--breef-orange)), hsl(var(--action)));
+    --gradient-card: linear-gradient(180deg, hsl(var(--card)), hsl(var(--breef-cream)));
+    --gradient-surface: linear-gradient(135deg, hsl(var(--card)), hsl(var(--surface-2)));
 
-    /* Sophisticated Shadows */
-    --shadow-subtle: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 0 1px 2px 0 hsl(var(--foreground) / 0.06);
-    --shadow-moderate: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -1px hsl(var(--foreground) / 0.06);
-    --shadow-prominent: 0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -2px hsl(var(--foreground) / 0.05);
-    --shadow-dramatic: 0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 10px 10px -5px hsl(var(--foreground) / 0.04);
+    /* Breef-Style Soft Shadows */
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.04);
+    --shadow-card: 0 2px 8px 0 rgb(0 0 0 / 0.08);
+    --shadow-hover: 0 4px 16px 0 rgb(0 0 0 / 0.12);
+    --shadow-elegant: 0 8px 24px -8px rgb(0 0 0 / 0.15);
 
     /* Smooth Animations */
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);

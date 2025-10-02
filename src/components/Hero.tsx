@@ -9,92 +9,100 @@ import heroImageFallback from "@/assets/hero-runway-new.jpg";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero -mt-16 lg:-mt-20">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img 
-          src={fashionImages.hero.main || heroImageFallback} 
-          alt="Fashion runway show"
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = heroImageFallback;
-          }}
-        />
-        {/* Dark overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/50"></div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-left">
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Badge */}
-          <div className="flex justify-start">
-            <Badge variant="secondary" className="text-sm font-inter px-4 py-2 bg-white/20 backdrop-blur-sm text-white border-white/30">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Experience Fashion Live
-            </Badge>
-          </div>
-
-          {/* Main Heading - Thin and elegant styling */}
-          <div className="space-y-6">
-            <h1 className="font-inter text-3xl md:text-4xl lg:text-5xl font-thin text-white leading-tight drop-shadow-lg text-left">
-              Where Style
-              <span className="block text-white drop-shadow-lg">Meets Excellence</span>
+    <section className="relative bg-[hsl(var(--breef-cream))] py-20 lg:py-32 -mt-16 lg:-mt-20 pt-32 lg:pt-40">
+      <div className="container mx-auto px-4">
+        <div className="max-w-5xl mx-auto">
+          {/* Main Heading - Breef Style: Clean, centered, large */}
+          <div className="text-center space-y-8 mb-16">
+            <h1 className="font-inter text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[hsl(var(--breef-dark))] leading-tight tracking-tight">
+              The easiest way to find a{" "}
+              <span className="text-[hsl(var(--breef-orange))] font-normal">fashion event</span>
             </h1>
-            <p className="font-inter text-xl md:text-2xl text-white/90 max-w-2xl drop-shadow-md text-left">
-              Discover exclusive fashion events, connect with world-class designers, 
-              and experience the future of haute couture.
+            <p className="font-inter text-lg md:text-xl text-[hsl(var(--breef-gray))] max-w-2xl mx-auto leading-relaxed">
+              Access exclusive fashion experiences from world-class designers. Curated for style enthusiasts.
             </p>
+            
+            {/* CTA Buttons - Breef pill style */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <Link to="/create-event" className="w-full sm:w-auto">
+                <Button 
+                  size="lg" 
+                  className="font-inter h-12 px-8 text-base bg-[hsl(var(--breef-orange))] text-white hover:bg-[hsl(var(--breef-orange))]/90 rounded-full transition-all duration-300 w-full sm:w-auto shadow-md"
+                >
+                  Create Event
+                </Button>
+              </Link>
+              <Link to="/events" className="w-full sm:w-auto">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="font-inter h-12 px-8 text-base border-2 border-[hsl(var(--breef-dark))]/20 bg-white text-[hsl(var(--breef-dark))] hover:bg-[hsl(var(--surface-2))] rounded-full transition-all duration-300 w-full sm:w-auto"
+                >
+                  Browse Events
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* CTA Buttons - Minimalist styling */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full pt-4">
-            <Link to="/events" className="w-full sm:w-auto flex justify-center">
-              <Button 
-                size="lg" 
-                className="font-inter h-12 px-8 text-base bg-white text-black hover:bg-gray-100 transition-all duration-300 w-full sm:w-auto"
-              >
-                <Calendar className="w-5 h-5 mr-2" />
-                Explore Events
-              </Button>
-            </Link>
-            <Link to="/designers" className="w-full sm:w-auto flex justify-center">
-              <Button 
+          {/* Category Pills - Breef style */}
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            {["Runway", "Pop-Ups", "Exhibitions", "Fashion Week", "Designer"].map((cat) => (
+              <Badge 
+                key={cat}
                 variant="outline" 
-                size="lg" 
-                className="font-inter h-12 px-8 text-base border-2 border-black bg-black text-white hover:bg-gray-900 hover:border-gray-800 transition-all duration-300 w-full sm:w-auto"
+                className="px-4 py-2 text-sm font-inter border-[hsl(var(--border))] bg-white hover:border-[hsl(var(--breef-orange))] transition-colors cursor-pointer rounded-full"
               >
-                <MapPin className="w-5 h-5 mr-2" />
-                Find Designers
-              </Button>
-            </Link>
+                {cat}
+              </Badge>
+            ))}
           </div>
 
-          {/* Stats - Improved spacing and contrast */}
-          <div className="grid grid-cols-3 gap-8 pt-12 mt-12 border-t border-white/20">
-            <div className="text-center lg:text-left space-y-2">
-              <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
-                500+
+          {/* Image Grid - Breef style horizontal scroll */}
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin mb-16">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden shadow-card">
+                <img 
+                  src={fashionImages.hero.main || heroImageFallback}
+                  alt={`Fashion event ${i}`}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = heroImageFallback;
+                  }}
+                />
               </div>
-              <div className="font-inter text-base md:text-lg text-white/80 drop-shadow-md">
-                Fashion Events
+            ))}
+          </div>
+
+          {/* Stats - Breef style centered blocks */}
+          <div className="text-center space-y-6 py-12">
+            <p className="font-inter text-sm text-[hsl(var(--breef-gray))] uppercase tracking-wider">
+              We're here to help your fashion event shine
+            </p>
+            <div className="flex flex-wrap justify-center gap-12">
+              <div className="space-y-1">
+                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+                  500+
+                </div>
+                <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+                  Fashion Events
+                </div>
               </div>
-            </div>
-            <div className="text-center lg:text-left space-y-2">
-              <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
-                200+
+              <div className="space-y-1">
+                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+                  200+
+                </div>
+                <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+                  Designers
+                </div>
               </div>
-              <div className="font-inter text-base md:text-lg text-white/80 drop-shadow-md">
-                World-Class Designers
-              </div>
-            </div>
-            <div className="text-center lg:text-left space-y-2">
-              <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
-                50+
-              </div>
-              <div className="font-inter text-base md:text-lg text-white/80 drop-shadow-md">
-                Global Cities
+              <div className="space-y-1">
+                <div className="font-inter text-4xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+                  50+
+                </div>
+                <div className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+                  Cities
+                </div>
               </div>
             </div>
           </div>

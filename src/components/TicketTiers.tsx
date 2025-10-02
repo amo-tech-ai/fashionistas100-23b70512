@@ -55,73 +55,68 @@ const tiers = [
 
 export const TicketTiers = () => {
   return (
-    <section className="py-16 px-4 bg-background">
-      <div className="container mx-auto">
-        {/* Section Header */}
-        <div className="text-center space-y-4 mb-12">
-          <Badge variant="secondary" className="font-inter">
-            <Ticket className="w-4 h-4 mr-2" />
-            Ticket Tiers
-          </Badge>
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground">
-            Choose Your
-            <span className="block text-accent">Fashion Experience</span>
+    <section className="py-20 px-4 bg-[hsl(var(--breef-cream))]">
+      <div className="container mx-auto max-w-6xl">
+        {/* Section Header - Breef Style */}
+        <div className="text-center space-y-6 mb-16">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+            Choose your experience
           </h2>
-          <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-            Select the perfect tier for your fashion journey. From essential access to ultimate luxury experiences.
+          <p className="font-inter text-lg text-[hsl(var(--breef-gray))] max-w-2xl mx-auto">
+            From essential access to VIP experiences—find the perfect ticket tier for your fashion journey.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        {/* Pricing Cards - Breef Style: Clean 3-column */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {tiers.map((tier) => {
             const IconComponent = tier.icon;
             return (
               <Card 
                 key={tier.name} 
-                className={`relative ${tier.popular ? 'ring-2 ring-accent shadow-hover' : 'shadow-card'} hover:shadow-hover transition-smooth`}
+                className={`relative bg-white rounded-2xl shadow-card hover:shadow-hover transition-all ${tier.popular ? 'ring-2 ring-[hsl(var(--breef-orange))]' : ''}`}
               >
                 {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <Badge variant="default" className="bg-accent text-accent-foreground">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-[hsl(var(--breef-orange))] text-white border-0 px-4">
                       Most Popular
                     </Badge>
                   </div>
                 )}
                 
-                <CardHeader className="text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto bg-gradient-accent rounded-full flex items-center justify-center">
-                    <IconComponent className="w-8 h-8 text-white" />
-                  </div>
+                <CardHeader className="text-center space-y-4 p-8">
                   <div>
-                    <CardTitle className="font-playfair text-2xl font-bold text-foreground">
+                    <CardTitle className="font-inter text-2xl font-medium text-[hsl(var(--breef-dark))] mb-4">
                       {tier.name}
                     </CardTitle>
-                    <div className="mt-2">
-                      <span className="font-playfair text-4xl font-bold text-accent">
+                    <div className="mb-2">
+                      <span className="font-inter text-5xl font-light text-[hsl(var(--breef-dark))]">
                         {tier.price}
                       </span>
-                      <span className="text-muted-foreground ml-1">/event</span>
+                      <span className="text-[hsl(var(--breef-gray))] text-sm">/event</span>
                     </div>
-                    <p className="font-inter text-sm text-muted-foreground mt-2">
+                    <p className="font-inter text-sm text-[hsl(var(--breef-gray))] mt-3">
                       {tier.description}
                     </p>
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-6 p-8 pt-0">
                   <ul className="space-y-3">
                     {tier.features.map((feature, index) => (
                       <li key={index} className="flex items-start space-x-3">
-                        <Check className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
-                        <span className="font-inter text-sm text-foreground">{feature}</span>
+                        <Check className="w-5 h-5 text-[hsl(var(--breef-orange))] mt-0.5 flex-shrink-0" />
+                        <span className="font-inter text-sm text-[hsl(var(--breef-dark))]">{feature}</span>
                       </li>
                     ))}
                   </ul>
 
                   <Button 
-                    variant={tier.popular ? "action" : "outline"} 
-                    className="w-full font-inter"
+                    className={`w-full font-inter h-12 rounded-full ${
+                      tier.popular 
+                        ? 'bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white' 
+                        : 'bg-white border-2 border-[hsl(var(--border))] text-[hsl(var(--breef-dark))] hover:bg-[hsl(var(--surface-2))]'
+                    }`}
                     size="lg"
                   >
                     Select {tier.name}

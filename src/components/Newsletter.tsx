@@ -19,113 +19,107 @@ export const Newsletter = () => {
   };
 
   return (
-    <section className="py-16 px-4 bg-gray-50">
-      <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Header */}
-          <div className="space-y-4 mb-8">
-            <Badge variant="outline" className="font-inter">
-              <Mail className="w-4 h-4 mr-2" />
-              Stay Connected
-            </Badge>
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground">
-              Fashion Industry
-              <span className="block text-foreground">Insider Updates</span>
-            </h2>
-            <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-              Get exclusive access to fashion week schedules, designer spotlights, 
-              and early-bird ticket releases delivered directly to your inbox.
+    <section className="py-20 px-4 bg-white">
+      <div className="container mx-auto max-w-4xl">
+        {/* Header - Breef Style */}
+        <div className="text-center space-y-6 mb-12">
+          <h2 className="font-inter text-3xl md:text-5xl font-light text-[hsl(var(--breef-dark))]">
+            Stay in the loop
+          </h2>
+          <p className="font-inter text-lg text-[hsl(var(--breef-gray))] max-w-2xl mx-auto">
+            Get exclusive access to fashion week schedules, designer spotlights, and early-bird ticket releases.
+          </p>
+        </div>
+
+        {/* Newsletter Form - Breef card style */}
+        <div className="bg-[hsl(var(--breef-cream))] rounded-2xl p-8 md:p-12 shadow-card">
+          {isSubscribed ? (
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-8 h-8 text-[hsl(var(--breef-orange))]" />
+              </div>
+              <h3 className="font-inter text-2xl font-medium text-[hsl(var(--breef-dark))]">
+                You're all set!
+              </h3>
+              <p className="font-inter text-[hsl(var(--breef-gray))]">
+                Check your email for confirmation and exclusive content.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 font-inter h-12 rounded-full bg-white border-[hsl(var(--border))] focus:border-[hsl(var(--breef-orange))]"
+                  required
+                />
+                <Button 
+                  type="submit" 
+                  className="font-inter h-12 px-8 bg-[hsl(var(--breef-orange))] hover:bg-[hsl(var(--breef-orange))]/90 text-white rounded-full whitespace-nowrap"
+                >
+                  Subscribe
+                </Button>
+              </div>
+              
+              <p className="font-inter text-xs text-[hsl(var(--breef-gray))] text-center">
+                Join 50,000+ fashion professionals. Unsubscribe anytime.
+              </p>
+            </form>
+          )}
+        </div>
+
+        {/* Benefits - Breef style icon grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
+            </div>
+            <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+              Exclusive Events
+            </h3>
+            <p className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+              First access to limited fashion shows
             </p>
           </div>
-
-          {/* Benefits Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white rounded-xl p-6 shadow-md text-center">
-              <div className="w-12 h-12 mx-auto bg-foreground/10 rounded-full flex items-center justify-center mb-3">
-                <Sparkles className="w-6 h-6 text-foreground" />
-              </div>
-              <h3 className="font-playfair text-lg font-semibold text-foreground mb-2">
-                Exclusive Events
-              </h3>
-              <p className="font-inter text-sm text-muted-foreground">
-                First access to limited fashion shows and designer collaborations
-              </p>
+          
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
+              <Mail className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
             </div>
-            
-            <div className="bg-white rounded-xl p-6 shadow-md text-center">
-              <div className="w-12 h-12 mx-auto bg-foreground/10 rounded-full flex items-center justify-center mb-3">
-                <Mail className="w-6 h-6 text-foreground" />
-              </div>
-              <h3 className="font-playfair text-lg font-semibold text-foreground mb-2">
-                Industry Insights
-              </h3>
-              <p className="font-inter text-sm text-muted-foreground">
-                Curated content from fashion weeks around the world
-              </p>
-            </div>
-            
-            <div className="bg-white rounded-xl p-6 shadow-md text-center">
-              <div className="w-12 h-12 mx-auto bg-foreground/10 rounded-full flex items-center justify-center mb-3">
-                <CheckCircle2 className="w-6 h-6 text-foreground" />
-              </div>
-              <h3 className="font-playfair text-lg font-semibold text-foreground mb-2">
-                Early Access
-              </h3>
-              <p className="font-inter text-sm text-muted-foreground">
-                Priority booking for VIP experiences and designer meet-and-greets
-              </p>
-            </div>
-          </div>
-
-          {/* Newsletter Form */}
-          <div className="max-w-lg mx-auto">
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              {isSubscribed ? (
-                <div className="text-center space-y-4">
-                  <CheckCircle2 className="w-12 h-12 mx-auto text-foreground" />
-                  <h3 className="font-playfair text-xl font-semibold text-foreground">
-                    Welcome to Fashion Insider!
-                  </h3>
-                  <p className="font-inter text-muted-foreground">
-                    Check your email for confirmation and exclusive content.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Input
-                      type="email"
-                      placeholder="Enter your email address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 font-inter"
-                      required
-                    />
-                    <Button type="submit" className="font-inter whitespace-nowrap">
-                      Subscribe Now
-                    </Button>
-                  </div>
-                  
-                  <p className="font-inter text-xs text-muted-foreground text-center">
-                    Join 50,000+ fashion professionals. Unsubscribe anytime.
-                  </p>
-                </form>
-              )}
-            </div>
-          </div>
-
-          {/* Social Proof */}
-          <div className="mt-8 pt-8 border-t border-muted/20">
-            <p className="font-inter text-sm text-muted-foreground mb-4">
-              Trusted by fashion professionals from:
+            <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+              Industry Insights
+            </h3>
+            <p className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+              Curated content from fashion weeks
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 text-muted-foreground/60">
-              <span className="font-playfair text-lg">Vogue</span>
-              <span className="font-playfair text-lg">Harper's Bazaar</span>
-              <span className="font-playfair text-lg">Elle</span>
-              <span className="font-playfair text-lg">GQ</span>
-              <span className="font-playfair text-lg">Marie Claire</span>
+          </div>
+          
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 mx-auto bg-[hsl(var(--breef-orange))]/10 rounded-full flex items-center justify-center">
+              <CheckCircle2 className="w-6 h-6 text-[hsl(var(--breef-orange))]" />
             </div>
+            <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
+              Early Access
+            </h3>
+            <p className="font-inter text-sm text-[hsl(var(--breef-gray))]">
+              Priority booking for VIP experiences
+            </p>
+          </div>
+        </div>
+
+        {/* Trust badges */}
+        <div className="text-center mt-12 pt-12 border-t border-[hsl(var(--border))]">
+          <p className="font-inter text-sm text-[hsl(var(--breef-gray))] mb-6">
+            Trusted by professionals from
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8 text-[hsl(var(--breef-gray))]/60">
+            <span className="font-inter text-base">Vogue</span>
+            <span className="font-inter text-base">Harper's Bazaar</span>
+            <span className="font-inter text-base">Elle</span>
+            <span className="font-inter text-base">GQ</span>
           </div>
         </div>
       </div>
