@@ -33,9 +33,9 @@ const categories = [
 export const CategoryCards = () => {
   return (
     <section className="py-20 px-4 bg-[hsl(var(--breef-dark))]">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="font-inter text-3xl md:text-5xl font-light text-white mb-4">
+      <div className="container mx-auto max-w-7xl">
+        <div className="text-center mb-16">
+          <h2 className="font-playfair text-4xl md:text-5xl font-light text-white mb-4">
             Explore by category
           </h2>
           <p className="font-inter text-lg text-white/70">
@@ -43,30 +43,56 @@ export const CategoryCards = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-          {categories.map((category) => (
-            <Link key={category.name} to={category.link}>
-              <Card className="relative group overflow-hidden bg-white border-[hsl(var(--border))] hover:border-[hsl(var(--breef-orange))] transition-all duration-300 hover:shadow-hover cursor-pointer h-full">
-                <div className="p-6 flex flex-col justify-center text-center space-y-2 h-full min-h-[140px]">
-                  <h3 className="font-inter text-lg font-medium text-[hsl(var(--breef-dark))]">
-                    {category.name}
-                  </h3>
-                  <p className="font-inter text-xs text-[hsl(var(--breef-gray))]">
-                    {category.description}
-                  </p>
-                </div>
-              </Card>
-            </Link>
-          ))}
+        {/* Desktop & Tablet Grid - Mobile Scrollable */}
+        <div className="mb-12">
+          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {categories.map((category) => (
+              <Link key={category.name} to={category.link} className="group">
+                <Card className="relative overflow-hidden bg-white border border-gray-200 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[hsl(var(--breef-orange))] cursor-pointer h-full">
+                  <div className="p-8 flex flex-col justify-center text-center space-y-3 h-full min-h-[180px]">
+                    <h3 className="font-playfair text-xl font-semibold text-[hsl(var(--breef-dark))] group-hover:text-[hsl(var(--breef-orange))] transition-colors">
+                      {category.name}
+                    </h3>
+                    <p className="font-inter text-sm text-gray-600 leading-relaxed">
+                      {category.description}
+                    </p>
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Carousel */}
+          <div className="md:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-4 pb-4">
+              {categories.map((category) => (
+                <Link key={category.name} to={category.link} className="group flex-shrink-0 w-[280px]">
+                  <Card className="relative overflow-hidden bg-white border border-gray-200 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[hsl(var(--breef-orange))] cursor-pointer h-full">
+                    <div className="p-8 flex flex-col justify-center text-center space-y-3 h-full min-h-[180px]">
+                      <h3 className="font-playfair text-xl font-semibold text-[hsl(var(--breef-dark))] group-hover:text-[hsl(var(--breef-orange))] transition-colors">
+                        {category.name}
+                      </h3>
+                      <p className="font-inter text-sm text-gray-600 leading-relaxed">
+                        {category.description}
+                      </p>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-right">
           <Link 
             to="/events" 
-            className="font-inter text-sm text-[hsl(var(--breef-orange))] hover:text-white inline-flex items-center gap-2 transition-colors"
+            className="group font-inter text-sm text-[hsl(var(--breef-orange))] hover:text-white inline-flex items-center gap-2 transition-colors relative"
           >
-            See All Categories
-            <ArrowRight className="w-4 h-4" />
+            <span className="relative">
+              See All Categories
+              <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+            </span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>
