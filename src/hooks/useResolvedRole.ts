@@ -15,10 +15,11 @@ interface ResolvedRoleData {
 /**
  * Hook to resolve user role with proper precedence:
  * 1. Clerk organization role (if in org)
- * 2. Supabase profile role
+ * 2. Supabase user_roles table (NEW - secure approach)
  * 3. Clerk public metadata role
  * 
  * Automatically syncs Clerk → Supabase on first load
+ * NOW USES: user_roles table for security (not profiles.role)
  */
 export function useResolvedRole(): ResolvedRoleData {
   const { isLoaded: authLoaded, userId } = useAuth();
@@ -41,31 +42,21 @@ export function useResolvedRole(): ResolvedRoleData {
         return 'admin' as UserRole;
       }
 
-      // 2. Fetch Supabase profile using clerk_id (not user_id!)
+      // 2. Get profile ID first
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('role, id, email')
-        .eq('clerk_id', userId) // Use clerk_id to match Clerk's user ID
-        .maybeSingle(); // Use maybeSingle() to avoid errors when no profile exists
+        .select('id, email, first_name, last_name')
+        .eq('clerk_id', userId)
+        .maybeSingle();
 
       if (profileError) {
         console.error('❌ Error fetching profile:', profileError);
         throw profileError;
       }
 
-      // If profile exists, use that role
-      if (profile?.role) {
-        console.log('✅ Found existing profile with role:', profile.role);
-        return profile.role as UserRole;
-      }
-
-      // 3. Fallback to Clerk metadata
-      const clerkRole = user.publicMetadata?.role as UserRole | undefined;
-      console.log('📝 Clerk metadata role:', clerkRole);
-
-      // 4. If no profile exists, create one with Clerk metadata or default
+      // 3. If profile doesn't exist, create it
       if (!profile) {
-        const newRole = clerkRole || ROLES.ATTENDEE;
+        const newRole = (user.publicMetadata?.role as UserRole) || ROLES.ATTENDEE;
         const nameParts = user.fullName?.split(' ') || [];
         
         console.log('🆕 Creating new profile with role:', newRole);
@@ -73,27 +64,69 @@ export function useResolvedRole(): ResolvedRoleData {
         const { data: newProfile, error: insertError } = await supabase
           .from('profiles')
           .insert([{
-            clerk_id: userId, // Use clerk_id, not user_id
-            user_id: userId, // Also set user_id for backwards compatibility
-            role: newRole as any,
+            clerk_id: userId,
+            user_id: userId,
             email: user.primaryEmailAddress?.emailAddress || '',
             first_name: nameParts[0] || '',
             last_name: nameParts.slice(1).join(' ') || null,
           }])
-          .select()
+          .select('id')
           .single();
 
         if (insertError) {
           console.error('❌ Failed to create profile:', insertError);
-          // Don't throw - return the role anyway
           return newRole;
         }
 
-        console.log('✅ Profile created successfully:', newProfile);
+        // Create user_role entry
+        const { error: roleError } = await supabase
+          .from('user_roles')
+          .insert([{
+            profile_id: newProfile.id,
+            role: newRole,
+          }]);
+
+        if (roleError) {
+          console.error('❌ Failed to create user_role:', roleError);
+        }
+
+        console.log('✅ Profile and role created successfully');
         return newRole;
       }
 
-      return clerkRole || ROLES.ATTENDEE;
+      // 4. Fetch role from user_roles table (NEW SECURE APPROACH)
+      const { data: userRole, error: roleError } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('profile_id', profile.id)
+        .maybeSingle();
+
+      if (roleError) {
+        console.error('❌ Error fetching user role:', roleError);
+        throw roleError;
+      }
+
+      if (userRole?.role) {
+        console.log('✅ Found role in user_roles table:', userRole.role);
+        return userRole.role as UserRole;
+      }
+
+      // 5. Fallback: Create role entry from Clerk metadata
+      const clerkRole = (user.publicMetadata?.role as UserRole) || ROLES.ATTENDEE;
+      console.log('📝 Creating role from Clerk metadata:', clerkRole);
+
+      const { error: createRoleError } = await supabase
+        .from('user_roles')
+        .insert([{
+          profile_id: profile.id,
+          role: clerkRole,
+        }]);
+
+      if (createRoleError) {
+        console.error('❌ Failed to create role:', createRoleError);
+      }
+
+      return clerkRole;
     },
     enabled: authLoaded && !!userId,
     staleTime: 5 * 60 * 1000, // 5 minutes
