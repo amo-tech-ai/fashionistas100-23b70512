@@ -2169,6 +2169,10 @@ export type Database = {
           venue_name: string
         }[]
       }
+      get_dashboard_analytics: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown[]
+      }
       get_dashboard_metrics: {
         Args: { p_organization_id: string }
         Returns: {
