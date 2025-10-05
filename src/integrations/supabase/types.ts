@@ -1293,6 +1293,45 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          profile_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          profile_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          profile_id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_roles_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       venue_bookings: {
         Row: {
           booking_date: string
@@ -1624,6 +1663,168 @@ export type Database = {
           },
         ]
       }
+      wizard_actions: {
+        Row: {
+          action_name: string
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          params: Json
+          result: Json
+          session_id: string
+          stage: string
+          success: boolean
+        }
+        Insert: {
+          action_name: string
+          created_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          params?: Json
+          result?: Json
+          session_id: string
+          stage: string
+          success?: boolean
+        }
+        Update: {
+          action_name?: string
+          created_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          params?: Json
+          result?: Json
+          session_id?: string
+          stage?: string
+          success?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wizard_actions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "wizard_sessions"
+            referencedColumns: ["session_id"]
+          },
+        ]
+      }
+      wizard_interactions: {
+        Row: {
+          ai_response: string | null
+          created_at: string
+          id: string
+          interaction_type: string
+          metadata: Json
+          session_id: string
+          stage: string
+          user_message: string | null
+        }
+        Insert: {
+          ai_response?: string | null
+          created_at?: string
+          id?: string
+          interaction_type: string
+          metadata?: Json
+          session_id: string
+          stage: string
+          user_message?: string | null
+        }
+        Update: {
+          ai_response?: string | null
+          created_at?: string
+          id?: string
+          interaction_type?: string
+          metadata?: Json
+          session_id?: string
+          stage?: string
+          user_message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wizard_interactions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "wizard_sessions"
+            referencedColumns: ["session_id"]
+          },
+        ]
+      }
+      wizard_sessions: {
+        Row: {
+          completed_at: string | null
+          completion_percentage: number
+          created_at: string
+          current_stage: string
+          data: Json
+          event_id: string | null
+          last_activity_at: string
+          session_id: string
+          started_at: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          completion_percentage?: number
+          created_at?: string
+          current_stage?: string
+          data?: Json
+          event_id?: string | null
+          last_activity_at?: string
+          session_id?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          completion_percentage?: number
+          created_at?: string
+          current_stage?: string
+          data?: Json
+          event_id?: string | null
+          last_activity_at?: string
+          session_id?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wizard_sessions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "event_performance_analytics"
+            referencedColumns: ["event_id"]
+          },
+          {
+            foreignKeyName: "wizard_sessions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wizard_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wizard_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       dashboard_analytics: {
@@ -1782,6 +1983,10 @@ export type Database = {
         Args: { event_uuid: string }
         Returns: number
       }
+      calculate_wizard_completion: {
+        Args: { p_session_id: string }
+        Returns: number
+      }
       can_access_org: {
         Args: { org_id: string }
         Returns: boolean
@@ -1864,6 +2069,10 @@ export type Database = {
       handle_payment_intent_succeeded: {
         Args: { payload: Json }
         Returns: undefined
+      }
+      has_role: {
+        Args: { _role: Database["public"]["Enums"]["app_role"] }
+        Returns: boolean
       }
       is_valid_email: {
         Args: { email: string }
@@ -2013,6 +2222,17 @@ export type Database = {
       }
     }
     Enums: {
+      app_role:
+        | "admin"
+        | "organizer"
+        | "designer"
+        | "model"
+        | "venue"
+        | "vendor"
+        | "sponsor"
+        | "media"
+        | "buyer"
+        | "attendee"
       booking_status: "pending" | "confirmed" | "cancelled" | "completed"
       designer_tier: "emerging" | "established" | "luxury"
       event_status: "draft" | "published" | "cancelled" | "completed"
@@ -2162,6 +2382,18 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: [
+        "admin",
+        "organizer",
+        "designer",
+        "model",
+        "venue",
+        "vendor",
+        "sponsor",
+        "media",
+        "buyer",
+        "attendee",
+      ],
       booking_status: ["pending", "confirmed", "cancelled", "completed"],
       designer_tier: ["emerging", "established", "luxury"],
       event_status: ["draft", "published", "cancelled", "completed"],
