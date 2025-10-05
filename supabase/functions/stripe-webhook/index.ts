@@ -1,24 +1,37 @@
 // Supabase Edge Function for Stripe Webhook
-// Deploy this to: supabase/functions/stripe-webhook/index.ts
+// Handles payment_intent events and updates bookings/payments tables
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import Stripe from 'https://esm.sh/stripe@13.10.0?target=deno'
+import Stripe from 'https://esm.sh/stripe@14.21.0?target=deno'
 
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
   apiVersion: '2023-10-16',
   httpClient: Stripe.createFetchHttpClient(),
 })
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, content-type, stripe-signature',
+}
+
 const supabaseUrl = Deno.env.get('SUPABASE_URL') || ''
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || ''
 const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET') || ''
 
 serve(async (req) => {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders })
+  }
+
   try {
     // Only allow POST requests
     if (req.method !== 'POST') {
-      return new Response('Method not allowed', { status: 405 })
+      return new Response('Method not allowed', { 
+        status: 405,
+        headers: corsHeaders 
+      })
     }
 
     // Get the signature from headers
@@ -46,65 +59,90 @@ serve(async (req) => {
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent
-        console.log('💰 Payment received:', paymentIntent.id)
+        const bookingId = paymentIntent.metadata.booking_id
         
-        // Update purchased_tickets table
-        const { error } = await supabase
-          .from('purchased_tickets')
-          .update({ 
-            status: 'confirmed',
-            payment_status: 'paid',
-            stripe_payment_intent_id: paymentIntent.id,
-            updated_at: new Date().toISOString()
-          })
-          .eq('payment_intent_id', paymentIntent.id)
+        console.log('💰 Payment succeeded:', paymentIntent.id, 'Booking:', bookingId)
         
-        if (error) {
-          console.error('Error updating ticket:', error)
+        if (bookingId) {
+          // Update or create payment record
+          const { error: paymentError } = await supabase
+            .from('payments')
+            .upsert({
+              booking_id: bookingId,
+              stripe_payment_intent_id: paymentIntent.id,
+              amount_cents: paymentIntent.amount,
+              currency: paymentIntent.currency,
+              status: 'succeeded',
+              payment_method: 'card',
+              updated_at: new Date().toISOString()
+            }, {
+              onConflict: 'stripe_payment_intent_id'
+            })
+          
+          if (paymentError) {
+            console.error('❌ Payment update error:', paymentError)
+            throw paymentError
+          }
+
+          // Update booking status to confirmed
+          const { error: bookingError } = await supabase
+            .from('bookings')
+            .update({ 
+              status: 'confirmed',
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', bookingId)
+          
+          if (bookingError) {
+            console.error('❌ Booking update error:', bookingError)
+            throw bookingError
+          }
+
+          console.log('✅ Payment and booking updated successfully')
+        } else {
+          console.warn('⚠️ No booking_id in payment metadata')
         }
-        
-        // Log to payment_logs
-        await supabase.from('payment_logs').insert({
-          payment_intent_id: paymentIntent.id,
-          event_type: event.type,
-          status: 'succeeded',
-          amount: paymentIntent.amount,
-          currency: paymentIntent.currency,
-          metadata: paymentIntent.metadata,
-          created_at: new Date().toISOString()
-        })
         
         break
       }
       
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent
+        const bookingId = paymentIntent.metadata.booking_id
+        
         console.log('❌ Payment failed:', paymentIntent.id)
         
-        // Update ticket status
-        await supabase
-          .from('purchased_tickets')
-          .update({ 
-            status: 'failed',
-            payment_status: 'failed'
-          })
-          .eq('payment_intent_id', paymentIntent.id)
-        
-        // Log failure
-        await supabase.from('payment_logs').insert({
-          payment_intent_id: paymentIntent.id,
-          event_type: event.type,
-          status: 'failed',
-          error_message: paymentIntent.last_payment_error?.message,
-          created_at: new Date().toISOString()
-        })
+        if (bookingId) {
+          // Update payment status
+          const { error } = await supabase
+            .from('payments')
+            .update({ 
+              status: 'failed',
+              failure_reason: paymentIntent.last_payment_error?.message,
+              updated_at: new Date().toISOString()
+            })
+            .eq('stripe_payment_intent_id', paymentIntent.id)
+          
+          if (error) {
+            console.error('❌ Payment failure update error:', error)
+          }
+
+          // Update booking status
+          await supabase
+            .from('bookings')
+            .update({ 
+              status: 'failed',
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', bookingId)
+        }
         
         break
       }
       
-      case 'charge.succeeded': {
-        const charge = event.data.object as Stripe.Charge
-        console.log('💳 Charge succeeded:', charge.id)
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session
+        console.log('✅ Checkout completed:', session.id)
         break
       }
       
@@ -118,28 +156,28 @@ serve(async (req) => {
           .upsert({
             stripe_customer_id: customer.id,
             email: customer.email,
-            name: customer.name,
-            metadata: customer.metadata,
             updated_at: new Date().toISOString()
+          }, {
+            onConflict: 'stripe_customer_id'
           })
         
         break
       }
       
       default:
-        console.log(`Unhandled event type: ${event.type}`)
+        console.log(`ℹ️ Unhandled event type: ${event.type}`)
     }
 
     return new Response(JSON.stringify({ received: true }), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
     
   } catch (error) {
-    console.error('Webhook error:', error)
+    console.error('❌ Webhook error:', error)
     return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }
 })

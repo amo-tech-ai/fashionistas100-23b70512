@@ -1,1 +1,4 @@
 project_id = "qydcfiufcoztzymedtbo"
+
+[functions.stripe-webhook]
+verify_jwt = false  # Stripe signature provides authentication
