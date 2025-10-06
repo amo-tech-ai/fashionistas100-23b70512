@@ -1,6 +1,3 @@
-import { useAuth, useUser } from '@clerk/clerk-react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { type Role, ROLES } from '@/lib/roles';
 
 // Re-export for backwards compatibility
@@ -12,15 +9,21 @@ interface ResolvedRoleData {
   error: Error | null;
 }
 
-/**
- * Hook to resolve user role with proper precedence:
- * 1. Clerk organization role (if in org)
- * 2. Supabase user_roles table (NEW - secure approach)
- * 3. Clerk public metadata role
- * 
- * Automatically syncs Clerk → Supabase on first load
- * NOW USES: user_roles table for security (not profiles.role)
- */
+// 🚧 DEV MODE: Clerk disabled temporarily
+export function useResolvedRole(): ResolvedRoleData {
+  // Mock auth - always return organizer role
+  return {
+    role: ROLES.ORGANIZER,
+    isLoading: false,
+    error: null,
+  };
+}
+
+/* ORIGINAL CLERK CODE - COMMENTED OUT FOR DEV
+import { useAuth, useUser } from '@clerk/clerk-react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+
 export function useResolvedRole(): ResolvedRoleData {
   const { isLoaded: authLoaded, userId } = useAuth();
   const { user } = useUser();
@@ -141,14 +144,18 @@ export function useResolvedRole(): ResolvedRoleData {
   };
 }
 
-/**
- * Hook to check if user has specific role
- */
+// 🚧 DEV MODE: Mock role check
 export function useHasRole(requiredRole: Role | Role[]): boolean {
-  const { role } = useResolvedRole();
-  
-  if (!role) return false;
-  
+  const role = ROLES.ORGANIZER;
   const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
   return roles.includes(role);
 }
+
+/* ORIGINAL CLERK CODE - COMMENTED OUT
+export function useHasRole(requiredRole: Role | Role[]): boolean {
+  const { role } = useResolvedRole();
+  if (!role) return false;
+  const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
+  return roles.includes(role);
+}
+*/
