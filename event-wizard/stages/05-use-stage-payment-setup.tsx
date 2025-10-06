@@ -10,41 +10,35 @@ import { useCopilotAction, useCopilotAdditionalInstructions } from "@copilotkit/
 export function useStagePaymentSetup() {
   const { setPaymentMethod, stage, setStage } = useGlobalState();
 
-  useCopilotAdditionalInstructions(
-    {
-      instructions:
-        "CURRENT STATE: Setting up payment processing. Explain that we'll connect their Stripe account to receive payments directly. NO card collection.",
-      available: stage === "paymentSetup" ? "enabled" : "disabled",
-    },
-    [stage],
-  );
+  useCopilotAdditionalInstructions({
+    instructions:
+      "CURRENT STATE: Setting up payment processing. Explain that we'll connect their Stripe account to receive payments directly. NO card collection.",
+    available: stage === "paymentSetup" ? "enabled" : "disabled",
+  });
 
-  useCopilotAction(
-    {
-      name: "connectPayments",
-      description: "Connect Stripe for payment processing",
-      available: stage === "paymentSetup" ? "enabled" : "disabled",
-      renderAndWaitForResponse: ({ respond }) => {
-        return (
-          <StripeConnectSetup
-            onSuccess={(accountId) => {
-              setPaymentMethod({ 
-                type: 'stripe_connect',
-                accountId,
-                onboarded: true 
-              });
-              respond?.("Payment processing connected successfully.");
-              setStage("reviewPublish");
-            }}
-            onSkip={() => {
-              setPaymentMethod({ type: 'manual' });
-              respond?.("Skipped payment setup - you can connect later.");
-              setStage("reviewPublish");
-            }}
-          />
-        );
-      },
+  useCopilotAction({
+    name: "connectPayments",
+    description: "Connect Stripe for payment processing",
+    available: stage === "paymentSetup" ? "enabled" : "disabled",
+    renderAndWaitForResponse: ({ respond }) => {
+      return (
+        <StripeConnectSetup
+          onSuccess={(accountId) => {
+            setPaymentMethod({ 
+              type: 'stripe_connect',
+              accountId,
+              onboarded: true 
+            });
+            respond?.("Payment processing connected successfully.");
+            setStage("reviewPublish");
+          }}
+          onSkip={() => {
+            setPaymentMethod({ type: 'manual' });
+            respond?.("Skipped payment setup - you can connect later.");
+            setStage("reviewPublish");
+          }}
+        />
+      );
     },
-    [stage],
-  );
+  });
 }
