@@ -8,3 +8,6 @@ verify_jwt = false  # Stripe signature provides authentication
 
 [functions.model-casting-agent]
 verify_jwt = true  # Requires authenticated users
+
+[functions.runway-timing-agent]
+verify_jwt = true  # Requires authenticated users

@@ -2,7 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { AIModelCastingPanel } from '@/components/events/AIModelCastingPanel';
+import { AIRunwayTimingPanel } from '@/components/events/AIRunwayTimingPanel';
 import { Loader2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function EventDetail() {
   const { id } = useParams<{ id: string }>();
@@ -43,7 +45,18 @@ export default function EventDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* AI Assistant Sidebar */}
         <aside className="lg:col-span-1">
-          <AIModelCastingPanel eventId={event.id} />
+          <Tabs defaultValue="casting" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="casting">Modelos</TabsTrigger>
+              <TabsTrigger value="timing">Timing</TabsTrigger>
+            </TabsList>
+            <TabsContent value="casting" className="mt-4">
+              <AIModelCastingPanel eventId={event.id} />
+            </TabsContent>
+            <TabsContent value="timing" className="mt-4">
+              <AIRunwayTimingPanel eventId={event.id} />
+            </TabsContent>
+          </Tabs>
         </aside>
         
         {/* Main Event Details */}

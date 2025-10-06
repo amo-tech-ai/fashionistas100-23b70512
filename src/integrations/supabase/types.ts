@@ -1271,6 +1271,66 @@ export type Database = {
           },
         ]
       }
+      runway_schedules: {
+        Row: {
+          ai_optimization_score: number | null
+          ai_reasoning: string | null
+          backstage_calls: Json | null
+          created_at: string
+          designers: Json
+          event_id: string
+          id: string
+          schedule_name: string
+          status: string
+          total_duration_minutes: number
+          transitions: Json | null
+          updated_at: string
+        }
+        Insert: {
+          ai_optimization_score?: number | null
+          ai_reasoning?: string | null
+          backstage_calls?: Json | null
+          created_at?: string
+          designers?: Json
+          event_id: string
+          id?: string
+          schedule_name: string
+          status?: string
+          total_duration_minutes: number
+          transitions?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          ai_optimization_score?: number | null
+          ai_reasoning?: string | null
+          backstage_calls?: Json | null
+          created_at?: string
+          designers?: Json
+          event_id?: string
+          id?: string
+          schedule_name?: string
+          status?: string
+          total_duration_minutes?: number
+          transitions?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "runway_schedules_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "event_performance_analytics"
+            referencedColumns: ["event_id"]
+          },
+          {
+            foreignKeyName: "runway_schedules_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stripe_customers: {
         Row: {
           created_at: string | null

@@ -152,10 +152,12 @@ LIMIT 10;
 
 ## Next Steps - Week 2
 
-### Priority 1: Runway Timing Agent
-- Create `runway_schedules` table
-- Edge function for schedule optimization
-- UI component for timeline view
+✅ **COMPLETED** - See [PHASE-2-COMPLETE.md](./PHASE-2-COMPLETE.md)
+
+### Priority 1: Runway Timing Agent ✅
+- ✅ Create `runway_schedules` table
+- ✅ Edge function for schedule optimization
+- ✅ UI component for timeline view
 
 ### Priority 2: Observability Dashboard
 - Add `/health` endpoint
