@@ -75,9 +75,26 @@
 
 ## How to Test
 
+### 0. Load Sample Data First
+```sql
+-- Run the sample data SQL in Supabase SQL Editor:
+-- File: 100-plan/ai-event-planning/sample-data.sql
+
+-- Creates 3 test events:
+-- • Colombia Fashion Week 2025 (ID: 550e8400-e29b-41d4-a716-446655440001)
+-- • Medellín Fashion Night (ID: 550e8400-e29b-41d4-a716-446655440002)
+-- • Bogotá Bridal Week 2025 (ID: 550e8400-e29b-41d4-a716-446655440003)
+
+-- Creates 10+ sample model castings with:
+-- • Realistic Colombian names (María Fernanda, Valentina, etc.)
+-- • Real-looking agencies (Elite Models Colombia, Stock Models, etc.)
+-- • Various statuses (confirmed, invited, declined, backup)
+-- • AI match scores (85-96%)
+```
+
 ### 1. Navigate to Event Detail Page
 ```
-/events/{event-id}
+/events/550e8400-e29b-41d4-a716-446655440001
 ```
 
 ### 2. Use AI Casting Panel
