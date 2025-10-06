@@ -14,6 +14,10 @@ import Home from "./pages/Home";
 import Events from "./pages/Events";
 import Services from "./pages/Services";
 
+// MVP pages (simplified)
+import EventsMVP from "./pages/EventsMVP";
+import EventDetailMVP from "./pages/EventDetailMVP";
+
 // Lazy load public pages
 const EventDetail = lazy(() => import("./pages/EventDetail"));
 const About = lazy(() => import("./pages/About"));
@@ -70,7 +74,11 @@ function App() {
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/create-event" element={<EventWizard />} />
             
-            {/* Events */}
+            {/* Events - MVP (Simplified) */}
+            <Route path="/mvp/events" element={<EventsMVP />} />
+            <Route path="/mvp/events/:id" element={<EventDetailMVP />} />
+            
+            {/* Events - Full Version */}
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<EventDetail />} />
             
