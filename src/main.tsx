@@ -9,11 +9,21 @@ import { queryClient } from './lib/queryClient'
 import { getClerkPublishableKey } from './lib/clerkKey'
 import { AppWithErrorBoundary } from './components/AppWithErrorBoundary'
 import { registerServiceWorker } from './utils/registerServiceWorker'
+import { MockClerkProvider } from './lib/mock-clerk-provider'
+
+// 🚧 DEV MODE: Check if mock authentication is enabled
+const USE_MOCK_AUTH = import.meta.env.VITE_USE_MOCK_AUTH === 'true';
 
 // Get the appropriate Clerk key based on environment
 const PUBLISHABLE_KEY = getClerkPublishableKey();
 
-console.log('🚀 Main.tsx initializing with Clerk key:', PUBLISHABLE_KEY?.substring(0, 20) + '...');
+if (USE_MOCK_AUTH) {
+  console.log('🚧 DEV MODE: Mock Authentication ENABLED');
+  console.log('🚧 All authentication bypassed - auto-signed in as test organizer');
+  console.log('🚧 To disable: Remove VITE_USE_MOCK_AUTH from .env or set to false');
+} else {
+  console.log('🚀 Main.tsx initializing with Clerk key:', PUBLISHABLE_KEY?.substring(0, 20) + '...');
+}
 
 // Initialize Sentry for error monitoring (early and quiet in dev)
 Sentry.init({
@@ -52,13 +62,23 @@ if (!(container as any).__reactRoot) {
   
   createRoot(container).render(
     <StrictMode>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <AppWithErrorBoundary />
-          </BrowserRouter>
-        </QueryClientProvider>
-      </ClerkProvider>
+      {USE_MOCK_AUTH ? (
+        <MockClerkProvider>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <AppWithErrorBoundary />
+            </BrowserRouter>
+          </QueryClientProvider>
+        </MockClerkProvider>
+      ) : (
+        <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <AppWithErrorBoundary />
+            </BrowserRouter>
+          </QueryClientProvider>
+        </ClerkProvider>
+      )}
     </StrictMode>,
   );
   
