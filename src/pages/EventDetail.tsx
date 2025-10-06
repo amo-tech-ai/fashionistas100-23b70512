@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { AIModelCastingPanel } from '@/components/events/AIModelCastingPanel';
 import { AIRunwayTimingPanel } from '@/components/events/AIRunwayTimingPanel';
 import { AIVendorCoordinatorPanel } from '@/components/events/AIVendorCoordinatorPanel';
+import { EventHealthScorePanel } from '@/components/events/EventHealthScorePanel';
 import { Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -47,10 +48,11 @@ export default function EventDetail() {
         {/* AI Assistant Sidebar */}
         <aside className="lg:col-span-1">
           <Tabs defaultValue="casting" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="casting">Modelos</TabsTrigger>
               <TabsTrigger value="timing">Timing</TabsTrigger>
               <TabsTrigger value="vendors">Proveedores</TabsTrigger>
+              <TabsTrigger value="health">Salud</TabsTrigger>
             </TabsList>
             <TabsContent value="casting" className="mt-4">
               <AIModelCastingPanel eventId={event.id} />
@@ -60,6 +62,9 @@ export default function EventDetail() {
             </TabsContent>
             <TabsContent value="vendors" className="mt-4">
               <AIVendorCoordinatorPanel eventId={event.id} />
+            </TabsContent>
+            <TabsContent value="health" className="mt-4">
+              <EventHealthScorePanel eventId={event.id} />
             </TabsContent>
           </Tabs>
         </aside>

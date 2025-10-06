@@ -17,3 +17,6 @@ verify_jwt = false  # Public health endpoint for monitoring
 
 [functions.vendor-coordinator-agent]
 verify_jwt = true  # Requires authenticated users
+
+[functions.event-health-scorer]
+verify_jwt = true  # Requires authenticated users

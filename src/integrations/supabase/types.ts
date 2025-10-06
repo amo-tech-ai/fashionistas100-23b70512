@@ -710,6 +710,85 @@ export type Database = {
           },
         ]
       }
+      event_health_scores: {
+        Row: {
+          ai_model: string
+          ai_reasoning: string
+          confidence_score: number | null
+          created_at: string
+          event_id: string
+          health_status: string
+          id: string
+          model_casting_score: number
+          organization_id: string
+          overall_score: number
+          recommendations: Json
+          risk_factors: Json
+          ticket_sales_score: number
+          timeline_score: number
+          updated_at: string
+          vendor_readiness_score: number
+        }
+        Insert: {
+          ai_model?: string
+          ai_reasoning: string
+          confidence_score?: number | null
+          created_at?: string
+          event_id: string
+          health_status: string
+          id?: string
+          model_casting_score: number
+          organization_id: string
+          overall_score: number
+          recommendations?: Json
+          risk_factors?: Json
+          ticket_sales_score: number
+          timeline_score: number
+          updated_at?: string
+          vendor_readiness_score: number
+        }
+        Update: {
+          ai_model?: string
+          ai_reasoning?: string
+          confidence_score?: number | null
+          created_at?: string
+          event_id?: string
+          health_status?: string
+          id?: string
+          model_casting_score?: number
+          organization_id?: string
+          overall_score?: number
+          recommendations?: Json
+          risk_factors?: Json
+          ticket_sales_score?: number
+          timeline_score?: number
+          updated_at?: string
+          vendor_readiness_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_health_scores_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "event_performance_analytics"
+            referencedColumns: ["event_id"]
+          },
+          {
+            foreignKeyName: "event_health_scores_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_health_scores_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       event_tickets: {
         Row: {
           created_at: string
