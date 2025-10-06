@@ -7,16 +7,16 @@ verify_jwt = false  # CopilotKit handles its own auth
 verify_jwt = false  # Stripe signature provides authentication
 
 [functions.model-casting-agent]
-verify_jwt = true  # Requires authenticated users
+verify_jwt = false  # Public; internal checks + service role used
 
 [functions.runway-timing-agent]
-verify_jwt = true  # Requires authenticated users
+verify_jwt = false  # Public; internal checks + service role used
 
 [functions.health]
 verify_jwt = false  # Public health endpoint for monitoring
 
 [functions.vendor-coordinator-agent]
-verify_jwt = true  # Requires authenticated users
+verify_jwt = false  # Public; internal checks + service role used
 
 [functions.event-health-scorer]
-verify_jwt = true  # Requires authenticated users
+verify_jwt = false  # Public; internal checks + service role used

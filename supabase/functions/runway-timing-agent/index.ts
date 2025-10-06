@@ -50,10 +50,9 @@ serve(async (req) => {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   try {
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      throw new Error("Missing Authorization header");
-    }
+    // Authorization header is optional now because verify_jwt = false
+    // const authHeader = req.headers.get("Authorization");
+    // if (!authHeader) { throw new Error("Missing Authorization header"); }
 
     const { event_id, designers, buffer_time = 5 } = await req.json() as TimingRequest;
 

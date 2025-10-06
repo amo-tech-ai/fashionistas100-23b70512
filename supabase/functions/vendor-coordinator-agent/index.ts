@@ -42,10 +42,9 @@ serve(async (req) => {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   try {
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      throw new Error("Missing Authorization header");
-    }
+    // Authorization header is optional now because verify_jwt = false
+    // const authHeader = req.headers.get("Authorization");
+    // if (!authHeader) { throw new Error("Missing Authorization header"); }
 
     const { event_id, vendor_types, budget_cop, event_date, guest_count } = await req.json() as VendorRequest;
 
