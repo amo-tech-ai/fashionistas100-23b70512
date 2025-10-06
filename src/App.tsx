@@ -79,8 +79,8 @@ function App() {
             <Route path="/mvp/events/:id" element={<EventDetailMVP />} />
             
             {/* Events - Full Version */}
-            <Route path="/events" element={<Events />} />
-            <Route path="/events/:id" element={<EventDetail />} />
+          <Route path="/events" element={<EventsMVP />} />
+          <Route path="/events/:id" element={<EventDetailMVP />} />
             
             {/* Services */}
             <Route path="/services" element={<Services />} />

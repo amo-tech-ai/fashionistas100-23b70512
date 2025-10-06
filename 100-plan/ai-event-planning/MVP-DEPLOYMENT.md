@@ -18,37 +18,33 @@ Everything else removed to keep it simple.
 
 ## 📍 How to Access MVP
 
-### Option A: Separate MVP Routes (Current)
-- **Events List**: `https://your-domain.com/mvp/events`
-- **Event Detail**: `https://your-domain.com/mvp/events/{event-id}`
+The MVP is now **LIVE** at the main routes:
+- **Events List**: `https://your-domain.com/events`
+- **Event Detail**: `https://your-domain.com/events/{event-id}`
+- **Home Page**: Quick access buttons on homepage lead directly to MVP
 
-### Option B: Replace Main Routes (Production)
-To make MVP the default experience, edit `src/App.tsx`:
-
-```tsx
-// Change from:
-<Route path="/events" element={<Events />} />
-<Route path="/events/:id" element={<EventDetail />} />
-
-// To:
-<Route path="/events" element={<EventsMVP />} />
-<Route path="/events/:id" element={<EventDetailMVP />} />
-```
+### Routes Available:
+- `/` - Homepage with MVP quick start banner
+- `/events` - Create and browse events (MVP)
+- `/events/:id` - Event details with AI features (MVP)
+- `/mvp/events` - Alternative MVP route (same as `/events`)
+- `/mvp/events/:id` - Alternative MVP detail route
 
 ---
 
 ## ✅ Pre-Launch Checklist (5 minutes)
 
 ### 1. Test Event Creation
-- [ ] Go to `/mvp/events`
-- [ ] Click "Crear Evento"
-- [ ] Fill in 4 fields:
-  - Nombre del Evento
-  - Fecha y Hora
-  - Capacidad
-  - Lugar
-- [ ] Submit works
-- [ ] Redirects to event detail
+- [ ] Go to `/events` or click "Browse Events" from homepage
+- [ ] Click "Crear Evento" button
+- [ ] Fill in 4 required fields:
+  - Nombre del Evento (e.g., "Desfile Primavera 2025")
+  - Fecha y Hora (select future date/time)
+  - Capacidad (e.g., 100)
+  - Lugar (e.g., "Centro de Eventos Andino")
+- [ ] Click "Crear Evento" button
+- [ ] Verify success toast appears
+- [ ] Verify redirect to event detail page
 
 ### 2. Test AI Health Score
 - [ ] On event detail page
