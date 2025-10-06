@@ -7,8 +7,10 @@ export type WizardStage =
   | 'venueSetup'
   | 'ticketSetup'
   | 'sponsorSetup'
+  | 'paymentSetup'
   | 'reviewPublish'
-  | 'published';
+  | 'published'
+  | 'dashboard';
 
 interface OrganizerInfo {
   name?: string;

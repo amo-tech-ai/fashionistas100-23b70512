@@ -59,11 +59,7 @@ export function useStageOrganizerSetup() {
   // Track stage entry
   useEffect(() => {
     if (stage === "organizerSetup") {
-      window.analytics?.track('wizard_enter_stage', {
-        stage: 'organizerSetup',
-        sessionId,
-        timestamp: Date.now()
-      });
+      console.log('Entered organizer setup stage', { sessionId });
     }
   }, [stage, sessionId]);
 
@@ -112,7 +108,6 @@ export function useStageOrganizerSetup() {
         return (
           <OrganizerProfile
             status={status}
-            initialData={organizerInfo}
             onValidate={(data: OrganizerData) => {
               // Validate with Zod
               try {
@@ -122,10 +117,10 @@ export function useStageOrganizerSetup() {
                 if (error instanceof z.ZodError) {
                   return { 
                     valid: false, 
-                    errors: error.errors.map(e => e.message).join(", ")
+                    errors: error.errors.map(e => e.message)
                   };
                 }
-                return { valid: false, errors: "Validation failed" };
+                return { valid: false, errors: ["Validation failed"] };
               }
             }}
             onChange={(data: Partial<OrganizerData>) => {
@@ -156,7 +151,7 @@ export function useStageOrganizerSetup() {
                 }
                 
                 // Track completion
-                window.analytics?.track('wizard_submit', {
+                console.log('Wizard stage completed', {
                   stage: 'organizerSetup',
                   duration: Date.now() - startTime,
                   role: validated.role,

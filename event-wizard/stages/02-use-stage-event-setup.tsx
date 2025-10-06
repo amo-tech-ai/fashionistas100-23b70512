@@ -29,9 +29,8 @@ type EventDetailsData = z.infer<typeof EventDetailsSchema>;
  */
 export function useStageEventSetup() {
   const { 
-    eventDetails,
-    setEventDetails, 
-    setEventType,
+    eventInfo,
+    setEventInfo, 
     organizerInfo,
     stage, 
     setStage,
@@ -54,25 +53,20 @@ export function useStageEventSetup() {
   // Resume from saved draft
   useEffect(() => {
     const saved = localStorage.getItem(`wizard_event_${sessionId}`);
-    if (saved && !eventDetails) {
+    if (saved && !eventInfo) {
       try {
         const { data } = JSON.parse(saved);
-        setEventDetails(data);
-        if (data.type) setEventType(data.type);
+        setEventInfo(data);
       } catch (e) {
         console.error("Failed to restore event data:", e);
       }
     }
-  }, [sessionId, eventDetails, setEventDetails, setEventType]);
+  }, [sessionId, eventInfo, setEventInfo]);
 
   // Track stage entry
   useEffect(() => {
     if (stage === "eventSetup") {
-      window.analytics?.track('wizard_enter_stage', {
-        stage: 'eventSetup',
-        sessionId,
-        timestamp: Date.now()
-      });
+      console.log('Entered event setup stage', { sessionId });
     }
   }, [stage, sessionId]);
 
@@ -105,10 +99,10 @@ export function useStageEventSetup() {
   useCopilotReadable(
     {
       description: "Current event draft",
-      value: eventDetails || {},
+      value: eventInfo || {},
       available: stage === "eventSetup" ? "enabled" : "disabled",
     },
-    [stage, eventDetails]
+    [stage, eventInfo]
   );
 
   // Expose organizer context
@@ -131,7 +125,6 @@ export function useStageEventSetup() {
         return (
           <EventTypeSelector
             status={status}
-            selected={eventDetails?.type}
             types={[
               { id: 'fashion_show', label: 'Fashion Show', icon: '👗', description: 'Runway presentations' },
               { id: 'popup', label: 'Pop-up Shop', icon: '🛍️', description: 'Temporary retail' },
@@ -139,15 +132,15 @@ export function useStageEventSetup() {
               { id: 'launch', label: 'Launch Party', icon: '🥂', description: 'Product debut' }
             ]}
             onSelect={(type) => {
-              setEventType(type);
-              autoSave({ type });
+              setEventInfo({ ...eventInfo, type: type as any });
+              autoSave({ type: type as any });
               respond?.(`Great choice! A ${type.replace('_', ' ')} it is. Now let's add the details.`);
             }}
           />
         );
       },
     },
-    [stage, eventDetails],
+    [stage, eventInfo],
   );
 
   // Event details configuration action
@@ -170,8 +163,8 @@ export function useStageEventSetup() {
         return (
           <EventBuilder
             status={status}
-            initialData={{...eventDetails, ...args}}
-            onValidate={(data: EventDetailsData) => {
+            initialData={{...eventInfo, ...args}}
+            onValidate={(data: Partial<EventDetailsData>) => {
               // Validate with Zod
               try {
                 const validated = EventDetailsSchema.parse(data);
@@ -181,7 +174,7 @@ export function useStageEventSetup() {
                 if (eventDate < new Date()) {
                   return { 
                     valid: false, 
-                    errors: "Event date must be in the future" 
+                    errors: ["Event date must be in the future"] 
                   };
                 }
                 
@@ -189,26 +182,26 @@ export function useStageEventSetup() {
                 if (validated.endTime && validated.endTime <= validated.startTime) {
                   return { 
                     valid: false, 
-                    errors: "End time must be after start time" 
+                    errors: ["End time must be after start time"] 
                   };
                 }
                 
-                return { valid: true, data: validated };
+                return { valid: true, errors: [] };
               } catch (error) {
                 if (error instanceof z.ZodError) {
                   return { 
                     valid: false, 
-                    errors: error.errors.map(e => e.message).join(", ")
+                    errors: error.errors.map(e => e.message)
                   };
                 }
-                return { valid: false, errors: "Validation failed" };
+                return { valid: false, errors: ["Validation failed"] };
               }
             }}
             onChange={(data: Partial<EventDetailsData>) => {
               // Trigger autosave on changes
               autoSave(data);
             }}
-            onSubmit={async (details) => {
+            onComplete={async (details) => {
               // Final validation
               const parsed = EventDetailsSchema.safeParse(details);
               if (!parsed.success) {
@@ -218,7 +211,7 @@ export function useStageEventSetup() {
               }
               
               // Save validated data
-              setEventDetails(parsed.data);
+              setEventInfo(parsed.data);
               
               // Save to backend
               try {
@@ -236,7 +229,7 @@ export function useStageEventSetup() {
               }
               
               // Track completion
-              window.analytics?.track('wizard_submit', {
+              console.log('Event setup completed', {
                 stage: 'eventSetup',
                 duration: Date.now() - startTime,
                 eventType: parsed.data.type,
@@ -251,13 +244,10 @@ export function useStageEventSetup() {
               respond?.(`Perfect! "${parsed.data.title}" is configured for ${parsed.data.date}. Let's set up ticketing!`);
               setStage("ticketSetup");
             }}
-            onCancel={() => {
-              respond?.("No problem, take your time. What would you like to adjust?");
-            }}
           />
         );
       },
     },
-    [stage, eventDetails, sessionId],
+    [stage, eventInfo, sessionId],
   );
 }
