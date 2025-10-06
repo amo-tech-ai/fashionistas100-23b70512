@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
+import './i18n/config' // Initialize i18n
 import { queryClient } from './lib/queryClient'
 import { getClerkPublishableKey } from './lib/clerkKey'
 import { AppWithErrorBoundary } from './components/AppWithErrorBoundary'

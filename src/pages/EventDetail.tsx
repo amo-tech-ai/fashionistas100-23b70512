@@ -1,15 +1,18 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useTranslation } from 'react-i18next';
 import { AIModelCastingPanel } from '@/components/events/AIModelCastingPanel';
 import { AIRunwayTimingPanel } from '@/components/events/AIRunwayTimingPanel';
 import { AIVendorCoordinatorPanel } from '@/components/events/AIVendorCoordinatorPanel';
-import { EventHealthScorePanel } from '@/components/events/EventHealthScorePanel';
+import { EventHealthScorePanelI18n } from '@/components/events/EventHealthScorePanelI18n';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function EventDetail() {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
 
   const { data: event, isLoading } = useQuery({
     queryKey: ['event', id],
@@ -44,15 +47,19 @@ export default function EventDetail() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-end mb-4">
+        <LanguageSwitcher />
+      </div>
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* AI Assistant Sidebar */}
         <aside className="lg:col-span-1">
           <Tabs defaultValue="casting" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="casting">Modelos</TabsTrigger>
+              <TabsTrigger value="casting">{t('events.tabs.models')}</TabsTrigger>
               <TabsTrigger value="timing">Timing</TabsTrigger>
-              <TabsTrigger value="vendors">Proveedores</TabsTrigger>
-              <TabsTrigger value="health">Salud</TabsTrigger>
+              <TabsTrigger value="vendors">{t('events.tabs.vendors')}</TabsTrigger>
+              <TabsTrigger value="health">{t('events.tabs.health')}</TabsTrigger>
             </TabsList>
             <TabsContent value="casting" className="mt-4">
               <AIModelCastingPanel eventId={event.id} />
@@ -64,7 +71,7 @@ export default function EventDetail() {
               <AIVendorCoordinatorPanel eventId={event.id} />
             </TabsContent>
             <TabsContent value="health" className="mt-4">
-              <EventHealthScorePanel eventId={event.id} />
+              <EventHealthScorePanelI18n eventId={event.id} />
             </TabsContent>
           </Tabs>
         </aside>

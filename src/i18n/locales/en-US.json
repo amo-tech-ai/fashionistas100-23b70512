@@ -1,0 +1,210 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Home",
+    "events": "Events",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "ai": {
+    "assistant": "AI Assistant",
+    "generating": "Generating...",
+    "generate": "Generate",
+    "analyzing": "Analyzing...",
+    "recommendations": "Recommendations",
+    "noData": "No data available yet",
+    "tryAgain": "Try Again",
+    "rateLimit": "Rate limit reached. Please wait a minute.",
+    "creditsExhausted": "AI credits exhausted. Please add credits.",
+    "generationFailed": "Generation failed. Please try again."
+  },
+  "modelCasting": {
+    "title": "Model Casting",
+    "subtitle": "AI recommendations for your event",
+    "generateRecommendations": "Generate Recommendations",
+    "requirements": "Requirements",
+    "requirementsPlaceholder": "E.g.: 5-8 runway models, professional experience",
+    "noRecommendations": "No recommendations yet",
+    "matchScore": "Match Score",
+    "highPriority": "High Priority",
+    "mediumPriority": "Medium Priority",
+    "lowPriority": "Low Priority",
+    "contact": "Contact",
+    "status": {
+      "invited": "Invited",
+      "confirmed": "Confirmed",
+      "declined": "Declined",
+      "backup": "Backup"
+    },
+    "generatedSuccess": "{{count}} models suggested",
+    "agency": "Agency"
+  },
+  "runwayTiming": {
+    "title": "Runway Timing",
+    "subtitle": "AI schedule optimization",
+    "generateSchedule": "Generate Schedule",
+    "designerCount": "Number of Designers",
+    "totalDuration": "Total Duration",
+    "minutes": "minutes",
+    "optimizationScore": "Optimization Score",
+    "designerSlots": "Designer Slots",
+    "backstageCalls": "Backstage Calls",
+    "transitions": "Transitions",
+    "noSchedule": "No schedule available",
+    "walkTime": "Walk Time",
+    "prepTime": "Prep Time",
+    "beforeShow": "Before Show",
+    "generatedSuccess": "Schedule generated successfully",
+    "status": {
+      "draft": "Draft",
+      "final": "Final",
+      "in_progress": "In Progress"
+    }
+  },
+  "vendorCoordinator": {
+    "title": "Vendor Coordination",
+    "subtitle": "Find ideal vendors with AI",
+    "generateRecommendations": "Generate AI Recommendations",
+    "selectVendorTypes": "Select Vendor Types",
+    "budget": "Budget (COP)",
+    "guestCount": "Guest Count",
+    "noVendors": "No vendors recommended",
+    "contactVendor": "Contact Vendor",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "website": "Website",
+    "costEstimate": "Cost Estimate",
+    "servicesOffered": "Services Offered",
+    "matchScore": "Match",
+    "generatedSuccess": "{{count}} vendors recommended",
+    "types": {
+      "catering": "Catering",
+      "photography": "Photography",
+      "videography": "Videography",
+      "sound": "Sound",
+      "lighting": "Lighting",
+      "security": "Security",
+      "decoration": "Decoration",
+      "makeup": "Makeup",
+      "hair": "Hair",
+      "printing": "Printing",
+      "transportation": "Transportation",
+      "other": "Other"
+    },
+    "status": {
+      "recommended": "Recommended",
+      "contacted": "Contacted",
+      "quoted": "Quoted",
+      "booked": "Booked"
+    }
+  },
+  "eventHealth": {
+    "title": "Event Health",
+    "subtitle": "AI readiness assessment",
+    "generateScore": "Generate Assessment",
+    "noScore": "No assessment available yet",
+    "lastUpdated": "Last updated",
+    "overallScore": "Overall Score",
+    "ticketSales": "Ticket Sales",
+    "timeline": "Timeline",
+    "vendors": "Vendors",
+    "models": "Models",
+    "recommendations": "Recommendations",
+    "riskFactors": "Risk Factors",
+    "aiReasoning": "AI Analysis",
+    "refreshing": "Refreshing...",
+    "refresh": "Refresh",
+    "status": {
+      "excellent": "EXCELLENT",
+      "good": "GOOD",
+      "warning": "WARNING",
+      "critical": "CRITICAL"
+    },
+    "generatedSuccess": "Assessment completed successfully",
+    "generatedError": "Failed to generate assessment"
+  },
+  "events": {
+    "title": "Events",
+    "create": "Create Event",
+    "edit": "Edit Event",
+    "delete": "Delete Event",
+    "details": "Event Details",
+    "name": "Name",
+    "description": "Description",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "venue": "Venue",
+    "capacity": "Capacity",
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "tickets": "Tickets",
+      "models": "Models",
+      "runway": "Runway",
+      "vendors": "Vendors",
+      "health": "Health",
+      "bookings": "Bookings"
+    }
+  },
+  "tickets": {
+    "title": "Tickets",
+    "available": "Available",
+    "sold": "Sold",
+    "price": "Price",
+    "quantity": "Quantity",
+    "type": "Type"
+  },
+  "currency": {
+    "cop": "COP",
+    "usd": "USD"
+  },
+  "time": {
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "daysUntil": "{{count}} days until event"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email",
+    "minLength": "Minimum {{count}} characters",
+    "maxLength": "Maximum {{count}} characters",
+    "positive": "Must be a positive number"
+  }
+}

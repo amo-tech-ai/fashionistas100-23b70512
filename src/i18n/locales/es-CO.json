@@ -1,0 +1,210 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Inicio",
+    "events": "Eventos",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  },
+  "ai": {
+    "assistant": "Asistente IA",
+    "generating": "Generando...",
+    "generate": "Generar",
+    "analyzing": "Analizando...",
+    "recommendations": "Recomendaciones",
+    "noData": "No hay datos disponibles aún",
+    "tryAgain": "Intentar nuevamente",
+    "rateLimit": "Límite de uso alcanzado. Por favor espera un minuto.",
+    "creditsExhausted": "Créditos de IA agotados. Por favor agrega créditos.",
+    "generationFailed": "No se pudo generar. Intenta nuevamente."
+  },
+  "modelCasting": {
+    "title": "Casting de Modelos",
+    "subtitle": "Recomendaciones AI para tu evento",
+    "generateRecommendations": "Generar Recomendaciones",
+    "requirements": "Requisitos",
+    "requirementsPlaceholder": "Ej: 5-8 modelos de pasarela, experiencia profesional",
+    "noRecommendations": "No hay recomendaciones aún",
+    "matchScore": "Puntaje de Coincidencia",
+    "highPriority": "Alta Prioridad",
+    "mediumPriority": "Media Prioridad",
+    "lowPriority": "Baja Prioridad",
+    "contact": "Contactar",
+    "status": {
+      "invited": "Invitado",
+      "confirmed": "Confirmado",
+      "declined": "Declinado",
+      "backup": "Reserva"
+    },
+    "generatedSuccess": "{{count}} modelos sugeridas",
+    "agency": "Agencia"
+  },
+  "runwayTiming": {
+    "title": "Timing de Pasarela",
+    "subtitle": "Optimización AI del cronograma",
+    "generateSchedule": "Generar Cronograma",
+    "designerCount": "Número de Diseñadores",
+    "totalDuration": "Duración Total",
+    "minutes": "minutos",
+    "optimizationScore": "Puntaje de Optimización",
+    "designerSlots": "Slots de Diseñadores",
+    "backstageCalls": "Llamados de Backstage",
+    "transitions": "Transiciones",
+    "noSchedule": "No hay cronograma disponible",
+    "walkTime": "Tiempo de Pasarela",
+    "prepTime": "Tiempo de Preparación",
+    "beforeShow": "Antes del Show",
+    "generatedSuccess": "Cronograma generado exitosamente",
+    "status": {
+      "draft": "Borrador",
+      "final": "Final",
+      "in_progress": "En Progreso"
+    }
+  },
+  "vendorCoordinator": {
+    "title": "Coordinación de Proveedores",
+    "subtitle": "Encuentra proveedores ideales con IA",
+    "generateRecommendations": "Generar Recomendaciones AI",
+    "selectVendorTypes": "Seleccionar Tipos de Proveedores",
+    "budget": "Presupuesto (COP)",
+    "guestCount": "Número de Invitados",
+    "noVendors": "No hay proveedores recomendados",
+    "contactVendor": "Contactar Proveedor",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "website": "Sitio Web",
+    "costEstimate": "Estimado de Costo",
+    "servicesOffered": "Servicios Ofrecidos",
+    "matchScore": "Coincidencia",
+    "generatedSuccess": "{{count}} proveedores recomendados",
+    "types": {
+      "catering": "Catering",
+      "photography": "Fotografía",
+      "videography": "Videografía",
+      "sound": "Sonido",
+      "lighting": "Iluminación",
+      "security": "Seguridad",
+      "decoration": "Decoración",
+      "makeup": "Maquillaje",
+      "hair": "Peluquería",
+      "printing": "Impresión",
+      "transportation": "Transporte",
+      "other": "Otros"
+    },
+    "status": {
+      "recommended": "Recomendado",
+      "contacted": "Contactado",
+      "quoted": "Cotizado",
+      "booked": "Reservado"
+    }
+  },
+  "eventHealth": {
+    "title": "Salud del Evento",
+    "subtitle": "Evaluación AI de preparación",
+    "generateScore": "Generar Evaluación",
+    "noScore": "No hay evaluación disponible aún",
+    "lastUpdated": "Última actualización",
+    "overallScore": "Puntaje General",
+    "ticketSales": "Ventas de Boletos",
+    "timeline": "Cronograma",
+    "vendors": "Proveedores",
+    "models": "Modelos",
+    "recommendations": "Recomendaciones",
+    "riskFactors": "Factores de Riesgo",
+    "aiReasoning": "Análisis IA",
+    "refreshing": "Actualizando...",
+    "refresh": "Actualizar",
+    "status": {
+      "excellent": "EXCELENTE",
+      "good": "BUENO",
+      "warning": "ADVERTENCIA",
+      "critical": "CRÍTICO"
+    },
+    "generatedSuccess": "Evaluación completada exitosamente",
+    "generatedError": "No se pudo generar evaluación"
+  },
+  "events": {
+    "title": "Eventos",
+    "create": "Crear Evento",
+    "edit": "Editar Evento",
+    "delete": "Eliminar Evento",
+    "details": "Detalles del Evento",
+    "name": "Nombre",
+    "description": "Descripción",
+    "startDate": "Fecha de Inicio",
+    "endDate": "Fecha de Fin",
+    "venue": "Lugar",
+    "capacity": "Capacidad",
+    "status": {
+      "draft": "Borrador",
+      "published": "Publicado",
+      "cancelled": "Cancelado",
+      "completed": "Completado"
+    },
+    "tabs": {
+      "overview": "Resumen",
+      "tickets": "Boletos",
+      "models": "Modelos",
+      "runway": "Pasarela",
+      "vendors": "Proveedores",
+      "health": "Salud",
+      "bookings": "Reservas"
+    }
+  },
+  "tickets": {
+    "title": "Boletos",
+    "available": "Disponibles",
+    "sold": "Vendidos",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "type": "Tipo"
+  },
+  "currency": {
+    "cop": "COP",
+    "usd": "USD"
+  },
+  "time": {
+    "days": "días",
+    "hours": "horas",
+    "minutes": "minutos",
+    "seconds": "segundos",
+    "daysUntil": "{{count}} días hasta el evento"
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signOut": "Cerrar Sesión",
+    "signUp": "Registrarse",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?"
+  },
+  "validation": {
+    "required": "Este campo es requerido",
+    "email": "Correo electrónico inválido",
+    "minLength": "Mínimo {{count}} caracteres",
+    "maxLength": "Máximo {{count}} caracteres",
+    "positive": "Debe ser un número positivo"
+  }
+}
