@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Sparkles, Loader2, Mail, Phone, Building2 } from 'lucide-react';
+import { Sparkles, Loader2, Mail, Phone } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ModelRecommendation {
   model_name: string;
@@ -22,6 +23,7 @@ interface AIModelCastingPanelProps {
 
 export function AIModelCastingPanel({ eventId }: AIModelCastingPanelProps) {
   const [loading, setLoading] = useState(false);
+  const [requirements, setRequirements] = useState('Need 5-8 runway models, 175cm+, professional experience preferred');
   const [results, setResults] = useState<ModelRecommendation[]>([]);
   const { toast } = useToast();
 
@@ -31,7 +33,7 @@ export function AIModelCastingPanel({ eventId }: AIModelCastingPanelProps) {
       const { data, error } = await supabase.functions.invoke('model-casting-agent', {
         body: {
           event_id: eventId,
-          requirements: 'Professional runway models for Colombian fashion show, 175cm+, experienced'
+          requirements
         }
       });
 
@@ -73,9 +75,10 @@ export function AIModelCastingPanel({ eventId }: AIModelCastingPanelProps) {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600 dark:text-red-400';
-      case 'medium': return 'text-amber-600 dark:text-amber-400';
-      default: return 'text-muted-foreground';
+      case 'high': return 'bg-primary text-primary-foreground';
+      case 'medium': return 'bg-secondary text-secondary-foreground';
+      case 'low': return 'bg-muted text-muted-foreground';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -83,24 +86,38 @@ export function AIModelCastingPanel({ eventId }: AIModelCastingPanelProps) {
     switch (priority) {
       case 'high': return 'Alta Prioridad';
       case 'medium': return 'Media Prioridad';
-      default: return 'Baja Prioridad';
+      case 'low': return 'Baja Prioridad';
+      default: return priority;
     }
   };
 
   return (
     <Card className="border-border bg-card">
       <CardHeader>
-        <CardTitle className="text-card-foreground flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-card-foreground">
           <Sparkles className="h-5 w-5 text-primary" />
-          Asistente IA - Casting de Modelos
+          Asistente IA - Casting
         </CardTitle>
       </CardHeader>
       
       <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground">
+            Requisitos del Casting
+          </label>
+          <Textarea
+            value={requirements}
+            onChange={(e) => setRequirements(e.target.value)}
+            placeholder="Describe los requisitos para los modelos..."
+            className="min-h-[100px] bg-background border-border"
+            disabled={loading}
+          />
+        </div>
+
         <Button 
           onClick={generateRecommendations}
-          disabled={loading}
-          className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+          disabled={loading || !requirements.trim()}
+          className="w-full"
         >
           {loading ? (
             <>
@@ -117,54 +134,55 @@ export function AIModelCastingPanel({ eventId }: AIModelCastingPanelProps) {
 
         {results.length > 0 && (
           <div className="space-y-3 mt-6">
-            <h4 className="text-sm font-medium text-foreground">
+            <h3 className="text-sm font-medium text-foreground">
               Modelos Recomendadas ({results.length})
-            </h4>
+            </h3>
             {results.map((model, idx) => (
               <Card 
                 key={idx}
-                className="border-border bg-card hover:bg-accent transition-colors"
+                className="p-4 border-border bg-background"
               >
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <h5 className="font-semibold text-foreground">
-                        {model.model_name}
-                      </h5>
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <h4 className="font-medium text-foreground">{model.model_name}</h4>
                       {model.agency && (
-                        <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
-                          <Building2 className="h-3 w-3" />
-                          {model.agency}
-                        </div>
+                        <p className="text-sm text-muted-foreground">{model.agency}</p>
                       )}
                     </div>
-                    <div className="text-right">
+                    <div className="text-right space-y-1">
                       <div className="text-2xl font-bold text-primary">
                         {model.match_score}%
                       </div>
-                      <div className={`text-xs font-medium ${getPriorityColor(model.contact_priority)}`}>
+                      <Badge className={getPriorityColor(model.contact_priority)}>
                         {getPriorityLabel(model.contact_priority)}
-                      </div>
+                      </Badge>
                     </div>
                   </div>
 
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {model.reasoning}
-                  </p>
+                  <p className="text-sm text-foreground">{model.reasoning}</p>
 
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      <Mail className="h-3 w-3 mr-1" />
+                  <div className="flex gap-2 pt-2 border-t border-border">
+                    <a 
+                      href={`mailto:${model.email}`}
+                      className="flex items-center gap-1 text-sm text-primary hover:underline"
+                    >
+                      <Mail className="h-3 w-3" />
                       {model.email}
-                    </Badge>
+                    </a>
                     {model.phone && (
-                      <Badge variant="outline" className="text-xs">
-                        <Phone className="h-3 w-3 mr-1" />
-                        {model.phone}
-                      </Badge>
+                      <a 
+                        href={`https://wa.me/${model.phone.replace(/[^0-9]/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-primary hover:underline"
+                      >
+                        <Phone className="h-3 w-3" />
+                        WhatsApp
+                      </a>
                     )}
                   </div>
-                </CardContent>
+                </div>
               </Card>
             ))}
           </div>

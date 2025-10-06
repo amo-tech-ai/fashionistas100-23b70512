@@ -1,10 +1,15 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+interface CastingRequest {
+  event_id: string;
+  requirements: string;
+}
 
 interface ModelRecommendation {
   model_name: string;
@@ -16,7 +21,7 @@ interface ModelRecommendation {
   contact_priority: 'high' | 'medium' | 'low';
 }
 
-Deno.serve(async (req) => {
+serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -28,20 +33,25 @@ Deno.serve(async (req) => {
   );
 
   try {
-    const { event_id, requirements } = await req.json();
+    const { event_id, requirements } = await req.json() as CastingRequest;
 
-    if (!event_id) {
-      throw new Error('event_id is required');
+    if (!event_id || !requirements) {
+      return new Response(
+        JSON.stringify({ error: 'event_id and requirements are required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Get event details
     const { data: event, error: eventError } = await supabaseClient
       .from('events')
-      .select('*')
+      .select('title, description, start_datetime, metadata')
       .eq('id', event_id)
       .single();
 
-    if (eventError) throw eventError;
+    if (eventError || !event) {
+      throw new Error('Event not found');
+    }
 
     // Call Lovable AI Gateway
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
@@ -60,65 +70,79 @@ Deno.serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a professional fashion show casting director for Colombian events. Provide realistic model recommendations with Colombian names, agencies, and contact details.'
+            content: `You are an AI fashion show casting assistant. Generate model recommendations based on event requirements. Always respond with valid JSON matching the schema.`
           },
           {
             role: 'user',
-            content: `Event: ${event.title}\nDate: ${event.start_datetime}\nRequirements: ${requirements || 'Professional runway models'}\n\nGenerate 5-8 model recommendations with match scores, reasoning, and contact priority.`
+            content: `Event: ${event.title}\nRequirements: ${requirements}\n\nGenerate 5-8 model recommendations for this Colombian fashion show.`
           }
         ],
-        tools: [{
-          type: 'function',
-          function: {
-            name: 'recommend_models',
-            description: 'Generate model casting recommendations',
-            parameters: {
-              type: 'object',
-              properties: {
-                recommendations: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                    properties: {
-                      model_name: { type: 'string' },
-                      agency: { type: 'string' },
-                      email: { type: 'string' },
-                      phone: { type: 'string' },
-                      match_score: { type: 'number', minimum: 0, maximum: 100 },
-                      reasoning: { type: 'string' },
-                      contact_priority: { type: 'string', enum: ['high', 'medium', 'low'] }
-                    },
-                    required: ['model_name', 'email', 'match_score', 'reasoning', 'contact_priority']
+        tools: [
+          {
+            type: 'function',
+            function: {
+              name: 'generate_model_recommendations',
+              description: 'Generate model casting recommendations',
+              parameters: {
+                type: 'object',
+                properties: {
+                  recommendations: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        model_name: { type: 'string' },
+                        agency: { type: 'string' },
+                        email: { type: 'string' },
+                        phone: { type: 'string' },
+                        match_score: { type: 'integer', minimum: 0, maximum: 100 },
+                        reasoning: { type: 'string' },
+                        contact_priority: { type: 'string', enum: ['high', 'medium', 'low'] }
+                      },
+                      required: ['model_name', 'email', 'match_score', 'reasoning', 'contact_priority']
+                    }
                   }
-                }
-              },
-              required: ['recommendations']
+                },
+                required: ['recommendations']
+              }
             }
           }
-        }],
-        tool_choice: { type: 'function', function: { name: 'recommend_models' } }
+        ],
+        tool_choice: { type: 'function', function: { name: 'generate_model_recommendations' } }
       })
     });
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('AI Gateway error:', aiResponse.status, errorText);
       
       if (aiResponse.status === 429) {
-        throw new Error('Rate limit exceeded. Please try again in a minute.');
+        return new Response(
+          JSON.stringify({ error: 'Rate limit exceeded. Please wait a moment and try again.' }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
+      
       if (aiResponse.status === 402) {
-        throw new Error('AI credits exhausted. Please add credits to continue.');
+        return new Response(
+          JSON.stringify({ error: 'AI credits exhausted. Please add credits to continue.' }),
+          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
-      throw new Error(`AI Gateway error: ${aiResponse.status}`);
+
+      throw new Error(`AI API error: ${aiResponse.status} ${errorText}`);
     }
 
     const aiData = await aiResponse.json();
     const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
-    const recommendations: ModelRecommendation[] = JSON.parse(toolCall?.function?.arguments || '{"recommendations":[]}').recommendations;
+    
+    if (!toolCall) {
+      throw new Error('No tool call in AI response');
+    }
 
-    // Save recommendations to database
-    const castings = recommendations.map(rec => ({
+    const recommendations: ModelRecommendation[] = JSON.parse(toolCall.function.arguments).recommendations;
+
+    // Save to model_castings table
+    const castingsToInsert = recommendations.map(rec => ({
       event_id,
       model_name: rec.model_name,
       agency: rec.agency,
@@ -131,50 +155,59 @@ Deno.serve(async (req) => {
 
     const { error: insertError } = await supabaseClient
       .from('model_castings')
-      .insert(castings);
+      .insert(castingsToInsert);
 
     if (insertError) {
       console.error('Insert error:', insertError);
     }
 
-    // Log operation
-    const latencyMs = Date.now() - startTime;
+    // Log to ai_agent_logs (service role only)
+    const latency = Date.now() - startTime;
     await supabaseClient.from('ai_agent_logs').insert({
       agent_type: 'model_casting',
       event_id,
       operation: 'generate_recommendations',
       model: 'google/gemini-2.5-flash',
       input_data: { requirements },
-      output_data: { recommendations_count: recommendations.length },
-      latency_ms: latencyMs,
+      output_data: { recommendations },
+      tokens_used: aiData.usage?.total_tokens || 0,
+      latency_ms: latency,
       success: true
     });
 
     return new Response(
-      JSON.stringify({ success: true, recommendations, count: recommendations.length }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ 
+        success: true,
+        recommendations,
+        count: recommendations.length 
+      }),
+      { 
+        status: 200, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      }
     );
 
   } catch (error: any) {
     console.error('Error:', error);
-    
-    // Log error
-    const latencyMs = Date.now() - startTime;
+
+    // Log failure
     await supabaseClient.from('ai_agent_logs').insert({
       agent_type: 'model_casting',
+      event_id: null,
       operation: 'generate_recommendations',
       model: 'google/gemini-2.5-flash',
-      latency_ms: latencyMs,
+      input_data: null,
+      output_data: null,
+      latency_ms: Date.now() - startTime,
       success: false,
       error_message: error.message
     });
 
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error.message || 'Internal server error' }),
       { 
-        status: error.message.includes('Rate limit') ? 429 : 
-                error.message.includes('credits') ? 402 : 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        status: 500, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
     );
   }
