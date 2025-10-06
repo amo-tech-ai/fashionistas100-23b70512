@@ -28,12 +28,15 @@ export function useStageTicketSetup() {
         <TicketConfiguration
           status={status}
           templates={[
-            { id: 'simple', label: 'Simple', description: 'One price for all', price: '$75' },
-            { id: 'tiered', label: 'Tiered', description: 'VIP + General', price: '$200/$75' },
-            { id: 'free', label: 'Free', description: 'RSVP only', price: '$0' }
+            { id: 'simple', label: 'Simple', description: 'One price for all', price: 'COP $75.000' },
+            { id: 'tiered', label: 'Tiered', description: 'VIP + General', price: 'COP $200.000/$75.000' },
+            { id: 'free', label: 'Free', description: 'RSVP only', price: 'COP $0' }
           ]}
           onComplete={(ticketData) => {
-            setTicketInfo(ticketData);
+            setTicketInfo({
+              type: ticketData.type as 'simple' | 'tiered' | 'free',
+              tiers: ticketData.tiers
+            });
             respond?.("Tickets configured successfully.");
             setStage("venueSetup");
           }}
