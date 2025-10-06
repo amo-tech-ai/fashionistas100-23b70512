@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { CopilotKit } from "@copilotkit/react-core";
+import { CopilotSidebar } from "@copilotkit/react-ui";
+import "@copilotkit/react-ui/styles.css";
+import { useCopilotReadable } from "@copilotkit/react-core";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Save } from "lucide-react";
+import { useGlobalState, WizardStage } from "@/lib/stages";
 import { OrganizerSetup } from "@/components/wizard/OrganizerSetup";
 import { EventDetails } from "@/components/wizard/EventDetails";
 import { VenueConfiguration } from "@/components/wizard/VenueConfiguration";
@@ -12,202 +13,204 @@ import { TicketSetup } from "@/components/wizard/TicketSetup";
 import { SponsorsMedia } from "@/components/wizard/SponsorsMedia";
 import { ReviewPublish } from "@/components/wizard/ReviewPublish";
 
+// Import stage hooks
+import { useStageOrganizerSetup } from "../../event-wizard/stages/01-use-stage-organizer-setup";
+import { useStageEventSetup } from "../../event-wizard/stages/02-use-stage-event-setup";
+import { useStageTicketSetup } from "../../event-wizard/stages/03-use-stage-ticket-setup";
+import { useStageVenueSetup } from "../../event-wizard/stages/04-use-stage-venue-setup";
+import { useStagePaymentSetup } from "../../event-wizard/stages/05-use-stage-payment-setup";
+import { useStageReviewPublish } from "../../event-wizard/stages/06-use-stage-review-publish";
+
 const STAGES = [
-  { id: 1, title: "Organizer Setup" },
-  { id: 2, title: "Event Details" },
-  { id: 3, title: "Venue Configuration" },
-  { id: 4, title: "Ticket Setup" },
-  { id: 5, title: "Sponsors & Media" },
-  { id: 6, title: "Review & Publish" },
+  { id: 'organizerSetup', title: "Organizer Setup" },
+  { id: 'eventSetup', title: "Event Details" },
+  { id: 'venueSetup', title: "Venue Configuration" },
+  { id: 'ticketSetup', title: "Ticket Setup" },
+  { id: 'sponsorSetup', title: "Sponsors & Media" },
+  { id: 'reviewPublish', title: "Review & Publish" },
 ];
 
-export default function EventWizard() {
-  const [currentStage, setCurrentStage] = useState(1);
-  const [formData, setFormData] = useState({
-    organizer: {},
-    event: {},
-    venue: {},
-    tickets: {},
-    sponsors: {},
+function EventWizardContent() {
+  const { 
+    stage,
+    organizerInfo,
+    eventInfo,
+    venueInfo,
+    ticketInfo,
+    sponsorInfo,
+    paymentMethod,
+  } = useGlobalState();
+
+  // Global readable context for ALL stages (NO dependency array per cookbook)
+  useCopilotReadable({
+    description: "Complete event wizard state",
+    value: {
+      currentStage: stage,
+      organizer: organizerInfo,
+      event: eventInfo,
+      venue: venueInfo,
+      tickets: ticketInfo,
+      sponsors: sponsorInfo,
+      payment: paymentMethod,
+    }
   });
-  const navigate = useNavigate();
 
-  const updateFormData = (section: string, data: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: { ...prev[section as keyof typeof prev], ...data },
-    }));
-  };
+  // Initialize ALL stage hooks - they control themselves via 'available' prop
+  useStageOrganizerSetup();  // Stage 1
+  useStageEventSetup();       // Stage 2
+  useStageTicketSetup();      // Stage 3
+  useStageVenueSetup();       // Stage 4
+  useStagePaymentSetup();     // Stage 5
+  useStageReviewPublish();    // Stage 6
 
-  const handleNext = () => {
-    if (currentStage < 6) {
-      setCurrentStage(currentStage + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStage > 1) {
-      setCurrentStage(currentStage - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const handleSaveDraft = () => {
-    console.log("Saving draft:", formData);
-    // TODO: Implement draft saving
-  };
-
-  const handlePublish = () => {
-    console.log("Publishing event:", formData);
-    // TODO: Implement event publishing
-    navigate("/dashboard");
-  };
-
-  const renderStage = () => {
-    switch (currentStage) {
-      case 1:
-        return (
-          <OrganizerSetup
-            data={formData.organizer}
-            onUpdate={(data) => updateFormData("organizer", data)}
-          />
-        );
-      case 2:
-        return (
-          <EventDetails
-            data={formData.event}
-            onUpdate={(data) => updateFormData("event", data)}
-          />
-        );
-      case 3:
-        return (
-          <VenueConfiguration
-            data={formData.venue}
-            onUpdate={(data) => updateFormData("venue", data)}
-          />
-        );
-      case 4:
-        return (
-          <TicketSetup
-            data={formData.tickets}
-            onUpdate={(data) => updateFormData("tickets", data)}
-          />
-        );
-      case 5:
-        return (
-          <SponsorsMedia
-            data={formData.sponsors}
-            onUpdate={(data) => updateFormData("sponsors", data)}
-          />
-        );
-      case 6:
-        return <ReviewPublish data={formData} onPublish={handlePublish} />;
-      default:
-        return null;
-    }
-  };
-
-  const progressPercentage = (currentStage / 6) * 100;
+  const currentStageIndex = STAGES.findIndex(s => s.id === stage);
+  const progressPercentage = ((currentStageIndex + 1) / STAGES.length) * 100;
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="pt-24 pb-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Progress Bar */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-medium text-[#1A1A1A]">
-                Step {currentStage} of 6
-              </h2>
-              <span className="text-sm text-[#1A1A1A]/60">
-                {Math.round(progressPercentage)}% Complete
-              </span>
-            </div>
-            <Progress value={progressPercentage} className="h-2 bg-[#E5E5E5]" />
-            
-            {/* Stage indicators */}
-            <div className="flex justify-between mt-6">
-              {STAGES.map((stage) => (
-                <div
-                  key={stage.id}
-                  className={`flex flex-col items-center space-y-2 ${
-                    stage.id <= currentStage ? "opacity-100" : "opacity-40"
-                  }`}
-                >
+      <CopilotSidebar
+        defaultOpen={false}
+        labels={{
+          title: "Event Wizard Assistant",
+          initial: "Hi! I'll help you create your event in under 3 minutes. What kind of event are you planning?"
+        }}
+      >
+        <div className="pt-24 pb-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Progress Bar */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-medium text-foreground">
+                  Step {currentStageIndex + 1} of {STAGES.length}
+                </h2>
+                <span className="text-sm text-muted-foreground">
+                  {Math.round(progressPercentage)}% Complete
+                </span>
+              </div>
+              <Progress value={progressPercentage} className="h-2" />
+              
+              {/* Stage indicators */}
+              <div className="flex justify-between mt-6">
+                {STAGES.map((stageItem, index) => (
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
-                      stage.id === currentStage
-                        ? "bg-[#E85C2B] text-white"
-                        : stage.id < currentStage
-                        ? "bg-[#E85C2B]/20 text-[#E85C2B]"
-                        : "bg-white border-2 border-[#E5E5E5] text-[#1A1A1A]/40"
+                    key={stageItem.id}
+                    className={`flex flex-col items-center space-y-2 ${
+                      index <= currentStageIndex ? "opacity-100" : "opacity-40"
                     }`}
                   >
-                    {stage.id}
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
+                        stageItem.id === stage
+                          ? "bg-primary text-primary-foreground"
+                          : index < currentStageIndex
+                          ? "bg-primary/20 text-primary"
+                          : "bg-muted border-2 border-border text-muted-foreground"
+                      }`}
+                    >
+                      {index + 1}
+                    </div>
+                    <span className="hidden md:block text-xs text-center max-w-[80px] text-muted-foreground">
+                      {stageItem.title}
+                    </span>
                   </div>
-                  <span className="hidden md:block text-xs text-center max-w-[80px] text-[#1A1A1A]/60">
-                    {stage.title}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Stage Content */}
-          <div className="bg-white rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 md:p-8 mb-6">
-            <h1 className="text-2xl md:text-3xl font-light text-[#1A1A1A] mb-6">
-              {STAGES[currentStage - 1].title}
-            </h1>
-            {renderStage()}
-          </div>
-
-          {/* Navigation Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-between">
-            <Button
-              onClick={handleBack}
-              disabled={currentStage === 1}
-              variant="outline"
-              className="border-[#E5E5E5] text-[#1A1A1A] hover:bg-[#1A1A1A]/5"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-
-            <div className="flex gap-4">
-              <Button
-                onClick={handleSaveDraft}
-                variant="outline"
-                className="border-[#E5E5E5] text-[#1A1A1A] hover:bg-[#1A1A1A]/5"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                Save Draft
-              </Button>
-
-              {currentStage < 6 ? (
-                <Button
-                  onClick={handleNext}
-                  className="bg-[#E85C2B] hover:bg-[#d54e1f] text-white"
-                >
-                  Next
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={handlePublish}
-                  className="bg-[#E85C2B] hover:bg-[#d54e1f] text-white"
-                >
-                  Publish Event
-                </Button>
-              )}
+            {/* Stage Content */}
+            <div className="bg-card rounded-lg shadow-sm p-6 md:p-8 mb-6">
+              <h1 className="text-2xl md:text-3xl font-light text-foreground mb-6">
+                {STAGES[currentStageIndex]?.title}
+              </h1>
+              {renderStage(stage)}
             </div>
           </div>
         </div>
-      </div>
+      </CopilotSidebar>
 
       <Footer />
     </div>
+  );
+}
+
+function renderStage(stage: WizardStage) {
+  const { 
+    organizerInfo,
+    eventInfo,
+    venueInfo,
+    ticketInfo,
+    sponsorInfo,
+    setOrganizerInfo,
+    setEventInfo,
+    setVenueInfo,
+    setTicketInfo,
+    setSponsorInfo,
+  } = useGlobalState();
+
+  switch (stage) {
+    case 'organizerSetup':
+      return (
+        <OrganizerSetup
+          data={organizerInfo || {}}
+          onUpdate={(data) => setOrganizerInfo({ ...organizerInfo, ...data })}
+        />
+      );
+    case 'eventSetup':
+      return (
+        <EventDetails
+          data={eventInfo || {}}
+          onUpdate={(data) => setEventInfo({ ...eventInfo, ...data })}
+        />
+      );
+    case 'venueSetup':
+      return (
+        <VenueConfiguration
+          data={venueInfo || {}}
+          onUpdate={(data) => setVenueInfo({ ...venueInfo, ...data })}
+        />
+      );
+    case 'ticketSetup':
+      return (
+        <TicketSetup
+          data={ticketInfo || {}}
+          onUpdate={(data) => setTicketInfo({ ...ticketInfo, ...data })}
+        />
+      );
+    case 'sponsorSetup':
+      return (
+        <SponsorsMedia
+          data={sponsorInfo || {}}
+          onUpdate={(data) => setSponsorInfo({ ...sponsorInfo, ...data })}
+        />
+      );
+    case 'reviewPublish':
+      return (
+        <ReviewPublish
+          data={{
+            organizer: organizerInfo,
+            event: eventInfo,
+            venue: venueInfo,
+            tickets: ticketInfo,
+            sponsors: sponsorInfo,
+          }}
+          onPublish={() => {
+            console.log("Publishing event...");
+          }}
+        />
+      );
+    default:
+      return null;
+  }
+}
+
+export default function EventWizard() {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  
+  return (
+    <CopilotKit runtimeUrl={`${supabaseUrl}/functions/v1/copilotkit`}>
+      <EventWizardContent />
+    </CopilotKit>
   );
 }
