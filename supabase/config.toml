@@ -11,3 +11,6 @@ verify_jwt = true  # Requires authenticated users
 
 [functions.runway-timing-agent]
 verify_jwt = true  # Requires authenticated users
+
+[functions.health]
+verify_jwt = false  # Public health endpoint for monitoring
