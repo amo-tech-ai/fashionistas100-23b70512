@@ -45,6 +45,8 @@ const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboardFixed"))
 const AdminDashboard = lazy(() => import("./pages/EventManagerDashboard"));
 const AdminObservability = lazy(() => import("./pages/AdminObservability"));
 const BookingsDashboard = lazy(() => import("./pages/dashboard/BookingsDashboard"));
+const InboxDashboard = lazy(() => import("./pages/dashboard/InboxDashboard"));
+const InvoicesDashboard = lazy(() => import("./pages/dashboard/InvoicesDashboard"));
 const DashboardTest = lazy(() => import("./pages/DashboardTest"));
 const CalendarDashboard = lazy(() => import("./pages/CalendarDashboard"));
 const EventsDashboard = lazy(() => import("./pages/EventsDashboard"));
@@ -186,6 +188,26 @@ function App() {
               element={
                 <ProtectedRoute>
                   <BookingsDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* INBOX DASHBOARD */}
+            <Route 
+              path="/dashboard/inbox" 
+              element={
+                <ProtectedRoute>
+                  <InboxDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* INVOICES DASHBOARD */}
+            <Route 
+              path="/dashboard/invoices" 
+              element={
+                <ProtectedRoute>
+                  <InvoicesDashboard />
                 </ProtectedRoute>
               } 
             />

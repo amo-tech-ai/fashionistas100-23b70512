@@ -98,134 +98,130 @@ const OrganizerDashboardNew = () => {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <div className="container mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-6">
           
-          {/* Header Section with better spacing */}
-          <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">Organizer Dashboard</h1>
-              <p className="text-gray-600 mt-2">Complete event management and real-time tracking</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200"
-                onClick={() => handleQuickAction('create-event')}
-              >
-                <Plus className="h-5 w-5 mr-2" />
-                Create Event
-              </Button>
-              <Button size="icon" variant="outline" className="bg-white shadow-md hover:shadow-lg">
-                <Settings className="h-5 w-5" />
-              </Button>
+          {/* Header Section matching bookings style */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Dashboard / Organizer</p>
+                <h1 className="text-3xl font-bold text-foreground">Organizer Dashboard</h1>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-pink-400 via-pink-500 to-purple-500 hover:from-pink-500 hover:via-pink-600 hover:to-purple-600 shadow-lg hover:shadow-xl transition-all duration-200"
+                  onClick={() => handleQuickAction('create-event')}
+                >
+                  <Plus className="h-5 w-5 mr-2" />
+                  Create Event
+                </Button>
+              </div>
             </div>
           </div>
 
-          {/* Key Metrics Row with REAL DATA */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-8">
+          {/* Key Metrics Row matching bookings style */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {/* Active Events Card */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-500 to-blue-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">                  <div className="p-2 bg-white/20 rounded-lg">
-                    <Calendar className="h-5 w-5 text-white" />
+            <Card className="relative overflow-hidden border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">Active Events</p>
+                    <p className="text-3xl font-bold text-foreground">
+                      {activeEventsCount}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2 flex items-center gap-1">
+                      <ArrowUp className="h-4 w-4" />
+                      <span>{thisWeekEvents} this week</span>
+                    </p>
                   </div>
-                  Active Events
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">
-                  {activeEventsCount}
+                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-pink-400 via-pink-500 to-purple-500 flex items-center justify-center shadow-lg">
+                    <Calendar className="h-6 w-6 text-white" />
+                  </div>
                 </div>
-                <p className="text-sm text-white/80 flex items-center gap-1">
-                  <ArrowUp className="h-4 w-4" />
-                  <span>{thisWeekEvents} this week</span>
-                </p>
               </CardContent>
             </Card>
 
             {/* Total Attendees Card */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-500 to-emerald-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <Users className="h-5 w-5 text-white" />
+            <Card className="relative overflow-hidden border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">Total Attendees</p>
+                    <p className="text-3xl font-bold text-foreground">
+                      {totalAttendees.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2 flex items-center gap-1">
+                      {attendeesGrowth > 0 ? (
+                        <>
+                          <ArrowUp className="h-4 w-4" />
+                          <span>+{attendeesGrowth}% from last month</span>
+                        </>
+                      ) : (
+                        <span>Steady growth</span>
+                      )}
+                    </p>
                   </div>
-                  Total Attendees
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">
-                  {totalAttendees.toLocaleString()}
+                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-pink-400 via-pink-500 to-purple-500 flex items-center justify-center shadow-lg">
+                    <Users className="h-6 w-6 text-white" />
+                  </div>
                 </div>
-                <p className="text-sm text-white/80 flex items-center gap-1">                  {attendeesGrowth > 0 ? (
-                    <>
-                      <ArrowUp className="h-4 w-4" />
-                      <span>+{attendeesGrowth}% from last month</span>
-                    </>
-                  ) : (
-                    <span>Steady growth</span>
-                  )}
-                </p>
               </CardContent>
             </Card>
 
             {/* Revenue Card */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-500 to-purple-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <DollarSign className="h-5 w-5 text-white" />
+            <Card className="relative overflow-hidden border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">Revenue</p>
+                    <p className="text-3xl font-bold text-foreground">
+                      {totalRevenue}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {revenueGrowth > 0 ? `+${revenueGrowth}% growth` : 'On track'}
+                    </p>
                   </div>
-                  Revenue
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">
-                  {totalRevenue}
+                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-pink-400 via-pink-500 to-purple-500 flex items-center justify-center shadow-lg">
+                    <DollarSign className="h-6 w-6 text-white" />
+                  </div>
                 </div>
-                <p className="text-sm text-white/80">
-                  {revenueGrowth > 0 ? `+${revenueGrowth}% growth` : 'On track'}
-                </p>
               </CardContent>
             </Card>
             {/* Performance Card */}
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-500 to-amber-600">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16" />
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-white/90 flex items-center gap-2">
-                  <div className="p-2 bg-white/20 rounded-lg">
-                    <Activity className="h-5 w-5 text-white" />
+            <Card className="relative overflow-hidden border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">Performance</p>
+                    <p className="text-3xl font-bold text-foreground">94%</p>
+                    <p className="text-sm text-muted-foreground mt-2">Satisfaction rate</p>
                   </div>
-                  Performance
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold text-white mb-1">94%</div>
-                <p className="text-sm text-white/80">Satisfaction rate</p>
+                  <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-pink-400 via-pink-500 to-purple-500 flex items-center justify-center shadow-lg">
+                    <Activity className="h-6 w-6 text-white" />
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Main Content Grid with better spacing */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+          {/* Main Content Grid matching bookings style */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             {/* Left Column - Events Management */}
             <div className="lg:col-span-5 space-y-6">
               
-              {/* Events Management Card with REAL DATA */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100/50 border-b border-blue-200/30">
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center gap-3 text-blue-900">
-                      <Calendar className="h-5 w-5" />
-                      <span className="font-semibold">Events Management</span>                    </span>
-                    <Button size="sm" variant="ghost" className="hover:bg-blue-200/30">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
+              {/* Events Management Card */}
+              <Card className="border-border bg-card shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between pb-4">
+                  <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Events Management
                   </CardTitle>
+                  <Button size="sm" variant="ghost">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
                 </CardHeader>
                 <CardContent className="p-6">
                   <ScrollArea className="h-[320px] pr-4">
@@ -283,18 +279,16 @@ const OrganizerDashboardNew = () => {
                   </ScrollArea>
                 </CardContent>
               </Card>
-              {/* Communications Hub with REAL DATA */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-green-50 to-green-100/50 border-b border-green-200/30">
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center gap-3 text-green-900">
-                      <MessageSquare className="h-5 w-5" />
-                      <span className="font-semibold">Communications Hub</span>
-                    </span>
-                    <Badge className="bg-green-100 text-green-700 border-green-200">
-                      {messages?.length || 0} new
-                    </Badge>
+              {/* Communications Hub */}
+              <Card className="border-border bg-card shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between pb-4">
+                  <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5" />
+                    Communications Hub
                   </CardTitle>
+                  <Badge variant="secondary">
+                    {messages?.length || 0} new
+                  </Badge>
                 </CardHeader>
                 <CardContent className="p-6">
                   <div className="space-y-3">
@@ -339,11 +333,11 @@ const OrganizerDashboardNew = () => {
             {/* Right Column - Analytics */}
             <div className="lg:col-span-7 space-y-6">
               {/* Analytics Overview */}
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100/50 border-b border-purple-200/30">
-                  <CardTitle className="flex items-center gap-3 text-purple-900">
+              <Card className="border-border bg-card shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between pb-4">
+                  <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
                     <BarChart3 className="h-5 w-5" />
-                    <span className="font-semibold">Analytics Overview</span>
+                    Analytics Overview
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
