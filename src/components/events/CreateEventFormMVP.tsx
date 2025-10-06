@@ -12,17 +12,17 @@ import { Card } from '@/components/ui/card';
 const eventSchema = z.object({
   title: z.string()
     .trim()
-    .min(3, 'Mínimo 3 caracteres')
-    .max(100, 'Máximo 100 caracteres'),
+    .min(3, 'Minimum 3 characters')
+    .max(100, 'Maximum 100 characters'),
   start_datetime: z.string()
-    .min(1, 'Fecha requerida'),
+    .min(1, 'Date required'),
   capacity: z.number()
-    .min(10, 'Mínimo 10 personas')
-    .max(10000, 'Máximo 10,000 personas'),
+    .min(10, 'Minimum 10 people')
+    .max(10000, 'Maximum 10,000 people'),
   venue_name: z.string()
     .trim()
-    .min(3, 'Mínimo 3 caracteres')
-    .max(100, 'Máximo 100 caracteres')
+    .min(3, 'Minimum 3 characters')
+    .max(100, 'Maximum 100 characters')
 });
 
 type EventFormData = z.infer<typeof eventSchema>;
@@ -47,7 +47,7 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
         .single();
 
       if (profileError || !profile) {
-        throw new Error('Debes estar autenticado para crear eventos');
+        throw new Error('You must be authenticated to create events');
       }
 
       const endDatetime = new Date(data.start_datetime);
@@ -80,8 +80,8 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
       if (error) throw error;
 
       toast({
-        title: 'Evento Creado',
-        description: 'Ahora puedes generar recomendaciones con IA'
+        title: 'Event Created',
+        description: 'You can now generate AI recommendations'
       });
 
       onSuccess?.(event.id);
@@ -89,7 +89,7 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
       console.error('Error creating event:', error);
       toast({
         title: 'Error',
-        description: error.message || 'No se pudo crear el evento',
+        description: error.message || 'Could not create event',
         variant: 'destructive'
       });
     } finally {
@@ -99,14 +99,14 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
 
   return (
     <Card className="p-6">
-      <h2 className="text-xl font-semibold mb-4">Crear Nuevo Evento</h2>
+      <h2 className="text-xl font-semibold mb-4">Create New Event</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label htmlFor="title">Nombre del Evento *</Label>
+          <Label htmlFor="title">Event Name *</Label>
           <Input 
             id="title" 
             {...register('title')} 
-            placeholder="Ej: Desfile Primavera 2025"
+            placeholder="e.g., Spring Fashion Show 2025"
             maxLength={100}
           />
           {errors.title && (
@@ -115,7 +115,7 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
         </div>
 
         <div>
-          <Label htmlFor="start_datetime">Fecha y Hora *</Label>
+          <Label htmlFor="start_datetime">Date and Time *</Label>
           <Input 
             id="start_datetime" 
             type="datetime-local" 
@@ -127,7 +127,7 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
         </div>
 
         <div>
-          <Label htmlFor="capacity">Capacidad *</Label>
+          <Label htmlFor="capacity">Capacity *</Label>
           <Input 
             id="capacity" 
             type="number" 
@@ -142,11 +142,11 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
         </div>
 
         <div>
-          <Label htmlFor="venue_name">Lugar *</Label>
+          <Label htmlFor="venue_name">Venue *</Label>
           <Input 
             id="venue_name" 
             {...register('venue_name')} 
-            placeholder="Ej: Centro de Eventos Andino"
+            placeholder="e.g., Downtown Event Center"
             maxLength={100}
           />
           {errors.venue_name && (
@@ -155,7 +155,7 @@ export function CreateEventFormMVP({ onSuccess }: CreateEventFormMVPProps) {
         </div>
 
         <Button type="submit" disabled={loading} className="w-full">
-          {loading ? 'Creando...' : 'Crear Evento'}
+          {loading ? 'Creating...' : 'Create Event'}
         </Button>
       </form>
     </Card>

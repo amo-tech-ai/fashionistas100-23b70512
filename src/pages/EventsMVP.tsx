@@ -32,7 +32,7 @@ export default function EventsMVP() {
       console.error('Error loading events:', error);
       toast({
         title: 'Error',
-        description: 'No se pudieron cargar los eventos',
+        description: 'Could not load events',
         variant: 'destructive'
       });
     } finally {
@@ -54,9 +54,9 @@ export default function EventsMVP() {
     };
     
     const labels = {
-      published: 'Publicado',
-      draft: 'Borrador',
-      cancelled: 'Cancelado'
+      published: 'Published',
+      draft: 'Draft',
+      cancelled: 'Cancelled'
     };
 
     return (
@@ -69,17 +69,17 @@ export default function EventsMVP() {
   return (
     <div className="container mx-auto p-4 md:p-6 max-w-4xl">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold">Mis Eventos</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">My Events</h1>
         <Button onClick={() => setShowForm(!showForm)} size="sm" className="md:size-default">
           {showForm ? (
             <>
               <X className="h-4 w-4 mr-2" />
-              Cancelar
+              Cancel
             </>
           ) : (
             <>
               <Plus className="h-4 w-4 mr-2" />
-              Crear Evento
+              Create Event
             </>
           )}
         </Button>
@@ -93,7 +93,7 @@ export default function EventsMVP() {
 
       {loading ? (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">Cargando eventos...</p>
+          <p className="text-muted-foreground">Loading events...</p>
         </div>
       ) : events.length > 0 ? (
         <div className="space-y-4">
@@ -108,7 +108,7 @@ export default function EventsMVP() {
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 flex-shrink-0" />
                     <span className="truncate">
-                      {new Date(event.start_datetime).toLocaleDateString('es-CO', {
+                      {new Date(event.start_datetime).toLocaleDateString('en-US', {
                         day: 'numeric',
                         month: 'short',
                         year: 'numeric'
@@ -117,7 +117,7 @@ export default function EventsMVP() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 flex-shrink-0" />
-                    <span>{event.capacity} personas</span>
+                    <span>{event.capacity} people</span>
                   </div>
                   {event.metadata?.venue_name && (
                     <div className="flex items-center gap-2">
@@ -133,12 +133,12 @@ export default function EventsMVP() {
       ) : (
         <Card className="p-12 text-center">
           <p className="text-muted-foreground mb-4">
-            {showForm ? 'Completa el formulario arriba para crear tu primer evento' : 'No tienes eventos todavía'}
+            {showForm ? 'Complete the form above to create your first event' : "You don't have any events yet"}
           </p>
           {!showForm && (
             <Button onClick={() => setShowForm(true)}>
               <Plus className="h-4 w-4 mr-2" />
-              Crear tu Primer Evento
+              Create Your First Event
             </Button>
           )}
         </Card>

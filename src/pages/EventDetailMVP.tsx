@@ -52,7 +52,7 @@ export default function EventDetailMVP() {
       console.error('Error loading event:', error);
       toast({
         title: 'Error',
-        description: 'No se pudo cargar el evento',
+        description: 'Could not load event',
         variant: 'destructive'
       });
     } finally {
@@ -68,18 +68,18 @@ export default function EventDetailMVP() {
       });
 
       if (error) {
-        if (error.message?.includes('Rate limit')) {
-          throw new Error('Límite de uso alcanzado. Espera un minuto e intenta nuevamente.');
+      if (error.message?.includes('Rate limit')) {
+          throw new Error('Rate limit reached. Wait a minute and try again.');
         }
         if (error.message?.includes('credits')) {
-          throw new Error('Créditos de IA agotados. Contacta soporte.');
+          throw new Error('AI credits exhausted. Contact support.');
         }
         throw error;
       }
 
       toast({
-        title: 'Análisis Completo',
-        description: 'Score de salud generado exitosamente'
+        title: 'Analysis Complete',
+        description: 'Health score generated successfully'
       });
 
       await loadEvent();
@@ -87,7 +87,7 @@ export default function EventDetailMVP() {
       console.error('Error generating health score:', error);
       toast({
         title: 'Error',
-        description: error.message || 'No se pudo generar el análisis',
+        description: error.message || 'Could not generate analysis',
         variant: 'destructive'
       });
     } finally {
@@ -101,23 +101,23 @@ export default function EventDetailMVP() {
       const { data, error } = await supabase.functions.invoke('model-casting-agent', {
         body: { 
           event_id: id,
-          requirements: 'Necesito 5 modelos profesionales para pasarela de moda'
+          requirements: 'I need 5 professional runway models'
         }
       });
 
       if (error) {
         if (error.message?.includes('Rate limit')) {
-          throw new Error('Límite de uso alcanzado. Espera un minuto e intenta nuevamente.');
+          throw new Error('Rate limit reached. Wait a minute and try again.');
         }
         if (error.message?.includes('credits')) {
-          throw new Error('Créditos de IA agotados. Contacta soporte.');
+          throw new Error('AI credits exhausted. Contact support.');
         }
         throw error;
       }
 
       toast({
-        title: 'Modelos Generados',
-        description: `${data.count || data.recommendations?.length || 0} recomendaciones creadas`
+        title: 'Models Generated',
+        description: `${data.count || data.recommendations?.length || 0} recommendations created`
       });
 
       await loadEvent();
@@ -125,7 +125,7 @@ export default function EventDetailMVP() {
       console.error('Error generating castings:', error);
       toast({
         title: 'Error',
-        description: error.message || 'No se pudo generar recomendaciones',
+        description: error.message || 'Could not generate recommendations',
         variant: 'destructive'
       });
     } finally {
@@ -144,9 +144,9 @@ export default function EventDetailMVP() {
   if (!event) {
     return (
       <div className="container mx-auto p-6 text-center">
-        <p className="text-muted-foreground">Evento no encontrado</p>
+        <p className="text-muted-foreground">Event not found</p>
         <Link to="/events">
-          <Button className="mt-4">Volver a Eventos</Button>
+          <Button className="mt-4">Back to Events</Button>
         </Link>
       </div>
     );
@@ -157,7 +157,7 @@ export default function EventDetailMVP() {
       <Link to="/events">
         <Button variant="ghost" size="sm" className="mb-4">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Volver
+          Back
         </Button>
       </Link>
 
@@ -167,9 +167,9 @@ export default function EventDetailMVP() {
           <div className="flex items-start gap-2">
             <Calendar className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Fecha</p>
+              <p className="text-sm text-muted-foreground">Date</p>
               <p className="font-medium">
-                {new Date(event.start_datetime).toLocaleDateString('es-CO', {
+                {new Date(event.start_datetime).toLocaleDateString('en-US', {
                   day: 'numeric',
                   month: 'long',
                   year: 'numeric',
@@ -182,15 +182,15 @@ export default function EventDetailMVP() {
           <div className="flex items-start gap-2">
             <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Lugar</p>
-              <p className="font-medium">{event.metadata?.venue_name || 'No especificado'}</p>
+              <p className="text-sm text-muted-foreground">Venue</p>
+              <p className="font-medium">{event.metadata?.venue_name || 'Not specified'}</p>
             </div>
           </div>
           <div className="flex items-start gap-2">
             <Users className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Capacidad</p>
-              <p className="font-medium">{event.capacity} personas</p>
+              <p className="text-sm text-muted-foreground">Capacity</p>
+              <p className="font-medium">{event.capacity} people</p>
             </div>
           </div>
         </div>
@@ -201,7 +201,7 @@ export default function EventDetailMVP() {
         <Card className="p-4 md:p-6">
           <div className="flex items-center gap-2 mb-4">
             <Sparkles className="h-5 w-5 text-primary" />
-            <h2 className="text-lg md:text-xl font-semibold">Análisis de Salud IA</h2>
+            <h2 className="text-lg md:text-xl font-semibold">AI Health Analysis</h2>
           </div>
 
           {healthScore ? (
@@ -211,13 +211,13 @@ export default function EventDetailMVP() {
                   {healthScore.overall_score}%
                 </div>
                 <p className="text-sm text-muted-foreground capitalize">
-                  Estado: {healthScore.health_status}
+                  Status: {healthScore.health_status}
                 </p>
               </div>
 
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between text-sm">
-                  <span>Ventas</span>
+                  <span>Sales</span>
                   <span className="font-medium">{healthScore.ticket_sales_score}%</span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -232,7 +232,7 @@ export default function EventDetailMVP() {
 
               {healthScore.recommendations && healthScore.recommendations.length > 0 && (
                 <div className="mb-4">
-                  <p className="font-medium mb-2 text-sm">Recomendaciones:</p>
+                  <p className="font-medium mb-2 text-sm">Recommendations:</p>
                   <ul className="text-sm space-y-1">
                     {healthScore.recommendations.slice(0, 3).map((rec: string, idx: number) => (
                       <li key={idx} className="text-muted-foreground flex items-start gap-2">
@@ -254,28 +254,28 @@ export default function EventDetailMVP() {
                 {loadingHealth ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Analizando...
+                    Analyzing...
                   </>
                 ) : (
-                  'Actualizar Análisis'
+                  'Refresh Analysis'
                 )}
               </Button>
             </div>
           ) : (
             <div className="text-center py-8">
               <p className="text-sm text-muted-foreground mb-4">
-                Genera un análisis de salud del evento usando IA
+                Generate an AI health analysis of your event
               </p>
               <Button onClick={generateHealthScore} disabled={loadingHealth} size="sm">
                 {loadingHealth ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generando...
+                    Generating...
                   </>
                 ) : (
                   <>
                     <Sparkles className="mr-2 h-4 w-4" />
-                    Generar Análisis
+                    Generate Analysis
                   </>
                 )}
               </Button>
@@ -287,7 +287,7 @@ export default function EventDetailMVP() {
         <Card className="p-4 md:p-6">
           <div className="flex items-center gap-2 mb-4">
             <Sparkles className="h-5 w-5 text-primary" />
-            <h2 className="text-lg md:text-xl font-semibold">Casting de Modelos IA</h2>
+            <h2 className="text-lg md:text-xl font-semibold">AI Model Casting</h2>
           </div>
 
           {castings.length > 0 ? (
@@ -331,28 +331,28 @@ export default function EventDetailMVP() {
                 {loadingCastings ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generando...
+                    Generating...
                   </>
                 ) : (
-                  'Generar Más Modelos'
+                  'Generate More Models'
                 )}
               </Button>
             </div>
           ) : (
             <div className="text-center py-8">
               <p className="text-sm text-muted-foreground mb-4">
-                Genera recomendaciones de modelos usando IA
+                Generate model recommendations using AI
               </p>
               <Button onClick={generateCastings} disabled={loadingCastings} size="sm">
                 {loadingCastings ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generando...
+                    Generating...
                   </>
                 ) : (
                   <>
                     <Sparkles className="mr-2 h-4 w-4" />
-                    Generar Recomendaciones
+                    Generate Recommendations
                   </>
                 )}
               </Button>
