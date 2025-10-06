@@ -70,30 +70,27 @@ export function useStageEventSetup() {
     }
   }, [stage, sessionId]);
 
-  // AI Instructions
-  useCopilotAdditionalInstructions(
-    {
-      instructions: `
-        CURRENT STATE: Setting up the fashion event details.
-        
-        START: "Perfect! Now let's create your event. What type of fashion event are you planning?"
-        
-        COLLECT:
-        1. Event type (Fashion Show, Pop-up, Exhibition, Launch Party)
-        2. Event title (required)
-        3. Date (YYYY-MM-DD format)
-        4. Start time (HH:MM format)
-        5. End time (optional)
-        6. Timezone (default: America/New_York)
-        
-        VALIDATE: Ensure date is in future, times are valid 24hr format.
-        
-        TONE: Enthusiastic but efficient. Guide them through quickly.
-      `,
-      available: stage === "eventSetup" ? "enabled" : "disabled",
-    },
-    [stage],
-  );
+  // AI Instructions (NO dependency array per cookbook)
+  useCopilotAdditionalInstructions({
+    instructions: `
+      CURRENT STATE: Setting up the fashion event details.
+      
+      START: "Perfect! Now let's create your event. What type of fashion event are you planning?"
+      
+      COLLECT:
+      1. Event type (Fashion Show, Pop-up, Exhibition, Launch Party)
+      2. Event title (required)
+      3. Date (YYYY-MM-DD format)
+      4. Start time (HH:MM format)
+      5. End time (optional)
+      6. Timezone (default: America/New_York)
+      
+      VALIDATE: Ensure date is in future, times are valid 24hr format.
+      
+      TONE: Enthusiastic but efficient. Guide them through quickly.
+    `,
+    available: stage === "eventSetup" ? "enabled" : "disabled",
+  });
 
   // Make current draft readable to AI
   useCopilotReadable(

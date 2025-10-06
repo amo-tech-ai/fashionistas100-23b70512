@@ -1,4 +1,7 @@
 project_id = "qydcfiufcoztzymedtbo"
 
+[functions.copilotkit]
+verify_jwt = false  # CopilotKit handles its own auth
+
 [functions.stripe-webhook]
 verify_jwt = false  # Stripe signature provides authentication

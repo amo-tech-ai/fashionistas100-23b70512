@@ -63,38 +63,32 @@ export function useStageOrganizerSetup() {
     }
   }, [stage, sessionId]);
 
-  // AI Instructions
-  useCopilotAdditionalInstructions(
-    {
-      instructions: `
-        CURRENT STATE: Setting up event organizer profile.
-        
-        START: "Welcome to FashionOS! Let's create your event in under 3 minutes. First, tell me about yourself."
-        
-        COLLECT:
-        - Name (required)
-        - Email (required) 
-        - Organization (optional)
-        - Role: organizer, designer, brand, or agency
-        
-        MENTION: "If you use a business email, I can auto-import your brand details."
-        
-        TONE: Friendly, encouraging, brief.
-      `,
-      available: stage === "organizerSetup" ? "enabled" : "disabled",
-    },
-    [stage],
-  );
+  // AI Instructions (NO dependency array per cookbook)
+  useCopilotAdditionalInstructions({
+    instructions: `
+      CURRENT STATE: Setting up event organizer profile.
+      
+      START: "Welcome to FashionOS! Let's create your event in under 3 minutes. First, tell me about yourself."
+      
+      COLLECT:
+      - Name (required)
+      - Email (required) 
+      - Organization (optional)
+      - Role: organizer, designer, brand, or agency
+      
+      MENTION: "If you use a business email, I can auto-import your brand details."
+      
+      TONE: Friendly, encouraging, brief.
+    `,
+    available: stage === "organizerSetup" ? "enabled" : "disabled",
+  });
 
-  // Make current data readable to AI
-  useCopilotReadable(
-    {
-      description: "Current organizer info",
-      value: organizerInfo || {},
-      available: stage === "organizerSetup" ? "enabled" : "disabled",
-    },
-    [stage, organizerInfo]
-  );
+  // Make current data readable to AI (NO dependency array per cookbook)
+  useCopilotReadable({
+    description: "Current organizer info",
+    value: organizerInfo || {},
+    available: stage === "organizerSetup" ? "enabled" : "disabled",
+  });
 
   // Main action
   useCopilotAction(
