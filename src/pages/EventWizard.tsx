@@ -39,6 +39,11 @@ function EventWizardContent() {
     ticketInfo,
     sponsorInfo,
     paymentMethod,
+    setOrganizerInfo,
+    setEventInfo,
+    setVenueInfo,
+    setTicketInfo,
+    setSponsorInfo,
   } = useGlobalState();
 
   // Global readable context for ALL stages (NO dependency array per cookbook)
@@ -65,6 +70,67 @@ function EventWizardContent() {
 
   const currentStageIndex = STAGES.findIndex(s => s.id === stage);
   const progressPercentage = ((currentStageIndex + 1) / STAGES.length) * 100;
+
+  // Render current stage content
+  let stageContent = null;
+  switch (stage) {
+    case 'organizerSetup':
+      stageContent = (
+        <OrganizerSetup
+          data={organizerInfo || {}}
+          onUpdate={(data) => setOrganizerInfo({ ...organizerInfo, ...data })}
+        />
+      );
+      break;
+    case 'eventSetup':
+      stageContent = (
+        <EventDetails
+          data={eventInfo || {}}
+          onUpdate={(data) => setEventInfo({ ...eventInfo, ...data })}
+        />
+      );
+      break;
+    case 'venueSetup':
+      stageContent = (
+        <VenueConfiguration
+          data={venueInfo || {}}
+          onUpdate={(data) => setVenueInfo({ ...venueInfo, ...data })}
+        />
+      );
+      break;
+    case 'ticketSetup':
+      stageContent = (
+        <TicketSetup
+          data={ticketInfo || {}}
+          onUpdate={(data) => setTicketInfo({ ...ticketInfo, ...data })}
+        />
+      );
+      break;
+    case 'sponsorSetup':
+      stageContent = (
+        <SponsorsMedia
+          data={sponsorInfo || {}}
+          onUpdate={(data) => setSponsorInfo({ ...sponsorInfo, ...data })}
+        />
+      );
+      break;
+    case 'reviewPublish':
+      stageContent = (
+        <ReviewPublish
+          data={{
+            organizer: organizerInfo,
+            event: eventInfo,
+            venue: venueInfo,
+            tickets: ticketInfo,
+            sponsors: sponsorInfo,
+          }}
+          onPublish={() => {
+            console.log("Publishing event...");
+          }}
+        />
+      );
+      break;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -124,7 +190,7 @@ function EventWizardContent() {
               <h1 className="text-2xl md:text-3xl font-light text-foreground mb-6">
                 {STAGES[currentStageIndex]?.title}
               </h1>
-              {renderStage(stage)}
+              {stageContent}
             </div>
           </div>
         </div>
@@ -135,75 +201,7 @@ function EventWizardContent() {
   );
 }
 
-function renderStage(stage: WizardStage) {
-  const { 
-    organizerInfo,
-    eventInfo,
-    venueInfo,
-    ticketInfo,
-    sponsorInfo,
-    setOrganizerInfo,
-    setEventInfo,
-    setVenueInfo,
-    setTicketInfo,
-    setSponsorInfo,
-  } = useGlobalState();
-
-  switch (stage) {
-    case 'organizerSetup':
-      return (
-        <OrganizerSetup
-          data={organizerInfo || {}}
-          onUpdate={(data) => setOrganizerInfo({ ...organizerInfo, ...data })}
-        />
-      );
-    case 'eventSetup':
-      return (
-        <EventDetails
-          data={eventInfo || {}}
-          onUpdate={(data) => setEventInfo({ ...eventInfo, ...data })}
-        />
-      );
-    case 'venueSetup':
-      return (
-        <VenueConfiguration
-          data={venueInfo || {}}
-          onUpdate={(data) => setVenueInfo({ ...venueInfo, ...data })}
-        />
-      );
-    case 'ticketSetup':
-      return (
-        <TicketSetup
-          data={ticketInfo || {}}
-          onUpdate={(data) => setTicketInfo({ ...ticketInfo, ...data })}
-        />
-      );
-    case 'sponsorSetup':
-      return (
-        <SponsorsMedia
-          data={sponsorInfo || {}}
-          onUpdate={(data) => setSponsorInfo({ ...sponsorInfo, ...data })}
-        />
-      );
-    case 'reviewPublish':
-      return (
-        <ReviewPublish
-          data={{
-            organizer: organizerInfo,
-            event: eventInfo,
-            venue: venueInfo,
-            tickets: ticketInfo,
-            sponsors: sponsorInfo,
-          }}
-          onPublish={() => {
-            console.log("Publishing event...");
-          }}
-        />
-      );
-    default:
-      return null;
-  }
-}
+// Removed renderStage() - moved logic inline to fix hook rendering error
 
 export default function EventWizard() {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
