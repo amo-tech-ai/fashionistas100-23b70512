@@ -1589,6 +1589,93 @@ export type Database = {
           },
         ]
       }
+      vendor_recommendations: {
+        Row: {
+          ai_match_score: number | null
+          ai_reasoning: string | null
+          contact_name: string | null
+          contacted_at: string | null
+          created_at: string
+          email: string | null
+          estimated_cost_max: number | null
+          estimated_cost_min: number | null
+          event_id: string
+          id: string
+          notes: string | null
+          phone: string | null
+          portfolio_images: Json | null
+          quote_amount: number | null
+          quote_received_at: string | null
+          services_offered: Json | null
+          status: string
+          updated_at: string
+          vendor_name: string
+          vendor_type: string
+          website: string | null
+        }
+        Insert: {
+          ai_match_score?: number | null
+          ai_reasoning?: string | null
+          contact_name?: string | null
+          contacted_at?: string | null
+          created_at?: string
+          email?: string | null
+          estimated_cost_max?: number | null
+          estimated_cost_min?: number | null
+          event_id: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          portfolio_images?: Json | null
+          quote_amount?: number | null
+          quote_received_at?: string | null
+          services_offered?: Json | null
+          status?: string
+          updated_at?: string
+          vendor_name: string
+          vendor_type: string
+          website?: string | null
+        }
+        Update: {
+          ai_match_score?: number | null
+          ai_reasoning?: string | null
+          contact_name?: string | null
+          contacted_at?: string | null
+          created_at?: string
+          email?: string | null
+          estimated_cost_max?: number | null
+          estimated_cost_min?: number | null
+          event_id?: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          portfolio_images?: Json | null
+          quote_amount?: number | null
+          quote_received_at?: string | null
+          services_offered?: Json | null
+          status?: string
+          updated_at?: string
+          vendor_name?: string
+          vendor_type?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_recommendations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "event_performance_analytics"
+            referencedColumns: ["event_id"]
+          },
+          {
+            foreignKeyName: "vendor_recommendations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       venue_bookings: {
         Row: {
           booking_date: string

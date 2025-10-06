@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { AIModelCastingPanel } from '@/components/events/AIModelCastingPanel';
 import { AIRunwayTimingPanel } from '@/components/events/AIRunwayTimingPanel';
+import { AIVendorCoordinatorPanel } from '@/components/events/AIVendorCoordinatorPanel';
 import { Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -46,15 +47,19 @@ export default function EventDetail() {
         {/* AI Assistant Sidebar */}
         <aside className="lg:col-span-1">
           <Tabs defaultValue="casting" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="casting">Modelos</TabsTrigger>
               <TabsTrigger value="timing">Timing</TabsTrigger>
+              <TabsTrigger value="vendors">Proveedores</TabsTrigger>
             </TabsList>
             <TabsContent value="casting" className="mt-4">
               <AIModelCastingPanel eventId={event.id} />
             </TabsContent>
             <TabsContent value="timing" className="mt-4">
               <AIRunwayTimingPanel eventId={event.id} />
+            </TabsContent>
+            <TabsContent value="vendors" className="mt-4">
+              <AIVendorCoordinatorPanel eventId={event.id} />
             </TabsContent>
           </Tabs>
         </aside>
