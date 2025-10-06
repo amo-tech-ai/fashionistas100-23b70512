@@ -5,3 +5,6 @@ verify_jwt = false  # CopilotKit handles its own auth
 
 [functions.stripe-webhook]
 verify_jwt = false  # Stripe signature provides authentication
+
+[functions.model-casting-agent]
+verify_jwt = true  # Requires authenticated users

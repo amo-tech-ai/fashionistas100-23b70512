@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_agent_logs: {
+        Row: {
+          agent_type: string
+          created_at: string
+          error_message: string | null
+          event_id: string | null
+          id: string
+          input_data: Json | null
+          latency_ms: number | null
+          model: string
+          operation: string
+          output_data: Json | null
+          success: boolean
+          tokens_used: number | null
+        }
+        Insert: {
+          agent_type: string
+          created_at?: string
+          error_message?: string | null
+          event_id?: string | null
+          id?: string
+          input_data?: Json | null
+          latency_ms?: number | null
+          model: string
+          operation: string
+          output_data?: Json | null
+          success: boolean
+          tokens_used?: number | null
+        }
+        Update: {
+          agent_type?: string
+          created_at?: string
+          error_message?: string | null
+          event_id?: string | null
+          id?: string
+          input_data?: Json | null
+          latency_ms?: number | null
+          model?: string
+          operation?: string
+          output_data?: Json | null
+          success?: boolean
+          tokens_used?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_logs_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "event_performance_analytics"
+            referencedColumns: ["event_id"]
+          },
+          {
+            foreignKeyName: "ai_agent_logs_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_analysis_results: {
         Row: {
           ai_model: string | null
@@ -815,6 +875,66 @@ export type Database = {
             columns: ["venue_id"]
             isOneToOne: false
             referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      model_castings: {
+        Row: {
+          agency: string | null
+          ai_match_score: number | null
+          ai_reasoning: string | null
+          created_at: string
+          email: string
+          event_id: string
+          id: string
+          model_name: string
+          phone: string | null
+          responded_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          agency?: string | null
+          ai_match_score?: number | null
+          ai_reasoning?: string | null
+          created_at?: string
+          email: string
+          event_id: string
+          id?: string
+          model_name: string
+          phone?: string | null
+          responded_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          agency?: string | null
+          ai_match_score?: number | null
+          ai_reasoning?: string | null
+          created_at?: string
+          email?: string
+          event_id?: string
+          id?: string
+          model_name?: string
+          phone?: string | null
+          responded_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "model_castings_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "event_performance_analytics"
+            referencedColumns: ["event_id"]
+          },
+          {
+            foreignKeyName: "model_castings_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
             referencedColumns: ["id"]
           },
         ]
